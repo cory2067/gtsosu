@@ -1,20 +1,6 @@
 const mongoose = require("mongoose");
-var schemaOptions = {
-  toJSON: {
-    transform: function(doc, ret) {
-      ret.id = ret._id;
-      delete ret._id;
-      delete ret.__v;
-    },
-  },
-};
 
-const UserSchema = new mongoose.Schema(
-  {
-  },
-  schemaOptions
-);
+const UserSchema = new mongoose.Schema({});
 
 // compile model from schema
-module.exports = mongoose.model("user", UserSchema);
-
+module.exports = mongoose.model("User", UserSchema);

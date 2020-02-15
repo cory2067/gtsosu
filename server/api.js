@@ -1,28 +1,12 @@
-/*
-|--------------------------------------------------------------------------
-| api.js -- server routes
-|--------------------------------------------------------------------------
-|
-| This file defines the routes for your server.
-|
-*/
-
 const express = require("express");
 
-const logger = require("pino")(); // import pino logger
+const logger = require("pino")();
 
 // import models so we can interact with the database
 const User = require("./models/user");
 
-//add error handling to async endpoints
-const { decorateRouter } = require("@awaitjs/express");
-
-// api endpoints: all these paths will be prefixed with "/api/"
-const router = decorateRouter(express.Router());
-
-// |------------------------------|
-// | write your API methods below!|
-// |------------------------------|
+const { addAsync } = require("@awaitjs/express");
+const router = addAsync(express.Router());
 
 router.getAsync("/example", async (req, res, next) => {
   logger.info("Log Hello World");
