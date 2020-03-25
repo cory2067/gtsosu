@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 
-import { Layout, Menu } from "antd";
-const { Header } = Layout;
+import { Card } from "antd";
+import "./TourneyCard.css";
 
 class TourneyCard extends Component {
   constructor(props) {
@@ -11,7 +11,16 @@ class TourneyCard extends Component {
   }
 
   render() {
-    return <></>;
+    return (
+      <Card
+        title={this.props.name}
+        bordered={true}
+        extra={<Link to={`/${this.props.name.toLowerCase()}`}>Visit Tourney</Link>}
+        className="TourneyCard-card"
+      >
+        {this.props.children}
+      </Card>
+    );
   }
 }
 

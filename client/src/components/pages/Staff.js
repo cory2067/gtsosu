@@ -15,7 +15,7 @@ class Home extends Component {
 
   render() {
     return (
-      <Content className="padded-content">
+      <Content className="content">
         <h2>staff: kasumii.</h2>
       </Content>
     );
