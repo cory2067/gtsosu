@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Home from "./pages/Home.js";
+import Staff from "./pages/Staff.js";
+import Navbar from "./modules/Navbar";
 
 import "../utilities.css";
+
+import { Layout } from "antd";
+import "antd/dist/antd.css";
+const { Footer } = Layout;
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fab } from "@fortawesome/free-brands-svg-icons";
@@ -13,9 +19,7 @@ library.add(fab, fas);
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      user: undefined,
-    };
+    this.state = {};
   }
 
   componentDidMount() {}
@@ -23,10 +27,15 @@ class App extends Component {
   render() {
     return (
       <>
-        <Router>
-          <Home path="/" />
-          <NotFound default />
-        </Router>
+        <Layout>
+          <Navbar />
+          <Router>
+            <Home path="/" />
+            <Staff path="/staff" />
+            <NotFound default />
+          </Router>
+          <Footer></Footer>
+        </Layout>
       </>
     );
   }
