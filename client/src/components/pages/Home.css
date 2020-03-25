@@ -23,8 +23,3 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
 }
-
-.Home-container .Home-card {
-  margin: var(--m);
-  max-width: 400px;
-}
