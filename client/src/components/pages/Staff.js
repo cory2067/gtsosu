@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import "../../utilities.css";
-import "./Home.css";
 
 import { Layout } from "antd";
 const { Content } = Layout;
 
-class Home extends Component {
+class Staff extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -22,4 +21,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Staff;

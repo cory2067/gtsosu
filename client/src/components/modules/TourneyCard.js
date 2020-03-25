@@ -15,7 +15,7 @@ class TourneyCard extends Component {
       <Card
         title={this.props.name}
         bordered={true}
-        extra={<Link to={`/${this.props.name.toLowerCase()}`}>Visit Tourney</Link>}
+        extra={<Link to={`/${this.props.name.toLowerCase()}/home`}>Visit Tourney</Link>}
         className="TourneyCard-card"
       >
         {this.props.children}

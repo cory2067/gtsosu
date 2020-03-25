@@ -3,6 +3,7 @@ import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Home from "./pages/Home.js";
 import Staff from "./pages/Staff.js";
+import TourneyHome from "./pages/TourneyHome";
 import Navbar from "./modules/Navbar";
 
 import "../utilities.css";
@@ -32,6 +33,7 @@ class App extends Component {
           <Router>
             <Home path="/" />
             <Staff path="/staff" />
+            <TourneyHome path="/:tourney/home" />
             <NotFound default />
           </Router>
           <Footer></Footer>
