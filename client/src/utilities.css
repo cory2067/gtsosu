@@ -29,6 +29,11 @@ form {
   flex-direction: column;
 }
 
+.u-sidebar {
+  width: 256px;
+  margin-right: var(--l);
+}
+
 .u-flex-justifyCenter {
   justify-content: center;
 }

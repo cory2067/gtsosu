@@ -17,11 +17,6 @@ import { Layout } from "antd";
 import "antd/dist/antd.css";
 const { Footer } = Layout;
 
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-library.add(fab, fas);
-
 class App extends Component {
   constructor(props) {
     super(props);
