@@ -67,3 +67,16 @@ export function post(endpoint, params = {}) {
       throw error;
     });
 }
+
+export function delet(endpoint, params = {}) {
+  return fetch(endpoint, {
+    method: "delete",
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(params),
+  })
+    .then(convertToJSON) // convert result to JSON object
+    .catch((error) => {
+      console.log(`DELETE request to ${endpoint} failed with error:`, error);
+      throw error;
+    });
+}

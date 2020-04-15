@@ -64,6 +64,19 @@ router.getAsync("/maps", async (req, res) => {
   res.send(maps);
 });
 
+/**
+ * DELETE /api/maps
+ * Delete a map from the pool
+ * Params:
+ *   - id: ID of the map to delete
+ *   - tourney: identifier for the tourney
+ *   - stage: which pool, e.g. qf, sf, f, gf
+ */
+router.deleteAsync("/map", async (req, res) => {
+  await Map.deleteOne({ tourney: req.body.tourney, stage: req.body.stage, mapId: req.body.id });
+  res.send({});
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });

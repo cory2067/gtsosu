@@ -3,7 +3,7 @@ import AddMapModal from "../modules/AddMapModal";
 import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
 import "../../utilities.css";
-import { get, post } from "../../utilities";
+import { get, post, delet } from "../../utilities";
 import "./Mappools.css";
 
 import { Layout, Menu, Button } from "antd";
@@ -49,9 +49,13 @@ class Mappools extends Component {
       ...this.state.formData,
       tourney: this.props.tourney,
       stage: this.state.selected,
-    }).then((res) => {
-      this.setState((state) => ({ maps: state.maps.concat(res) }));
-    });
+    })
+      .then((res) => {
+        this.setState((state) => ({ maps: state.maps.concat(res) }));
+      })
+      .catch((err) => {
+        alert("Could not submit map. Make sure the map ID is correct.");
+      });
   };
 
   handleCancel = (e) => {
@@ -62,6 +66,13 @@ class Mappools extends Component {
 
   handleFormChange = (changed, allData) => {
     this.setState({ formData: allData });
+  };
+
+  handleDelete = (id) => {
+    this.setState((state) => ({
+      maps: state.maps.filter((map) => map.mapId != id),
+    }));
+    delet("/api/map", { tourney: this.props.tourney, stage: this.state.selected, id });
   };
 
   render() {
@@ -93,7 +104,7 @@ class Mappools extends Component {
 
           <div className="Mappools-card-container">
             {this.state.maps.map((map) => (
-              <MapCard key={map.id} {...map} />
+              <MapCard key={map.mapId} handleDelete={this.handleDelete} {...map} />
             ))}
           </div>
         </div>

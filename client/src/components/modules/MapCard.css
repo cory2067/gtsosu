@@ -3,3 +3,7 @@
   max-width: 600px;
   flex-basis: 400px;
 }
+
+.MapCard-card img {
+  cursor: pointer;
+}
