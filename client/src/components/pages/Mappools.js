@@ -20,7 +20,11 @@ class Mappools extends Component {
   }
 
   componentDidMount() {
-    get("/api/maps", { tourney: this.props.tourney, stage: this.state.selected }).then((res) => {
+    this.getMappool(this.state.selected);
+  }
+
+  getMappool(stage) {
+    get("/api/maps", { tourney: this.props.tourney, stage: stage }).then((res) => {
       console.log("Got maps: ", res);
       this.setState({
         maps: res,
@@ -30,6 +34,7 @@ class Mappools extends Component {
 
   handleMenuClick = ({ key }) => {
     this.setState({ selected: key });
+    this.getMappool(key);
     console.log(key);
   };
 

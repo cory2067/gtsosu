@@ -35,7 +35,7 @@ form {
 }
 
 .u-sidebar {
-  width: 256px;
+  flex: 0 0 150px;
   margin-right: var(--l);
 }
 

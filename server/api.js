@@ -61,6 +61,13 @@ router.postAsync("/map", async (req, res) => {
  */
 router.getAsync("/maps", async (req, res) => {
   const maps = await Map.find({ tourney: req.query.tourney, stage: req.query.stage });
+  const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, TB: 5 };
+  maps.sort((a, b) => {
+    if (mods[a.mod] - mods[b.mod] != 0) {
+      return mods[a.mod] - mods[b.mod];
+    }
+    return a.index - b.index;
+  });
   res.send(maps);
 });
 
