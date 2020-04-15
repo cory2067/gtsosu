@@ -6,15 +6,14 @@ const OAuth2Strategy = require("passport-oauth2").Strategy;
 
 const router = express.Router();
 const User = require("./models/user");
-const prod = process.env.NODE_ENV === "production";
 
 passport.use(
   new OAuth2Strategy(
     {
       authorizationURL: "https://osu.ppy.sh/oauth/authorize",
       tokenURL: "https://osu.ppy.sh/oauth/token",
-      clientID: prod ? process.env.PROD_CLIENT_ID : process.env.DEV_CLIENT_ID,
-      clientSecret: prod ? process.env.PROD_CLIENT_SECRET : process.env.DEV_CLIENT_SECRET,
+      clientID: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
       callbackURL: "/auth/osu/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
