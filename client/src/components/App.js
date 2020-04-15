@@ -10,6 +10,7 @@ import Mappools from "./pages/Mappools";
 import Players from "./pages/Players";
 import Schedule from "./pages/Schedule";
 import Navbar from "./modules/Navbar";
+import { get } from "../utilities";
 
 import "../utilities.css";
 
@@ -20,23 +21,29 @@ const { Footer } = Layout;
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { user: {} };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    get("/api/whoami").then((res) => {
+      console.log(res);
+      this.setState({ user: res });
+    });
+  }
 
   render() {
+    console.log(this.state.user);
     return (
       <>
         <Layout>
-          <Navbar />
-          <Router>
+          <Navbar user={this.state.user} />
+          <Router primary={false}>
             <Home path="/" />
             <Staff path="/staff" />
             <TourneyHome path="/:tourney/home" />
             <TourneyStaff path="/:tourney/staff" />
             <Rules path="/:tourney/rules" />
-            <Mappools path="/:tourney/pools" />
+            <Mappools user={this.props.user} path="/:tourney/pools" />
             <Players path="/:tourney/players" />
             <Schedule path="/:tourney/schedule" />
             <NotFound default />

@@ -50,17 +50,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.get("/auth/example", passport.authenticate("oauth2"));
-
-app.get(
-  "/auth/example/callback",
-  passport.authenticate("oauth2", { failureRedirect: "/login" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/");
-  }
-);
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   logger.info(`Server running on port: ${port}`);

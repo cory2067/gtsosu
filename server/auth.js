@@ -46,7 +46,12 @@ passport.deserializeUser((user, done) => {
   done(null, user);
 });
 
-router.get("/osu", passport.authenticate("oauth2"));
+router.get("/login", passport.authenticate("oauth2"));
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
 router.get(
   "/osu/callback",
   passport.authenticate("oauth2", { failureRedirect: "/login" }),

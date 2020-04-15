@@ -17,8 +17,12 @@ class RootNavbar extends Component {
             <Link to="/staff">Staff</Link>
           </Menu.Item>
           <Menu.Item key="3">Merch</Menu.Item>
-          <Menu.Item key="7">
-            <a href="/auth/osu">Login</a>
+          <Menu.Item key="4">
+            {this.props.user.username ? (
+              <a href="/auth/logout">Logout</a>
+            ) : (
+              <a href="/auth/login">Login</a>
+            )}
           </Menu.Item>
         </Menu>
       </Header>
@@ -51,7 +55,11 @@ class TourneyNavbar extends Component {
             <Link to={`/${this.props.tourney}/staff`}>Staff</Link>
           </Menu.Item>
           <Menu.Item key="7">
-            <a href="/auth/osu">Login</a>
+            {this.props.user.username ? (
+              <a href="/auth/logout">Logout</a>
+            ) : (
+              <a href="/auth/login">Login</a>
+            )}
           </Menu.Item>
         </Menu>
       </Header>
@@ -68,9 +76,9 @@ class Navbar extends Component {
   render() {
     return (
       <Router>
-        <RootNavbar path="/" />
-        <RootNavbar path="/staff" />
-        <TourneyNavbar path="/:tourney/*" />
+        <RootNavbar user={this.props.user} path="/" />
+        <RootNavbar user={this.props.user} path="/staff" />
+        <TourneyNavbar user={this.props.user} path="/:tourney/*" />
       </Router>
     );
   }
