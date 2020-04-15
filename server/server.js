@@ -4,6 +4,7 @@ const express = require("express");
 const path = require("path");
 const logger = require("pino")();
 const passport = require("passport");
+const sslRedirect = require("heroku-ssl-redirect");
 
 const api = require("./api");
 const auth = require("./auth");
@@ -11,7 +12,7 @@ const auth = require("./auth");
 require("./db").init();
 
 const app = express();
-
+app.use(sslRedirect());
 app.use(express.json());
 const session = require("express-session")({
   secret: "my-secret",
