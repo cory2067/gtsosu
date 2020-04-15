@@ -6,8 +6,7 @@ const logger = require("pino")();
 
 const api = require("./api");
 
-// commented out, since we don't have db functionality yet
-// require("./db").init();
+require("./db").init();
 
 const app = express();
 

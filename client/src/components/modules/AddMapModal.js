@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { PlusOutlined } from "@ant-design/icons";
 import "../../utilities.css";
 
 import { Form, Select, Input, Modal, InputNumber } from "antd";
@@ -19,12 +18,12 @@ class AddMapModal extends Component {
           </Form.Item>
           <Form.Item name="mod" label="Mod">
             <Select placeholder="Select a mod">
-              <Select.Option value="nm">Nomod</Select.Option>
-              <Select.Option value="hd">Hidden</Select.Option>
-              <Select.Option value="hr">Hard Rock</Select.Option>
-              <Select.Option value="dt">Double Time</Select.Option>
-              <Select.Option value="fm">Freemod</Select.Option>
-              <Select.Option value="tb">Tiebreaker</Select.Option>
+              <Select.Option value="NM">Nomod</Select.Option>
+              <Select.Option value="HD">Hidden</Select.Option>
+              <Select.Option value="HR">Hard Rock</Select.Option>
+              <Select.Option value="DT">Double Time</Select.Option>
+              <Select.Option value="FM">Freemod</Select.Option>
+              <Select.Option value="TB">Tiebreaker</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item name="index" label="Index">

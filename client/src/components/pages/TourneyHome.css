@@ -1,0 +1,7 @@
+.TourneyHome-cardbox {
+  margin-top: var(--l);
+}
+
+.TourneyHome-cardbox .ant-card {
+  margin-bottom: var(--l);
+}

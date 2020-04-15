@@ -5,7 +5,7 @@ module.exports = {
   init: () => {
     // connect to mongodb
     mongoose
-      .connect(process.env.MONGO_CONNECTION_URI, {
+      .connect(process.env.MONGO_SRV, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       })
@@ -13,4 +13,3 @@ module.exports = {
       .catch((err) => logger.error("Error connecting to MongoDB", err));
   },
 };
-

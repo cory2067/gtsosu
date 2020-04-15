@@ -3,7 +3,7 @@ import AddMapModal from "../modules/AddMapModal";
 import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
 import "../../utilities.css";
-import { get } from "../../utilities";
+import { get, post } from "../../utilities";
 import "./Mappools.css";
 
 import { Layout, Menu, Button } from "antd";
@@ -38,7 +38,11 @@ class Mappools extends Component {
       modal: false,
       maps: this.state.maps.concat(this.state.formData),
     });
-    get("/api/mapdata", this.state.formData).then((res) => console.log(res));
+    post("/api/map", {
+      ...this.state.formData,
+      tourney: this.props.tourney,
+      stage: this.state.selected,
+    }).then((res) => console.log(res));
   };
 
   handleCancel = (e) => {
@@ -54,7 +58,6 @@ class Mappools extends Component {
   render() {
     return (
       <Content className="content">
-        <div className="Mappools-top"></div>
         <div className="u-flex">
           <div className="u-sidebar">
             <Menu theme="dark" selectedKeys={[this.state.selected]} onClick={this.handleMenuClick}>
