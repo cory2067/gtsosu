@@ -27,14 +27,16 @@ const scaleDiff = (diff, mod) => (mod === "HR" ? round(diff * 1.4) : diff);
  *   - stage: which pool, e.g. qf, sf, f, gf
  * Returns the newly-created Map document
  */
-router.postAsync("/map", async (req, res, next) => {
+router.postAsync("/map", async (req, res) => {
   logger.info(`Getting map data for ${req.body.id}`);
   const mod = req.body.mod;
   const modId = { HR: 16, DT: 64 }[mod] || 0; // mod enum used by osu api
   const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId }))[0];
+
+  // all map metadata cached in our db, so we don't need to spam calls to the osu api
   const newMap = new Map({
-    mod: mod,
-    id: parseInt(mapData.id),
+    ...req.body,
+    mapId: parseInt(mapData.id),
     title: mapData.title,
     artist: mapData.artist,
     creator: mapData.creator,
@@ -48,6 +50,18 @@ router.postAsync("/map", async (req, res, next) => {
   });
   await newMap.save();
   res.send(newMap);
+});
+
+/**
+ * GET /api/maps
+ * Get all the maps for a given mappool
+ * Params:
+ *   - tourney: identifier for the tourney
+ *   - stage: which pool, e.g. qf, sf, f, gf
+ */
+router.getAsync("/maps", async (req, res) => {
+  const maps = await Map.find({ tourney: req.query.tourney, stage: req.query.stage });
+  res.send(maps);
 });
 
 router.all("*", (req, res) => {

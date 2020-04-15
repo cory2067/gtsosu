@@ -1,4 +1,5 @@
 .content .MapCard-card {
   margin: var(--m);
-  max-width: 400px;
+  max-width: 600px;
+  flex-basis: 400px;
 }

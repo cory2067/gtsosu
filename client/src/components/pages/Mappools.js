@@ -19,7 +19,14 @@ class Mappools extends Component {
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    get("/api/maps", { tourney: this.props.tourney, stage: this.state.selected }).then((res) => {
+      console.log("Got maps: ", res);
+      this.setState({
+        maps: res,
+      });
+    });
+  }
 
   handleMenuClick = ({ key }) => {
     this.setState({ selected: key });
@@ -36,13 +43,15 @@ class Mappools extends Component {
     console.log(this.state.formData);
     this.setState({
       modal: false,
-      maps: this.state.maps.concat(this.state.formData),
     });
+
     post("/api/map", {
       ...this.state.formData,
       tourney: this.props.tourney,
       stage: this.state.selected,
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      this.setState((state) => ({ maps: state.maps.concat(res) }));
+    });
   };
 
   handleCancel = (e) => {
@@ -82,9 +91,11 @@ class Mappools extends Component {
             onValuesChange={this.handleFormChange}
           />
 
-          {this.state.maps.map((map) => (
-            <MapCard key={map.id} {...map} />
-          ))}
+          <div className="Mappools-card-container">
+            {this.state.maps.map((map) => (
+              <MapCard key={map.id} {...map} />
+            ))}
+          </div>
         </div>
       </Content>
     );

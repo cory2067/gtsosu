@@ -3,7 +3,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import { Link } from "@reach/router";
 
 import { Card } from "antd";
-import "./TourneyCard.css";
+import "./MapCard.css";
 
 class MapCard extends Component {
   constructor(props) {
@@ -12,18 +12,22 @@ class MapCard extends Component {
   }
 
   handleDownload = () => {
-    window.open(`https://osu.ppy.sh/b/${this.props.id}`);
+    window.open(`https://osu.ppy.sh/b/${this.props.mapId}`);
   };
 
   render() {
     return (
       <Card
-        title={this.props.mod.toUpperCase() + this.props.index}
+        hoverable
+        title={`${this.props.mod}${this.props.index}`}
         bordered={true}
-        actions={[<DownloadOutlined onClick={this.handleDownload} />]}
+        cover={<img src={this.props.image} />}
+        onClick={this.handleDownload}
         className="MapCard-card"
       >
-        <p>{this.props.mod}</p>
+        <p>{`${this.props.artist} - ${this.props.title} [${this.props.diff}]`}</p>
+        <p>{`Star Rating: ${this.props.sr}, Length: ${this.props.length}`}</p>
+        <p>{`BPM: ${this.props.bpm}, OD: ${this.props.od}, HP: ${this.props.hp}`}</p>
       </Card>
     );
   }
