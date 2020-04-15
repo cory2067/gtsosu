@@ -84,6 +84,10 @@ router.deleteAsync("/map", async (req, res) => {
   res.send({});
 });
 
+router.getAsync("/whoami", async (req, res) => {
+  res.send(req.user || {});
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });

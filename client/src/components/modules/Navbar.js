@@ -17,6 +17,9 @@ class RootNavbar extends Component {
             <Link to="/staff">Staff</Link>
           </Menu.Item>
           <Menu.Item key="3">Merch</Menu.Item>
+          <Menu.Item key="7">
+            <a href="/auth/osu">Login</a>
+          </Menu.Item>
         </Menu>
       </Header>
     );
@@ -46,6 +49,9 @@ class TourneyNavbar extends Component {
           </Menu.Item>
           <Menu.Item key="6">
             <Link to={`/${this.props.tourney}/staff`}>Staff</Link>
+          </Menu.Item>
+          <Menu.Item key="7">
+            <a href="/auth/osu">Login</a>
           </Menu.Item>
         </Menu>
       </Header>
