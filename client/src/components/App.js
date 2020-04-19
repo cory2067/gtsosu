@@ -43,7 +43,7 @@ class App extends Component {
             <TourneyHome path="/:tourney/home" />
             <TourneyStaff path="/:tourney/staff" />
             <Rules path="/:tourney/rules" />
-            <Mappools user={this.props.user} path="/:tourney/pools" />
+            <Mappools user={this.state.user} path="/:tourney/pools" />
             <Players path="/:tourney/players" />
             <Schedule path="/:tourney/schedule" />
             <NotFound default />

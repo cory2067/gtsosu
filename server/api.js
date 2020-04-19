@@ -3,6 +3,7 @@ const logger = require("pino")();
 const osu = require("node-osu");
 const osuApi = new osu.Api(process.env.OSU_API_KEY);
 
+const ensure = require("./ensure");
 const User = require("./models/user");
 const Map = require("./models/map");
 
@@ -27,7 +28,7 @@ const scaleDiff = (diff, mod) => (mod === "HR" ? Math.min(10, round(diff * 1.4))
  *   - stage: which pool, e.g. qf, sf, f, gf
  * Returns the newly-created Map document
  */
-router.postAsync("/map", async (req, res) => {
+router.postAsync("/map", ensure.isPooler, async (req, res) => {
   logger.info(`Getting map data for ${req.body.id}`);
   const mod = req.body.mod;
   const modId = { HR: 16, DT: 64 }[mod] || 0; // mod enum used by osu api
@@ -79,7 +80,8 @@ router.getAsync("/maps", async (req, res) => {
  *   - tourney: identifier for the tourney
  *   - stage: which pool, e.g. qf, sf, f, gf
  */
-router.deleteAsync("/map", async (req, res) => {
+router.deleteAsync("/map", ensure.isPooler, async (req, res) => {
+  logger.info(`Deleting ${req.body.id} from pool`);
   await Map.deleteOne({ tourney: req.body.tourney, stage: req.body.stage, mapId: req.body.id });
   res.send({});
 });

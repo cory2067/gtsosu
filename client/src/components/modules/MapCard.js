@@ -31,7 +31,11 @@ class MapCard extends Component {
         }
         bordered={true}
         cover={<img src={this.props.image} onClick={this.handleDownload} />}
-        extra={<DeleteOutlined onClick={() => this.props.handleDelete(this.props.mapId)} />}
+        extra={
+          this.props.isPooler() && (
+            <DeleteOutlined onClick={() => this.props.handleDelete(this.props.mapId)} />
+          )
+        }
         className="MapCard-card"
       >
         <div className="MapCard-row MapCard-primary">{`${this.props.title} [${this.props.diff}]`}</div>

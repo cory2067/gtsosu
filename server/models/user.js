@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   userid: String,
   country: String,
   avatar: String,
+  permissions: [{ type: String, enum: ["admin", "pool", "ref"] }],
 });
 
 // compile model from schema

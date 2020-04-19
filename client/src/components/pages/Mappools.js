@@ -23,6 +23,10 @@ class Mappools extends Component {
     this.getMappool(this.state.selected);
   }
 
+  isPooler = () => {
+    return this.props.user.username && this.props.user.permissions.includes("pool");
+  };
+
   getMappool(stage) {
     get("/api/maps", { tourney: this.props.tourney, stage: stage }).then((res) => {
       console.log("Got maps: ", res);
@@ -92,13 +96,15 @@ class Mappools extends Component {
             </Menu>
           </div>
 
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusOutlined />}
-            size="large"
-            onClick={this.handleAddMap}
-          />
+          {this.isPooler() && (
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<PlusOutlined />}
+              size="large"
+              onClick={this.handleAddMap}
+            />
+          )}
 
           <AddMapModal
             visible={this.state.modal}
@@ -109,7 +115,12 @@ class Mappools extends Component {
 
           <div className="Mappools-card-container">
             {this.state.maps.map((map) => (
-              <MapCard key={map._id} handleDelete={this.handleDelete} {...map} />
+              <MapCard
+                key={map._id}
+                handleDelete={this.handleDelete}
+                isPooler={this.isPooler}
+                {...map}
+              />
             ))}
           </div>
         </div>

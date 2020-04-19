@@ -1,5 +1,7 @@
 .Navbar-avatar {
   float: right;
+
+  /* todo: eventually pfp will be clickable to show registration status, etc */
   cursor: default !important;
 }
 

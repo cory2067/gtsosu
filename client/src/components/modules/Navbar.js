@@ -61,7 +61,7 @@ class TourneyNavbar extends Component {
             <LoginButton user={this.props.user} />
           </Menu.Item>
           {this.props.user.username && (
-            <Menu.Item className="Navbar-avatar" key="5">
+            <Menu.Item className="Navbar-avatar" key="8">
               <img src={this.props.user.avatar}></img>
             </Menu.Item>
           )}
