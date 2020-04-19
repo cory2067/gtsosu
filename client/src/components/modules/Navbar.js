@@ -3,6 +3,7 @@ import { Link, Router } from "@reach/router";
 
 import { Layout, Menu } from "antd";
 import LoginButton from "./LoginButton";
+import "./Navbar.css";
 const { Header } = Layout;
 
 class RootNavbar extends Component {
@@ -21,6 +22,11 @@ class RootNavbar extends Component {
           <Menu.Item key="4">
             <LoginButton user={this.props.user} />
           </Menu.Item>
+          {this.props.user.username && (
+            <Menu.Item className="Navbar-avatar" key="5">
+              <img src={this.props.user.avatar}></img>
+            </Menu.Item>
+          )}
         </Menu>
       </Header>
     );
@@ -54,6 +60,11 @@ class TourneyNavbar extends Component {
           <Menu.Item key="7">
             <LoginButton user={this.props.user} />
           </Menu.Item>
+          {this.props.user.username && (
+            <Menu.Item className="Navbar-avatar" key="5">
+              <img src={this.props.user.avatar}></img>
+            </Menu.Item>
+          )}
         </Menu>
       </Header>
     );

@@ -1,0 +1,11 @@
+.Navbar-avatar {
+  float: right;
+  cursor: default !important;
+}
+
+.Navbar-avatar img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  filter: drop-shadow(1px 1px 1px black);
+}
