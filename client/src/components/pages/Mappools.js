@@ -109,7 +109,7 @@ class Mappools extends Component {
 
           <div className="Mappools-card-container">
             {this.state.maps.map((map) => (
-              <MapCard key={map.mapId} handleDelete={this.handleDelete} {...map} />
+              <MapCard key={map._id} handleDelete={this.handleDelete} {...map} />
             ))}
           </div>
         </div>

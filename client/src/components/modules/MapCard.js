@@ -24,8 +24,8 @@ class MapCard extends Component {
     return (
       <Card
         title={
-          <div class="MapCard-title">
-            <div class={`MapCard-icon mod-${this.props.mod}`}></div>
+          <div className="MapCard-title">
+            <div className={`MapCard-icon mod-${this.props.mod}`}></div>
             {`${this.props.mod}${this.props.index}`}
           </div>
         }
@@ -34,30 +34,30 @@ class MapCard extends Component {
         extra={<DeleteOutlined onClick={() => this.props.handleDelete(this.props.mapId)} />}
         className="MapCard-card"
       >
-        <div class="MapCard-row MapCard-primary">{`${this.props.title} [${this.props.diff}]`}</div>
-        <div class="MapCard-row">{this.props.artist}</div>
-        <div class="MapCard-row">{`Mapset by ${this.props.creator}`}</div>
+        <div className="MapCard-row MapCard-primary">{`${this.props.title} [${this.props.diff}]`}</div>
+        <div className="MapCard-row">{this.props.artist}</div>
+        <div className="MapCard-row">{`Mapset by ${this.props.creator}`}</div>
 
-        <div class="MapCard-divider"></div>
+        <div className="MapCard-divider"></div>
 
-        <div class="MapCard-attr-row">
-          <div class="MapCard-attr">
+        <div className="MapCard-attr-row">
+          <div className="MapCard-attr">
             <StarTwoTone /> {this.props.sr}
           </div>
-          <div class="MapCard-attr">
+          <div className="MapCard-attr">
             <ClockCircleTwoTone /> {this.props.length}
           </div>
-          <div class="MapCard-attr">
+          <div className="MapCard-attr">
             <DashboardTwoTone /> {this.props.bpm}bpm
           </div>
         </div>
 
-        <div class="MapCard-attr-row">
-          <div class="MapCard-attr">
-            <span class="u-bold">OD:</span> {this.props.od}
+        <div className="MapCard-attr-row">
+          <div className="MapCard-attr">
+            <span className="u-bold">OD:</span> {this.props.od}
           </div>
-          <div class="MapCard-attr">
-            <span class="u-bold">HP:</span> {this.props.hp}
+          <div className="MapCard-attr">
+            <span className="u-bold">HP:</span> {this.props.hp}
           </div>
         </div>
       </Card>
