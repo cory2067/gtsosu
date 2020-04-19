@@ -1,6 +1,4 @@
 :root {
-  --primary: #396dff;
-  --primary--dim: #6987db;
   --darkgrey: #d4d4d4;
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;
@@ -11,6 +9,7 @@
   --s: 8px;
   --m: 16px;
   --l: 24px;
+  --xl: 32px;
 }
 
 html body {

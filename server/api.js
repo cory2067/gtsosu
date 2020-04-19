@@ -14,7 +14,7 @@ const formatTime = (time) =>
   Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + Math.floor(time % 60);
 const scaleTime = (time, mod) => (mod === "DT" ? (time * 2) / 3 : time);
 const scaleBPM = (bpm, mod) => (mod === "DT" ? bpm * 1.5 : bpm);
-const scaleDiff = (diff, mod) => (mod === "HR" ? round(diff * 1.4) : diff);
+const scaleDiff = (diff, mod) => (mod === "HR" ? Math.min(10, round(diff * 1.4)) : diff);
 
 /**
  * POST /api/map
