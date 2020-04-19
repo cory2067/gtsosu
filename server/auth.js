@@ -56,8 +56,9 @@ router.get(
   "/osu/callback",
   passport.authenticate("oauth2", { failureRedirect: "/login" }),
   function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect("/");
+    // Successful authentication!
+    // janky thing to close the login popup window
+    res.send("<script>setInterval(window.close)</script>");
   }
 );
 

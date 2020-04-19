@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Router } from "@reach/router";
 
 import { Layout, Menu } from "antd";
+import LoginButton from "./LoginButton";
 const { Header } = Layout;
 
 class RootNavbar extends Component {
@@ -18,11 +19,7 @@ class RootNavbar extends Component {
           </Menu.Item>
           <Menu.Item key="3">Merch</Menu.Item>
           <Menu.Item key="4">
-            {this.props.user.username ? (
-              <a href="/auth/logout">Logout</a>
-            ) : (
-              <a href="/auth/login">Login</a>
-            )}
+            <LoginButton user={this.props.user} />
           </Menu.Item>
         </Menu>
       </Header>
@@ -55,11 +52,7 @@ class TourneyNavbar extends Component {
             <Link to={`/${this.props.tourney}/staff`}>Staff</Link>
           </Menu.Item>
           <Menu.Item key="7">
-            {this.props.user.username ? (
-              <a href="/auth/logout">Logout</a>
-            ) : (
-              <a href="/auth/login">Login</a>
-            )}
+            <LoginButton user={this.props.user} />
           </Menu.Item>
         </Menu>
       </Header>
