@@ -13,4 +13,5 @@ module.exports = {
       .then(() => logger.info("Server connected to MongoDB"))
       .catch((err) => logger.error("Error connecting to MongoDB", err));
   },
+  getConnection: () => mongoose.connection,
 };

@@ -9,17 +9,23 @@ const sslRedirect = require("heroku-ssl-redirect");
 const api = require("./api");
 const auth = require("./auth");
 
-require("./db").init();
+const db = require("./db");
+db.init();
 
 const app = express();
 app.use(sslRedirect());
 app.use(express.json());
-const session = require("express-session")({
-  secret: "my-secret",
-  resave: false,
-  saveUninitialized: true,
-});
-app.use(session);
+
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    store: new MongoStore({ mongooseConnection: db.getConnection() }),
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use(passport.initialize());
 app.use(passport.session());

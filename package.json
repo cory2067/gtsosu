@@ -19,6 +19,7 @@
     "@awaitjs/express": "^0.4.0",
     "@reach/router": "^1.2.1",
     "antd": "^4.0.4",
+    "connect-mongo": "^3.2.0",
     "core-js": "^3.3.6",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
