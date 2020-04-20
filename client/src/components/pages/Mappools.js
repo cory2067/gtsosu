@@ -15,6 +15,7 @@ class Mappools extends Component {
     this.state = {
       selected: "qf",
       modal: false,
+      loading: false,
       maps: [],
     };
   }
@@ -51,7 +52,7 @@ class Mappools extends Component {
   handleOk = (e) => {
     console.log(this.state.formData);
     this.setState({
-      modal: false,
+      loading: true,
     });
 
     post("/api/map", {
@@ -60,10 +61,11 @@ class Mappools extends Component {
       stage: this.state.selected,
     })
       .then((res) => {
-        this.setState((state) => ({ maps: state.maps.concat(res) }));
+        this.setState((state) => ({ maps: state.maps.concat(res), loading: false, modal: false }));
       })
       .catch((err) => {
         alert("Could not submit map. Make sure the map ID is correct.");
+        this.setState({ loading: false });
       });
   };
 
@@ -108,6 +110,7 @@ class Mappools extends Component {
 
           <AddMapModal
             visible={this.state.modal}
+            loading={this.state.loading}
             handleOk={this.handleOk}
             handleCancel={this.handleCancel}
             onValuesChange={this.handleFormChange}

@@ -9,6 +9,7 @@ class AddMapModal extends Component {
       <Modal
         title="Add a map"
         visible={this.props.visible}
+        confirmLoading={this.props.loading}
         onOk={this.props.handleOk}
         onCancel={this.props.handleCancel}
       >
