@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import "../../utilities.css";
 import "./TourneyHome.css";
 
-import { Layout, Card, Button } from "antd";
+import { Layout, Card, Button, Modal, notification } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { post } from "../../utilities";
+
 const { Content } = Layout;
+const { confirm } = Modal;
 
 class TourneyHome extends Component {
   constructor(props) {
@@ -11,7 +15,43 @@ class TourneyHome extends Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  isRegistered = () => {
+    return (
+      this.state.justRegistered ||
+      (this.props.user.tournies && this.props.user.tournies.includes(this.props.tourney))
+    );
+  };
+
+  register = () => {
+    const tourney = this.props.tourney.toUpperCase();
+    const success = {
+      message: `Success`,
+      description: `You are now registered for ${tourney}`,
+      duration: 3,
+    };
+
+    const fail = {
+      message: `Failed`,
+      description: `Failed to register for ${tourney}. Please contact GTS Staff.`,
+      duration: 3,
+    };
+
+    confirm({
+      title: `Register as ${this.props.user.username}`,
+      icon: <ExclamationCircleOutlined />,
+      content: `Are you sure you want to register for ${tourney}?`,
+      onOk: async () => {
+        try {
+          await post("/api/register", { tourney: this.props.tourney });
+          notification.open(success);
+          this.setState({ justRegistered: true });
+        } catch (e) {
+          console.log("Fails");
+          notification.open(fail);
+        }
+      },
+    });
+  };
 
   render() {
     return (
@@ -25,8 +65,13 @@ class TourneyHome extends Component {
               face-off in a heated double-elimination bracket.
             </div>
             <div className="TourneyHome-button-box">
-              <Button type="primary" size="large">
-                Register
+              <Button
+                type="primary"
+                size="large"
+                disabled={!this.props.user._id || this.isRegistered()}
+                onClick={this.register}
+              >
+                {!this.props.user._id && "Login to "}Register{this.isRegistered() && "ed"}
               </Button>
               <Button type="primary" size="large" href="http://google.com">
                 Discord

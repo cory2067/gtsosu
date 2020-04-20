@@ -40,7 +40,7 @@ class App extends Component {
           <Router primary={false}>
             <Home path="/" />
             <Staff path="/staff" />
-            <TourneyHome path="/:tourney/home" />
+            <TourneyHome user={this.state.user} path="/:tourney/home" />
             <TourneyStaff path="/:tourney/staff" />
             <Rules path="/:tourney/rules" />
             <Mappools user={this.state.user} path="/:tourney/pools" />

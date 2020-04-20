@@ -86,8 +86,24 @@ router.deleteAsync("/map", ensure.isPooler, async (req, res) => {
   res.send({});
 });
 
+/**
+ * GET /api/whoami
+ * Returns the identity of the currently logged in user
+ */
 router.getAsync("/whoami", async (req, res) => {
   res.send(req.user || {});
+});
+
+/**
+ * POST /api/register
+ * Register for a given tournament
+ * Params:
+ *   - tourney: identifier for the tourney to register for
+ */
+router.postAsync("/register", ensure.loggedIn, async (req, res) => {
+  logger.info(`${req.user.username} registered for ${req.body.tourney}`);
+  await User.findByIdAndUpdate(req.user._id, { $push: { tournies: req.body.tourney } });
+  res.send({});
 });
 
 router.all("*", (req, res) => {
