@@ -39,10 +39,12 @@ form {
 }
 
 .u-flex-justifyCenter {
+  display: flex;
   justify-content: center;
 }
 
 .u-flex-alignCenter {
+  display: flex;
   align-items: center;
 }
 

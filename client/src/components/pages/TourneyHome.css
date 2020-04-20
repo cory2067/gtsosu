@@ -5,3 +5,18 @@
 .TourneyHome-cardbox .ant-card {
   margin-bottom: var(--l);
 }
+
+.TourneyHome-info {
+  max-width: 600px;
+}
+
+.TourneyHome-button-box {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.TourneyHome-description {
+  font-size: 12pt;
+  margin-bottom: var(--m);
+}
