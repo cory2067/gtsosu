@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactMarkdown from "react-markdown";
 import "../../utilities.css";
 import "./TourneyHome.css";
 
@@ -12,7 +13,16 @@ const { confirm } = Modal;
 class TourneyHome extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      data: { homepage: [] },
+    };
+  }
+
+  async componentDidMount() {
+    const dataFile = await import(`../../content/${this.props.tourney}`);
+    this.setState({
+      data: dataFile.default,
+    });
   }
 
   isRegistered = () => {
@@ -56,7 +66,7 @@ class TourneyHome extends Component {
   render() {
     return (
       <Content className="content">
-        <h1>{this.props.tourney.toUpperCase()}</h1>
+        <h1 className="TourneyHome-title">{this.state.data.name}</h1>
         <div className="u-flex-justifyCenter">
           <div className="TourneyHome-info">
             <div className="TourneyHome-description">
@@ -80,18 +90,13 @@ class TourneyHome extends Component {
           </div>
         </div>
         <div className="TourneyHome-cardbox">
-          <Card title="Restrictions" bordered={true}>
-            u gotta be GOOD to play this tourny
-          </Card>
-          <Card title="Dates" bordered={true}>
-            tomorrow is grand finals
-          </Card>
-          <Card title="Registration" bordered={true}>
-            u cant
-          </Card>
-          <Card title="Prizes" bordered={true}>
-            nothing
-          </Card>
+          {this.state.data.homepage.map((section) => {
+            return (
+              <Card key={section.title} title={section.title} bordered={true}>
+                <ReactMarkdown source={section.body} />
+              </Card>
+            );
+          })}
         </div>
       </Content>
     );

@@ -20,3 +20,8 @@
   font-size: 12pt;
   margin-bottom: var(--m);
 }
+
+.TourneyHome-title {
+  font-size: 32pt;
+  text-align: center;
+}

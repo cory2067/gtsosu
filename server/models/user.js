@@ -5,6 +5,9 @@ const UserSchema = new mongoose.Schema({
   userid: String,
   country: String,
   avatar: String,
+  discord: String,
+  timezone: String,
+  rank: Number,
   permissions: [{ type: String, enum: ["admin", "pool", "ref"] }],
   tournies: [String],
 });

@@ -17,7 +17,7 @@ class Home extends Component {
   render() {
     return (
       <Content className="content">
-        <h1>Global Taiko Showdown</h1>
+        <h1 className="Home-title">Global Taiko Showdown</h1>
         <div className="Home-about-container">
           <div className="Home-about">
             GTS is a thing tihntr gsf giujg liuhw gliuhf veriluc erilfher liufhlewriluf .
