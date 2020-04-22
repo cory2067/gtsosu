@@ -15,6 +15,10 @@
   max-width: 800px;
 }
 
+.Home-about p {
+  margin-bottom: 0;
+}
+
 .Home-container {
   margin-top: var(--l);
   display: flex;

@@ -82,6 +82,7 @@ class Navbar extends Component {
       <Router>
         <RootNavbar user={this.props.user} path="/" />
         <RootNavbar user={this.props.user} path="/staff" />
+        <RootNavbar user={this.props.user} path="/404" />
         <TourneyNavbar user={this.props.user} path="/:tourney/*" />
       </Router>
     );

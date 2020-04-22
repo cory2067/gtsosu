@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ReactMarkdown from "react-markdown";
 import { Link } from "@reach/router";
 
 import { Card } from "antd";
@@ -13,12 +14,12 @@ class TourneyCard extends Component {
   render() {
     return (
       <Card
-        title={this.props.name}
+        title={this.props.title}
         bordered={true}
-        extra={<Link to={`/${this.props.name.toLowerCase()}/home`}>Visit Tourney</Link>}
+        extra={<Link to={`/${this.props.code}/home`}>Visit Tourney</Link>}
         className="TourneyCard-card"
       >
-        {this.props.children}
+        <ReactMarkdown source={this.props.description} />
       </Card>
     );
   }

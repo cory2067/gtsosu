@@ -6,6 +6,7 @@ import "./TourneyHome.css";
 import { Layout, Card, Button, Modal, notification } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { post } from "../../utilities";
+import { navigate } from "@reach/router";
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -19,10 +20,14 @@ class TourneyHome extends Component {
   }
 
   async componentDidMount() {
-    const dataFile = await import(`../../content/${this.props.tourney}`);
-    this.setState({
-      data: dataFile.default,
-    });
+    try {
+      const dataFile = await import(`../../content/${this.props.tourney}`);
+      this.setState({
+        data: dataFile.default,
+      });
+    } catch (e) {
+      navigate("/404");
+    }
   }
 
   isRegistered = () => {
@@ -70,9 +75,7 @@ class TourneyHome extends Component {
         <div className="u-flex-justifyCenter">
           <div className="TourneyHome-info">
             <div className="TourneyHome-description">
-              The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top
-              players, even though it has no rank limit. The top 128 of it after qualifiers will
-              face-off in a heated double-elimination bracket.
+              <ReactMarkdown source={this.state.data.description} />
             </div>
             <div className="TourneyHome-button-box">
               <Button

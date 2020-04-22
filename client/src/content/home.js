@@ -1,0 +1,36 @@
+export default {
+  title: "Global Taiko Showdown",
+  description: "GTS is a thing tihntr gsf giujg liuhw gliuhf veriluc erilfher liufhlewriluf",
+  tournies: [
+    {
+      title: "EGTS",
+      code: "egts",
+      description: `
+The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
+The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
+    },
+    {
+      title: "IGTS",
+      code: "igts",
+      description: `
+The Intermediate Global Taiko Showdown, the founding tournament of this series.
+It's our 2v2 tournament for intermediate-level players, being restricted for ranks #3,500 to #10,000. 
+There are no qualifiers planned for this, the top 32 teams by the average rank of the top 2 players will face off in a Group Stage, where 16 teams will go through, 
+and play in a double-elimination bracket.`,
+    },
+    {
+      title: "AGTS",
+      code: "agts",
+      description: `
+The Advanced Global Taiko Showdown, our 2v2 tournament for advanced-level players, being restricted for ranks #500 to #3,500. 
+The top 16 teams after qualifiers will then face off in a Group Stage, where 8 teams will go through, and play in a double-elimination bracket.`,
+    },
+    {
+      title: "BGTS",
+      code: "bgts",
+      description: `
+The Beginners Global Taiko Showdown, our 2v2 tournament for beginners players, being restricted for ranks #10,000 to no bottom rank limit.
+The top 16 teams after qualifiers will then face off in a Group Stage, where 8 teams will go through, and play in a double-elimination bracket.`,
+    },
+  ],
+};
