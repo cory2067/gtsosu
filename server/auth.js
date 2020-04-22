@@ -20,7 +20,6 @@ passport.use(
       const me = await fetch("https://osu.ppy.sh/api/v2/me", {
         headers: { Authorization: `Bearer ${accessToken}` },
       }).then((res) => res.json());
-      console.log(me);
 
       const existing = await User.findOne({ userid: me.id });
       if (existing) {

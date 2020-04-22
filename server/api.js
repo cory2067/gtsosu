@@ -114,7 +114,7 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
  *   - timezone: player's timezone
  */
 router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
-  logger.info(`${req.user.username} updated settings: ${req.body}`);
+  logger.info(`${req.user.username} updated settings`);
   await User.findByIdAndUpdate(req.user._id, {
     $set: { discord: req.body.discord, timezone: req.body.timezone },
   });

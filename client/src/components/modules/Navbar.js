@@ -26,7 +26,7 @@ class RootNavbar extends Component {
           </Menu.Item>
           {this.props.user.username && (
             <Menu.Item className="Navbar-avatar" key="5">
-              <img src={this.props.user.avatar}></img>
+              <img src={this.props.user.avatar} onClick={this.props.openSettings}></img>
             </Menu.Item>
           )}
         </Menu>
@@ -64,7 +64,7 @@ class TourneyNavbar extends Component {
           </Menu.Item>
           {this.props.user.username && (
             <Menu.Item className="Navbar-avatar" key="8">
-              <img src={this.props.user.avatar}></img>
+              <img src={this.props.user.avatar} onClick={this.props.openSettings}></img>
             </Menu.Item>
           )}
         </Menu>
@@ -85,12 +85,12 @@ class Navbar extends Component {
   };
 
   componentDidMount() {
-    this.setState({ visible: this.isIncomplete() });
+    this.setState({ visible: this.isIncomplete(), formData: this.props.user });
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.user._id !== prevProps.user._id) {
-      this.setState({ visible: this.isIncomplete() });
+      this.setState({ visible: this.isIncomplete(), formData: this.props.user });
     }
   }
 
@@ -117,6 +117,10 @@ class Navbar extends Component {
     this.setState({ formData: allData });
   };
 
+  openSettings = () => {
+    this.setState({ visible: true });
+  };
+
   render() {
     return (
       <>
@@ -131,10 +135,10 @@ class Navbar extends Component {
           />
         )}
         <Router>
-          <RootNavbar {...this.props} path="/" />
-          <RootNavbar {...this.props} path="/staff" />
-          <RootNavbar {...this.props} path="/404" />
-          <TourneyNavbar {...this.props} path="/:tourney/*" />
+          <RootNavbar {...this.props} openSettings={this.openSettings} path="/" />
+          <RootNavbar {...this.props} openSettings={this.openSettings} path="/staff" />
+          <RootNavbar {...this.props} openSettings={this.openSettings} path="/404" />
+          <TourneyNavbar {...this.props} openSettings={this.openSettings} path="/:tourney/*" />
         </Router>
       </>
     );

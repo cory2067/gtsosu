@@ -86,7 +86,7 @@ class TourneyHome extends Component {
               >
                 {!this.props.user._id && "Login to "}Register{this.isRegistered() && "ed"}
               </Button>
-              <Button type="primary" size="large" href="http://google.com">
+              <Button type="primary" size="large" href={this.state.data.discord}>
                 Discord
               </Button>
             </div>
