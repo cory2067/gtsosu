@@ -3,7 +3,9 @@ import { Link, Router } from "@reach/router";
 
 import { Layout, Menu } from "antd";
 import LoginButton from "./LoginButton";
+import UserModal from "./UserModal";
 import "./Navbar.css";
+import { post } from "../../utilities";
 const { Header } = Layout;
 
 class RootNavbar extends Component {
@@ -20,7 +22,7 @@ class RootNavbar extends Component {
           </Menu.Item>
           <Menu.Item key="3">Merch</Menu.Item>
           <Menu.Item key="4">
-            <LoginButton user={this.props.user} />
+            <LoginButton {...this.props} />
           </Menu.Item>
           {this.props.user.username && (
             <Menu.Item className="Navbar-avatar" key="5">
@@ -58,7 +60,7 @@ class TourneyNavbar extends Component {
             <Link to={`/${this.props.tourney}/staff`}>Staff</Link>
           </Menu.Item>
           <Menu.Item key="7">
-            <LoginButton user={this.props.user} />
+            <LoginButton {...this.props} />
           </Menu.Item>
           {this.props.user.username && (
             <Menu.Item className="Navbar-avatar" key="8">
@@ -71,20 +73,70 @@ class TourneyNavbar extends Component {
   }
 }
 
+// Navbar + login stuff
 class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { formData: {} };
   }
+
+  isIncomplete = () => {
+    return this.props.user._id && (!this.props.user.discord || !this.props.user.timezone);
+  };
+
+  componentDidMount() {
+    this.setState({ visible: this.isIncomplete() });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.user._id !== prevProps.user._id) {
+      this.setState({ visible: this.isIncomplete() });
+    }
+  }
+
+  handleOk = async () => {
+    console.log(this.state.formData);
+    if (!this.state.formData.discord || !this.state.formData.timezone) {
+      return alert("You must fill out these fields"); // TODO use something besides alert
+    }
+
+    this.setState({ loading: true });
+    await post("/api/settings", { ...this.state.formData });
+    this.props.updateUser({ ...this.props.user, ...this.state.formData });
+    this.setState({ loading: false, visible: false });
+  };
+
+  handleCancel = () => {
+    if (this.isIncomplete()) {
+      return alert("You must fill out these fields");
+    }
+    this.setState({ visible: false });
+  };
+
+  handleFormChange = (changed, allData) => {
+    this.setState({ formData: allData });
+  };
 
   render() {
     return (
-      <Router>
-        <RootNavbar user={this.props.user} path="/" />
-        <RootNavbar user={this.props.user} path="/staff" />
-        <RootNavbar user={this.props.user} path="/404" />
-        <TourneyNavbar user={this.props.user} path="/:tourney/*" />
-      </Router>
+      <>
+        {this.props.user._id && (
+          <UserModal
+            visible={this.state.visible}
+            loading={this.state.loading}
+            user={this.props.user}
+            handleOk={this.handleOk}
+            handleCancel={this.handleCancel}
+            onValuesChange={this.handleFormChange}
+          />
+        )}
+        <Router>
+          <RootNavbar {...this.props} path="/" />
+          <RootNavbar {...this.props} path="/staff" />
+          <RootNavbar {...this.props} path="/404" />
+          <TourneyNavbar {...this.props} path="/:tourney/*" />
+        </Router>
+      </>
     );
   }
 }

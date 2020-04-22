@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { get } from "../../utilities";
 
 class LoginButton extends Component {
-  submit = () => {
+  submit = async () => {
     if (this.props.user.username) {
-      fetch("/auth/logout").then(() => location.reload());
+      await fetch("/auth/logout");
+      this.props.updateUser({});
       return;
     }
 
@@ -20,12 +22,11 @@ class LoginButton extends Component {
       height=${height}, top=${top}, left=${left}`
     );
 
-    // Detect when login success, then reload the page
-    // It's possible to do this without reloading, this is a lazy workaround (todo)
-    const loop = setInterval(() => {
+    const loop = setInterval(async () => {
       if (popup.closed) {
         clearInterval(loop);
-        location.reload();
+        const user = await get("/api/whoami");
+        this.props.updateUser(user);
       }
     }, 50);
     return loop;

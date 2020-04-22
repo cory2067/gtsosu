@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema({
   avatar: String,
   discord: String,
   timezone: String,
-  rank: Number,
   permissions: [{ type: String, enum: ["admin", "pool", "ref"] }],
   tournies: [String],
 });

@@ -31,12 +31,15 @@ class App extends Component {
     });
   }
 
+  updateUser = (user) => {
+    this.setState({ user });
+  };
+
   render() {
-    console.log(this.state.user);
     return (
       <>
         <Layout>
-          <Navbar user={this.state.user} />
+          <Navbar user={this.state.user} updateUser={this.updateUser} />
           <Router primary={false}>
             <Home path="/" />
             <Staff path="/staff" />

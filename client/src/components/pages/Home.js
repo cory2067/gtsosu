@@ -28,7 +28,7 @@ class Home extends Component {
 
         <div className="Home-container">
           {data.tournies.map((tourney) => (
-            <TourneyCard {...tourney} />
+            <TourneyCard key={tourney.code} {...tourney} />
           ))}
         </div>
       </Content>

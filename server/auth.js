@@ -20,6 +20,7 @@ passport.use(
       const me = await fetch("https://osu.ppy.sh/api/v2/me", {
         headers: { Authorization: `Bearer ${accessToken}` },
       }).then((res) => res.json());
+      console.log(me);
 
       const existing = await User.findOne({ userid: me.id });
       if (existing) {
@@ -31,6 +32,7 @@ passport.use(
         userid: me.id,
         country: me.country_code,
         avatar: me.avatar_url,
+        discord: me.discord || "",
       });
       await user.save();
       done(null, user);

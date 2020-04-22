@@ -106,6 +106,21 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   res.send({});
 });
 
+/**
+ * POST /api/settings
+ * Submit settings for a user
+ * Params:
+ *   - discord: discord username
+ *   - timezone: player's timezone
+ */
+router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
+  logger.info(`${req.user.username} updated settings: ${req.body}`);
+  await User.findByIdAndUpdate(req.user._id, {
+    $set: { discord: req.body.discord, timezone: req.body.timezone },
+  });
+  res.send({});
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });
