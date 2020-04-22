@@ -1,6 +1,6 @@
 export default {
   title: "Global Taiko Showdown",
-  description: "GTS is a thing tihntr gsf giujg liuhw gliuhf veriluc erilfher liufhlewriluf",
+  description: "Welcome to the website of one of the biggest osu!taiko tournament series!",
   tournies: [
     {
       title: "EGTS",

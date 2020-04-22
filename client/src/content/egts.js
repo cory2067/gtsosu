@@ -17,19 +17,19 @@ May 3rd until May 17th.
 May 17th until May 24th.
 ### Qualifiers
 May 30th until May 31st.
-### Round of 128
+### Round of 128 + Loser's Bracket Round 1
 June 6th until June 7th.
-### Round of 64
+### Round of 64 + Loser's Bracket Round 2
 June 13th until June 14th.
-### Round of 32
+### Round of 32 + Loser's Bracket Round 3 and 4
 June 20th until June 21st.
-### Round of 16
+### Round of 16 + Loser's Bracket Round 5 and 6
 June 27th until June 28th.
-### Quarterfinals
+### Quarterfinals + Loser's Bracket 7 and 8
 July 4th until July 5th.
-### Semifinals
+### Semifinals + Loser's Bracket 9 and 10
 July 11th until July 12th.
-### Finals
+### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
 July 18th until July 19th.
 ### Grand Finals
 July 25th until July 26th.`,
@@ -38,7 +38,7 @@ July 25th until July 26th.`,
     {
       title: "Prizes",
       body: `
-- **1st place:** $26 or one year of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)
+- **1st place:** osu! profile badge (to be confirmed), $26 or one year of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)
 - **2nd place:** $16 or six months of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)
 - **3rd place:** $8 or two months of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)`,
     },
@@ -61,7 +61,14 @@ July 25th until July 26th.`,
     - Round Of 128, Round Of 64, Round Of 32, Round Of 16: Best-Of-9 (First to 5 points)
     - Quarterfinals: Best-Of-11 (First to 6 points)
     - Semifinals, Finals, and Grand Finals: Best-Of-13 (First to 7 points)
-
+   
+# Qualifiers Regulations
+- During this round there will be multiple lobbies available at various hours.
+- A private match will be created and players will be invited into the lobby when it's their time. Make sure you're online at this time.
+- There are no warmups.
+- Seeding will be made with the average rank of each team on each map. 
+- Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking.
+- Only the 128 best players will continue on to the bracket stage.
 # Mappool Instructions
 - There will be 1 mappool for each of the following: Qualifiers, Round of 128, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals, and Grand Finals. 
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
