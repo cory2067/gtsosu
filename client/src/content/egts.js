@@ -34,7 +34,7 @@ July 18th until July 19th.
 ### Grand Finals
 July 25th until July 26th.`,
     },
-    { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.** }, 
+    { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
       title: "Prizes",
       body: `
