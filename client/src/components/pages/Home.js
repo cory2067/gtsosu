@@ -4,7 +4,7 @@ import TourneyCard from "../modules/TourneyCard";
 import "../../utilities.css";
 import "./Home.css";
 
-import data from "../../content/home";
+import data from "../../content/home-en";
 import { Layout, Card } from "antd";
 const { Content } = Layout;
 

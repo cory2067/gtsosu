@@ -38,6 +38,7 @@
     "pino-pretty": "^3.5.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-flag-icon-css": "^1.0.25",
     "react-google-login": "^5.0.7",
     "react-markdown": "^4.3.1",
     "react-router-dom": "^4.3.1",

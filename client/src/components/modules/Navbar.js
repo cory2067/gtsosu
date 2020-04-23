@@ -6,7 +6,9 @@ import LoginButton from "./LoginButton";
 import UserModal from "./UserModal";
 import "./Navbar.css";
 import { post } from "../../utilities";
+import ContentManager from "../../ContentManager";
 const { Header } = Layout;
+const { SubMenu } = Menu;
 
 class RootNavbar extends Component {
   render() {
@@ -25,7 +27,7 @@ class RootNavbar extends Component {
             <LoginButton {...this.props} />
           </Menu.Item>
           {this.props.user.username && (
-            <Menu.Item className="Navbar-avatar" key="5">
+            <Menu.Item className="Navbar-avatar" key="A">
               <img src={this.props.user.avatar} onClick={this.props.openSettings}></img>
             </Menu.Item>
           )}
@@ -40,7 +42,7 @@ class TourneyNavbar extends Component {
     return (
       <Header>
         <div className="logo" />
-        <Menu theme="dark" mode="horizontal" selectable={false}>
+        <Menu theme="dark" mode="horizontal" selectable={false} onClick={this.props.handleClick}>
           <Menu.Item key="1">
             <Link to={`/${this.props.tourney}/home`}>Home</Link>
           </Menu.Item>
@@ -59,11 +61,17 @@ class TourneyNavbar extends Component {
           <Menu.Item key="6">
             <Link to={`/${this.props.tourney}/staff`}>Staff</Link>
           </Menu.Item>
+          {/* TODO avoid hardcoding this list */}
+          <SubMenu title="Language" className="Navbar-language">
+            <Menu.Item key="lang-en">English</Menu.Item>
+            <Menu.Item key="lang-ko">Korean</Menu.Item>
+            <Menu.Item key="lang-ru">Russian</Menu.Item>
+          </SubMenu>
           <Menu.Item key="7">
             <LoginButton {...this.props} />
           </Menu.Item>
           {this.props.user.username && (
-            <Menu.Item className="Navbar-avatar" key="8">
+            <Menu.Item className="Navbar-avatar" key="A">
               <img src={this.props.user.avatar} onClick={this.props.openSettings}></img>
             </Menu.Item>
           )}
@@ -121,6 +129,13 @@ class Navbar extends Component {
     this.setState({ visible: true });
   };
 
+  handleClick = (e) => {
+    if (e.key.startsWith("lang-")) {
+      const lang = e.key.split("lang-")[1];
+      ContentManager.setLanguage(lang);
+    }
+  };
+
   render() {
     return (
       <>
@@ -138,7 +153,12 @@ class Navbar extends Component {
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/" />
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/staff" />
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/404" />
-          <TourneyNavbar {...this.props} openSettings={this.openSettings} path="/:tourney/*" />
+          <TourneyNavbar
+            {...this.props}
+            openSettings={this.openSettings}
+            handleClick={this.handleClick}
+            path="/:tourney/*"
+          />
         </Router>
       </>
     );

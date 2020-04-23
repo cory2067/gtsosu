@@ -4,6 +4,7 @@ import "../../utilities.css";
 
 import { Layout, Card } from "antd";
 const { Content } = Layout;
+import ContentManager from "../../ContentManager";
 
 class Rules extends Component {
   constructor(props) {
@@ -12,10 +13,9 @@ class Rules extends Component {
   }
 
   async componentDidMount() {
-    const dataFile = await import(`../../content/${this.props.tourney}`);
-    this.setState({
-      data: dataFile.default,
-    });
+    const data = await ContentManager.get(this.props.tourney);
+    if (!data) return navigate("/404");
+    this.setState({ data });
   }
 
   render() {

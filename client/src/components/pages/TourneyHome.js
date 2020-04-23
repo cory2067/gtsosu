@@ -7,6 +7,7 @@ import { Layout, Card, Button, Modal, notification } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { post } from "../../utilities";
 import { navigate } from "@reach/router";
+import ContentManager from "../../ContentManager";
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -20,14 +21,9 @@ class TourneyHome extends Component {
   }
 
   async componentDidMount() {
-    try {
-      const dataFile = await import(`../../content/${this.props.tourney}`);
-      this.setState({
-        data: dataFile.default,
-      });
-    } catch (e) {
-      navigate("/404");
-    }
+    const data = await ContentManager.get(this.props.tourney);
+    if (!data) return navigate("/404");
+    this.setState({ data });
   }
 
   isRegistered = () => {
