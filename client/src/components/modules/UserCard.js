@@ -12,26 +12,26 @@ class UserCard extends Component {
 
   render() {
     return (
-      <div class="UserCard-outside">
+      <div className="UserCard-outside">
         <div
           style={{ backgroundImage: `url(${this.props.user.avatar})` }}
-          class="UserCard-avatar"
+          className="UserCard-avatar"
         ></div>
-        <div class="UserCard-content">
-          <div class="UserCard-top">
-            <div class="UserCard-name">
+        <div className="UserCard-content">
+          <div className="UserCard-top">
+            <div className="UserCard-name">
               {this.props.user.country && <FlagIcon code={this.props.user.country.toLowerCase()} />}
               <a href={`https://osu.ppy.sh/users/${this.props.user.userid}`}>
                 {this.props.user.username}
               </a>
             </div>
             {!this.props.hideRank && (
-              <div class="UserCard-rank">
-                <span>{`#${this.props.user.rank || 3500}`}</span>
+              <div className="UserCard-rank">
+                <span>{`#${this.props.user.rank}`}</span>
               </div>
             )}
           </div>
-          {this.props.extra && <div class="UserCard-bot">{this.props.extra}</div>}
+          {this.props.extra && <div className="UserCard-bot">{this.props.extra}</div>}
         </div>
       </div>
     );

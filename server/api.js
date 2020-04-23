@@ -121,6 +121,17 @@ router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
   res.send({});
 });
 
+/**
+ * GET /api/players
+ * Get player list for a tourney
+ * Params:
+ *   - tourney: identifier for the tournament
+ */
+router.getAsync("/players", async (req, res) => {
+  const players = await User.find({ tournies: req.query.tourney });
+  res.send(players);
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });

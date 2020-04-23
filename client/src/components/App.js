@@ -26,7 +26,6 @@ class App extends Component {
 
   componentDidMount() {
     get("/api/whoami").then((res) => {
-      console.log(res);
       this.setState({ user: res });
     });
   }
