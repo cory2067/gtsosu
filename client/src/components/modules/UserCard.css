@@ -1,0 +1,40 @@
+.UserCard-outside {
+  border: 1px solid rgb(82, 82, 82);
+  display: grid;
+  grid-template-columns: 60px 350px;
+  grid-template-rows: 60px;
+  background-color: white;
+  box-shadow: 2px 2px 8px;
+  margin: var(--s);
+}
+
+.UserCard-avatar {
+  background-size: contain;
+}
+
+.UserCard-content {
+  padding: var(--xs);
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+}
+
+.UserCard-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.UserCard-name {
+  font-size: 16pt;
+  font-weight: bold;
+}
+
+.UserCard-name a {
+  margin-left: 4px;
+}
+
+.UserCard-rank {
+  font-size: 12pt;
+  display: flex;
+  align-items: center;
+}

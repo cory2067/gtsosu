@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import "../../utilities.css";
+import "./Players.css";
 
-import { Layout, Card } from "antd";
+import { Layout } from "antd";
+import UserCard from "../modules/UserCard";
 const { Content } = Layout;
 
 class Players extends Component {
@@ -13,7 +15,16 @@ class Players extends Component {
   componentDidMount() {}
 
   render() {
-    return <Content className="content">capu is the player</Content>;
+    return (
+      <Content className="content">
+        <div className="Players-container">
+          <UserCard {...this.props} extra={"Team: Cychlo's epic team"} />
+          <UserCard {...this.props} hideRank={true} />
+          <UserCard {...this.props} />
+          <UserCard {...this.props} />
+        </div>
+      </Content>
+    );
   }
 }
 
