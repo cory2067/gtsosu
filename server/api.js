@@ -132,6 +132,35 @@ router.getAsync("/players", async (req, res) => {
   res.send(players);
 });
 
+/**
+ * GET /api/staff
+ * Get staff list for a tourney
+ * Params:
+ *   - tourney: identifier for the tournament
+ */
+router.getAsync("/staff", async (req, res) => {
+  const staff = await User.find({ "roles.tourney": req.query.tourney });
+  res.send(staff);
+});
+
+/**
+ * POST /api/staff
+ * Add player as staff for a tourney
+ * Params:
+ *   - username: username of the new staff member
+ *   - tourney: identifier for the tournament
+ *   - role: role in the tournament
+ */
+router.postAsync("/staff", async (req, res) => {
+  const user = await User.findOneAndUpdate(
+    { username: req.body.username },
+    { $push: { roles: { tourney: req.body.tourney, role: req.body.role } } },
+    { new: true }
+  );
+
+  res.send(user);
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });

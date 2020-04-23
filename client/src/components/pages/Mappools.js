@@ -25,7 +25,13 @@ class Mappools extends Component {
   }
 
   isPooler = () => {
-    return this.props.user.username && this.props.user.permissions.includes("pool");
+    return (
+      this.props.user.username &&
+      this.props.user.roles.some(
+        (r) =>
+          r.tourney === this.props.tourney && ["Host", "Developer", "Mapsetter"].includes(r.role)
+      )
+    );
   };
 
   getMappool(stage) {

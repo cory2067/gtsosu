@@ -8,8 +8,14 @@ const UserSchema = new mongoose.Schema({
   discord: String,
   timezone: String,
   rank: Number,
-  permissions: [{ type: String, enum: ["admin", "pool", "ref"] }],
-  tournies: [String],
+  admin: Boolean,
+  roles: [
+    {
+      tourney: String,
+      role: String,
+    },
+  ],
+  tournies: [String], // map from tourney code to list of roles
 });
 
 // compile model from schema

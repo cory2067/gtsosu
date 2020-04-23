@@ -9,24 +9,24 @@ function loggedIn(req, res, next) {
   next();
 }
 
-function ensure(permission) {
+function ensure(required, title) {
   return (req, res, next) => {
     if (!req.user || !req.user.username) {
       return res.status(401).send({ error: "Not logged in, refusing access." });
     }
 
-    if (!req.user.permissions.includes(permission)) {
-      return res.status(403).send({ error: "You do not have permission to access this." });
+    if (req.user.roles.some((r) => required.includes(r.role) && r.tourney === req.body.tourney)) {
+      logger.info(`${req.user.username} granted ${title} access`);
+      return next();
     }
 
-    logger.info(`${req.user.username} granted access to: ${permission}`);
-    next();
+    return res.status(403).send({ error: "You do not have permission to access this." });
   };
 }
 
 module.exports = {
-  isAdmin: ensure("admin"),
-  isPooler: ensure("pool"),
-  isRef: ensure("ref"),
+  isAdmin: ensure(["Host", "Developer"], "admin"),
+  isPooler: ensure(["Host", "Developer", "Mapsetter"], "pooler"),
+  isRef: ensure(["Host", "Developer", "Referee"], "ref"),
   loggedIn,
 };
