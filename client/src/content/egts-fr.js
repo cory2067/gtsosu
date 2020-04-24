@@ -34,12 +34,12 @@ Du 18 au 19 juillet.
 ### Grandes Finales
 Du 25 au 26 juillet.`,
     },
-    { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
+    { title: "Registration", body: "Merci de cliquer sur le boutton S'inscrire juste au dessus, après que vous vous soyiez connectés avec votre compte osu!, et ensuite cliquer sur le boutton Discord pour rejoindre le serveur de ce tournoi. **Rejoindre le serveur Discord est obligatoire pour jouer dans ce tournoi, et vous serez refusé du tournoi si vous ne faites pas cela.**" }, 
     {
       title: "Prizes",
       body: `
 - **1ère place:** Un badge sur le profil (à confirmer), $26 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
-- **2ème place:** $16 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par made by [Foxbox](https://foxbox.io)
+- **2ème place:** $16 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
 - **3ème place:** $8 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)`,
     },
   ],
