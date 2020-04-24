@@ -196,6 +196,21 @@ router.deleteAsync("/staff", async (req, res) => {
   res.send({});
 });
 
+/**
+ * DELETE /api/player
+ * Removes player from the player list of a tourney
+ * Params:
+ *   - username: username of the player to delete
+ *   - tourney: identifier for the tournament
+ */
+router.deleteAsync("/player", async (req, res) => {
+  await User.findOneAndUpdate(
+    { username: req.body.username },
+    { $pull: { tournies: req.body.tourney } }
+  );
+  res.send({});
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });
