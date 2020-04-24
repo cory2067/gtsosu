@@ -15,6 +15,7 @@ const roles = [
   "Statistician",
   "Mapsetter",
   "Referee",
+  "Stream Highlighter",
   "Streamer",
   "Commentator",
   "Translator",
