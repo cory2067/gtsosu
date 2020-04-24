@@ -15,7 +15,10 @@ function ensure(required, title) {
       return res.status(401).send({ error: "Not logged in, refusing access." });
     }
 
-    if (req.user.roles.some((r) => required.includes(r.role) && r.tourney === req.body.tourney)) {
+    if (
+      req.user.admin ||
+      req.user.roles.some((r) => required.includes(r.role) && r.tourney === req.body.tourney)
+    ) {
       logger.info(`${req.user.username} granted ${title} access`);
       return next();
     }

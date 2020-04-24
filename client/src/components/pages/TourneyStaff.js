@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../utilities.css";
-import { get, post, hasAccess } from "../../utilities";
+import { get, post, hasAccess, delet } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
@@ -42,6 +42,13 @@ class TourneyStaff extends Component {
     }));
   };
 
+  handleDelete = async (username) => {
+    await delet("/api/staff", { tourney: this.props.tourney, username });
+    this.setState((state) => ({
+      staff: state.staff.filter((s) => s.username !== username),
+    }));
+  };
+
   render() {
     return (
       <Content className="content">
@@ -76,7 +83,16 @@ class TourneyStaff extends Component {
               .filter((r) => r.tourney === this.props.tourney)
               .map((r) => r.role)
               .join(", ");
-            return <UserCard key={user.userid} user={user} extra={roles} hideRank />;
+            return (
+              <UserCard
+                canDelete={this.isAdmin()}
+                onDelete={this.handleDelete}
+                key={user.userid}
+                user={user}
+                extra={roles}
+                hideRank
+              />
+            );
           })}
         </div>
       </Content>

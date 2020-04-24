@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import ReactCountryFlag from "react-country-flag";
+import { DeleteOutlined } from "@ant-design/icons";
 
-import { Card } from "antd";
+import { Popconfirm } from "antd";
 import "./UserCard.css";
 
 class UserCard extends Component {
@@ -26,6 +27,16 @@ class UserCard extends Component {
               <a href={`https://osu.ppy.sh/users/${this.props.user.userid}`}>
                 {this.props.user.username}
               </a>
+              {this.props.canDelete && (
+                <Popconfirm
+                  title={`Are you sure you want to remove ${this.props.user.username}?`}
+                  onConfirm={() => this.props.onDelete(this.props.user.username)}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <DeleteOutlined className="UserCard-delete" />
+                </Popconfirm>
+              )}
             </div>
             {!this.props.hideRank && (
               <div className="UserCard-rank">
