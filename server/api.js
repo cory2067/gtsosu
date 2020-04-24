@@ -170,7 +170,7 @@ router.postAsync("/staff", async (req, res) => {
       username: userData.name,
       userid: userData.id,
       country: userData.country,
-      avatar: `http://a.ppy.sh/${userData.id}`,
+      avatar: `https://a.ppy.sh/${userData.id}`,
       roles: [{ tourney: req.body.tourney, role: req.body.role }],
     });
     await newUser.save();
