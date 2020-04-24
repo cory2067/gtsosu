@@ -43,11 +43,11 @@ class App extends Component {
             <Home path="/" />
             <Staff path="/staff" />
             <TourneyHome user={this.state.user} path="/:tourney/home" />
-            <TourneyStaff path="/:tourney/staff" />
+            <TourneyStaff user={this.state.user} path="/:tourney/staff" />
             <Rules path="/:tourney/rules" />
             <Mappools user={this.state.user} path="/:tourney/pools" />
             <Players user={this.state.user} path="/:tourney/players" />
-            <Schedule path="/:tourney/schedule" />
+            <Schedule user={this.state.user} path="/:tourney/schedule" />
             <NotFound default />
           </Router>
           <Footer></Footer>

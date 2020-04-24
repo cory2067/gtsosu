@@ -27,6 +27,6 @@ function ensure(required, title) {
 module.exports = {
   isAdmin: ensure(["Host", "Developer"], "admin"),
   isPooler: ensure(["Host", "Developer", "Mapsetter"], "pooler"),
-  isRef: ensure(["Host", "Developer", "Referee"], "ref"),
+  isRef: ensure(["Host", "Developer", "Referee", "Streamer", "Commentator"], "ref"),
   loggedIn,
 };

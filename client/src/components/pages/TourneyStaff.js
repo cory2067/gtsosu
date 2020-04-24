@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../utilities.css";
-import { get, post } from "../../utilities";
+import { get, post, hasAccess } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
@@ -33,6 +33,8 @@ class TourneyStaff extends Component {
     this.setState({ staff });
   }
 
+  isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
+
   onFinish = async (form) => {
     const newStaff = await post("/api/staff", { tourney: this.props.tourney, ...form });
     this.setState((state) => ({
@@ -43,29 +45,31 @@ class TourneyStaff extends Component {
   render() {
     return (
       <Content className="content">
-        <Collapse>
-          <Panel header="Add new staff" key="1">
-            <Form name="basic" onFinish={this.onFinish}>
-              <Form.Item label="Username" name="username">
-                <Input />
-              </Form.Item>
-              <Form.Item label="Role" name="role">
-                <Select showSearch>
-                  {roles.map((role, i) => (
-                    <Select.Option key={i} value={role}>
-                      {role}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Add
-                </Button>
-              </Form.Item>
-            </Form>
-          </Panel>
-        </Collapse>
+        {this.isAdmin() && (
+          <Collapse>
+            <Panel header="Add new staff" key="1">
+              <Form name="basic" onFinish={this.onFinish}>
+                <Form.Item label="Username" name="username">
+                  <Input />
+                </Form.Item>
+                <Form.Item label="Role" name="role">
+                  <Select showSearch>
+                    {roles.map((role, i) => (
+                      <Select.Option key={i} value={role}>
+                        {role}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    Add
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Panel>
+          </Collapse>
+        )}
         <div className="TourneyStaff-container">
           {this.state.staff.map((user) => {
             const roles = user.roles

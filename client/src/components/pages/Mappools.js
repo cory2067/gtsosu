@@ -3,7 +3,7 @@ import AddMapModal from "../modules/AddMapModal";
 import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
 import "../../utilities.css";
-import { get, post, delet } from "../../utilities";
+import { get, post, delet, hasAccess } from "../../utilities";
 import "./Mappools.css";
 
 import { Layout, Menu, Button } from "antd";
@@ -24,15 +24,8 @@ class Mappools extends Component {
     this.getMappool(this.state.selected);
   }
 
-  isPooler = () => {
-    return (
-      this.props.user.username &&
-      this.props.user.roles.some(
-        (r) =>
-          r.tourney === this.props.tourney && ["Host", "Developer", "Mapsetter"].includes(r.role)
-      )
-    );
-  };
+  isPooler = () =>
+    hasAccess(this.props.user, this.props.tourney, ["Host", "Developer", "Mapsetter"]);
 
   getMappool(stage) {
     get("/api/maps", { tourney: this.props.tourney, stage: stage }).then((res) => {

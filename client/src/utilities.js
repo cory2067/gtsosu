@@ -80,3 +80,7 @@ export function delet(endpoint, params = {}) {
       throw error;
     });
 }
+
+export function hasAccess(user, tourney, roles) {
+  return user.username && user.roles.some((r) => r.tourney === tourney && roles.includes(r.role));
+}
