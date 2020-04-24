@@ -96,13 +96,18 @@ router.getAsync("/whoami", async (req, res) => {
 
 /**
  * POST /api/register
- * Register for a given tournament
+ * Register for a given tournament. Also fetches the player's current rank
  * Params:
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   logger.info(`${req.user.username} registered for ${req.body.tourney}`);
-  await User.findByIdAndUpdate(req.user._id, { $push: { tournies: req.body.tourney } });
+  const userData = await osuApi.getUser({ u: req.user.userid, m: 1, type: "id" });
+
+  await User.findByIdAndUpdate(req.user._id, {
+    $push: { tournies: req.body.tourney },
+    $set: { rank: userData.pp.rank },
+  });
   res.send({});
 });
 
@@ -157,6 +162,21 @@ router.postAsync("/staff", async (req, res) => {
     { $push: { roles: { tourney: req.body.tourney, role: req.body.role } } },
     { new: true }
   );
+
+  if (!user) {
+    // if this staff member has not created a GTS account yet, generate one right now
+    const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
+    const newUser = new User({
+      username: userData.name,
+      userid: userData.id,
+      country: userData.country,
+      avatar: `http://a.ppy.sh/${userData.id}`,
+      roles: [{ tourney: req.body.tourney, role: req.body.role }],
+    });
+    await newUser.save();
+    logger.info(`Generated new staff account for ${req.body.username}`);
+    return res.send(newUser);
+  }
 
   res.send(user);
 });
