@@ -128,7 +128,7 @@ router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
  *   - tourney: identifier for the tournament
  */
 router.getAsync("/players", async (req, res) => {
-  const players = await User.find({ tournies: req.query.tourney });
+  const players = await User.find({ tournies: req.query.tourney }).sort({ rank: 1 });
   res.send(players);
 });
 
