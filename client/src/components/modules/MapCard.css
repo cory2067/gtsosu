@@ -2,6 +2,7 @@
   margin: var(--m);
   max-width: 600px;
   flex-basis: 400px;
+  box-shadow: 0 0 12px;
 }
 
 .MapCard-card a img {
