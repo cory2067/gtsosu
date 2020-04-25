@@ -4,6 +4,7 @@ import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
 import "../../utilities.css";
 import { get, post, delet, hasAccess } from "../../utilities";
+import { navigate } from "@reach/router";
 import "./Mappools.css";
 
 import { Layout, Menu, Button } from "antd";
@@ -13,33 +14,38 @@ class Mappools extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: "qf",
       modal: false,
       loading: false,
       maps: [],
+      stages: [],
+      current: {},
     };
   }
 
-  componentDidMount() {
-    this.getMappool(this.state.selected);
+  async componentDidMount() {
+    const tourney = await get("/api/tournament", { tourney: this.props.tourney });
+    if (!tourney.stages || tourney.stages.length === 0) return;
+
+    const curIndex = location.hash.substring(1);
+    const current = tourney.stages[curIndex] || tourney.stages[0];
+
+    this.setState({ stages: tourney.stages, current: { ...current, index: curIndex } });
+    this.getMappool(current.name);
   }
 
   isPooler = () =>
     hasAccess(this.props.user, this.props.tourney, ["Host", "Developer", "Mapsetter"]);
 
-  getMappool(stage) {
-    get("/api/maps", { tourney: this.props.tourney, stage: stage }).then((res) => {
-      console.log("Got maps: ", res);
-      this.setState({
-        maps: res,
-      });
+  getMappool = async (stage) => {
+    const maps = await get("/api/maps", { tourney: this.props.tourney, stage: stage });
+    this.setState({
+      maps,
     });
-  }
+  };
 
   handleMenuClick = ({ key }) => {
-    this.setState({ selected: key });
-    this.getMappool(key);
-    console.log(key);
+    this.setState({ current: { ...this.state.stages[key], index: key } });
+    this.getMappool(this.state.stages[key].name);
   };
 
   handleAddMap = () => {
@@ -57,7 +63,7 @@ class Mappools extends Component {
     post("/api/map", {
       ...this.state.formData,
       tourney: this.props.tourney,
-      stage: this.state.selected,
+      stage: this.state.current.name,
     })
       .then((res) => {
         this.setState((state) => ({ maps: state.maps.concat(res), loading: false, modal: false }));
@@ -82,7 +88,7 @@ class Mappools extends Component {
     this.setState((state) => ({
       maps: state.maps.filter((map) => map.mapId != id),
     }));
-    delet("/api/map", { tourney: this.props.tourney, stage: this.state.selected, id });
+    delet("/api/map", { tourney: this.props.tourney, stage: this.state.current.name, id });
   };
 
   render() {
@@ -90,10 +96,16 @@ class Mappools extends Component {
       <Content className="content">
         <div className="u-flex">
           <div className="u-sidebar">
-            <Menu theme="dark" selectedKeys={[this.state.selected]} onClick={this.handleMenuClick}>
-              <Menu.Item key="qf">Quarterfinals</Menu.Item>
-              <Menu.Item key="sf">Semifinals</Menu.Item>
-              <Menu.Item key="f">Finals</Menu.Item>
+            <Menu
+              theme="dark"
+              selectedKeys={[this.state.current.index]}
+              onClick={this.handleMenuClick}
+            >
+              {this.state.stages.map((s, i) => (
+                <Menu.Item key={i}>
+                  <a href={`#${i}`}>{s.name}</a>
+                </Menu.Item>
+              ))}
             </Menu>
           </div>
 
