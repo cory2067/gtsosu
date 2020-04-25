@@ -87,3 +87,14 @@ export function hasAccess(user, tourney, roles) {
     (user.admin || user.roles.some((r) => r.tourney === tourney && roles.includes(r.role)))
   );
 }
+
+// returns the tournament and the current stage indicated bythe page URL
+export async function getStage(tourneyId) {
+  const tourney = await get("/api/tournament", { tourney: tourneyId });
+  if (!tourney.stages || tourney.stages.length === 0) return;
+
+  const curIndex = parseInt(location.hash.substring(1)) || 0; // parse stage from url
+  const current = tourney.stages[curIndex] || tourney.stages[0];
+
+  return [tourney, { ...current, index: curIndex }];
+}

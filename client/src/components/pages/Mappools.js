@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import AddMapModal from "../modules/AddMapModal";
+import StageSelector from "../modules/StageSelector";
 import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
 import "../../utilities.css";
-import { get, post, delet, hasAccess } from "../../utilities";
+import { get, post, delet, hasAccess, getStage } from "../../utilities";
 import { navigate } from "@reach/router";
 import "./Mappools.css";
 
@@ -25,18 +26,14 @@ class Mappools extends Component {
   formRef = React.createRef();
 
   async componentDidMount() {
-    const tourney = await get("/api/tournament", { tourney: this.props.tourney });
-    if (!tourney.stages || tourney.stages.length === 0) return;
-
-    const curIndex = parseInt(location.hash.substring(1)) || 0; // parse stage from url
-    const current = tourney.stages[curIndex] || tourney.stages[0];
-
-    this.setState({ stages: tourney.stages, current: { ...current, index: curIndex } });
+    const [tourney, current] = await getStage(this.props.tourney);
+    this.setState({ stages: tourney.stages, current });
     await this.getMappool(current.name);
     if (this.isPooler()) this.formRef.current.setFieldsValue(current);
   }
 
   async componentDidUpdate(prevProps) {
+    // refresh stage list on login/logout (this causes some redundant fetches, though)
     if (this.props.user._id !== prevProps.user._id) {
       const tourney = await get("/api/tournament", { tourney: this.props.tourney });
       this.setState({ stages: tourney.stages });
@@ -123,17 +120,11 @@ class Mappools extends Component {
       <Content className="content">
         <div className="u-flex">
           <div className="u-sidebar">
-            <Menu
-              theme="dark"
-              selectedKeys={[`${this.state.current.index}`]}
+            <StageSelector
+              selected={this.state.current.index}
               onClick={this.handleMenuClick}
-            >
-              {this.state.stages.map((s, i) => (
-                <Menu.Item key={i}>
-                  <a href={`#${i}`}>{s.name}</a>
-                </Menu.Item>
-              ))}
-            </Menu>
+              stages={this.state.stages}
+            />
 
             {this.state.current.mappack && (
               <div className="Mappools-pack">
