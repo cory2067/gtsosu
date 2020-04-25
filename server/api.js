@@ -6,6 +6,8 @@ const osuApi = new osu.Api(process.env.OSU_API_KEY);
 const ensure = require("./ensure");
 const User = require("./models/user");
 const Map = require("./models/map");
+const Tournament = require("./models/tournament");
+const Match = require("./models/match");
 
 const { addAsync } = require("@awaitjs/express");
 const router = addAsync(express.Router());
@@ -209,6 +211,42 @@ router.deleteAsync("/player", async (req, res) => {
     { $pull: { tournies: req.body.tourney } }
   );
   res.send({});
+});
+
+/**
+ * GET /api/tournament
+ * Get basic info for a tourney
+ * Params:
+ *   - tourney: identifier for the tournament
+ */
+router.getAsync("/tournament", async (req, res) => {
+  const tourney = await Tournament.findOne({ code: req.query.tourney });
+  res.send(tourney || {});
+});
+
+/**
+ * POST /api/tournament
+ * Set basic info for a tourney
+ * Params:
+ *   - tourney: identifier for the tournament
+ *   - registrationOpen: are players allowed to register
+ *   - stages: what stages this tourney consists of
+ */
+router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
+  const tourney = await Tournament.findOneAndUpdate(
+    {
+      code: req.body.tourney,
+    },
+    {
+      $set: {
+        stages: req.body.stages.map((s) => ({ name: s, poolVisible: false })),
+        registrationOpen: req.body.registrationOpen,
+      },
+    },
+    { upsert: true, new: true }
+  );
+  res.send(tourney);
 });
 
 router.all("*", (req, res) => {

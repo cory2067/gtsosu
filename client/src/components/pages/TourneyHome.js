@@ -4,10 +4,11 @@ import "../../utilities.css";
 import "./TourneyHome.css";
 
 import { Layout, Card, Button, Modal, notification } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { post } from "../../utilities";
+import { ExclamationCircleOutlined, EditOutlined } from "@ant-design/icons";
+import { get, post, hasAccess } from "../../utilities";
 import { navigate } from "@reach/router";
 import ContentManager from "../../ContentManager";
+import EditTourneyModal from "../../components/modules/EditTourneyModal";
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -24,7 +25,18 @@ class TourneyHome extends Component {
     const data = await ContentManager.get(this.props.tourney);
     if (!data) return navigate("/404");
     this.setState({ data });
+
+    const tourney = await get("/api/tournament", { tourney: this.props.tourney });
+    this.setState({
+      registrationOpen: tourney.registrationOpen || false,
+      formData: {
+        registrationOpen: tourney.registrationOpen || false,
+        stages: (tourney.stages || []).map((s) => s.name),
+      },
+    });
   }
+
+  isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
 
   isRegistered = () => {
     return (
@@ -64,10 +76,39 @@ class TourneyHome extends Component {
     });
   };
 
+  handleValuesChange = (changed, allData) => {
+    this.setState({ formData: allData });
+  };
+
+  handleOk = async () => {
+    const tourney = await post("/api/tournament", {
+      ...this.state.formData,
+      tourney: this.props.tourney,
+    });
+    this.setState({ showSettings: false, registrationOpen: tourney.registrationOpen });
+  };
+
   render() {
+    let regMessage = "Register";
+    if (!this.props.user._id) regMessage = "Login to Register";
+    else if (this.isRegistered()) regMessage = "Registered";
+    else if (!this.state.registrationOpen) regMessage = "Registration Closed";
+
     return (
       <Content className="content">
-        <h1 className="TourneyHome-title">{this.state.data.name}</h1>
+        <div className="TourneyHome-title-container">
+          <div>{this.state.data.name}</div>
+          {this.isAdmin() && (
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<EditOutlined />}
+              size="large"
+              className="TourneyHome-edit"
+              onClick={() => this.setState({ showSettings: true })}
+            />
+          )}
+        </div>
         <div className="u-flex-justifyCenter">
           <div className="TourneyHome-info">
             <div className="TourneyHome-description">
@@ -77,10 +118,10 @@ class TourneyHome extends Component {
               <Button
                 type="primary"
                 size="large"
-                disabled={!this.props.user._id || this.isRegistered()}
+                disabled={regMessage !== "Register"}
                 onClick={this.register}
               >
-                {!this.props.user._id && "Login to "}Register{this.isRegistered() && "ed"}
+                {regMessage}
               </Button>
               <Button type="primary" size="large" href={this.state.data.discord}>
                 Discord
@@ -97,6 +138,14 @@ class TourneyHome extends Component {
             );
           })}
         </div>
+        <EditTourneyModal
+          visible={this.state.showSettings}
+          tourney={this.state.tourney}
+          handleCancel={() => this.setState({ showSettings: false })}
+          handleOk={this.handleOk}
+          onValuesChange={this.handleValuesChange}
+          initialValues={this.state.formData}
+        />
       </Content>
     );
   }

@@ -21,7 +21,13 @@
   margin-bottom: var(--m);
 }
 
-.TourneyHome-title {
+.TourneyHome-title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 32pt;
-  text-align: center;
+}
+
+.TourneyHome-edit {
+  margin-left: var(--s);
 }
