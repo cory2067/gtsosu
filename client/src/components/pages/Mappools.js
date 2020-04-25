@@ -36,6 +36,14 @@ class Mappools extends Component {
     if (this.isPooler()) this.formRef.current.setFieldsValue(current);
   }
 
+  async componentDidUpdate(prevProps) {
+    if (this.props.user._id !== prevProps.user._id) {
+      const tourney = await get("/api/tournament", { tourney: this.props.tourney });
+      this.setState({ stages: tourney.stages });
+      if (this.isPooler()) this.formRef.current.setFieldsValue(this.state.current);
+    }
+  }
+
   isPooler = () =>
     hasAccess(this.props.user, this.props.tourney, ["Host", "Developer", "Mapsetter"]);
 

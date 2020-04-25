@@ -19,6 +19,17 @@ const scaleTime = (time, mod) => (mod === "DT" ? (time * 2) / 3 : time);
 const scaleBPM = (bpm, mod) => (mod === "DT" ? bpm * 1.5 : bpm);
 const scaleDiff = (diff, mod) => (mod === "HR" ? Math.min(10, round(diff * 1.4)) : diff);
 
+const canViewHiddenPools = (req) => {
+  return (
+    req.user &&
+    req.user.username &&
+    (req.user.admin ||
+      req.user.roles.some(
+        (r) => ["Host", "Developer", "Mapsetter"].includes(r.role) && r.tourney == req.query.tourney
+      ))
+  );
+};
+
 /**
  * POST /api/map
  * Registers a new map into a mappool
@@ -58,13 +69,23 @@ router.postAsync("/map", ensure.isPooler, async (req, res) => {
 
 /**
  * GET /api/maps
- * Get all the maps for a given mappool
+ * Get all the maps for a given mappool (if the user has access)
  * Params:
  *   - tourney: identifier for the tourney
  *   - stage: which pool, e.g. qf, sf, f, gf
  */
 router.getAsync("/maps", async (req, res) => {
-  const maps = await Map.find({ tourney: req.query.tourney, stage: req.query.stage });
+  const [tourney, maps] = await Promise.all([
+    Tournament.findOne({ code: req.query.tourney }),
+    Map.find({ tourney: req.query.tourney, stage: req.query.stage }),
+  ]);
+
+  // if super hacker kiddo tries to view a pool before it's released
+  const stageData = tourney.stages.filter((s) => s.name === req.query.stage)[0];
+  if (!stageData.poolVisible && !canViewHiddenPools(req)) {
+    return res.status(403).send({ error: "You don't have access to view this" });
+  }
+
   const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, TB: 5 };
   maps.sort((a, b) => {
     if (mods[a.mod] - mods[b.mod] != 0) {
@@ -221,8 +242,12 @@ router.deleteAsync("/player", async (req, res) => {
  *   - tourney: identifier for the tournament
  */
 router.getAsync("/tournament", async (req, res) => {
-  const tourney = await Tournament.findOne({ code: req.query.tourney });
-  res.send(tourney || {});
+  const tourney = (await Tournament.findOne({ code: req.query.tourney })) || {};
+  if (tourney.stages && !canViewHiddenPools(req)) {
+    tourney.stages = tourney.stages.filter((s) => s.poolVisible);
+  }
+
+  res.send(tourney);
 });
 
 /**
