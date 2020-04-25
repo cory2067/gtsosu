@@ -96,7 +96,7 @@ class TourneyHome extends Component {
       <Content className="content">
         <div className="TourneyHome-title-container">
           <div>{this.state.data.name}</div>
-          {this.isAdmin() && (
+          {this.isAdmin() && this.state.formData && (
             <Button
               type="primary"
               shape="circle"
