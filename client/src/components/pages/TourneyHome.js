@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import "../../utilities.css";
 import "./TourneyHome.css";
 
-import { Layout, Card, Button, Modal, notification } from "antd";
+import { Layout, Card, Button, Modal, notification, message } from "antd";
 import { ExclamationCircleOutlined, EditOutlined } from "@ant-design/icons";
 import { get, post, hasAccess } from "../../utilities";
 import { navigate } from "@reach/router";
@@ -83,6 +83,7 @@ class TourneyHome extends Component {
       tourney: this.props.tourney,
     });
     this.setState({ showSettings: false, registrationOpen: tourney.registrationOpen });
+    message.success("Updated tournament settings");
   };
 
   render() {

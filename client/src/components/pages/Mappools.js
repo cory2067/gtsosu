@@ -7,7 +7,7 @@ import { get, post, delet, hasAccess } from "../../utilities";
 import { navigate } from "@reach/router";
 import "./Mappools.css";
 
-import { Layout, Menu, Button } from "antd";
+import { Layout, Menu, Button, Form, Switch, Input, message } from "antd";
 const { Content } = Layout;
 
 class Mappools extends Component {
@@ -22,15 +22,18 @@ class Mappools extends Component {
     };
   }
 
+  formRef = React.createRef();
+
   async componentDidMount() {
     const tourney = await get("/api/tournament", { tourney: this.props.tourney });
     if (!tourney.stages || tourney.stages.length === 0) return;
 
-    const curIndex = location.hash.substring(1);
+    const curIndex = parseInt(location.hash.substring(1)) || 0; // parse stage from url
     const current = tourney.stages[curIndex] || tourney.stages[0];
 
     this.setState({ stages: tourney.stages, current: { ...current, index: curIndex } });
-    this.getMappool(current.name);
+    await this.getMappool(current.name);
+    if (this.isPooler()) this.formRef.current.setFieldsValue(current);
   }
 
   isPooler = () =>
@@ -45,6 +48,7 @@ class Mappools extends Component {
 
   handleMenuClick = ({ key }) => {
     this.setState({ current: { ...this.state.stages[key], index: key } });
+    if (this.isPooler()) this.formRef.current.setFieldsValue(this.state.stages[key]);
     this.getMappool(this.state.stages[key].name);
   };
 
@@ -69,7 +73,7 @@ class Mappools extends Component {
         this.setState((state) => ({ maps: state.maps.concat(res), loading: false, modal: false }));
       })
       .catch((err) => {
-        alert("Could not submit map. Make sure the map ID is correct.");
+        message.error("Could not submit map. Make sure the map ID is correct.");
         this.setState({ loading: false });
       });
   };
@@ -91,6 +95,21 @@ class Mappools extends Component {
     delet("/api/map", { tourney: this.props.tourney, stage: this.state.current.name, id });
   };
 
+  onFinish = async (form) => {
+    const index = this.state.current.index;
+    const tourney = await post("/api/stage", {
+      tourney: this.props.tourney,
+      stage: form,
+      index,
+    });
+
+    this.setState((state) => ({
+      stages: tourney.stages,
+      current: { ...tourney.stages[state.current.index], index },
+    }));
+    message.success("Updated pool settings");
+  };
+
   render() {
     return (
       <Content className="content">
@@ -98,7 +117,7 @@ class Mappools extends Component {
           <div className="u-sidebar">
             <Menu
               theme="dark"
-              selectedKeys={[this.state.current.index]}
+              selectedKeys={[`${this.state.current.index}`]}
               onClick={this.handleMenuClick}
             >
               {this.state.stages.map((s, i) => (
@@ -107,6 +126,14 @@ class Mappools extends Component {
                 </Menu.Item>
               ))}
             </Menu>
+
+            {this.state.current.mappack && (
+              <div className="Mappools-pack">
+                <a href={this.state.current.mappack} target="_blank">
+                  Download Mappack
+                </a>
+              </div>
+            )}
           </div>
 
           {this.isPooler() && (
@@ -127,15 +154,35 @@ class Mappools extends Component {
             onValuesChange={this.handleFormChange}
           />
 
-          <div className="Mappools-card-container">
-            {this.state.maps.map((map) => (
-              <MapCard
-                key={map._id}
-                handleDelete={this.handleDelete}
-                isPooler={this.isPooler}
-                {...map}
-              />
-            ))}
+          <div>
+            {this.isPooler() && (
+              <div className="Mappools-settings">
+                <Form ref={this.formRef} onFinish={this.onFinish} layout="inline">
+                  <Form.Item name="poolVisible" label="Pool Visible" valuePropName="checked">
+                    <Switch />
+                  </Form.Item>
+                  <Form.Item name="mappack" label="Mappack URL">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      Save
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </div>
+            )}
+
+            <div className="Mappools-card-container">
+              {this.state.maps.map((map) => (
+                <MapCard
+                  key={map._id}
+                  handleDelete={this.handleDelete}
+                  isPooler={this.isPooler}
+                  {...map}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </Content>

@@ -235,18 +235,42 @@ router.getAsync("/tournament", async (req, res) => {
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
-  const tourney = await Tournament.findOneAndUpdate(
-    {
-      code: req.body.tourney,
-    },
-    {
-      $set: {
-        stages: req.body.stages.map((s) => ({ name: s, poolVisible: false })),
-        registrationOpen: req.body.registrationOpen,
-      },
-    },
-    { upsert: true, new: true }
-  );
+  const tourney = await Tournament.findOne({ code: req.body.tourney });
+
+  if (!tourney) {
+    const newTourney = new Tournament({
+      stages: req.body.stages.map((s) => ({ name: s, poolVisible: false, mappack: "" })),
+      registrationOpen: req.body.registrationOpen,
+    });
+    await newTourney.save();
+    return res.send(newTourney);
+  }
+
+  tourney.registrationOpen = req.body.registrationOpen;
+  tourney.stages = req.body.stages.map((stage) => {
+    // careful not to overwrite existing stage data
+    const existing = tourney.stages.filter((s) => s.name === stage)[0];
+    return existing || { name: stage, poolVisible: false, mappack: "" };
+  });
+
+  await tourney.save();
+
+  res.send(tourney);
+});
+
+/**
+ * POST /api/stage
+ * Change info for a tourney stage
+ * Params:
+ *   - tourney: identifier for the tournament
+ *   - index: index of the stage to modify
+ *   - stage: the new info for this stage
+ */
+router.postAsync("/stage", ensure.isPooler, async (req, res) => {
+  const tourney = await Tournament.findOne({ code: req.body.tourney });
+  tourney.stages[req.body.index].mappack = req.body.stage.mappack;
+  tourney.stages[req.body.index].poolVisible = req.body.stage.poolVisible;
+  await tourney.save();
   res.send(tourney);
 });
 
