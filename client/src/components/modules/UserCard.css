@@ -27,6 +27,8 @@
 .UserCard-name {
   font-size: 16pt;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .UserCard-name a {

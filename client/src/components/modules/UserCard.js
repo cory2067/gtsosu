@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import ReactCountryFlag from "react-country-flag";
 import { DeleteOutlined } from "@ant-design/icons";
+import FlagIcon from "./FlagIcon";
 
 import { Popconfirm } from "antd";
 import "./UserCard.css";
@@ -21,9 +21,7 @@ class UserCard extends Component {
         <div className="UserCard-content">
           <div className="UserCard-top">
             <div className="UserCard-name">
-              {this.props.user.country && (
-                <ReactCountryFlag countryCode={this.props.user.country} />
-              )}
+              {this.props.user.country && <FlagIcon code={this.props.user.country} />}
               <a href={`https://osu.ppy.sh/users/${this.props.user.userid}`}>
                 {this.props.user.username}
               </a>
