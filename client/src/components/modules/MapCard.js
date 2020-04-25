@@ -16,10 +16,6 @@ class MapCard extends Component {
     this.state = {};
   }
 
-  handleDownload = () => {
-    window.open(`https://osu.ppy.sh/b/${this.props.mapId}`);
-  };
-
   render() {
     return (
       <Card
@@ -30,7 +26,11 @@ class MapCard extends Component {
           </div>
         }
         bordered={true}
-        cover={<img src={this.props.image} onClick={this.handleDownload} />}
+        cover={
+          <a href={`https://osu.ppy.sh/b/${this.props.mapId}`}>
+            <img src={this.props.image} />
+          </a>
+        }
         extra={
           this.props.isPooler() && (
             <DeleteOutlined onClick={() => this.props.handleDelete(this.props.mapId)} />
@@ -40,7 +40,8 @@ class MapCard extends Component {
       >
         <div className="MapCard-row MapCard-primary">{`${this.props.title} [${this.props.diff}]`}</div>
         <div className="MapCard-row">{this.props.artist}</div>
-        <div className="MapCard-row">{`Mapset by ${this.props.creator}`}</div>
+        <div className="MapCard-row MapCard-small">{`Mapset by ${this.props.creator}`}</div>
+        <div className="MapCard-row MapCard-small">{`Picked by ${this.props.pooler}`}</div>
 
         <div className="MapCard-divider"></div>
 

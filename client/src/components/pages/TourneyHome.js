@@ -39,10 +39,7 @@ class TourneyHome extends Component {
   isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
 
   isRegistered = () => {
-    return (
-      this.state.justRegistered ||
-      (this.props.user.tournies && this.props.user.tournies.includes(this.props.tourney))
-    );
+    return this.props.user.tournies && this.props.user.tournies.includes(this.props.tourney);
   };
 
   register = () => {
@@ -65,9 +62,9 @@ class TourneyHome extends Component {
       content: `Are you sure you want to register for ${tourney}?`,
       onOk: async () => {
         try {
-          await post("/api/register", { tourney: this.props.tourney });
+          const user = await post("/api/register", { tourney: this.props.tourney });
           notification.open(success);
-          this.setState({ justRegistered: true });
+          this.props.updateUser({ user });
         } catch (e) {
           console.log("Fails");
           notification.open(fail);

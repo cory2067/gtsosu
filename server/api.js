@@ -50,6 +50,7 @@ router.postAsync("/map", ensure.isPooler, async (req, res) => {
     hp: scaleDiff(parseFloat(mapData.difficulty.drain), mod),
     length: formatTime(scaleTime(parseInt(mapData.length.total), mod)),
     image: `https://assets.ppy.sh/beatmaps/${mapData.beatmapSetId}/covers/cover.jpg`,
+    pooler: req.user.username,
   });
   await newMap.save();
   res.send(newMap);
@@ -106,11 +107,11 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   logger.info(`${req.user.username} registered for ${req.body.tourney}`);
   const userData = await osuApi.getUser({ u: req.user.userid, m: 1, type: "id" });
 
-  await User.findByIdAndUpdate(req.user._id, {
+  const user = await User.findByIdAndUpdate(req.user._id, {
     $push: { tournies: req.body.tourney },
     $set: { rank: userData.pp.rank },
   });
-  res.send({});
+  res.send(user);
 });
 
 /**

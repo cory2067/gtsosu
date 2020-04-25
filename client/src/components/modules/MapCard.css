@@ -4,8 +4,8 @@
   flex-basis: 400px;
 }
 
-.MapCard-card img {
-  cursor: pointer;
+.MapCard-card a img {
+  width: 100%;
 }
 
 .MapCard-inside {
@@ -56,6 +56,11 @@
 .MapCard-attr {
   margin: 0px var(--s);
   font-size: 13pt;
+}
+
+.MapCard-small {
+  font-size: 11pt;
+  color: rgb(125, 125, 125);
 }
 
 /* Colors for mod icons */

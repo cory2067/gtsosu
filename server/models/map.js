@@ -7,6 +7,7 @@ const MapSchema = new mongoose.Schema({
   title: String,
   artist: String,
   creator: String,
+  pooler: String,
   diff: String,
   bpm: Number,
   sr: Number,
