@@ -230,11 +230,11 @@ class Schedule extends Component {
                   key="referee"
                   render={(r, match) =>
                     r ? (
-                      <Tag closable onClose={() => this.removeReferee(match.key)}>
+                      <Tag closable={this.isRef()} onClose={() => this.removeReferee(match.key)}>
                         {r}
                       </Tag>
                     ) : (
-                      <AddTag onClick={() => this.addReferee(match.key)} />
+                      this.isRef() && <AddTag onClick={() => this.addReferee(match.key)} />
                     )
                   }
                 />
@@ -245,11 +245,11 @@ class Schedule extends Component {
                   key="streamer"
                   render={(r, match) =>
                     r ? (
-                      <Tag closable onClose={() => this.removeStreamer(match.key)}>
+                      <Tag closable={this.isRef()} onClose={() => this.removeStreamer(match.key)}>
                         {r}
                       </Tag>
                     ) : (
-                      <AddTag onClick={() => this.addStreamer(match.key)} />
+                      this.isRef() && <AddTag onClick={() => this.addStreamer(match.key)} />
                     )
                   }
                 />
@@ -261,11 +261,15 @@ class Schedule extends Component {
                   render={(rs, match) => (
                     <span>
                       {rs.map((r) => (
-                        <Tag closable onClose={() => this.removeCommentator(match.key, r)} key={r}>
+                        <Tag
+                          closable={this.isRef()}
+                          onClose={() => this.removeCommentator(match.key, r)}
+                          key={r}
+                        >
                           {r}
                         </Tag>
                       ))}
-                      {!rs.includes(this.props.user.username) && (
+                      {this.isRef() && !rs.includes(this.props.user.username) && (
                         <AddTag onClick={() => this.addCommentator(match.key)} />
                       )}
                     </span>
@@ -286,39 +290,43 @@ class Schedule extends Component {
                   }
                 />
 
-                <Column
-                  title="Submit"
-                  key="submit"
-                  className="u-textCenter"
-                  render={(_, match) => (
-                    <span>
-                      <Button
-                        type="primary"
-                        shape="circle"
-                        icon={<PlusOutlined />}
-                        size="medium"
-                        onClick={() => this.handleAddResults(match)}
-                      />
-                    </span>
-                  )}
-                />
+                {this.isRef() && (
+                  <Column
+                    title="Submit"
+                    key="submit"
+                    className="u-textCenter"
+                    render={(_, match) => (
+                      <span>
+                        <Button
+                          type="primary"
+                          shape="circle"
+                          icon={<PlusOutlined />}
+                          size="medium"
+                          onClick={() => this.handleAddResults(match)}
+                        />
+                      </span>
+                    )}
+                  />
+                )}
 
-                <Column
-                  title="Delete"
-                  key="submit"
-                  className="u-textCenter"
-                  render={(_, match) => (
-                    <span>
-                      <Button
-                        type="primary"
-                        shape="circle"
-                        icon={<DeleteOutlined />}
-                        size="medium"
-                        onClick={() => this.handleDelete(match)}
-                      />
-                    </span>
-                  )}
-                />
+                {this.isAdmin() && (
+                  <Column
+                    title="Delete"
+                    key="submit"
+                    className="u-textCenter"
+                    render={(_, match) => (
+                      <span>
+                        <Button
+                          type="primary"
+                          shape="circle"
+                          icon={<DeleteOutlined />}
+                          size="medium"
+                          onClick={() => this.handleDelete(match)}
+                        />
+                      </span>
+                    )}
+                  />
+                )}
               </Table>
             </div>
           </div>
