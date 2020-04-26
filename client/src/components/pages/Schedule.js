@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { get, post, hasAccess, delet, getStage } from "../../utilities";
 import "../../utilities.css";
 import StageSelector from "../modules/StageSelector";
+import SubmitResultsModal from "../modules/SubmitResultsModal";
 import { PlusOutlined } from "@ant-design/icons";
 import AddTag from "../modules/AddTag";
 import "./Schedule.css";
@@ -17,6 +18,7 @@ class Schedule extends Component {
     this.state = {
       stages: [],
       current: [],
+      match: {},
       matches: [
         {
           key: 0,
@@ -127,6 +129,28 @@ class Schedule extends Component {
     }));
   };
 
+  handleAddResults = (match) => {
+    this.setState({ match, visible: true });
+  };
+
+  handleValuesChange = (changed, allData) => {
+    this.setState({ formData: allData });
+  };
+
+  handleOk = async () => {
+    this.setState({ loading: true });
+    // post to server
+    this.setState({ loading: false, visible: false });
+    this.setState((state) => ({
+      matches: state.matches.map((m) => {
+        if (m.key === state.match.key) {
+          return { ...m, ...state.formData };
+        }
+        return m;
+      }),
+    }));
+  };
+
   render() {
     return (
       <Content className="content">
@@ -226,14 +250,14 @@ class Schedule extends Component {
                   title="Submit"
                   key="submit"
                   className="u-textCenter"
-                  render={(_, record) => (
+                  render={(_, match) => (
                     <span>
                       <Button
                         type="primary"
                         shape="circle"
                         icon={<PlusOutlined />}
                         size="medium"
-                        onClick={this.handleAddMap}
+                        onClick={() => this.handleAddResults(match)}
                       />
                     </span>
                   )}
@@ -242,6 +266,14 @@ class Schedule extends Component {
             </div>
           </div>
         </div>
+        <SubmitResultsModal
+          match={this.state.match}
+          visible={this.state.visible}
+          loading={this.state.loading}
+          handleCancel={() => this.setState({ visible: false })}
+          handleOk={this.handleOk}
+          onValuesChange={this.handleValuesChange}
+        />
       </Content>
     );
   }
