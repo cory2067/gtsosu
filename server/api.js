@@ -366,6 +366,95 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
   res.send(newMatch);
 });
 
+/**
+ * POST /api/referee
+ * Add self as a referee to a match
+ * Params:
+ *  - match: the _id of the match
+ */
+router.postAsync("/referee", ensure.isRef, async (req, res) => {
+  const match = await Match.findOne({ _id: req.body.match });
+  if (match.referee) return res.status(400).send({ error: "already exists" });
+  match.referee = req.user.username;
+  await match.save();
+  res.send(match);
+});
+
+/**
+ * DELETE /api/referee
+ * Removes the current referee
+ * Params:
+ *  - match: the _id of the match
+ */
+router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
+  const match = await Match.findOneAndUpdate(
+    { _id: req.body.match },
+    { $unset: { referee: 1 } },
+    { new: true }
+  );
+  res.send(match);
+});
+
+/**
+ * POST /api/streamer
+ * Add self as a streamer to a match
+ * Params:
+ *  - match: the _id of the match
+ */
+router.postAsync("/streamer", ensure.isRef, async (req, res) => {
+  const match = await Match.findOne({ _id: req.body.match });
+  if (match.streamer) return res.status(400).send({ error: "already exists" });
+  match.streamer = req.user.username;
+  await match.save();
+  res.send(match);
+});
+
+/**
+ * DELETE /api/streamer
+ * Removes the current streamer
+ * Params:
+ *  - match: the _id of the match
+ */
+router.deleteAsync("/streamer", ensure.isRef, async (req, res) => {
+  const match = await Match.findOneAndUpdate(
+    { _id: req.body.match },
+    { $unset: { streamer: 1 } },
+    { new: true }
+  );
+  res.send(match);
+});
+
+/**
+ * POST /api/commentator
+ * Add self as a commentator to a match
+ * Params:
+ *  - match: the _id of the match
+ */
+router.postAsync("/commentator", ensure.isRef, async (req, res) => {
+  const match = await Match.findOneAndUpdate(
+    { _id: req.body.match },
+    { $push: { commentators: req.user.username } },
+    { new: true }
+  );
+  res.send(match);
+});
+
+/**
+ * DELETE /api/commentator
+ * Remove someone as a commentator to a match
+ * Params:
+ *  - match: the _id of the match
+ *  - user: name of the person to remove
+ */
+router.deleteAsync("/commentator", ensure.isRef, async (req, res) => {
+  const match = await Match.findOneAndUpdate(
+    { _id: req.body.match },
+    { $pull: { commentators: req.body.user } },
+    { new: true }
+  );
+  res.send(match);
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });

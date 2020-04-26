@@ -70,73 +70,37 @@ class Schedule extends Component {
     }));
   };
 
-  addReferee = (key) => {
+  add = async (role, key) => {
+    const newMatch = await post(`/api/${role}`, { match: key });
     this.setState((state) => ({
       matches: state.matches.map((m) => {
         if (m.key === key) {
-          return { ...m, referee: this.props.user.username };
+          return { ...newMatch, key: newMatch._id };
         }
         return m;
       }),
     }));
   };
 
-  addStreamer = (key) => {
+  // user is optional (only used for commentator)
+  remove = async (role, key, user) => {
+    const newMatch = await delet(`/api/${role}`, { match: key, user });
     this.setState((state) => ({
       matches: state.matches.map((m) => {
         if (m.key === key) {
-          return { ...m, streamer: this.props.user.username };
+          return { ...newMatch, key: newMatch._id };
         }
         return m;
       }),
     }));
   };
 
-  addCommentator = (key) => {
-    this.setState((state) => ({
-      matches: state.matches.map((m) => {
-        if (m.key === key) {
-          return { ...m, commentators: [...m.commentators, this.props.user.username] };
-        }
-        return m;
-      }),
-    }));
-  };
-
-  removeReferee = (key) => {
-    this.setState((state) => ({
-      matches: state.matches.map((m) => {
-        if (m.key === key) {
-          return { ...m, referee: null };
-        }
-        return m;
-      }),
-    }));
-  };
-
-  removeStreamer = (key) => {
-    this.setState((state) => ({
-      matches: state.matches.map((m) => {
-        if (m.key === key) {
-          return { ...m, streamer: null };
-        }
-        return m;
-      }),
-    }));
-  };
-
-  removeCommentator = (key, i) => {
-    this.setState((state) => ({
-      matches: state.matches.map((m) => {
-        if (m.key === key) {
-          const newComs = [...m.commentators];
-          newComs.splice(i, 1);
-          return { ...m, commentators: newComs };
-        }
-        return m;
-      }),
-    }));
-  };
+  addReferee = (key) => this.add("referee", key);
+  addStreamer = (key) => this.add("streamer", key);
+  addCommentator = (key) => this.add("commentator", key);
+  removeReferee = (key) => this.remove("referee", key);
+  removeStreamer = (key) => this.remove("streamer", key);
+  removeCommentator = (key, user) => this.remove("commentator", key, user);
 
   handleAddResults = (match) => {
     this.setState({ match, visible: true });
@@ -282,8 +246,8 @@ class Schedule extends Component {
                   key="commentators"
                   render={(rs, match) => (
                     <span>
-                      {rs.map((r, i) => (
-                        <Tag closable onClose={() => this.removeCommentator(match.key, i)} key={r}>
+                      {rs.map((r) => (
+                        <Tag closable onClose={() => this.removeCommentator(match.key, r)} key={r}>
                           {r}
                         </Tag>
                       ))}
