@@ -264,6 +264,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
 
   if (!tourney) {
     const newTourney = new Tournament({
+      code: req.body.tourney,
       stages: req.body.stages.map((s) => ({ name: s, poolVisible: false, mappack: "" })),
       registrationOpen: req.body.registrationOpen,
     });
