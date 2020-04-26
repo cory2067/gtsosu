@@ -14,11 +14,12 @@ class SubmitResultsModal extends Component {
         onCancel={this.props.handleCancel}
       >
         <Form onValuesChange={this.props.onValuesChange} initialValues={this.props.initialValues}>
+          <p>Use score of -1 for a forfeit</p>
           <Form.Item name="score1" label={`${this.props.match.player1} score`}>
-            <InputNumber min={1} max={20} defaultValue={0} />
+            <InputNumber min={-1} max={20} defaultValue={0} />
           </Form.Item>
           <Form.Item name="score2" label={`${this.props.match.player2} score`}>
-            <InputNumber min={1} max={20} defaultValue={0} />
+            <InputNumber min={-1} max={20} defaultValue={0} />
           </Form.Item>
           <Form.Item name="link" label="MP Link">
             <Input />

@@ -300,6 +300,72 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
   res.send(tourney);
 });
 
+/**
+ * POST /api/match
+ * Create a tourney match
+ * Params:
+ *   - tourney: identifier for the tournament
+ *   - stage: the new info for this stage
+ *   - player1, player2: the player usernames
+ *   - code: the match ID
+ *   - time: date and time in string format (in UTC)
+ */
+router.postAsync("/match", ensure.isAdmin, async (req, res) => {
+  const match = new Match({
+    player1: req.body.player1,
+    player2: req.body.player2,
+    tourney: req.body.tourney,
+    stage: req.body.stage,
+    code: req.body.code,
+    time: new Date(req.body.time),
+  });
+
+  await match.save();
+  res.send(match);
+});
+
+/**
+ * DELETE /api/match
+ * Delete a tourney match
+ * Params:
+ *  - match: the _id of the match
+ */
+router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
+  await Match.deleteOne({ _id: req.body.match });
+  res.send({});
+});
+
+/**
+ * GET /api/matches
+ * Get all matches for a stage
+ * Params:
+ *   - tourney: identifier for the tournament
+ *   - stage: the new info for this stage
+ */
+router.getAsync("/matches", async (req, res) => {
+  const matches = await Match.find({ tourney: req.query.tourney, stage: req.query.stage });
+  res.send(matches);
+});
+
+/**
+ * POST /api/results
+ * Submit the outcome of a match
+ * Params:
+ *   - match: the _id of the match
+ *   - score1, score2: scores of player1 and player2
+ *   - link: mp link
+ */
+router.postAsync("/results", ensure.isRef, async (req, res) => {
+  const newMatch = await Match.findOneAndUpdate(
+    { _id: req.body.match },
+    {
+      $set: { score1: req.body.score1, score2: req.body.score2, link: req.body.link },
+    },
+    { new: true }
+  );
+  res.send(newMatch);
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });

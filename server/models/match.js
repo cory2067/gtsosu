@@ -1,17 +1,18 @@
 const mongoose = require("mongoose");
 
+// -1 for forfeit, -2 for no results yet
 const MatchSchema = new mongoose.Schema({
-  player1: { type: mongoose.ObjectId, ref: "User" },
-  player2: { type: mongoose.ObjectId, ref: "User" },
+  player1: String,
+  player2: String,
   // TODO support teams
   code: String,
   time: Date,
-  score1: Number,
-  score2: Number,
+  score1: { type: Number, default: -2 },
+  score2: { type: Number, default: -2 },
   link: String,
-  referee: { type: mongoose.ObjectId, ref: "User" },
-  streamer: { type: mongoose.ObjectId, ref: "User" },
-  commentators: [{ type: mongoose.ObjectId, ref: "User" }],
+  referee: String,
+  streamer: String,
+  commentators: [String],
   tourney: String,
   stage: String,
 });

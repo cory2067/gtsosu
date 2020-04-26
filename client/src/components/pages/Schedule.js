@@ -3,7 +3,8 @@ import { get, post, hasAccess, delet, getStage } from "../../utilities";
 import "../../utilities.css";
 import StageSelector from "../modules/StageSelector";
 import SubmitResultsModal from "../modules/SubmitResultsModal";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, LinkOutlined, DeleteOutlined } from "@ant-design/icons";
+import moment from "moment";
 import AddTag from "../modules/AddTag";
 import "./Schedule.css";
 
@@ -19,25 +20,18 @@ class Schedule extends Component {
       stages: [],
       current: [],
       match: {},
-      matches: [
-        {
-          key: 0,
-          code: "QF2",
-          player1: "Cychloryn",
-          player2: "Kasumii",
-          score1: 6,
-          score2: 3,
-          time: "SAT 06/22 10:00",
-          streamer: "Krekker",
-          commentators: ["EMi", "Gamelan4"],
-        },
-      ],
+      matches: [],
     };
   }
 
   async componentDidMount() {
     const [tourney, current] = await getStage(this.props.tourney);
-    this.setState({ stages: tourney.stages, current });
+    const matches = await get("/api/matches", { tourney: this.props.tourney, stage: current.name });
+    this.setState({
+      stages: tourney.stages,
+      current,
+      matches: matches.map((m) => ({ ...m, key: m._id })),
+    });
   }
 
   async componentDidUpdate(prevProps) {
@@ -60,6 +54,21 @@ class Schedule extends Component {
       "Streamer",
       "Commentator",
     ]);
+
+  onFinish = async (matchData) => {
+    // janky way to nuke the timezone
+    matchData.time = matchData.time.toString().split("GMT")[0] + "GMT";
+
+    const newMatch = await post("/api/match", {
+      ...matchData,
+      tourney: this.props.tourney,
+      stage: this.state.current.name,
+    });
+
+    this.setState((state) => ({
+      matches: [...state.matches, { ...newMatch, key: newMatch._id }],
+    }));
+  };
 
   addReferee = (key) => {
     this.setState((state) => ({
@@ -133,22 +142,47 @@ class Schedule extends Component {
     this.setState({ match, visible: true });
   };
 
+  handleDelete = async (match) => {
+    await delet("/api/match", { match: match._id });
+    this.setState((state) => ({
+      matches: state.matches.filter((m) => m.key !== match.key),
+    }));
+  };
+
   handleValuesChange = (changed, allData) => {
     this.setState({ formData: allData });
   };
 
   handleOk = async () => {
     this.setState({ loading: true });
-    // post to server
-    this.setState({ loading: false, visible: false });
+    const newMatch = await post("/api/results", {
+      ...this.state.formData,
+      match: this.state.match._id,
+    });
+
     this.setState((state) => ({
+      loading: false,
+      visible: false,
       matches: state.matches.map((m) => {
         if (m.key === state.match.key) {
-          return { ...m, ...state.formData };
+          return { ...newMatch, key: newMatch._id };
         }
         return m;
       }),
     }));
+  };
+
+  displayScore = (score, other) => {
+    if (score === -2) {
+      return <span>--</span>;
+    }
+    if (score === -1) {
+      return <span>FF</span>;
+    }
+    if (score > other) {
+      return <span className="u-bold">{score}</span>;
+    }
+    return <span>{score}</span>;
   };
 
   render() {
@@ -167,10 +201,10 @@ class Schedule extends Component {
               <Collapse>
                 <Panel header={`Add new ${this.state.current.name} match`} key="1">
                   <Form name="basic" onFinish={this.onFinish}>
-                    <Form.Item label="Player 1" name="p1">
+                    <Form.Item label="Player 1" name="player1">
                       <Input />
                     </Form.Item>
-                    <Form.Item label="Player 2" name="p2">
+                    <Form.Item label="Player 2" name="player2">
                       <Input />
                     </Form.Item>
                     <Form.Item label="Match ID" name="code">
@@ -188,14 +222,29 @@ class Schedule extends Component {
                 </Panel>
               </Collapse>
             )}
-            <div className="Schedule-list">
+            <div className="momSchedule-list">
               <Table dataSource={this.state.matches}>
                 <Column title="Match ID" dataIndex="code" key="code" />
-                <Column title="Score" dataIndex="score1" key="score1" />
+                <Column
+                  title="Score"
+                  dataIndex="score1"
+                  key="score1"
+                  render={(s, match) => this.displayScore(s, match.score2)}
+                />
                 <Column title="Player 1" dataIndex="player1" key="player1" />
                 <Column title="Player 2" dataIndex="player2" key="player2" />
-                <Column title="Score" dataIndex="score2" key="score2" />
-                <Column title="Match Time (UTC)" dataIndex="time" key="time" />
+                <Column
+                  title="Score"
+                  dataIndex="score2"
+                  key="score2"
+                  render={(s, match) => this.displayScore(s, match.score1)}
+                />
+                <Column
+                  title="Match Time (UTC)"
+                  dataIndex="time"
+                  key="time"
+                  render={(t) => moment(t).utcOffset(0).format("ddd MM/DD HH:mm")}
+                />
 
                 <Column
                   title="Referee"
@@ -245,7 +294,20 @@ class Schedule extends Component {
                   )}
                 />
 
-                <Column title="MP Link" dataIndex="link" key="link" />
+                <Column
+                  title="MP Link"
+                  dataIndex="link"
+                  key="link"
+                  className="u-textCenter"
+                  render={(url) =>
+                    url && (
+                      <a target="_blank" href={url}>
+                        <LinkOutlined className="Schedule-link" />
+                      </a>
+                    )
+                  }
+                />
+
                 <Column
                   title="Submit"
                   key="submit"
@@ -258,6 +320,23 @@ class Schedule extends Component {
                         icon={<PlusOutlined />}
                         size="medium"
                         onClick={() => this.handleAddResults(match)}
+                      />
+                    </span>
+                  )}
+                />
+
+                <Column
+                  title="Delete"
+                  key="submit"
+                  className="u-textCenter"
+                  render={(_, match) => (
+                    <span>
+                      <Button
+                        type="primary"
+                        shape="circle"
+                        icon={<DeleteOutlined />}
+                        size="medium"
+                        onClick={() => this.handleDelete(match)}
                       />
                     </span>
                   )}
