@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import "../../utilities.css";
 import { get, post, hasAccess, delet, getStage } from "../../utilities";
+import "../../utilities.css";
 import StageSelector from "../modules/StageSelector";
+import { PlusOutlined } from "@ant-design/icons";
+import AddTag from "../modules/AddTag";
 import "./Schedule.css";
 
-import { Layout, Collapse, Form, Input, Select, Button, TimePicker, DatePicker } from "antd";
+import { Layout, Collapse, Form, Input, Button, Table, DatePicker, Tag } from "antd";
 const { Content } = Layout;
 const { Panel } = Collapse;
+const { Column, ColumnGroup } = Table;
 
 class Schedule extends Component {
   constructor(props) {
@@ -14,6 +17,19 @@ class Schedule extends Component {
     this.state = {
       stages: [],
       current: [],
+      matches: [
+        {
+          key: 0,
+          code: "QF2",
+          player1: "Cychloryn",
+          player2: "Kasumii",
+          score1: 6,
+          score2: 3,
+          time: "SAT 06/22 10:00",
+          streamer: "Krekker",
+          commentators: ["EMi", "Gamelan4"],
+        },
+      ],
     };
   }
 
@@ -43,6 +59,74 @@ class Schedule extends Component {
       "Commentator",
     ]);
 
+  addReferee = (key) => {
+    this.setState((state) => ({
+      matches: state.matches.map((m) => {
+        if (m.key === key) {
+          return { ...m, referee: this.props.user.username };
+        }
+        return m;
+      }),
+    }));
+  };
+
+  addStreamer = (key) => {
+    this.setState((state) => ({
+      matches: state.matches.map((m) => {
+        if (m.key === key) {
+          return { ...m, streamer: this.props.user.username };
+        }
+        return m;
+      }),
+    }));
+  };
+
+  addCommentator = (key) => {
+    this.setState((state) => ({
+      matches: state.matches.map((m) => {
+        if (m.key === key) {
+          return { ...m, commentators: [...m.commentators, this.props.user.username] };
+        }
+        return m;
+      }),
+    }));
+  };
+
+  removeReferee = (key) => {
+    this.setState((state) => ({
+      matches: state.matches.map((m) => {
+        if (m.key === key) {
+          return { ...m, referee: null };
+        }
+        return m;
+      }),
+    }));
+  };
+
+  removeStreamer = (key) => {
+    this.setState((state) => ({
+      matches: state.matches.map((m) => {
+        if (m.key === key) {
+          return { ...m, streamer: null };
+        }
+        return m;
+      }),
+    }));
+  };
+
+  removeCommentator = (key, i) => {
+    this.setState((state) => ({
+      matches: state.matches.map((m) => {
+        if (m.key === key) {
+          const newComs = [...m.commentators];
+          newComs.splice(i, 1);
+          return { ...m, commentators: newComs };
+        }
+        return m;
+      }),
+    }));
+  };
+
   render() {
     return (
       <Content className="content">
@@ -65,11 +149,11 @@ class Schedule extends Component {
                     <Form.Item label="Player 2" name="p2">
                       <Input />
                     </Form.Item>
-                    <Form.Item label="Match Code" name="code">
+                    <Form.Item label="Match ID" name="code">
                       <Input />
                     </Form.Item>
                     <Form.Item label="Match Time" name="time">
-                      <DatePicker showTime format={"MM-DD HH:mm"} minuteStep={15} />
+                      <DatePicker showTime format={"MM/DD HH:mm"} minuteStep={15} />
                     </Form.Item>
                     <Form.Item>
                       <Button type="primary" htmlType="submit">
@@ -80,7 +164,82 @@ class Schedule extends Component {
                 </Panel>
               </Collapse>
             )}
-            <div className="Schedule-list"></div>
+            <div className="Schedule-list">
+              <Table dataSource={this.state.matches}>
+                <Column title="Match ID" dataIndex="code" key="code" />
+                <Column title="Score" dataIndex="score1" key="score1" />
+                <Column title="Player 1" dataIndex="player1" key="player1" />
+                <Column title="Player 2" dataIndex="player2" key="player2" />
+                <Column title="Score" dataIndex="score2" key="score2" />
+                <Column title="Match Time (UTC)" dataIndex="time" key="time" />
+
+                <Column
+                  title="Referee"
+                  dataIndex="referee"
+                  key="referee"
+                  render={(r, match) =>
+                    r ? (
+                      <Tag closable onClose={() => this.removeReferee(match.key)}>
+                        {r}
+                      </Tag>
+                    ) : (
+                      <AddTag onClick={() => this.addReferee(match.key)} />
+                    )
+                  }
+                />
+
+                <Column
+                  title="Streamer"
+                  dataIndex="streamer"
+                  key="streamer"
+                  render={(r, match) =>
+                    r ? (
+                      <Tag closable onClose={() => this.removeStreamer(match.key)}>
+                        {r}
+                      </Tag>
+                    ) : (
+                      <AddTag onClick={() => this.addStreamer(match.key)} />
+                    )
+                  }
+                />
+
+                <Column
+                  title="Commentators"
+                  dataIndex="commentators"
+                  key="commentators"
+                  render={(rs, match) => (
+                    <span>
+                      {rs.map((r, i) => (
+                        <Tag closable onClose={() => this.removeCommentator(match.key, i)} key={r}>
+                          {r}
+                        </Tag>
+                      ))}
+                      {!rs.includes(this.props.user.username) && (
+                        <AddTag onClick={() => this.addCommentator(match.key)} />
+                      )}
+                    </span>
+                  )}
+                />
+
+                <Column title="MP Link" dataIndex="link" key="link" />
+                <Column
+                  title="Submit"
+                  key="submit"
+                  className="u-textCenter"
+                  render={(_, record) => (
+                    <span>
+                      <Button
+                        type="primary"
+                        shape="circle"
+                        icon={<PlusOutlined />}
+                        size="medium"
+                        onClick={this.handleAddMap}
+                      />
+                    </span>
+                  )}
+                />
+              </Table>
+            </div>
           </div>
         </div>
       </Content>
