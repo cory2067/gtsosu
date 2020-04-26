@@ -8,7 +8,7 @@ import moment from "moment";
 import AddTag from "../modules/AddTag";
 import "./Schedule.css";
 
-import { Layout, Collapse, Form, Input, Button, Table, DatePicker, Tag } from "antd";
+import { Layout, Collapse, Form, Input, Button, Table, DatePicker, Tag, message } from "antd";
 const { Content } = Layout;
 const { Panel } = Collapse;
 const { Column, ColumnGroup } = Table;
@@ -26,23 +26,37 @@ class Schedule extends Component {
 
   async componentDidMount() {
     const [tourney, current] = await getStage(this.props.tourney);
-    const matches = await get("/api/matches", { tourney: this.props.tourney, stage: current.name });
+    if (!current.name) return message.warning("No matches have been scheduled yet!");
+    this.getMatches(current.name);
     this.setState({
       stages: tourney.stages,
       current,
-      matches: matches.map((m) => ({ ...m, key: m._id })),
     });
   }
 
   async componentDidUpdate(prevProps) {
     if (this.props.user._id !== prevProps.user._id) {
-      const tourney = await get("/api/tournament", { tourney: this.props.tourney });
-      this.setState({ stages: tourney.stages });
+      const [tourney, current] = await getStage(this.props.tourney);
+
+      if (this.state.current._id !== current._id) {
+        this.getMatches(current.name);
+      }
+
+      this.setState({ stages: tourney.stages, current });
     }
+  }
+
+  async getMatches(stage) {
+    const matches = await get("/api/matches", {
+      tourney: this.props.tourney,
+      stage: stage,
+    });
+    this.setState({ matches: matches.map((m) => ({ ...m, key: m._id })) });
   }
 
   handleMenuClick = ({ key }) => {
     this.setState({ current: { ...this.state.stages[key], index: key } });
+    this.getMatches(this.state.stages[key].name);
   };
 
   isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);

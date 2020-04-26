@@ -91,10 +91,12 @@ export function hasAccess(user, tourney, roles) {
 // returns the tournament and the current stage indicated bythe page URL
 export async function getStage(tourneyId) {
   const tourney = await get("/api/tournament", { tourney: tourneyId });
-  if (!tourney.stages || tourney.stages.length === 0) return;
+  if (!tourney.stages || tourney.stages.length === 0) return [tourney, {}];
 
   const curIndex = parseInt(location.hash.substring(1)) || 0; // parse stage from url
+  console.log("D");
   const current = tourney.stages[curIndex] || tourney.stages[0];
+  console.log("E");
 
   return [tourney, { ...current, index: curIndex }];
 }
