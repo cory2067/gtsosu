@@ -94,9 +94,7 @@ export async function getStage(tourneyId) {
   if (!tourney.stages || tourney.stages.length === 0) return [tourney, {}];
 
   const curIndex = parseInt(location.hash.substring(1)) || 0; // parse stage from url
-  console.log("D");
   const current = tourney.stages[curIndex] || tourney.stages[0];
-  console.log("E");
 
   return [tourney, { ...current, index: curIndex }];
 }

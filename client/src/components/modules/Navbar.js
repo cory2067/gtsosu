@@ -7,6 +7,7 @@ import UserModal from "./UserModal";
 import "./Navbar.css";
 import { post } from "../../utilities";
 import ContentManager from "../../ContentManager";
+import GTSLogo from "../../public/gts-osu.svg";
 const { Header } = Layout;
 const { SubMenu } = Menu;
 
@@ -14,7 +15,9 @@ class RootNavbar extends Component {
   render() {
     return (
       <Header>
-        <div className="logo" />
+        <Link to="/">
+          <img className="Navbar-Logo" src={GTSLogo} />
+        </Link>
         <Menu theme="dark" mode="horizontal" selectable={false}>
           <Menu.Item key="1">
             <Link to="/">Home</Link>
@@ -41,7 +44,9 @@ class TourneyNavbar extends Component {
   render() {
     return (
       <Header>
-        <div className="logo" />
+        <Link to="/">
+          <img className="Navbar-Logo" src={GTSLogo} />
+        </Link>
         <Menu theme="dark" mode="horizontal" selectable={false} onClick={this.props.handleClick}>
           <Menu.Item key="1">
             <Link to={`/${this.props.tourney}/home`}>Home</Link>

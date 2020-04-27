@@ -175,7 +175,7 @@ class Schedule extends Component {
             />
           </div>
           <div>
-            {this.isAdmin() && (
+            {this.isAdmin() && this.state.current.name && (
               <Collapse>
                 <Panel header={`Add new ${this.state.current.name} match`} key="1">
                   <Form name="basic" onFinish={this.onFinish}>
