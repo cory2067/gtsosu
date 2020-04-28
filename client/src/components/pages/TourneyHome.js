@@ -31,6 +31,7 @@ class TourneyHome extends Component {
       registrationOpen: tourney.registrationOpen || false,
       formData: {
         registrationOpen: tourney.registrationOpen || false,
+        teams: tourney.teams || false,
         stages: (tourney.stages || []).map((s) => s.name),
       },
     });
@@ -78,6 +79,7 @@ class TourneyHome extends Component {
   };
 
   handleOk = async () => {
+    console.log(this.state.formData);
     const tourney = await post("/api/tournament", {
       ...this.state.formData,
       tourney: this.props.tourney,

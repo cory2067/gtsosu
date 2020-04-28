@@ -45,3 +45,8 @@
   margin-left: var(--s);
   cursor: pointer;
 }
+
+.UserCard-captain svg {
+  margin-left: var(--s);
+  color: #ff8c00;
+}

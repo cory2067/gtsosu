@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, CrownOutlined } from "@ant-design/icons";
 import FlagIcon from "./FlagIcon";
 
 import { Popconfirm } from "antd";
@@ -35,6 +35,7 @@ class UserCard extends Component {
                   <DeleteOutlined className="UserCard-delete" />
                 </Popconfirm>
               )}
+              {this.props.user.isCaptain && <CrownOutlined className="UserCard-captain" />}
             </div>
             {!this.props.hideRank && (
               <div className="UserCard-rank">

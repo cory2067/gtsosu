@@ -6,6 +6,7 @@ class FlagIcon extends Component {
     return (
       <img
         className="FlagIcon-img"
+        style={this.props.size ? { height: this.props.size } : {}}
         src={`https://osu.ppy.sh/images/flags/${this.props.code}.png`}
       ></img>
     );

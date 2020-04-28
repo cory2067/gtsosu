@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
+// players[0] is the captain
 const TeamSchema = new mongoose.Schema({
   name: String,
   country: String,
-  captain: String,
-  players: [String],
+  players: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   tourney: String,
 });
 

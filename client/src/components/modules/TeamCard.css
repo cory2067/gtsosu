@@ -1,0 +1,15 @@
+.TeamCard-container {
+  border: 2px solid rgb(119, 119, 119);
+  box-shadow: 2px 2px 8px;
+}
+
+.TeamCard-header {
+  font-size: 18pt;
+  display: flex;
+  align-items: center;
+  padding: var(--s);
+}
+
+.TeamCard-name {
+  margin-left: var(--s);
+}

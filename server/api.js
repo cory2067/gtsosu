@@ -279,6 +279,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   }
 
   tourney.registrationOpen = req.body.registrationOpen;
+  tourney.teams = req.body.teams;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];
