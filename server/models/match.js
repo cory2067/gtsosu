@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const MatchSchema = new mongoose.Schema({
   player1: String,
   player2: String,
-  // TODO support teams
+  team1: String,
+  team2: String,
   code: String,
   time: Date,
   score1: { type: Number, default: -2 },

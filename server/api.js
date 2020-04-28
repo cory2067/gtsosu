@@ -260,6 +260,7 @@ router.getAsync("/tournament", async (req, res) => {
  * Params:
  *   - tourney: identifier for the tournament
  *   - registrationOpen: are players allowed to register
+ *   - teams: true if this tourney has teams
  *   - stages: what stages this tourney consists of
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
@@ -270,6 +271,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
     const newTourney = new Tournament({
       code: req.body.tourney,
       stages: req.body.stages.map((s) => ({ name: s, poolVisible: false, mappack: "" })),
+      teams: req.body.teams,
       registrationOpen: req.body.registrationOpen,
     });
     await newTourney.save();

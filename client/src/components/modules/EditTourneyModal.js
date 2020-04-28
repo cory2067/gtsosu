@@ -30,6 +30,9 @@ class EditTourneyModal extends Component {
           <Form.Item name="registrationOpen" label="Registration Open" valuePropName="checked">
             <Switch />
           </Form.Item>
+          <Form.Item name="teams" label="Enable Teams" valuePropName="checked">
+            <Switch />
+          </Form.Item>
           <Form.Item name="stages" label="Stages for this tourney">
             <Select mode="multiple">
               {stages.map((k) => (
