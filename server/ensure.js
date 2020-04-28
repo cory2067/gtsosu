@@ -19,10 +19,10 @@ function ensure(required, title) {
       req.user.admin ||
       req.user.roles.some((r) => required.includes(r.role) && r.tourney === req.body.tourney)
     ) {
-      logger.info(`${req.user.username} granted ${title} access`);
       return next();
     }
 
+    logger.warn(`${req.user.username} attempted to gain ${title} access!`);
     return res.status(403).send({ error: "You do not have permission to access this." });
   };
 }

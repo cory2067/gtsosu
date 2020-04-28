@@ -8,6 +8,7 @@ const User = require("./models/user");
 const Map = require("./models/map");
 const Tournament = require("./models/tournament");
 const Match = require("./models/match");
+const QualifiersLobby = require("./models/qualifiers-lobby");
 
 const { addAsync } = require("@awaitjs/express");
 const router = addAsync(express.Router());
@@ -19,16 +20,19 @@ const scaleTime = (time, mod) => (mod === "DT" ? (time * 2) / 3 : time);
 const scaleBPM = (bpm, mod) => (mod === "DT" ? bpm * 1.5 : bpm);
 const scaleDiff = (diff, mod) => (mod === "HR" ? Math.min(10, round(diff * 1.4)) : diff);
 
-const canViewHiddenPools = (req) => {
+const checkPermissions = (req, roles) => {
   return (
     req.user &&
     req.user.username &&
     (req.user.admin ||
       req.user.roles.some(
-        (r) => ["Host", "Developer", "Mapsetter"].includes(r.role) && r.tourney == req.query.tourney
+        (r) => ["Host", "Developer", ...roles].includes(r.role) && r.tourney == req.query.tourney
       ))
   );
 };
+
+const isAdmin = (req) => checkPermissions(req, []);
+const canViewHiddenPools = (req) => checkPermissions(req, ["Mapsetter"]);
 
 /**
  * POST /api/map
@@ -343,7 +347,9 @@ router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
  *   - stage: the new info for this stage
  */
 router.getAsync("/matches", async (req, res) => {
-  const matches = await Match.find({ tourney: req.query.tourney, stage: req.query.stage });
+  const matches = await Match.find({ tourney: req.query.tourney, stage: req.query.stage }).sort({
+    time: 1,
+  });
   res.send(matches);
 });
 
@@ -453,6 +459,102 @@ router.deleteAsync("/commentator", ensure.isRef, async (req, res) => {
     { new: true }
   );
   res.send(match);
+});
+
+/**
+ * GET /api/lobbies
+ * Get all qual lobbies for this tournament
+ * Params:
+ *   - tourney: the code of the tournament
+ */
+router.getAsync("/lobbies", async (req, res) => {
+  const lobbies = await QualifiersLobby.find({ tourney: req.query.tourney }).sort({ time: 1 });
+  res.send(lobbies);
+});
+
+/**
+ * POST /api/lobby
+ * Create a new qualifiers lobby
+ * Params:
+ *   - time: the time for this lobby
+ *   - tourney: the code of the tournament
+ */
+router.postAsync("/lobby", ensure.isAdmin, async (req, res) => {
+  const lobby = new QualifiersLobby({
+    time: req.body.time,
+    tourney: req.body.tourney,
+  });
+  await lobby.save();
+  res.send(lobby);
+});
+
+/**
+ * POST /api/lobby-referee
+ * Add self as a referee to a quals lobby
+ * Params:
+ *  - lobby: the _id of the lobby
+ */
+router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
+  const lobby = await QualifiersLobby.findOne({ _id: req.body.lobby });
+  if (lobby.referee) return res.status(400).send({ error: "already exists" });
+  lobby.referee = req.user.username;
+  await lobby.save();
+  res.send(lobby);
+});
+
+/**
+ * DELETE /api/lobby-referee
+ * Removes the current referee from a quals lobby
+ * Params:
+ *  - lobby: the _id of the lobby
+ */
+router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
+  const lobby = await QualifiersLobby.findOneAndUpdate(
+    { _id: req.body.lobby },
+    { $unset: { referee: 1 } },
+    { new: true }
+  );
+  res.send(lobby);
+});
+
+/**
+ * POST /api/lobby-player
+ * Add self as a player to a quals lobby
+ * Params:
+ *  - lobby: the _id of the lobby
+ */
+router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
+  const lobby = await QualifiersLobby.findOneAndUpdate(
+    {
+      _id: req.body.lobby,
+    },
+    { $addToSet: { players: req.user.username } },
+    { new: true }
+  );
+  res.send(lobby);
+});
+
+/**
+ * DELETE /api/lobby-player
+ * Removes a player from a quals lobby
+ * Params:
+ *  - lobby: the _id of the lobby
+ *  - user: the name of the player to remove
+ */
+router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
+  if (req.body.user !== req.user.username && !isAdmin(req)) {
+    logger.warn(`${req.user.username} attempted to tamper with the quals lobby!`);
+    return res.status(403).send({ error: "Cannot remove other players" });
+  }
+
+  const lobby = await QualifiersLobby.findOneAndUpdate(
+    {
+      _id: req.body.lobby,
+    },
+    { $pull: { players: req.body.user } },
+    { new: true }
+  );
+  res.send(lobby);
 });
 
 router.all("*", (req, res) => {

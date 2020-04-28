@@ -6,6 +6,7 @@ import SubmitResultsModal from "../modules/SubmitResultsModal";
 import { PlusOutlined, LinkOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 import AddTag from "../modules/AddTag";
+import Qualifiers from "../modules/Qualifiers";
 import "./Schedule.css";
 
 import { Layout, Collapse, Form, Input, Button, Table, DatePicker, Tag, message } from "antd";
@@ -69,9 +70,11 @@ class Schedule extends Component {
       "Commentator",
     ]);
 
+  // janky way to nuke the timezone, forcing UTC time
+  stripTimezone = (time) => time.toString().split("GMT")[0] + "GMT";
+
   onFinish = async (matchData) => {
-    // janky way to nuke the timezone
-    matchData.time = matchData.time.toString().split("GMT")[0] + "GMT";
+    matchData.time = this.stripTimezone(matchData.time);
 
     const newMatch = await post("/api/match", {
       ...matchData,
@@ -175,160 +178,177 @@ class Schedule extends Component {
             />
           </div>
           <div>
-            {this.isAdmin() && this.state.current.name && (
-              <Collapse>
-                <Panel header={`Add new ${this.state.current.name} match`} key="1">
-                  <Form name="basic" onFinish={this.onFinish}>
-                    <Form.Item label="Player 1" name="player1">
-                      <Input />
-                    </Form.Item>
-                    <Form.Item label="Player 2" name="player2">
-                      <Input />
-                    </Form.Item>
-                    <Form.Item label="Match ID" name="code">
-                      <Input />
-                    </Form.Item>
-                    <Form.Item label="Match Time" name="time">
-                      <DatePicker showTime format={"MM/DD HH:mm"} minuteStep={15} />
-                    </Form.Item>
-                    <Form.Item>
-                      <Button type="primary" htmlType="submit">
-                        Add
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </Panel>
-              </Collapse>
-            )}
-            <div className="momSchedule-list">
-              <Table dataSource={this.state.matches}>
-                <Column title="Match ID" dataIndex="code" key="code" />
-                <Column
-                  title="Score"
-                  dataIndex="score1"
-                  key="score1"
-                  render={(s, match) => this.displayScore(s, match.score2)}
-                />
-                <Column title="Player 1" dataIndex="player1" key="player1" />
-                <Column title="Player 2" dataIndex="player2" key="player2" />
-                <Column
-                  title="Score"
-                  dataIndex="score2"
-                  key="score2"
-                  render={(s, match) => this.displayScore(s, match.score1)}
-                />
-                <Column
-                  title="Match Time (UTC)"
-                  dataIndex="time"
-                  key="time"
-                  render={(t) => moment(t).utcOffset(0).format("ddd MM/DD HH:mm")}
-                />
+            {this.state.current.name === "Qualifiers" ? (
+              <Qualifiers
+                {...this.props}
+                stripTimezone={this.stripTimezone}
+                isAdmin={this.isAdmin}
+                isRef={this.isRef}
+              />
+            ) : (
+              <>
+                {this.isAdmin() && this.state.current.name && (
+                  <Collapse>
+                    <Panel header={`Add new ${this.state.current.name} match`} key="1">
+                      <Form name="basic" onFinish={this.onFinish}>
+                        <Form.Item label="Player 1" name="player1">
+                          <Input />
+                        </Form.Item>
+                        <Form.Item label="Player 2" name="player2">
+                          <Input />
+                        </Form.Item>
+                        <Form.Item label="Match ID" name="code">
+                          <Input />
+                        </Form.Item>
+                        <Form.Item label="Match Time" name="time">
+                          <DatePicker showTime format={"MM/DD HH:mm"} minuteStep={15} />
+                        </Form.Item>
+                        <Form.Item>
+                          <Button type="primary" htmlType="submit">
+                            Add
+                          </Button>
+                        </Form.Item>
+                      </Form>
+                    </Panel>
+                  </Collapse>
+                )}
+                <div className="Schedule-list">
+                  <Table dataSource={this.state.matches}>
+                    <Column title="Match ID" dataIndex="code" key="code" />
+                    <Column
+                      title="Score"
+                      dataIndex="score1"
+                      key="score1"
+                      render={(s, match) => this.displayScore(s, match.score2)}
+                    />
+                    <Column title="Player 1" dataIndex="player1" key="player1" />
+                    <Column title="Player 2" dataIndex="player2" key="player2" />
+                    <Column
+                      title="Score"
+                      dataIndex="score2"
+                      key="score2"
+                      render={(s, match) => this.displayScore(s, match.score1)}
+                    />
+                    <Column
+                      title="Match Time (UTC)"
+                      dataIndex="time"
+                      key="time"
+                      render={(t) => moment(t).utcOffset(0).format("ddd MM/DD HH:mm")}
+                    />
 
-                <Column
-                  title="Referee"
-                  dataIndex="referee"
-                  key="referee"
-                  render={(r, match) =>
-                    r ? (
-                      <Tag closable={this.isRef()} onClose={() => this.removeReferee(match.key)}>
-                        {r}
-                      </Tag>
-                    ) : (
-                      this.isRef() && <AddTag onClick={() => this.addReferee(match.key)} />
-                    )
-                  }
-                />
+                    <Column
+                      title="Referee"
+                      dataIndex="referee"
+                      key="referee"
+                      render={(r, match) =>
+                        r ? (
+                          <Tag
+                            closable={this.isRef()}
+                            onClose={() => this.removeReferee(match.key)}
+                          >
+                            {r}
+                          </Tag>
+                        ) : (
+                          this.isRef() && <AddTag onClick={() => this.addReferee(match.key)} />
+                        )
+                      }
+                    />
 
-                <Column
-                  title="Streamer"
-                  dataIndex="streamer"
-                  key="streamer"
-                  render={(r, match) =>
-                    r ? (
-                      <Tag closable={this.isRef()} onClose={() => this.removeStreamer(match.key)}>
-                        {r}
-                      </Tag>
-                    ) : (
-                      this.isRef() && <AddTag onClick={() => this.addStreamer(match.key)} />
-                    )
-                  }
-                />
+                    <Column
+                      title="Streamer"
+                      dataIndex="streamer"
+                      key="streamer"
+                      render={(r, match) =>
+                        r ? (
+                          <Tag
+                            closable={this.isRef()}
+                            onClose={() => this.removeStreamer(match.key)}
+                          >
+                            {r}
+                          </Tag>
+                        ) : (
+                          this.isRef() && <AddTag onClick={() => this.addStreamer(match.key)} />
+                        )
+                      }
+                    />
 
-                <Column
-                  title="Commentators"
-                  dataIndex="commentators"
-                  key="commentators"
-                  render={(rs, match) => (
-                    <span>
-                      {rs.map((r) => (
-                        <Tag
-                          closable={this.isRef()}
-                          onClose={() => this.removeCommentator(match.key, r)}
-                          key={r}
-                        >
-                          {r}
-                        </Tag>
-                      ))}
-                      {this.isRef() && !rs.includes(this.props.user.username) && (
-                        <AddTag onClick={() => this.addCommentator(match.key)} />
+                    <Column
+                      title="Commentators"
+                      dataIndex="commentators"
+                      key="commentators"
+                      render={(rs, match) => (
+                        <span>
+                          {rs.map((r) => (
+                            <Tag
+                              closable={this.isRef()}
+                              onClose={() => this.removeCommentator(match.key, r)}
+                              key={r}
+                            >
+                              {r}
+                            </Tag>
+                          ))}
+                          {this.isRef() && !rs.includes(this.props.user.username) && (
+                            <AddTag onClick={() => this.addCommentator(match.key)} />
+                          )}
+                        </span>
                       )}
-                    </span>
-                  )}
-                />
+                    />
 
-                <Column
-                  title="MP Link"
-                  dataIndex="link"
-                  key="link"
-                  className="u-textCenter"
-                  render={(url) =>
-                    url && (
-                      <a target="_blank" href={url}>
-                        <LinkOutlined className="Schedule-link" />
-                      </a>
-                    )
-                  }
-                />
+                    <Column
+                      title="MP Link"
+                      dataIndex="link"
+                      key="link"
+                      className="u-textCenter"
+                      render={(url) =>
+                        url && (
+                          <a target="_blank" href={url}>
+                            <LinkOutlined className="Schedule-link" />
+                          </a>
+                        )
+                      }
+                    />
 
-                {this.isRef() && (
-                  <Column
-                    title="Submit"
-                    key="submit"
-                    className="u-textCenter"
-                    render={(_, match) => (
-                      <span>
-                        <Button
-                          type="primary"
-                          shape="circle"
-                          icon={<PlusOutlined />}
-                          size="medium"
-                          onClick={() => this.handleAddResults(match)}
-                        />
-                      </span>
+                    {this.isRef() && (
+                      <Column
+                        title="Submit"
+                        key="submit"
+                        className="u-textCenter"
+                        render={(_, match) => (
+                          <span>
+                            <Button
+                              type="primary"
+                              shape="circle"
+                              icon={<PlusOutlined />}
+                              size="medium"
+                              onClick={() => this.handleAddResults(match)}
+                            />
+                          </span>
+                        )}
+                      />
                     )}
-                  />
-                )}
 
-                {this.isAdmin() && (
-                  <Column
-                    title="Delete"
-                    key="submit"
-                    className="u-textCenter"
-                    render={(_, match) => (
-                      <span>
-                        <Button
-                          type="primary"
-                          shape="circle"
-                          icon={<DeleteOutlined />}
-                          size="medium"
-                          onClick={() => this.handleDelete(match)}
-                        />
-                      </span>
+                    {this.isAdmin() && (
+                      <Column
+                        title="Delete"
+                        key="submit"
+                        className="u-textCenter"
+                        render={(_, match) => (
+                          <span>
+                            <Button
+                              type="primary"
+                              shape="circle"
+                              icon={<DeleteOutlined />}
+                              size="medium"
+                              onClick={() => this.handleDelete(match)}
+                            />
+                          </span>
+                        )}
+                      />
                     )}
-                  />
-                )}
-              </Table>
-            </div>
+                  </Table>
+                </div>
+              </>
+            )}
           </div>
         </div>
         <SubmitResultsModal
