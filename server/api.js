@@ -184,7 +184,7 @@ router.getAsync("/staff", async (req, res) => {
  *   - tourney: identifier for the tournament
  *   - role: role in the tournament
  */
-router.postAsync("/staff", async (req, res) => {
+router.postAsync("/staff", ensure.isAdmin, async (req, res) => {
   const user = await User.findOneAndUpdate(
     { username: req.body.username },
     { $push: { roles: { tourney: req.body.tourney, role: req.body.role } } },
@@ -216,7 +216,7 @@ router.postAsync("/staff", async (req, res) => {
  *   - username: username of the staff member to delete
  *   - tourney: identifier for the tournament
  */
-router.deleteAsync("/staff", async (req, res) => {
+router.deleteAsync("/staff", ensure.isAdmin, async (req, res) => {
   await User.findOneAndUpdate(
     { username: req.body.username },
     { $pull: { roles: { tourney: req.body.tourney } } }
@@ -231,7 +231,7 @@ router.deleteAsync("/staff", async (req, res) => {
  *   - username: username of the player to delete
  *   - tourney: identifier for the tournament
  */
-router.deleteAsync("/player", async (req, res) => {
+router.deleteAsync("/player", ensure.isAdmin, async (req, res) => {
   await User.findOneAndUpdate(
     { username: req.body.username },
     { $pull: { tournies: req.body.tourney } }
@@ -524,6 +524,10 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  *  - lobby: the _id of the lobby
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
+  const { tourney, players } = await QualifiersLobby.findOne({ _id: req.body.lobby });
+  if (!req.user.tournies.includes(tourney)) return res.status(403).send({});
+  if (players.length >= 8) return res.status(403).send({});
+
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
       _id: req.body.lobby,

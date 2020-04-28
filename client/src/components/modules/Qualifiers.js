@@ -35,9 +35,10 @@ class Qualifiers extends Component {
       "Mapsetter",
     ]);
 
-  canRegister() {
+  canRegister(lobby) {
     if (!this.props.user._id) return false;
     if (this.isStaff()) return false;
+    if (lobby.length >= 8) return false;
     return (
       this.state.lobbies.filter((lobby) => lobby.players.includes(this.props.user.username))
         .length === 0
@@ -158,7 +159,7 @@ class Qualifiers extends Component {
                       {r}
                     </Tag>
                   ))}
-                  {this.canRegister() && <AddTag onClick={() => this.addPlayer(lobby.key)} />}
+                  {this.canRegister(rs) && <AddTag onClick={() => this.addPlayer(lobby.key)} />}
                 </span>
               )}
             />
