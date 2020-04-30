@@ -15,7 +15,7 @@ class TeamCard extends Component {
           </div>
         </div>
         {this.props.players
-          .map((p, i) => ({ ...p, isCaptain: i === 0 }))
+          .map((p, i) => ({ ...p, isCaptain: i === 0, country: null }))
           .sort((x, y) => x.rank - y.rank)
           .map((player) => (
             <UserCard key={player.userid} user={player} />
