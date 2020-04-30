@@ -67,7 +67,6 @@ class TourneyHome extends Component {
           notification.open(success);
           this.props.updateUser({ user });
         } catch (e) {
-          console.log("Fails");
           notification.open(fail);
         }
       },

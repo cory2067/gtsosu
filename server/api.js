@@ -5,6 +5,7 @@ const osuApi = new osu.Api(process.env.OSU_API_KEY);
 
 const ensure = require("./ensure");
 const User = require("./models/user");
+const Team = require("./models/team");
 const Map = require("./models/map");
 const Tournament = require("./models/tournament");
 const Match = require("./models/match");
@@ -562,6 +563,39 @@ router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
     { new: true }
   );
   res.send(lobby);
+});
+
+/**
+ * POST /api/team
+ * Create a new team
+ * Params:
+ *   - name: team name
+ *   - players: a list of players, where the first item is the captain
+ *   - tourney: the code of the tournament
+ */
+router.postAsync("/team", ensure.isAdmin, async (req, res) => {
+  const players = await Promise.all(req.body.players.map((username) => User.findOne({ username })));
+
+  const team = new Team({
+    name: req.body.name,
+    players: players.map((p) => p._id),
+    tourney: req.body.tourney,
+    country: players[0].country,
+  });
+
+  await team.save();
+  res.send({ ...team.toObject(), players });
+});
+
+/**
+ * GET /api/teams
+ * Get all teams in a tounrey
+ * Params:
+ *   - tourney: the code of the tournament
+ */
+router.getAsync("/teams", async (req, res) => {
+  const teams = await Team.find({ tourney: req.query.tourney }).populate("players");
+  res.send(teams);
 });
 
 router.all("*", (req, res) => {

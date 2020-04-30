@@ -1,26 +1,20 @@
 import React, { Component } from "react";
 import "../../utilities.css";
 import "./Players.css";
-import { get, hasAccess, delet } from "../../utilities";
+import { get, hasAccess, delet, post } from "../../utilities";
 
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Collapse, Input, Form, Button } from "antd";
 import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
 const { Content } = Layout;
+const { Panel } = Collapse;
 
 class Players extends Component {
   constructor(props) {
     super(props);
     this.state = {
       players: [],
-      teams: [
-        {
-          name: "United States A",
-          country: "US",
-          players: [],
-          tourney: "igts",
-        },
-      ],
+      teams: [],
       hasTeams: false,
       mode: "players",
     };
@@ -35,8 +29,12 @@ class Players extends Component {
     this.setState({
       players,
       hasTeams: tourney.teams,
-      teams: [{ ...this.state.teams[0], players: players }],
     });
+
+    if (tourney.teams) {
+      const teams = await get("/api/teams", { tourney: this.props.tourney });
+      this.setState({ teams });
+    }
   }
 
   handleDelete = async (username) => {
@@ -50,6 +48,20 @@ class Players extends Component {
     this.setState({
       mode: e.key,
     });
+  };
+
+  onFinish = async (formData) => {
+    const players = formData.players.split(",").map((s) => s.trim());
+
+    const team = await post("/api/team", {
+      players: players,
+      name: formData.name,
+      tourney: this.props.tourney,
+    });
+
+    this.setState((state) => ({
+      teams: [...state.teams, team],
+    }));
   };
 
   isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
@@ -70,6 +82,28 @@ class Players extends Component {
             </Menu>
           </div>
         )}
+
+        {this.state.mode === "teams" && (
+          <Collapse>
+            <Panel header={`Add new team`} key="1">
+              Type all player names separated by commas, with the captain's name first.
+              <Form name="basic" onFinish={this.onFinish}>
+                <Form.Item label="Players" name="players">
+                  <Input />
+                </Form.Item>
+                <Form.Item label="Team Name" name="name">
+                  <Input />
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    Add
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Panel>
+          </Collapse>
+        )}
+
         <div className="Players-container">
           {this.state.mode === "players"
             ? this.state.players.map((player) => (
@@ -80,7 +114,7 @@ class Players extends Component {
                   user={player}
                 />
               ))
-            : this.state.teams.map((team) => <TeamCard {...team} />)}
+            : this.state.teams.map((team) => <TeamCard key={team._id} {...team} />)}
         </div>
       </Content>
     );

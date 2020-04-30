@@ -1,5 +1,6 @@
 .TeamCard-container {
   border: 2px solid rgb(119, 119, 119);
+  margin: var(--m);
   box-shadow: 2px 2px 8px;
 }
 
