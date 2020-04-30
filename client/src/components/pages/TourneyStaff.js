@@ -29,6 +29,7 @@ class TourneyStaff extends Component {
   }
 
   async componentDidMount() {
+    document.title = `${this.props.tourney.toUpperCase()}: Staff`;
     const staff = await get("/api/staff", { tourney: this.props.tourney });
     this.setState({ staff });
   }

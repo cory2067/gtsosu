@@ -13,6 +13,7 @@ class Rules extends Component {
   }
 
   async componentDidMount() {
+    document.title = `${this.props.tourney.toUpperCase()}: Rules`;
     const data = await ContentManager.get(this.props.tourney);
     if (!data) return navigate("/404");
     this.setState({ data });

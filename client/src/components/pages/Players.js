@@ -21,6 +21,7 @@ class Players extends Component {
   }
 
   async componentDidMount() {
+    document.title = `${this.props.tourney.toUpperCase()}: Players`;
     const [players, tourney] = await Promise.all([
       get("/api/players", { tourney: this.props.tourney }),
       get("/api/tournament", { tourney: this.props.tourney }),

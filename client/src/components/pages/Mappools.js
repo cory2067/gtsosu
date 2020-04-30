@@ -26,6 +26,7 @@ class Mappools extends Component {
   formRef = React.createRef();
 
   async componentDidMount() {
+    document.title = `${this.props.tourney.toUpperCase()}: Mappools`;
     const [tourney, current] = await getStage(this.props.tourney);
     if (!current.name) return message.warning("No pools have been released yet!");
     this.setState({ stages: tourney.stages, current });

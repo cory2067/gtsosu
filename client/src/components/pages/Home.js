@@ -14,7 +14,9 @@ class Home extends Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    document.title = "GTS";
+  }
 
   render() {
     return (
