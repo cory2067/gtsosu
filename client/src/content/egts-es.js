@@ -1,22 +1,22 @@
 export default {
   name: "Expert Global Taiko Showdown",
   description:
-    "The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.",
+    "El Expert Global Taiko Showdown es un torneo 1 vs 1 dirigido principalmente a los top players de taiko, aunque no exista ninguna restricción de rank. El top 128 después de la fase de cualificación se enfrentarán en un emocionante formato de doble eliminación.",
   discord: "https://discord.gg/3mGC3HB",
   homepage: [
     {
-      title: "Restrictions",
+      title: "Restricciones",
       body: `No hay restricciones por país o límite de ranks. Cualquier jugador de osu!taiko que no ha sido restringido dentro de los pasados 12 meses está permitido. El equipo de osu!support se guarda el derecho a remover a cualquier jugador del torneo después de la fase de screenings.`,
     },
     {
-      title: "Dates",
+      title: "Fechas",
       body: `
 ### Fase de Registro
 3 de mayo hasta el 17 de mayo. 
 ### Fase de selección (screenings). 
 17 de mayo hasta el 24 de mayo.
 ### Fase de cualificación.
-30 de mayo hasta el 31 de marzo.
+Fin de semana del 30 y 31 mayo.
 ### Ronda de 128 + Llave de Perdedor 1
 Fin de semana del 6 y 7 de junio. 
 ### Ronda de 64 + Llave de Perdedor 2
@@ -34,9 +34,13 @@ Fin de semana del 18 y 19 de julio.
 ### Grandes Finales
 Fin de semana del 25 y 26 de julio.`,
     },
-    { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
-      title: "Prizes",
+      title: "Registros",
+      body:
+        "Porfavor hacer click en el botón de registro después de haber ingresado a tu cuenta de osu!. Luego, hacer click en el botón de Discord para ingresar al servidor del torneo. **Unirse al Discord es mandatorio. No seguir esta instrucción provocará en la expulsión del torneo.**",
+    },
+    {
+      title: "Premios",
       body: `
 - **1er Lugar:** Medalla de perfil. (por confirmar), $26 o un año de supporter, y un mousepad con el diseño de GTS hecho por [Foxbox](https://foxbox.io)
 - **2ndo Lugar:** $16 o 6 meses de supporter, y un mousepad con el diseño de GTS hecho por [Foxbox](https://foxbox.io)
