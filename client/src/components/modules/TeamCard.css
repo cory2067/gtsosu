@@ -2,6 +2,25 @@
   border: 2px solid rgb(119, 119, 119);
   margin: var(--m);
   box-shadow: 2px 2px 8px;
+  display: flex;
+}
+
+.TeamCard-seed {
+  margin: var(--xs);
+  width: var(--xs);
+  box-shadow: 1px 1px 4px;
+}
+
+.TeamCard-head-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.TeamCard-group {
+  font-size: 18pt;
+  margin-right: var(--m);
+  color: gray;
 }
 
 .TeamCard-header {
@@ -13,4 +32,31 @@
 
 .TeamCard-name {
   margin-left: var(--s);
+}
+
+.TeamCard-delete {
+  margin-left: var(--s);
+  cursor: pointer;
+}
+
+.TeamCard-form {
+  margin: var(--xs);
+  padding: var(--xs);
+}
+
+/* Seed colors */
+.TeamCard-seed-Top {
+  background-color: rgb(202, 45, 45);
+}
+
+.TeamCard-seed-High {
+  background-color: rgb(255, 227, 70);
+}
+
+.TeamCard-seed-Mid {
+  background-color: rgb(44, 172, 44);
+}
+
+.TeamCard-seed-Low {
+  background-color: rgb(37, 76, 160);
 }

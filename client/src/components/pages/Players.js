@@ -45,6 +45,13 @@ class Players extends Component {
     }));
   };
 
+  handleTeamDelete = async (_id) => {
+    await delet("/api/team", { tourney: this.props.tourney, _id });
+    this.setState((state) => ({
+      teams: state.teams.filter((p) => p._id !== _id),
+    }));
+  };
+
   handleModeChange = (e) => {
     this.setState({
       mode: e.key,
@@ -62,6 +69,16 @@ class Players extends Component {
 
     this.setState((state) => ({
       teams: [...state.teams, team],
+    }));
+  };
+
+  handleTeamEdit = async (formData, _id) => {
+    const newTeam = await post("/api/team-stats", { ...formData, _id });
+    this.setState((state) => ({
+      teams: state.teams.map((t) => {
+        if (t._id === _id) return newTeam;
+        return t;
+      }),
     }));
   };
 
@@ -115,7 +132,15 @@ class Players extends Component {
                   user={player}
                 />
               ))
-            : this.state.teams.map((team) => <TeamCard key={team._id} {...team} />)}
+            : this.state.teams.map((team) => (
+                <TeamCard
+                  key={team._id}
+                  isAdmin={this.isAdmin()}
+                  onDelete={this.handleTeamDelete}
+                  onEdit={this.handleTeamEdit}
+                  {...team}
+                />
+              ))}
         </div>
       </Content>
     );
