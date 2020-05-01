@@ -37,7 +37,7 @@ class UserModal extends Component {
           onValuesChange={this.props.onValuesChange}
           initialValues={this.props.user}
         >
-          <Form.Item name="discord" label="Discord Username">
+          <Form.Item name="discord" label="Discord Username (e.g. Naru#1234)">
             <Input />
           </Form.Item>
           <Form.Item name="timezone" label="Timezone">
