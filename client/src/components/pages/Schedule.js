@@ -3,13 +3,26 @@ import { get, post, hasAccess, delet, getStage } from "../../utilities";
 import "../../utilities.css";
 import StageSelector from "../modules/StageSelector";
 import SubmitResultsModal from "../modules/SubmitResultsModal";
+import FlagIcon from "../modules/FlagIcon";
 import { PlusOutlined, LinkOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 import AddTag from "../modules/AddTag";
 import Qualifiers from "../modules/Qualifiers";
 import "./Schedule.css";
 
-import { Layout, Collapse, Form, Input, Button, Table, DatePicker, Tag, message } from "antd";
+import {
+  Layout,
+  Collapse,
+  Form,
+  Input,
+  Button,
+  Table,
+  DatePicker,
+  Tag,
+  message,
+  Tooltip,
+} from "antd";
+
 const { Content } = Layout;
 const { Panel } = Collapse;
 const { Column, ColumnGroup } = Table;
@@ -21,6 +34,7 @@ class Schedule extends Component {
       stages: [],
       current: [],
       match: {},
+      lookup: {},
       matches: [],
     };
   }
@@ -32,8 +46,16 @@ class Schedule extends Component {
     this.getMatches(current.name);
     this.setState({
       stages: tourney.stages,
+      teams: tourney.teams,
       current,
     });
+
+    const participants = await (tourney.teams
+      ? get("/api/teams", { tourney: this.props.tourney })
+      : get("/api/players", { tourney: this.props.tourney }));
+    const lookup = Object.fromEntries(participants.map((p) => [p.name || p.username, p]));
+    this.setState({ lookup });
+    console.log(lookup);
   }
 
   async componentDidUpdate(prevProps) {
@@ -167,6 +189,17 @@ class Schedule extends Component {
     return <span>{score}</span>;
   };
 
+  getInfo = (name) => this.state.lookup[name] || {};
+
+  renderName = (p) => (
+    <Tooltip title={`${this.getInfo(p).seedName} seed (#${this.getInfo(p).seedNum})`}>
+      <span className="Players-name">
+        <FlagIcon size={14} code={this.getInfo(p).country} />
+        {p}
+      </span>
+    </Tooltip>
+  );
+
   render() {
     return (
       <Content className="content">
@@ -185,6 +218,8 @@ class Schedule extends Component {
                 stripTimezone={this.stripTimezone}
                 isAdmin={this.isAdmin}
                 isRef={this.isRef}
+                teams={this.state.teams}
+                getInfo={this.getInfo}
               />
             ) : (
               <>
@@ -192,10 +227,10 @@ class Schedule extends Component {
                   <Collapse>
                     <Panel header={`Add new ${this.state.current.name} match`} key="1">
                       <Form name="basic" onFinish={this.onFinish}>
-                        <Form.Item label="Player 1" name="player1">
+                        <Form.Item label={this.state.teams ? "Team 1" : "Player 1"} name="player1">
                           <Input />
                         </Form.Item>
-                        <Form.Item label="Player 2" name="player2">
+                        <Form.Item label={this.state.teams ? "Team 2" : "Player 2"} name="player2">
                           <Input />
                         </Form.Item>
                         <Form.Item label="Match ID" name="code">
@@ -222,8 +257,19 @@ class Schedule extends Component {
                       key="score1"
                       render={(s, match) => this.displayScore(s, match.score2)}
                     />
-                    <Column title="Player 1" dataIndex="player1" key="player1" />
-                    <Column title="Player 2" dataIndex="player2" key="player2" />
+                    <Column
+                      title={this.state.teams ? "Team 1" : "Player 1"}
+                      dataIndex="player1"
+                      key="player1"
+                      render={this.renderName}
+                    />
+                    <Column
+                      title={this.state.teams ? "Team 2" : "Player 2"}
+                      dataIndex="player2"
+                      key="player2"
+                      render={this.renderName}
+                    />
+
                     <Column
                       title="Score"
                       dataIndex="score2"

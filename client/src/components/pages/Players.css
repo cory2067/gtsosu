@@ -3,3 +3,12 @@
   flex-wrap: wrap;
   margin-top: var(--m);
 }
+
+.Players-name {
+  display: flex;
+  align-items: center;
+}
+
+.Players-name img {
+  margin-right: 3px;
+}

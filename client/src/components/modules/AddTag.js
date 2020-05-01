@@ -8,7 +8,7 @@ class AddTag extends Component {
     return (
       <Tag className="u-add-tag" onClick={this.props.onClick}>
         <PlusOutlined />
-        Add me
+        {this.props.text || "Add me"}
       </Tag>
     );
   }

@@ -523,20 +523,25 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
 
 /**
  * POST /api/lobby-player
- * Add self as a player to a quals lobby
+ * Add self as a player/team to a quals lobby
  * Params:
  *  - lobby: the _id of the lobby
+ *  - teams: true to add team, false to add player
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   const { tourney, players } = await QualifiersLobby.findOne({ _id: req.body.lobby });
   if (!req.user.tournies.includes(tourney)) return res.status(403).send({});
   if (players.length >= 8) return res.status(403).send({});
 
+  const toAdd = req.body.teams
+    ? (await Team.findOne({ players: req.user._id, tourney })).name
+    : req.user.username;
+
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
       _id: req.body.lobby,
     },
-    { $addToSet: { players: req.user.username } },
+    { $addToSet: { players: toAdd } },
     { new: true }
   );
   res.send(lobby);
@@ -544,22 +549,40 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
 
 /**
  * DELETE /api/lobby-player
- * Removes a player from a quals lobby
+ * Removes a player/team from a quals lobby
  * Params:
  *  - lobby: the _id of the lobby
- *  - user: the name of the player to remove
+ *  - target: the name of the player/team to remove
+ *  - teams: true iff name is a team
+ *  - tourney: code for this tourney
  */
 router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  if (req.body.user !== req.user.username && !isAdmin(req)) {
-    logger.warn(`${req.user.username} attempted to tamper with the quals lobby!`);
-    return res.status(403).send({ error: "Cannot remove other players" });
+  if (!isAdmin(req)) {
+    // makes sure the player has permission to do this
+
+    if (req.body.teams) {
+      const team = await Team.findOne({
+        name: req.body.target,
+        players: req.user._id,
+        tourney: req.body.tourney,
+      });
+
+      // is the player actually on this team?
+      if (!team) {
+        logger.warn(`${req.user.username} attempted to tamper with the quals lobby!`);
+        return res.status(403).send({ error: "Cannot remove other teams" });
+      }
+    } else if (req.body.target !== req.user.username) {
+      logger.warn(`${req.user.username} attempted to tamper with the quals lobby!`);
+      return res.status(403).send({ error: "Cannot remove other players" });
+    }
   }
 
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
       _id: req.body.lobby,
     },
-    { $pull: { players: req.body.user } },
+    { $pull: { players: req.body.target } },
     { new: true }
   );
   res.send(lobby);
