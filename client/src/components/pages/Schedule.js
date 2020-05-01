@@ -191,14 +191,22 @@ class Schedule extends Component {
 
   getInfo = (name) => this.state.lookup[name] || {};
 
-  renderName = (p) => (
-    <Tooltip title={`${this.getInfo(p).seedName} seed (#${this.getInfo(p).seedNum})`}>
-      <span className="Players-name">
-        <FlagIcon size={14} code={this.getInfo(p).country} />
-        {p}
-      </span>
-    </Tooltip>
-  );
+  renderName = (p) => {
+    const stats = this.state.teams
+      ? this.getInfo(p)
+      : (this.getInfo(p).stats || []).filter((t) => t.tourney === this.props.tourney)[0];
+
+    const title = stats ? `${stats.seedName} Seed (#${stats.seedNum})` : "Unseeded player";
+
+    return (
+      <Tooltip title={title}>
+        <span className="Players-name">
+          <FlagIcon size={14} code={this.getInfo(p).country} />
+          {p}
+        </span>
+      </Tooltip>
+    );
+  };
 
   render() {
     return (

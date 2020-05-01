@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import FlagIcon from "./FlagIcon";
 import UserCard from "./UserCard";
-import { Popconfirm, Form, Input, Select, Button, InputNumber } from "antd";
+import SeedGroupForm from "./SeedGroupForm";
+import { Popconfirm } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
 import "./TeamCard.css";
@@ -45,37 +46,11 @@ class TeamCard extends Component {
 
           {this.props.isAdmin && (
             <div className="TeamCard-form">
-              <Form
-                onFinish={(data) => this.props.onEdit(data, this.props._id)}
-                layout="inline"
+              <SeedGroupForm
+                onEdit={this.props.onEdit}
                 initialValues={defaults}
-              >
-                <Form.Item name="seedName" label="Seed">
-                  <Select placeholder="High">
-                    <Select.Option value="Top">Top</Select.Option>
-                    <Select.Option value="High">High</Select.Option>
-                    <Select.Option value="Mid">Mid</Select.Option>
-                    <Select.Option value="Low">Low</Select.Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item name="seedNum" label="Seed #">
-                  <InputNumber min={1} max={512} placeholder={1} />
-                </Form.Item>
-                <Form.Item name="group" label="Group">
-                  <Select placeholder="A">
-                    {[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map((val) => (
-                      <Select.Option key={val} value={val}>
-                        {val}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Save
-                  </Button>
-                </Form.Item>
-              </Form>
+                target={this.props._id}
+              />
             </div>
           )}
         </div>

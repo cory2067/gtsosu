@@ -82,6 +82,20 @@ class Players extends Component {
     }));
   };
 
+  handlePlayerEdit = async (formData, _id) => {
+    const newPlayer = await post("/api/player-stats", {
+      ...formData,
+      _id,
+      tourney: this.props.tourney,
+    });
+    this.setState((state) => ({
+      players: state.players.map((t) => {
+        if (t._id === _id) return newPlayer;
+        return t;
+      }),
+    }));
+  };
+
   isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
 
   render() {
@@ -124,14 +138,21 @@ class Players extends Component {
 
         <div className="Players-container">
           {this.state.mode === "players"
-            ? this.state.players.map((player) => (
-                <UserCard
-                  canDelete={this.isAdmin()}
-                  onDelete={this.handleDelete}
-                  key={player.userid}
-                  user={player}
-                />
-              ))
+            ? this.state.players.map((player) => {
+                const stats = player.stats.filter((t) => t.tourney == this.props.tourney)[0];
+                return (
+                  <UserCard
+                    canDelete={this.isAdmin()}
+                    onDelete={this.handleDelete}
+                    key={player.userid}
+                    user={player}
+                    canEdit={this.isAdmin() && !this.state.hasTeams}
+                    onEdit={this.handlePlayerEdit}
+                    stats={stats}
+                    extra={stats && `${stats.seedName} Seed (#${stats.seedNum})`}
+                  />
+                );
+              })
             : this.state.teams.map((team) => (
                 <TeamCard
                   key={team._id}

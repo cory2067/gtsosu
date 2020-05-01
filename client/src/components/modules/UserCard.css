@@ -51,3 +51,8 @@
   margin-left: var(--s);
   color: #ff8c00;
 }
+
+div .UserCard-form {
+  flex-wrap: unset;
+  padding: var(--s);
+}

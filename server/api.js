@@ -641,7 +641,7 @@ router.deleteAsync("/team", ensure.isAdmin, async (req, res) => {
  * Params:
  *   - _id: the _id of the team
  *   - seedName: i.e. Top, High, Mid, or Low
- *   - seedNum: the player's rank in the seeding
+ *   - seedNum: the team's rank in the seeding
  *   - group: one character capitalized group name
  */
 router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
@@ -658,6 +658,40 @@ router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
   ).populate("players");
 
   res.send(team);
+});
+
+/**
+ * POST /api/player-stats
+ * Set stats/details about an existing player
+ * Params:
+ *   - _id: the _id of the player
+ *   - seedName: i.e. Top, High, Mid, or Low
+ *   - seedNum: the player's rank in the seeding
+ *   - group: one character capitalized group name
+ *   - tourney: the code of the tourney
+ */
+router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
+  await User.findOneAndUpdate(
+    { _id: req.body._id },
+    { $pull: { stats: { tourney: req.body.tourney } } }
+  );
+
+  const user = await User.findOneAndUpdate(
+    { _id: req.body._id },
+    {
+      $push: {
+        stats: {
+          tourney: req.body.tourney,
+          seedName: req.body.seedName,
+          seedNum: req.body.seedNum,
+          group: req.body.group,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  res.send(user);
 });
 
 router.all("*", (req, res) => {
