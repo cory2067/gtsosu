@@ -16,6 +16,7 @@ async function processResponse(res, type) {
   if (!res.ok) {
     console.log(`Request failed with response status ${res.status}:`);
     console.log(output);
+    throw output;
   }
 
   return output;

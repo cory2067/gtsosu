@@ -34,6 +34,7 @@ const checkPermissions = (req, roles) => {
 
 const isAdmin = (req) => checkPermissions(req, []);
 const canViewHiddenPools = (req) => checkPermissions(req, ["Mapsetter"]);
+const cantPlay = (req) => checkPermissions(req, ["Mapsetter", "Referee"]);
 
 /**
  * POST /api/map
@@ -130,13 +131,21 @@ router.getAsync("/whoami", async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
-  logger.info(`${req.user.username} registered for ${req.body.tourney}`);
+  if (cantPlay(req)) {
+    return res.status(400).send({ error: "You're a staff member." });
+  }
+
   const userData = await osuApi.getUser({ u: req.user.userid, m: 1, type: "id" });
 
-  const user = await User.findByIdAndUpdate(req.user._id, {
-    $push: { tournies: req.body.tourney },
-    $set: { rank: userData.pp.rank },
-  });
+  logger.info(`${req.user.username} registered for ${req.body.tourney}`);
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $push: { tournies: req.body.tourney },
+      $set: { rank: userData.pp.rank },
+    },
+    { new: true }
+  );
   res.send(user);
 });
 

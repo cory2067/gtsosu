@@ -55,7 +55,6 @@ class Schedule extends Component {
       : get("/api/players", { tourney: this.props.tourney }));
     const lookup = Object.fromEntries(participants.map((p) => [p.name || p.username, p]));
     this.setState({ lookup });
-    console.log(lookup);
   }
 
   async componentDidUpdate(prevProps) {

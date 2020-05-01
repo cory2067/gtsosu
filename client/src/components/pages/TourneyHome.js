@@ -52,12 +52,6 @@ class TourneyHome extends Component {
       duration: 3,
     };
 
-    const fail = {
-      message: `Failed`,
-      description: `Failed to register for ${tourney}. Please contact GTS Staff.`,
-      duration: 3,
-    };
-
     confirm({
       title: `Register as ${this.props.user.username}`,
       icon: <ExclamationCircleOutlined />,
@@ -66,8 +60,13 @@ class TourneyHome extends Component {
         try {
           const user = await post("/api/register", { tourney: this.props.tourney });
           notification.open(success);
-          this.props.updateUser({ user });
+          this.props.updateUser(user);
         } catch (e) {
+          const fail = {
+            message: `Failed`,
+            description: `Registration failed: ${e.error}`,
+            duration: 6,
+          };
           notification.open(fail);
         }
       },
