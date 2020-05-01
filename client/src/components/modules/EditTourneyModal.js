@@ -14,6 +14,7 @@ const stages = [
   "Semifinals",
   "Finals",
   "Grand Finals",
+  "All Stars",
 ];
 
 class EditTourneyModal extends Component {
