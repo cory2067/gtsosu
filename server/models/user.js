@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   country: String,
   avatar: String,
   discord: String,
-  timezone: String,
+  timezone: Number,
   rank: Number,
   admin: Boolean,
   roles: [

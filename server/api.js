@@ -131,7 +131,7 @@ router.getAsync("/whoami", async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
-  if (!cantPlay(req)) {
+  if (cantPlay(req)) {
     return res.status(400).send({ error: "You're a staff member." });
   }
 

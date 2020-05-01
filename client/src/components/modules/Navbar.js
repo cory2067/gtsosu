@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link, Router } from "@reach/router";
 
-import { Layout, Menu } from "antd";
+import { Layout, Menu, message } from "antd";
 import LoginButton from "./LoginButton";
 import UserModal from "./UserModal";
 import "./Navbar.css";
@@ -117,7 +117,7 @@ class Navbar extends Component {
   handleOk = async () => {
     console.log(this.state.formData);
     if (!this.state.formData.discord || !this.state.formData.timezone) {
-      return alert("You must fill out these fields"); // TODO use something besides alert
+      return message.error("You must fill out these fields");
     }
 
     this.setState({ loading: true });
@@ -128,7 +128,7 @@ class Navbar extends Component {
 
   handleCancel = () => {
     if (this.isIncomplete()) {
-      return alert("You must fill out these fields");
+      return message.error("You must fill out these fields");
     }
     this.setState({ visible: false });
   };

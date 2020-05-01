@@ -13,6 +13,16 @@ const layout = {
 };
 
 class UserModal extends Component {
+  constructor(props) {
+    super(props);
+
+    const range = [];
+    for (let i = -12; i <= 14; i += 0.5) {
+      range.push(i);
+    }
+    this.range = range;
+  }
+
   render() {
     return (
       <Modal
@@ -31,7 +41,14 @@ class UserModal extends Component {
             <Input />
           </Form.Item>
           <Form.Item name="timezone" label="Timezone">
-            <Input />
+            <Select placeholder="UTC+0">
+              {this.range.map((num) => (
+                <Select.Option key={num} value={num}>
+                  UTC{num >= 0 && "+"}
+                  {num}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Form>
 
