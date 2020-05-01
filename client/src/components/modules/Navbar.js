@@ -72,11 +72,11 @@ class TourneyNavbar extends Component {
             <Menu.Item key="lang-ko">Korean</Menu.Item>
             <Menu.Item key="lang-ru">Russian</Menu.Item>
             <Menu.Item key="lang-fr">French</Menu.Item>
-            <Menu.Item key="lang-jp">Japanese</Menu.Item>
+            <Menu.Item key="lang-ja">Japanese</Menu.Item>
             <Menu.Item key="lang-zh-sg">Chinese (Singapore)</Menu.Item>
             <Menu.Item key="lang-de">German</Menu.Item>
             <Menu.Item key="lang-es">Spanish</Menu.Item>
-            <Menu.Item key="lang-pt-br">Portugese (Brazil)</Menu.Item>
+            <Menu.Item key="lang-pt-br">Portuguese (Brazil)</Menu.Item>
             <Menu.Item key="lang-it">Italian</Menu.Item>
           </SubMenu>
           <Menu.Item key="7">
