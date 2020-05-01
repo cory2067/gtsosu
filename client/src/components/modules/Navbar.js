@@ -22,9 +22,9 @@ class RootNavbar extends Component {
           <Menu.Item key="1">
             <Link to="/">Home</Link>
           </Menu.Item>
-          <Menu.Item key="2">
-            <Link to="/staff">Staff</Link>
-          </Menu.Item>
+          {/*<Menu.Item key="2">
+            <Link to="/staff">Staff</Link>*
+    </Menu.Item>*/}
           <Menu.Item key="3">Merch</Menu.Item>
           <Menu.Item key="4">
             <LoginButton {...this.props} />
