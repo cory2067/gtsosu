@@ -15,12 +15,16 @@ function ensure(required, title) {
       return res.status(401).send({ error: "Not logged in, refusing access." });
     }
 
+    const tourney = req.body.tourney || req.query.tourney;
+
     if (
       req.user.admin ||
-      req.user.roles.some((r) => required.includes(r.role) && r.tourney === req.body.tourney)
+      req.user.roles.some((r) => required.includes(r.role) && r.tourney === tourney)
     ) {
       return next();
     }
+
+    console.log(req.user.roles);
 
     logger.warn(`${req.user.username} attempted to gain ${title} access!`);
     return res.status(403).send({ error: "You do not have permission to access this." });

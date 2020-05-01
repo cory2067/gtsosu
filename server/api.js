@@ -22,12 +22,14 @@ const scaleBPM = (bpm, mod) => (mod === "DT" ? bpm * 1.5 : bpm);
 const scaleDiff = (diff, mod) => (mod === "HR" ? Math.min(10, round(diff * 1.4)) : diff);
 
 const checkPermissions = (req, roles) => {
+  const tourney = req.query.tourney || req.body.tourney;
+
   return (
     req.user &&
     req.user.username &&
     (req.user.admin ||
       req.user.roles.some(
-        (r) => ["Host", "Developer", ...roles].includes(r.role) && r.tourney == req.query.tourney
+        (r) => ["Host", "Developer", ...roles].includes(r.role) && r.tourney == tourney
       ))
   );
 };
@@ -367,6 +369,7 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
  * Delete a tourney match
  * Params:
  *  - match: the _id of the match
+ *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
   await Match.deleteOne({ _id: req.body.match });
@@ -391,13 +394,14 @@ router.getAsync("/matches", async (req, res) => {
  * POST /api/results
  * Submit the outcome of a match
  * Params:
+ *   - tourney: identifier for the tournament
  *   - match: the _id of the match
  *   - score1, score2: scores of player1 and player2
  *   - link: mp link
  */
 router.postAsync("/results", ensure.isRef, async (req, res) => {
   const newMatch = await Match.findOneAndUpdate(
-    { _id: req.body.match },
+    { _id: req.body.match, tourney: req.body.tourney },
     {
       $set: { score1: req.body.score1, score2: req.body.score2, link: req.body.link },
     },
@@ -411,9 +415,10 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
  * Add self as a referee to a match
  * Params:
  *  - match: the _id of the match
+ *  - tourney: identifier for the tournament
  */
 router.postAsync("/referee", ensure.isRef, async (req, res) => {
-  const match = await Match.findOne({ _id: req.body.match });
+  const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
   if (match.referee) return res.status(400).send({ error: "already exists" });
   match.referee = req.user.username;
   await match.save();
@@ -425,10 +430,11 @@ router.postAsync("/referee", ensure.isRef, async (req, res) => {
  * Removes the current referee
  * Params:
  *  - match: the _id of the match
+ *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
   const match = await Match.findOneAndUpdate(
-    { _id: req.body.match },
+    { _id: req.body.match, tourney: req.body.tourney },
     { $unset: { referee: 1 } },
     { new: true }
   );
@@ -440,9 +446,10 @@ router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
  * Add self as a streamer to a match
  * Params:
  *  - match: the _id of the match
+ *  - tourney: identifier for the tournament
  */
 router.postAsync("/streamer", ensure.isRef, async (req, res) => {
-  const match = await Match.findOne({ _id: req.body.match });
+  const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
   if (match.streamer) return res.status(400).send({ error: "already exists" });
   match.streamer = req.user.username;
   await match.save();
@@ -454,10 +461,11 @@ router.postAsync("/streamer", ensure.isRef, async (req, res) => {
  * Removes the current streamer
  * Params:
  *  - match: the _id of the match
+ *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/streamer", ensure.isRef, async (req, res) => {
   const match = await Match.findOneAndUpdate(
-    { _id: req.body.match },
+    { _id: req.body.match, tourney: req.body.tourney },
     { $unset: { streamer: 1 } },
     { new: true }
   );
@@ -469,10 +477,11 @@ router.deleteAsync("/streamer", ensure.isRef, async (req, res) => {
  * Add self as a commentator to a match
  * Params:
  *  - match: the _id of the match
+ *  - tourney: identifier for the tournament
  */
 router.postAsync("/commentator", ensure.isRef, async (req, res) => {
   const match = await Match.findOneAndUpdate(
-    { _id: req.body.match },
+    { _id: req.body.match, tourney: req.body.tourney },
     { $push: { commentators: req.user.username } },
     { new: true }
   );
@@ -485,10 +494,11 @@ router.postAsync("/commentator", ensure.isRef, async (req, res) => {
  * Params:
  *  - match: the _id of the match
  *  - user: name of the person to remove
+ *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/commentator", ensure.isRef, async (req, res) => {
   const match = await Match.findOneAndUpdate(
-    { _id: req.body.match },
+    { _id: req.body.match, tourney: req.body.tourney },
     { $pull: { commentators: req.body.user } },
     { new: true }
   );
@@ -527,9 +537,10 @@ router.postAsync("/lobby", ensure.isAdmin, async (req, res) => {
  * Add self as a referee to a quals lobby
  * Params:
  *  - lobby: the _id of the lobby
+ *  - tourney: identifier for the tournament
  */
 router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
-  const lobby = await QualifiersLobby.findOne({ _id: req.body.lobby });
+  const lobby = await QualifiersLobby.findOne({ _id: req.body.lobby, tourney: req.body.tourney });
   if (lobby.referee) return res.status(400).send({ error: "already exists" });
   lobby.referee = req.user.username;
   await lobby.save();
@@ -541,10 +552,11 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  * Removes the current referee from a quals lobby
  * Params:
  *  - lobby: the _id of the lobby
+ *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   const lobby = await QualifiersLobby.findOneAndUpdate(
-    { _id: req.body.lobby },
+    { _id: req.body.lobby, tourney: req.body.tourney },
     { $unset: { referee: 1 } },
     { new: true }
   );
@@ -557,19 +569,19 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  * Params:
  *  - lobby: the _id of the lobby
  *  - teams: true to add team, false to add player
+ *  - tourney: identifier of the tournament
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  const { tourney, players } = await QualifiersLobby.findOne({ _id: req.body.lobby });
-  if (!req.user.tournies.includes(tourney)) return res.status(403).send({});
-  if (players.length >= 8) return res.status(403).send({});
+  if (!req.user.tournies.includes(req.body.tourney)) return res.status(403).send({});
 
   const toAdd = req.body.teams
-    ? (await Team.findOne({ players: req.user._id, tourney })).name
+    ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney })).name
     : req.user.username;
 
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
       _id: req.body.lobby,
+      tourney: req.body.tourney,
     },
     { $addToSet: { players: toAdd } },
     { new: true }
@@ -611,6 +623,7 @@ router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
       _id: req.body.lobby,
+      tourney: req.body.tourney,
     },
     { $pull: { players: req.body.target } },
     { new: true }
@@ -673,6 +686,7 @@ router.deleteAsync("/team", ensure.isAdmin, async (req, res) => {
  *   - seedName: i.e. Top, High, Mid, or Low
  *   - seedNum: the team's rank in the seeding
  *   - group: one character capitalized group name
+ *   - tourney: identifier of the tourney
  */
 router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
   const team = await Team.findOneAndUpdate(

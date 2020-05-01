@@ -66,7 +66,11 @@ class Qualifiers extends Component {
   };
 
   add = async (role, key) => {
-    const newLobby = await post(`/api/lobby-${role}`, { lobby: key, teams: this.props.teams });
+    const newLobby = await post(`/api/lobby-${role}`, {
+      lobby: key,
+      teams: this.props.teams,
+      tourney: this.props.tourney,
+    });
     this.setState((state) => ({
       lobbies: state.lobbies.map((m) => {
         if (m.key === key) {

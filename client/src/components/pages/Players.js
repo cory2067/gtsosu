@@ -73,7 +73,11 @@ class Players extends Component {
   };
 
   handleTeamEdit = async (formData, _id) => {
-    const newTeam = await post("/api/team-stats", { ...formData, _id });
+    const newTeam = await post("/api/team-stats", {
+      ...formData,
+      _id,
+      tourney: this.props.tourney,
+    });
     this.setState((state) => ({
       teams: state.teams.map((t) => {
         if (t._id === _id) return newTeam;

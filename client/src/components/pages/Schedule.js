@@ -110,7 +110,7 @@ class Schedule extends Component {
   };
 
   add = async (role, key) => {
-    const newMatch = await post(`/api/${role}`, { match: key });
+    const newMatch = await post(`/api/${role}`, { match: key, tourney: this.props.tourney });
     this.setState((state) => ({
       matches: state.matches.map((m) => {
         if (m.key === key) {
@@ -123,7 +123,7 @@ class Schedule extends Component {
 
   // user is optional (only used for commentator)
   remove = async (role, key, user) => {
-    const newMatch = await delet(`/api/${role}`, { match: key, user });
+    const newMatch = await delet(`/api/${role}`, { match: key, user, tourney: this.props.tourney });
     this.setState((state) => ({
       matches: state.matches.map((m) => {
         if (m.key === key) {
@@ -146,7 +146,7 @@ class Schedule extends Component {
   };
 
   handleDelete = async (match) => {
-    await delet("/api/match", { match: match._id });
+    await delet("/api/match", { match: match._id, tourney: this.props.tourney });
     this.setState((state) => ({
       matches: state.matches.filter((m) => m.key !== match.key),
     }));
@@ -161,6 +161,7 @@ class Schedule extends Component {
     const newMatch = await post("/api/results", {
       ...this.state.formData,
       match: this.state.match._id,
+      tourney: this.props.tourney,
     });
 
     this.setState((state) => ({
