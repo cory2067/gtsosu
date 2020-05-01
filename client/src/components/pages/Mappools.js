@@ -8,7 +8,7 @@ import { get, post, delet, hasAccess, getStage } from "../../utilities";
 import { navigate } from "@reach/router";
 import "./Mappools.css";
 
-import { Layout, Menu, Button, Form, Switch, Input, message } from "antd";
+import { Layout, Menu, Button, Form, Switch, Input, message, Empty } from "antd";
 const { Content } = Layout;
 
 class Mappools extends Component {
@@ -28,15 +28,19 @@ class Mappools extends Component {
   async componentDidMount() {
     document.title = `${this.props.tourney.toUpperCase()}: Mappools`;
     const [tourney, current] = await getStage(this.props.tourney);
-    if (!current.name) return message.warning("No pools have been released yet!");
     this.setState({ stages: tourney.stages, current });
     await this.getMappool(current.name);
     if (this.isPooler()) this.formRef.current.setFieldsValue(current);
   }
 
   async componentDidUpdate(prevProps) {
-    // refresh stage list on login/logout (this causes some redundant fetches, though)
+    // refresh lists on login/logout (this causes some redundant fetches, though)
     if (this.props.user._id !== prevProps.user._id) {
+      if (!this.state.current.poolVisible) {
+        // pool may become visible once player logs in
+        this.getMappool(this.state.current.name);
+      }
+
       const tourney = await get("/api/tournament", { tourney: this.props.tourney });
       this.setState({ stages: tourney.stages });
       if (this.isPooler()) this.formRef.current.setFieldsValue(this.state.current);
@@ -47,10 +51,15 @@ class Mappools extends Component {
     hasAccess(this.props.user, this.props.tourney, ["Host", "Developer", "Mapsetter"]);
 
   getMappool = async (stage) => {
-    const maps = await get("/api/maps", { tourney: this.props.tourney, stage: stage });
-    this.setState({
-      maps,
-    });
+    try {
+      const maps = await get("/api/maps", { tourney: this.props.tourney, stage: stage });
+      this.setState({
+        maps,
+      });
+    } catch (e) {
+      // probably user tried to view an unreleased pool
+      this.setState({ maps: [] });
+    }
   };
 
   handleMenuClick = ({ key }) => {
@@ -184,6 +193,11 @@ class Mappools extends Component {
                 />
               ))}
             </div>
+            {this.state.maps.length === 0 && (
+              <div className="Mappools-empty">
+                <Empty description="No maps" image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              </div>
+            )}
           </div>
         </div>
       </Content>

@@ -91,7 +91,7 @@ router.getAsync("/maps", async (req, res) => {
   // if super hacker kiddo tries to view a pool before it's released
   const stageData = tourney.stages.filter((s) => s.name === req.query.stage)[0];
   if (!stageData.poolVisible && !canViewHiddenPools(req)) {
-    return res.status(403).send({ error: "You don't have access to view this" });
+    return res.status(403).send({ error: "This pool hasn't been released yet!" });
   }
 
   const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, TB: 5 };
@@ -278,8 +278,14 @@ router.deleteAsync("/player", ensure.isAdmin, async (req, res) => {
  */
 router.getAsync("/tournament", async (req, res) => {
   const tourney = (await Tournament.findOne({ code: req.query.tourney })) || {};
-  if (tourney.stages && !canViewHiddenPools(req)) {
-    tourney.stages = tourney.stages.filter((s) => s.poolVisible);
+  const stages = tourney.stages;
+  if (stages && !canViewHiddenPools(req)) {
+    tourney.stages = stages.filter((s) => s.poolVisible);
+  }
+
+  if (tourney.stages.length === 0) {
+    // always show at least one stage, but don't reveal the mappack
+    tourney.stages = [{ ...stages[0].toObject(), mappack: "" }];
   }
 
   res.send(tourney);

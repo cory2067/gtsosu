@@ -13,3 +13,9 @@
 .Mappools-settings {
   margin-left: var(--l);
 }
+
+.Mappools-empty {
+  margin-top: 50px;
+  width: 100%;
+  min-width: 250px;
+}

@@ -42,7 +42,6 @@ class Schedule extends Component {
   async componentDidMount() {
     document.title = `${this.props.tourney.toUpperCase()}: Schedule`;
     const [tourney, current] = await getStage(this.props.tourney);
-    if (!current.name) return message.warning("No matches have been scheduled yet!");
     this.getMatches(current.name);
     this.setState({
       stages: tourney.stages,
