@@ -34,6 +34,8 @@ class TourneyHome extends Component {
         registrationOpen: tourney.registrationOpen || false,
         teams: tourney.teams || false,
         stages: (tourney.stages || []).map((s) => s.name),
+        rankMin: tourney.rankMin || -1,
+        rankMax: tourney.rankMax || -1,
       },
     });
   }

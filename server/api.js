@@ -131,18 +131,37 @@ router.getAsync("/whoami", async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
-  if (cantPlay(req)) {
+  if (!cantPlay(req)) {
     return res.status(400).send({ error: "You're a staff member." });
   }
 
-  const userData = await osuApi.getUser({ u: req.user.userid, m: 1, type: "id" });
+  const [userData, tourney] = await Promise.all([
+    osuApi.getUser({ u: req.user.userid, m: 1, type: "id" }),
+    Tournament.findOne({ code: req.body.tourney }),
+  ]);
+
+  const rank = userData.pp.rank;
+  if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney}`);
+    return res
+      .status(400)
+      .send({ error: `You are overranked for this tourney (your rank: ${rank})` });
+  }
+
+  if (tourney.rankMax !== -1 && rank > tourney.rankMax) {
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney}`);
+    return res
+      .status(400)
+      .send({ error: `You are underranked for this tourney (your rank: ${rank})` });
+  }
 
   logger.info(`${req.user.username} registered for ${req.body.tourney}`);
+
   const user = await User.findByIdAndUpdate(
     req.user._id,
     {
       $push: { tournies: req.body.tourney },
-      $set: { rank: userData.pp.rank },
+      $set: { rank },
     },
     { new: true }
   );
@@ -290,6 +309,8 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
 
   tourney.registrationOpen = req.body.registrationOpen;
   tourney.teams = req.body.teams;
+  tourney.rankMin = req.body.rankMin;
+  tourney.rankMax = req.body.rankMax;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];

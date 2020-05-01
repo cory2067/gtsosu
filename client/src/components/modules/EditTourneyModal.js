@@ -40,6 +40,13 @@ class EditTourneyModal extends Component {
               ))}
             </Select>
           </Form.Item>
+          <Form.Item name="rankMin" label="Minimum rank">
+            <InputNumber min={-1} />
+          </Form.Item>
+          <Form.Item name="rankMax" label="Maximum rank">
+            <InputNumber min={-1} />
+          </Form.Item>
+          <span>(Use -1 for no rank limit)</span>
         </Form>
       </Modal>
     );

@@ -11,6 +11,8 @@ const Tournament = new mongoose.Schema({
       mappack: String,
     },
   ],
+  rankMin: Number,
+  rankMax: Number,
 });
 
 module.exports = mongoose.model("Tournament", Tournament);
