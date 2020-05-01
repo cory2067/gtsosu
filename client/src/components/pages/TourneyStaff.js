@@ -20,6 +20,7 @@ const roles = [
   "Commentator",
   "Translator",
   "Wiki Editor",
+  "Recruiter",
 ];
 
 class TourneyStaff extends Component {
