@@ -250,6 +250,15 @@ class Schedule extends Component {
                 )}
                 <div className="Schedule-list">
                   <Table dataSource={this.state.matches}>
+                    {this.state.current.name === "Group Stage" && (
+                      <Column
+                        title="Group"
+                        dataIndex="player1"
+                        key="group"
+                        render={(t) => <span className="u-bold">{this.getInfo(t).group}</span>}
+                      />
+                    )}
+
                     <Column title="Match ID" dataIndex="code" key="code" />
                     <Column
                       title="Score"
