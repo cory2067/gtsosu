@@ -49,7 +49,7 @@ export default {
   ],
   rules: `
 # Generelle Regeln
-- Dieses Turnier ist ein 1-gegen-1 Turnier, Variante: Doppel-Eleminierung.** 
+- Dieses Turnier ist ein **1-gegen-1 Turnier, Variante: Doppel-Eleminierung.** 
 - Alle Spieler werden erst in der Qualifikations-Runde wetteifern, danach spielen die besten 128 Spieler in einem **Doppel-Eleminierungs-Turnier**.
 - Das genutzte Punktesystem im Turnier ist **Score V2**.
 - Jedes Mitglied von dem Organisatorteam außer **Leiter**, **Mappool-Bestimmer** und **Schiedsrichter** dürfen beim Turnier mitmachen.
