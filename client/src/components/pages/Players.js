@@ -201,7 +201,7 @@ class Players extends Component {
                 <>
                   <Radio.Button value="rank">Rank</Radio.Button>
                   <Radio.Button value="alpha">Alphabetical</Radio.Button>
-                  <Radio.Button value="seed">Seed</Radio.Button>
+                  {!this.state.hasTeams && <Radio.Button value="seed">Seed</Radio.Button>}
                   <Radio.Button value="reg">Reg Time</Radio.Button>
                 </>
               ) : (
