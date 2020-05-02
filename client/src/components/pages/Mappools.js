@@ -77,7 +77,6 @@ class Mappools extends Component {
   };
 
   handleOk = (e) => {
-    console.log(this.state.formData);
     this.setState({
       loading: true,
     });

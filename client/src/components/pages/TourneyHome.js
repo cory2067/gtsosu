@@ -80,7 +80,6 @@ class TourneyHome extends Component {
   };
 
   handleOk = async () => {
-    console.log(this.state.formData);
     const tourney = await post("/api/tournament", {
       ...this.state.formData,
       tourney: this.props.tourney,

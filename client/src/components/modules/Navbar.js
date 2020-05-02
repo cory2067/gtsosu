@@ -115,7 +115,6 @@ class Navbar extends Component {
   }
 
   handleOk = async () => {
-    console.log(this.state.formData);
     if (!this.state.formData.discord || !this.state.formData.timezone) {
       return message.error("You must fill out these fields");
     }

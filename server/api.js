@@ -285,7 +285,9 @@ router.deleteAsync("/player", ensure.isAdmin, async (req, res) => {
  *   - tourney: identifier for the tournament
  */
 router.getAsync("/tournament", async (req, res) => {
-  const tourney = (await Tournament.findOne({ code: req.query.tourney })) || {};
+  const tourney = await Tournament.findOne({ code: req.query.tourney });
+  if (!tourney) return res.send({});
+
   const stages = tourney.stages;
   if (stages && !canViewHiddenPools(req)) {
     tourney.stages = stages.filter((s) => s.poolVisible);
@@ -695,7 +697,7 @@ router.postAsync("/team", ensure.isAdmin, async (req, res) => {
 
 /**
  * GET /api/teams
- * Get all teams in a tounrey
+ * Get all teams in a tourney
  * Params:
  *   - tourney: the code of the tournament
  */
