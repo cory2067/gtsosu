@@ -50,7 +50,8 @@ const cantPlay = (req) => checkPermissions(req, ["Mapsetter", "Referee"]);
  * Returns the newly-created Map document
  */
 router.postAsync("/map", ensure.isPooler, async (req, res) => {
-  logger.info(`Getting map data for ${req.body.id}`);
+  logger.info(`${req.user.username} added ${req.body.id} to ${req.body.stage} mappool`);
+
   const mod = req.body.mod;
   const modId = { HR: 16, DT: 64 }[mod] || 0; // mod enum used by osu api
   const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId }))[0];
@@ -113,7 +114,7 @@ router.getAsync("/maps", async (req, res) => {
  *   - stage: which pool, e.g. qf, sf, f, gf
  */
 router.deleteAsync("/map", ensure.isPooler, async (req, res) => {
-  logger.info(`Deleting ${req.body.id} from pool`);
+  logger.info(`${req.user.username} deleted ${req.body.id} from ${req.body.stage} pool`);
   await Map.deleteOne({ tourney: req.body.tourney, stage: req.body.stage, mapId: req.body.id });
   res.send({});
 });
@@ -134,6 +135,7 @@ router.getAsync("/whoami", async (req, res) => {
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   if (cantPlay(req)) {
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (staff)`);
     return res.status(400).send({ error: "You're a staff member." });
   }
 
@@ -144,14 +146,14 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
 
   const rank = userData.pp.rank;
   if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
-    logger.info(`${req.user.username} failed to register for ${req.body.tourney}`);
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (overrank)`);
     return res
       .status(400)
       .send({ error: `You are overranked for this tourney (your rank: ${rank})` });
   }
 
   if (tourney.rankMax !== -1 && rank > tourney.rankMax) {
-    logger.info(`${req.user.username} failed to register for ${req.body.tourney}`);
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (underrank)`);
     return res
       .status(400)
       .send({ error: `You are underranked for this tourney (your rank: ${rank})` });
@@ -178,7 +180,7 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
  *   - timezone: player's timezone
  */
 router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
-  logger.info(`${req.user.username} updated settings`);
+  logger.info(`${req.user.username} updated user settings`);
   await User.findByIdAndUpdate(req.user._id, {
     $set: { discord: req.body.discord, timezone: req.body.timezone },
   });
@@ -216,6 +218,7 @@ router.getAsync("/staff", async (req, res) => {
  *   - role: role in the tournament
  */
 router.postAsync("/staff", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} added ${req.body.username} as ${req.body.tourney} staff`);
   const user = await User.findOneAndUpdate(
     { username: req.body.username },
     { $push: { roles: { tourney: req.body.tourney, role: req.body.role } } },
@@ -248,6 +251,7 @@ router.postAsync("/staff", ensure.isAdmin, async (req, res) => {
  *   - tourney: identifier for the tournament
  */
 router.deleteAsync("/staff", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} removed ${req.body.username} from ${req.body.tourney} staff`);
   await User.findOneAndUpdate(
     { username: req.body.username },
     { $pull: { roles: { tourney: req.body.tourney } } }
@@ -263,6 +267,7 @@ router.deleteAsync("/staff", ensure.isAdmin, async (req, res) => {
  *   - tourney: identifier for the tournament
  */
 router.deleteAsync("/player", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} unregistered ${req.body.username} for ${req.body.tourney}`);
   await User.findOneAndUpdate(
     { username: req.body.username },
     { $pull: { tournies: req.body.tourney } }
@@ -339,6 +344,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
  *   - stage: the new info for this stage
  */
 router.postAsync("/stage", ensure.isPooler, async (req, res) => {
+  logger.info(`${req.user.username} updated stage ${req.body.index} of ${req.body.tourney}`);
   const tourney = await Tournament.findOne({ code: req.body.tourney });
   tourney.stages[req.body.index].mappack = req.body.stage.mappack;
   tourney.stages[req.body.index].poolVisible = req.body.stage.poolVisible;
@@ -357,6 +363,7 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
  *   - time: date and time in string format (in UTC)
  */
 router.postAsync("/match", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} added match ${req.body.code} to ${req.body.tourney}`);
   const match = new Match({
     player1: req.body.player1,
     player2: req.body.player2,
@@ -378,6 +385,7 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
  *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} deleted match ${req.body.code} from ${req.body.tourney}`);
   await Match.deleteOne({ _id: req.body.match });
   res.send({});
 });
@@ -413,6 +421,8 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
     },
     { new: true }
   );
+
+  logger.info(`${req.user.username} submitted results for match ${newMatch.code}`);
   res.send(newMatch);
 });
 
@@ -428,6 +438,8 @@ router.postAsync("/referee", ensure.isRef, async (req, res) => {
   if (match.referee) return res.status(400).send({ error: "already exists" });
   match.referee = req.user.username;
   await match.save();
+
+  logger.info(`${req.user.username} signed up to ref ${match.code}`);
   res.send(match);
 });
 
@@ -444,6 +456,8 @@ router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
     { $unset: { referee: 1 } },
     { new: true }
   );
+
+  logger.info(`${req.user.username} deleted the ref of ${match.code}`);
   res.send(match);
 });
 
@@ -459,6 +473,8 @@ router.postAsync("/streamer", ensure.isRef, async (req, res) => {
   if (match.streamer) return res.status(400).send({ error: "already exists" });
   match.streamer = req.user.username;
   await match.save();
+
+  logger.info(`${req.user.username} signed up to stream ${match.code}`);
   res.send(match);
 });
 
@@ -475,6 +491,8 @@ router.deleteAsync("/streamer", ensure.isRef, async (req, res) => {
     { $unset: { streamer: 1 } },
     { new: true }
   );
+
+  logger.info(`${req.user.username} deleted the streamer of ${match.code}`);
   res.send(match);
 });
 
@@ -491,6 +509,8 @@ router.postAsync("/commentator", ensure.isRef, async (req, res) => {
     { $push: { commentators: req.user.username } },
     { new: true }
   );
+
+  logger.info(`${req.user.username} signed up to commentate ${match.code}`);
   res.send(match);
 });
 
@@ -508,6 +528,8 @@ router.deleteAsync("/commentator", ensure.isRef, async (req, res) => {
     { $pull: { commentators: req.body.user } },
     { new: true }
   );
+
+  logger.info(`${req.user.username} removed ${req.body.user} from commentating ${match.code}`);
   res.send(match);
 });
 
@@ -530,6 +552,7 @@ router.getAsync("/lobbies", async (req, res) => {
  *   - tourney: the code of the tournament
  */
 router.postAsync("/lobby", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} added a quals lobby to ${req.body.tourney}`);
   const lobby = new QualifiersLobby({
     time: req.body.time,
     tourney: req.body.tourney,
@@ -550,6 +573,8 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   if (lobby.referee) return res.status(400).send({ error: "already exists" });
   lobby.referee = req.user.username;
   await lobby.save();
+
+  logger.info(`${req.user.username} signed up to ref a quals lobby for ${req.body.tourney}`);
   res.send(lobby);
 });
 
@@ -561,6 +586,7 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
+  logger.info(`${req.user.username} removed a quals lobby ref for ${req.body.tourney}`);
   const lobby = await QualifiersLobby.findOneAndUpdate(
     { _id: req.body.lobby, tourney: req.body.tourney },
     { $unset: { referee: 1 } },
@@ -579,6 +605,7 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   if (!req.user.tournies.includes(req.body.tourney)) return res.status(403).send({});
+  logger.info(`${req.user.username} signed up for a quals lobby in ${req.body.tourney}`);
 
   const toAdd = req.body.teams
     ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney })).name
@@ -626,6 +653,9 @@ router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
     }
   }
 
+  logger.info(
+    `${req.user.username} removed ${req.body.target} from a quals lobby in ${req.body.tourney}`
+  );
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
       _id: req.body.lobby,
@@ -646,6 +676,7 @@ router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
  *   - tourney: the code of the tournament
  */
 router.postAsync("/team", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} created team ${req.body.name} in ${req.body.tourney}`);
   const players = await Promise.all(req.body.players.map((username) => User.findOne({ username })));
 
   const team = new Team({
@@ -678,8 +709,10 @@ router.getAsync("/teams", async (req, res) => {
  * Delete a specific team
  * Params:
  *   - _id: the _id of the team
+ *   - tourney: identifier of the tourney
  */
 router.deleteAsync("/team", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} deleted team ${req.body._id} from ${req.body.tourney}`);
   await Team.deleteOne({ _id: req.body._id });
   res.send({});
 });
@@ -707,6 +740,7 @@ router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
     { new: true }
   ).populate("players");
 
+  logger.info(`${req.user.username} set stats for ${team.name} in ${req.body.tourney}`);
   res.send(team);
 });
 
@@ -741,6 +775,7 @@ router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
     { new: true }
   );
 
+  logger.info(`${req.user.username} set stats for ${user.username} in ${req.body.tourney}`);
   res.send(user);
 });
 

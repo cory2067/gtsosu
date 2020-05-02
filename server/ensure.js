@@ -24,8 +24,6 @@ function ensure(required, title) {
       return next();
     }
 
-    console.log(req.user.roles);
-
     logger.warn(`${req.user.username} attempted to gain ${title} access!`);
     return res.status(403).send({ error: "You do not have permission to access this." });
   };
