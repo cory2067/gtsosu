@@ -54,7 +54,7 @@ class Players extends Component {
 
   getRegTime = (player) => {
     const regTime = this.getStats(player).regTime;
-    if (regTime) return moment(player).unix();
+    if (regTime) return moment(regTime).unix();
     return -1;
   };
 
