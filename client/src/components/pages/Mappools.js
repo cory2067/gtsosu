@@ -51,6 +51,8 @@ class Mappools extends Component {
     hasAccess(this.props.user, this.props.tourney, ["Host", "Developer", "Mapsetter"]);
 
   getMappool = async (stage) => {
+    if (!stage) return this.setState({ maps: [] });
+
     try {
       const maps = await get("/api/maps", { tourney: this.props.tourney, stage: stage });
       this.setState({
