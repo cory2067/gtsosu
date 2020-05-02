@@ -9,6 +9,7 @@ class SeedGroupForm extends Component {
         layout="inline"
         className={this.props.className}
         initialValues={this.props.initialValues}
+        name={this.props.target}
       >
         <Form.Item name="seedName" label="Seed">
           <Select placeholder="High">

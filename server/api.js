@@ -164,7 +164,10 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user._id,
     {
-      $push: { tournies: req.body.tourney },
+      $push: {
+        tournies: req.body.tourney,
+        stats: { regTime: new Date(), tourney: req.body.tourney },
+      },
       $set: { rank },
     },
     { new: true }
@@ -270,7 +273,7 @@ router.deleteAsync("/player", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} unregistered ${req.body.username} for ${req.body.tourney}`);
   await User.findOneAndUpdate(
     { username: req.body.username },
-    { $pull: { tournies: req.body.tourney } }
+    { $pull: { tournies: req.body.tourney, stats: { tourney: req.body.tourney } } }
   );
   res.send({});
 });
@@ -699,7 +702,6 @@ router.postAsync("/team", ensure.isAdmin, async (req, res) => {
 router.getAsync("/teams", async (req, res) => {
   const teams = await Team.find({ tourney: req.query.tourney })
     .populate("players")
-    .sort({ seedNum: 1 })
     .sort({ name: 1 });
   res.send(teams);
 });
@@ -752,6 +754,7 @@ router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
  *   - seedName: i.e. Top, High, Mid, or Low
  *   - seedNum: the player's rank in the seeding
  *   - group: one character capitalized group name
+ *   - regTime: the date/time the player registered
  *   - tourney: the code of the tourney
  */
 router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
@@ -769,6 +772,7 @@ router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
           seedName: req.body.seedName,
           seedNum: req.body.seedNum,
           group: req.body.group,
+          regTime: req.body.regTime,
         },
       },
     },

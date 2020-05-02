@@ -15,7 +15,14 @@ const UserSchema = new mongoose.Schema({
       role: String,
     },
   ],
-  stats: [{ tourney: String, seedName: String, seedNum: Number }],
+  stats: [
+    {
+      tourney: String,
+      seedName: String,
+      seedNum: Number,
+      regTime: Date,
+    },
+  ],
   tournies: [String], // map from tourney code to list of roles
 });
 

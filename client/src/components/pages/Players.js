@@ -3,9 +3,11 @@ import "../../utilities.css";
 import "./Players.css";
 import { get, hasAccess, delet, post } from "../../utilities";
 
-import { Layout, Menu, Collapse, Input, Form, Button } from "antd";
+import { Layout, Menu, Collapse, Input, Form, Button, Radio } from "antd";
 import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
+import moment from "moment";
+
 const { Content } = Layout;
 const { Panel } = Collapse;
 
@@ -16,6 +18,7 @@ class Players extends Component {
       players: [],
       teams: [],
       hasTeams: false,
+      sort: "rank",
       mode: "players",
     };
   }
@@ -38,6 +41,66 @@ class Players extends Component {
     }
   }
 
+  getStatsById = (_id) => {
+    const player = this.state.players.filter((p) => p._id === _id)[0];
+    if (player) return this.getStats(player);
+    return {};
+  };
+
+  getStats = (player) => {
+    const stats = player.stats.filter((s) => s.tourney === this.props.tourney)[0];
+    return stats || {};
+  };
+
+  getRegTime = (player) => {
+    const regTime = this.getStats(player).regTime;
+    if (regTime) return moment(player).unix();
+    return -1;
+  };
+
+  // just sort on the frontend
+  sortPlayers(sort) {
+    this.setState((state) => {
+      const players = [...state.players];
+
+      if (sort === "rank") {
+        players.sort((x, y) => x.rank - y.rank);
+      } else if (sort === "seed") {
+        players.sort(
+          (x, y) => (this.getStats(x).seedNum || x.rank) - (this.getStats(y).seedNum || y.rank)
+        );
+      } else if (sort === "alpha") {
+        players.sort((x, y) => (x.username.toLowerCase() < y.username.toLowerCase() ? -1 : 1));
+      } else if (sort === "reg") {
+        players.sort((x, y) => this.getRegTime(x) - this.getRegTime(y));
+      }
+
+      return { players };
+    });
+  }
+
+  sortTeams(sort) {
+    this.setState((state) => {
+      const teams = [...state.teams];
+
+      if (sort === "alpha") {
+        teams.sort((x, y) => (x.name.toLowerCase() < y.name.toLowerCase() ? -1 : 1));
+      } else if (sort === "seed") {
+        teams.sort((x, y) => (x.seedNum || 0) - (y.seedNum || 0));
+      } else if (sort === "group") {
+        teams.sort((x, y) => (x.group < y.group ? -1 : 1));
+      } else if (sort === "rank") {
+        teams.sort(
+          (x, y) =>
+            x.players.reduce((sum, p) => sum + p.rank, 0) / x.players.length -
+            y.players.reduce((sum, p) => sum + p.rank, 0) / y.players.length
+        );
+      }
+
+      return { teams };
+    });
+  }
+
   handleDelete = async (username) => {
     await delet("/api/player", { tourney: this.props.tourney, username });
     this.setState((state) => ({
@@ -55,6 +118,7 @@ class Players extends Component {
   handleModeChange = (e) => {
     this.setState({
       mode: e.key,
+      sort: e.key === "players" ? "rank" : "alpha",
     });
   };
 
@@ -91,6 +155,7 @@ class Players extends Component {
       ...formData,
       _id,
       tourney: this.props.tourney,
+      regTime: this.getStatsById(_id).regTime,
     });
     this.setState((state) => ({
       players: state.players.map((t) => {
@@ -100,13 +165,24 @@ class Players extends Component {
     }));
   };
 
+  handleSortChange = (e) => {
+    const sort = e.target.value;
+    if (this.state.mode === "players") {
+      this.sortPlayers(sort);
+    } else {
+      this.sortTeams(sort);
+    }
+
+    this.setState({ sort });
+  };
+
   isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
 
   render() {
     return (
       <Content className="content">
-        {this.state.hasTeams && (
-          <div className="u-flex-justifyCenter">
+        <div className="Players-topbar">
+          {this.state.hasTeams && (
             <Menu
               mode="horizontal"
               className="Players-mode-select"
@@ -116,8 +192,29 @@ class Players extends Component {
               <Menu.Item key="players">Players</Menu.Item>
               <Menu.Item key="teams">Teams</Menu.Item>
             </Menu>
+          )}
+
+          <div>
+            <span className="Players-sort">Sort by:</span>
+            <Radio.Group value={this.state.sort} onChange={this.handleSortChange}>
+              {this.state.mode === "players" ? (
+                <>
+                  <Radio.Button value="rank">Rank</Radio.Button>
+                  <Radio.Button value="alpha">Alphabetical</Radio.Button>
+                  <Radio.Button value="seed">Seed</Radio.Button>
+                  <Radio.Button value="reg">Reg Time</Radio.Button>
+                </>
+              ) : (
+                <>
+                  <Radio.Button value="alpha">Alphabetical</Radio.Button>
+                  <Radio.Button value="seed">Seed</Radio.Button>
+                  <Radio.Button value="group">Group</Radio.Button>
+                  <Radio.Button value="rank">Avg Rank</Radio.Button>
+                </>
+              )}
+            </Radio.Group>
           </div>
-        )}
+        </div>
 
         {this.state.mode === "teams" && this.isAdmin() && (
           <Collapse>
@@ -153,7 +250,7 @@ class Players extends Component {
                     canEdit={this.isAdmin() && !this.state.hasTeams}
                     onEdit={this.handlePlayerEdit}
                     stats={stats}
-                    extra={stats && `${stats.seedName} Seed (#${stats.seedNum})`}
+                    extra={stats && stats.seedName && `${stats.seedName} Seed (#${stats.seedNum})`}
                   />
                 );
               })

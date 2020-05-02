@@ -12,3 +12,15 @@
 .Players-name img {
   margin-right: 3px;
 }
+
+.Players-sort {
+  font-size: 12pt;
+  font-weight: bold;
+  margin-right: var(--s);
+}
+
+.Players-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
