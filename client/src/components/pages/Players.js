@@ -119,7 +119,7 @@ class Players extends Component {
           </div>
         )}
 
-        {this.state.mode === "teams" && (
+        {this.state.mode === "teams" && this.isAdmin() && (
           <Collapse>
             <Panel header={`Add new team`} key="1">
               Type all player names separated by commas, with the captain's name first.
