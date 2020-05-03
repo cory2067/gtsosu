@@ -37,6 +37,9 @@ class UserModal extends Component {
           onValuesChange={this.props.onValuesChange}
           initialValues={this.props.user}
         >
+          <div style={{ marginBottom: 12 }}>
+            Don't forget the #number in your Discord username (e.g. Naru#1234)
+          </div>
           <Form.Item name="discord" label="Discord Username">
             <Input />
           </Form.Item>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { DeleteOutlined, CrownOutlined } from "@ant-design/icons";
 import FlagIcon from "./FlagIcon";
 
-import { Popconfirm } from "antd";
+import { Popconfirm, Tooltip } from "antd";
 import "./UserCard.css";
 import SeedGroupForm from "./SeedGroupForm";
 
@@ -13,13 +13,16 @@ class UserCard extends Component {
   }
 
   render() {
+    const timezone = `UTC${this.props.user.timezone > 0 ? "+" : ""}${this.props.user.timezone}`;
     return (
       <div>
         <div className="UserCard-outside">
-          <div
-            style={{ backgroundImage: `url(${this.props.user.avatar})` }}
-            className="UserCard-avatar"
-          ></div>
+          <Tooltip title={`${this.props.user.discord}, ${timezone}`}>
+            <div
+              style={{ backgroundImage: `url(${this.props.user.avatar})` }}
+              className="UserCard-avatar"
+            ></div>
+          </Tooltip>
           <div className="UserCard-content">
             <div className="UserCard-top">
               <div className="UserCard-name">
