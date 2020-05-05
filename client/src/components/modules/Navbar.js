@@ -101,7 +101,9 @@ class Navbar extends Component {
   }
 
   isIncomplete = () => {
-    return this.props.user._id && (!this.props.user.discord || !this.props.user.timezone);
+    return (
+      this.props.user._id && (!this.props.user.discord || this.props.user.timezone === undefined)
+    );
   };
 
   componentDidMount() {
@@ -115,7 +117,7 @@ class Navbar extends Component {
   }
 
   handleOk = async () => {
-    if (!this.state.formData.discord || !this.state.formData.timezone) {
+    if (!this.state.formData.discord || this.state.formData.timezone === undefined) {
       return message.error("You must fill out these fields");
     }
 

@@ -71,6 +71,8 @@ class Players extends Component {
         );
       } else if (sort === "alpha") {
         players.sort((x, y) => (x.username.toLowerCase() < y.username.toLowerCase() ? -1 : 1));
+      } else if (sort === "country") {
+        players.sort((x, y) => (x.country < y.country ? -1 : 1));
       } else if (sort === "reg") {
         players.sort((x, y) => this.getRegTime(x) - this.getRegTime(y));
       }
@@ -202,6 +204,7 @@ class Players extends Component {
                   <Radio.Button value="rank">Rank</Radio.Button>
                   <Radio.Button value="alpha">Alphabetical</Radio.Button>
                   {!this.state.hasTeams && <Radio.Button value="seed">Seed</Radio.Button>}
+                  <Radio.Button value="country">Country</Radio.Button>
                   <Radio.Button value="reg">Reg Time</Radio.Button>
                 </>
               ) : (

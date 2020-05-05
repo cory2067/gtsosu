@@ -61,12 +61,6 @@ class UserModal extends Component {
             ? this.props.user.tournies.join(", ")
             : "none"}
         </div>
-        {this.props.user.permissions && this.props.user.permissions.length && (
-          <div>
-            <span className="u-bold">My Permissions: </span>
-            {this.props.user.permissions.join(", ")}
-          </div>
-        )}
       </Modal>
     );
   }
