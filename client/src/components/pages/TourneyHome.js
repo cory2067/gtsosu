@@ -88,6 +88,13 @@ class TourneyHome extends Component {
     message.success("Updated tournament settings");
   };
 
+  handleRegHover = () => {
+    if (!this.props.user._id) {
+      this.props.setLoginAttention(!this.props.user._id);
+      setTimeout(() => this.props.setLoginAttention(false), 2000);
+    }
+  };
+
   render() {
     let regMessage = "Register";
     if (!this.props.user._id) regMessage = "Login to Register";
@@ -120,6 +127,7 @@ class TourneyHome extends Component {
                 size="large"
                 disabled={regMessage !== "Register"}
                 onClick={this.register}
+                onMouseEnter={() => this.handleRegHover()}
               >
                 {regMessage}
               </Button>

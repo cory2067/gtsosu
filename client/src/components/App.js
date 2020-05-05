@@ -21,7 +21,7 @@ const { Footer } = Layout;
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: {} };
+    this.state = { user: {}, loginAttention: false };
   }
 
   componentDidMount() {
@@ -34,15 +34,24 @@ class App extends Component {
     this.setState({ user });
   };
 
+  setLoginAttention = (value) => {
+    this.setState({ loginAttention: value });
+  };
+
   render() {
     return (
       <>
         <Layout>
-          <Navbar user={this.state.user} updateUser={this.updateUser} />
+          <Navbar
+            attention={this.state.loginAttention}
+            user={this.state.user}
+            updateUser={this.updateUser}
+          />
           <Router primary={false}>
             <Home path="/" />
             <Staff path="/staff" />
             <TourneyHome
+              setLoginAttention={this.setLoginAttention}
               user={this.state.user}
               path="/:tourney/home"
               updateUser={this.updateUser}

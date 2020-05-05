@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { get } from "../../utilities";
+import "./LoginButton.css";
 
 class LoginButton extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   submit = async () => {
     if (this.props.user.username) {
       await fetch("/auth/logout");
@@ -33,7 +38,14 @@ class LoginButton extends Component {
   };
 
   render() {
-    return <div onClick={this.submit}>{this.props.user.username ? "Logout" : "Login"}</div>;
+    return (
+      <div
+        className={`LoginButton-button ${this.props.attention ? "LoginButton-attention" : ""}`}
+        onClick={this.submit}
+      >
+        <span>{this.props.user.username ? "Logout" : "Login"}</span>
+      </div>
+    );
   }
 }
 
