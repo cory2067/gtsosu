@@ -14,9 +14,8 @@ The top 128 of it after qualifiers will face-off in a heated double-elimination 
       code: "igts",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
-It's our 2v2 tournament for intermediate-level players, being restricted for ranks #3,500 to #10,000. 
-There are no qualifiers planned for this, the top 32 teams by the average rank of the top 2 players will face off in a Group Stage, where 16 teams will go through, 
-and play in a double-elimination bracket.`,
+It's our 2v2 tournament for intermediate level players being restricted for ranks #3,500 to #10,000. 
+The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.`,
     },
     {
       title: "AGTS",
