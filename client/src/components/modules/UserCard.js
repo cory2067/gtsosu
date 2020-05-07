@@ -17,12 +17,19 @@ class UserCard extends Component {
     return (
       <div>
         <div className="UserCard-outside">
-          <Tooltip title={`${this.props.user.discord}, ${timezone}`}>
+          {this.props.user.discord ? (
+            <Tooltip title={`${this.props.user.discord}, ${timezone}`}>
+              <div
+                style={{ backgroundImage: `url(${this.props.user.avatar})` }}
+                className="UserCard-avatar"
+              ></div>
+            </Tooltip>
+          ) : (
             <div
               style={{ backgroundImage: `url(${this.props.user.avatar})` }}
               className="UserCard-avatar"
             ></div>
-          </Tooltip>
+          )}
           <div className="UserCard-content">
             <div className="UserCard-top">
               <div className="UserCard-name">
