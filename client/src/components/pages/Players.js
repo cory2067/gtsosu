@@ -191,8 +191,8 @@ class Players extends Component {
               onClick={this.handleModeChange}
               selectedKeys={[this.state.mode]}
             >
-              <Menu.Item key="players">Players</Menu.Item>
-              <Menu.Item key="teams">Teams</Menu.Item>
+              <Menu.Item key="players">Players ({this.state.players.length})</Menu.Item>
+              <Menu.Item key="teams">Teams ({this.state.teams.length})</Menu.Item>
             </Menu>
           )}
 
