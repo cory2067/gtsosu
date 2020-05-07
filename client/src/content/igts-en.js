@@ -50,7 +50,7 @@ July 18th until July 19th`,
   rules: `
 # General Rules
  - This tournament is a **2v2 team tournament** with teams of **5 players maximum**.
- - The teams will first go through qualifiers. Then they will play in a **group stage** and finally play in a **double-elimination bracket**.
+ - The teams will first go through **qualifiers**. Then they will play in a **group stage** and finally play in a **double-elimination bracket**.
  - The Score System used will be **Score V2**.
  - Any player who meets the requirements stated in the rank restrictions part is allowed to sign up. Since this tournament will aim to get badged some players might be declined by osu staff.
  - Any members of staff apart from **Organizers, Mappoolers and Referees** are allowed to play.
@@ -86,7 +86,7 @@ July 18th until July 19th`,
     - Highest (number of beatmaps won - number of maps lost) score.
     - Most beatmaps won.
     - Winner of the match played previously between the tied teams.
-    - In Group stage, 'Win by default' will be considered as win by 5:0, +1.0 score difference ratio.
+ - In Group stage, 'Win by default' will be considered as win by 5:0, +1.0 score difference ratio.
  - The winning condition for each stage is:
    - Group Stage : BO9 (win 5 maps)
    - RO16, Quarterfinals and Loser's bracket round 1 and 2 : BO11 (win 6 maps)
