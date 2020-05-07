@@ -58,10 +58,10 @@ class TourneyNavbar extends Component {
             <Link to={`/${this.props.tourney}/pools`}>Mappools</Link>
           </Menu.Item>
           <Menu.Item key="4">
-            <Link to={`/${this.props.tourney}/players`}>Players</Link>
+            <Link to={`/${this.props.tourney}/schedule`}>Schedule</Link>
           </Menu.Item>
           <Menu.Item key="5">
-            <Link to={`/${this.props.tourney}/schedule`}>Schedule</Link>
+            <Link to={`/${this.props.tourney}/players`}>Players</Link>
           </Menu.Item>
           <Menu.Item key="6">
             <Link to={`/${this.props.tourney}/staff`}>Staff</Link>
