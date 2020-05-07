@@ -69,15 +69,15 @@ class TourneyNavbar extends Component {
           {/* TODO avoid hardcoding this list */}
           <SubMenu title="Language" className="Navbar-language">
             <Menu.Item key="lang-en">English</Menu.Item>
-            <Menu.Item key="lang-ko">Korean</Menu.Item>
-            <Menu.Item key="lang-ru">Russian</Menu.Item>
-            <Menu.Item key="lang-fr">French</Menu.Item>
-            <Menu.Item key="lang-ja">Japanese</Menu.Item>
-            <Menu.Item key="lang-zh-sg">Chinese (Singapore)</Menu.Item>
-            <Menu.Item key="lang-de">German</Menu.Item>
-            <Menu.Item key="lang-es">Spanish</Menu.Item>
-            <Menu.Item key="lang-pt-br">Portuguese (Brazil)</Menu.Item>
-            <Menu.Item key="lang-it">Italian</Menu.Item>
+            <Menu.Item key="lang-ko">한국어</Menu.Item>
+            <Menu.Item key="lang-ru">Русский</Menu.Item>
+            <Menu.Item key="lang-fr">Français</Menu.Item>
+            <Menu.Item key="lang-ja">日本語</Menu.Item>
+            <Menu.Item key="lang-zh-sg">中文 (Singapore)</Menu.Item>
+            <Menu.Item key="lang-de">Deutsch</Menu.Item>
+            <Menu.Item key="lang-es">Español</Menu.Item>
+            <Menu.Item key="lang-pt-br">Português (Brazil)</Menu.Item>
+            <Menu.Item key="lang-it">Italiano</Menu.Item>
           </SubMenu>
           <Menu.Item key="7">
             <LoginButton {...this.props} />
