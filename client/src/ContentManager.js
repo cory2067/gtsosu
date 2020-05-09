@@ -40,6 +40,6 @@ export default {
 
   getUI: () => {
     const lang = localStorage.getItem("lang") || "en";
-    return UI[lang] || UI[en];
+    return UI[lang] || UI["en"];
   },
 };
