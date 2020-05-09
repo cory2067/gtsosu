@@ -24,3 +24,13 @@
   align-items: center;
   justify-content: space-between;
 }
+
+.Players-admintool {
+  margin: var(--m);
+  display: flex;
+}
+
+.Players-progress {
+  margin-left: var(--m);
+  width: 200px;
+}

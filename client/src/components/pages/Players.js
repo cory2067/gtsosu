@@ -3,7 +3,8 @@ import "../../utilities.css";
 import "./Players.css";
 import { get, hasAccess, delet, post } from "../../utilities";
 
-import { Layout, Menu, Collapse, Input, Form, Button, Radio } from "antd";
+import { ReloadOutlined } from "@ant-design/icons";
+import { Layout, Menu, Collapse, Input, Form, Button, Radio, Progress } from "antd";
 import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
 import moment from "moment";
@@ -20,6 +21,7 @@ class Players extends Component {
       hasTeams: false,
       sort: "rank",
       mode: "players",
+      refreshPercent: -1,
     };
   }
 
@@ -180,6 +182,28 @@ class Players extends Component {
 
   isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
 
+  refreshRanks = async () => {
+    this.setState({ refreshPercent: 0 });
+
+    let offset = 0;
+    while (offset < this.state.players.length) {
+      console.log(`Refreshing players at offset ${offset}`);
+      const result = await post("/api/refresh", { tourney: this.props.tourney, offset });
+      offset = result.offset;
+
+      this.setState(
+        (state) => ({
+          players: state.players.map((p) => {
+            const newPlayer = result.players.filter((r) => r._id === p._id)[0];
+            return newPlayer || p;
+          }),
+          refreshPercent: Math.min(100, Math.round((100 * offset) / this.state.players.length)),
+        }),
+        () => this.sortPlayers(this.state.sort)
+      );
+    }
+  };
+
   render() {
     return (
       <Content className="content">
@@ -238,6 +262,20 @@ class Players extends Component {
               </Form>
             </Panel>
           </Collapse>
+        )}
+
+        {this.isAdmin() && this.state.mode === "players" && (
+          <div className="Players-admintool">
+            <Button type="primary" icon={<ReloadOutlined />} onClick={this.refreshRanks}>
+              Refresh Ranks
+            </Button>
+
+            {this.state.refreshPercent > -1 && (
+              <div className="Players-progress">
+                <Progress percent={this.state.refreshPercent} />
+              </div>
+            )}
+          </div>
         )}
 
         <div className="Players-container">
