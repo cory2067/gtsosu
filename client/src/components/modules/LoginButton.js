@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { get } from "../../utilities";
+import ContentManager from "../../ContentManager";
 import "./LoginButton.css";
+
+const UI = ContentManager.getUI();
 
 class LoginButton extends Component {
   constructor(props) {
@@ -43,7 +46,7 @@ class LoginButton extends Component {
         className={`LoginButton-button ${this.props.attention ? "LoginButton-attention" : ""}`}
         onClick={this.submit}
       >
-        <span>{this.props.user.username ? "Logout" : "Login"}</span>
+        <span>{this.props.user.username ? UI.logout : UI.login}</span>
       </div>
     );
   }

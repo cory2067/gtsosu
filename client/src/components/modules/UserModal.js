@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import "../../utilities.css";
 
 import { Form, Select, Input, Modal, InputNumber } from "antd";
+import ContentManager from "../../ContentManager";
+
+const UI = ContentManager.getUI().userSettings;
 
 const layout = {
   labelCol: {
-    span: 8,
+    span: 10,
   },
   wrapperCol: {
     span: 14,
@@ -37,13 +40,11 @@ class UserModal extends Component {
           onValuesChange={this.props.onValuesChange}
           initialValues={this.props.user}
         >
-          <div style={{ marginBottom: 12 }}>
-            Don't forget the #number in your Discord username (e.g. Naru#1234)
-          </div>
-          <Form.Item name="discord" label="Discord Username">
+          <div style={{ marginBottom: 12 }}>{UI.note}</div>
+          <Form.Item name="discord" label={UI.discord}>
             <Input />
           </Form.Item>
-          <Form.Item name="timezone" label="Timezone">
+          <Form.Item name="timezone" label={UI.timezone}>
             <Select placeholder="UTC+0">
               {this.range.map((num) => (
                 <Select.Option key={num} value={num}>
@@ -56,7 +57,7 @@ class UserModal extends Component {
         </Form>
 
         <div>
-          <span className="u-bold">My Tournies: </span>
+          <span className="u-bold">{UI.tournies}: </span>
           {this.props.user.tournies && this.props.user.tournies.length
             ? this.props.user.tournies.join(", ")
             : "none"}

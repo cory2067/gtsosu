@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useImperativeHandle } from "react";
 import { Link, Router } from "@reach/router";
 
 import { Layout, Menu, message } from "antd";
@@ -8,8 +8,11 @@ import "./Navbar.css";
 import { post } from "../../utilities";
 import ContentManager from "../../ContentManager";
 import GTSLogo from "../../public/gts-osu.svg";
+
 const { Header } = Layout;
 const { SubMenu } = Menu;
+
+const UI = ContentManager.getUI();
 
 class RootNavbar extends Component {
   render() {
@@ -20,12 +23,12 @@ class RootNavbar extends Component {
         </Link>
         <Menu theme="dark" mode="horizontal" selectable={false}>
           <Menu.Item key="1">
-            <Link to="/">Home</Link>
+            <Link to="/">{UI.home}</Link>
           </Menu.Item>
           {/*<Menu.Item key="2">
-            <Link to="/staff">Staff</Link>*
+            <Link to="/staff">{UI.staff}</Link>*
     </Menu.Item>*/}
-          <Menu.Item key="3">Merch</Menu.Item>
+          <Menu.Item key="3">{UI.merch}</Menu.Item>
           <Menu.Item key="4">
             <LoginButton {...this.props} />
           </Menu.Item>
@@ -49,25 +52,25 @@ class TourneyNavbar extends Component {
         </Link>
         <Menu theme="dark" mode="horizontal" selectable={false} onClick={this.props.handleClick}>
           <Menu.Item key="1">
-            <Link to={`/${this.props.tourney}/home`}>Home</Link>
+            <Link to={`/${this.props.tourney}/home`}>{UI.home}</Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to={`/${this.props.tourney}/rules`}>Rules</Link>
+            <Link to={`/${this.props.tourney}/rules`}>{UI.rules}</Link>
           </Menu.Item>
           <Menu.Item key="3">
-            <Link to={`/${this.props.tourney}/pools`}>Mappools</Link>
+            <Link to={`/${this.props.tourney}/pools`}>{UI.mappools}</Link>
           </Menu.Item>
           <Menu.Item key="4">
-            <Link to={`/${this.props.tourney}/schedule`}>Schedule</Link>
+            <Link to={`/${this.props.tourney}/schedule`}>{UI.schedule}</Link>
           </Menu.Item>
           <Menu.Item key="5">
-            <Link to={`/${this.props.tourney}/players`}>Players</Link>
+            <Link to={`/${this.props.tourney}/players`}>{UI.players}</Link>
           </Menu.Item>
           <Menu.Item key="6">
-            <Link to={`/${this.props.tourney}/staff`}>Staff</Link>
+            <Link to={`/${this.props.tourney}/staff`}>{UI.staff}</Link>
           </Menu.Item>
           {/* TODO avoid hardcoding this list */}
-          <SubMenu title="Language" className="Navbar-language">
+          <SubMenu title={UI.language} className="Navbar-language">
             <Menu.Item key="lang-en">English</Menu.Item>
             <Menu.Item key="lang-ko">한국어</Menu.Item>
             <Menu.Item key="lang-ru">Русский</Menu.Item>

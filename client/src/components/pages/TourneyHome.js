@@ -9,6 +9,7 @@ import { get, post, hasAccess } from "../../utilities";
 import { navigate } from "@reach/router";
 import ContentManager from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
+const UI = ContentManager.getUI();
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -96,7 +97,7 @@ class TourneyHome extends Component {
   };
 
   render() {
-    let regMessage = "Register";
+    let regMessage = UI.register;
     if (!this.props.user._id) regMessage = "Login to Register";
     else if (this.isRegistered()) regMessage = "Registered";
     else if (!this.state.registrationOpen) regMessage = "Registration Closed";
@@ -125,14 +126,14 @@ class TourneyHome extends Component {
               <Button
                 type="primary"
                 size="large"
-                disabled={regMessage !== "Register"}
+                disabled={regMessage !== UI.register}
                 onClick={this.register}
                 onMouseEnter={() => this.handleRegHover()}
               >
                 {regMessage}
               </Button>
               <Button type="primary" size="large" href={this.state.data.discord}>
-                Discord
+                {UI.discord}
               </Button>
             </div>
           </div>

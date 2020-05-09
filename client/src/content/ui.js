@@ -1,0 +1,43 @@
+export default {
+  en: {
+    home: "Home",
+    rules: "Rules",
+    mappools: "Mappools",
+    schedule: "Schedule",
+    players: "Players",
+    staff: "Staff",
+    language: "Language",
+    merch: "Merch",
+    login: "Login",
+    logout: "Logout",
+    register: "Register",
+    discord: "Discord",
+    userSettings: {
+      note: "Don't forget the #number in your Discord username (e.g. Naru#1234)",
+      discord: "Discord Username",
+      timezone: "Timezone",
+      tournies: "My Tournies",
+    },
+  },
+
+  ja: {
+    home: "ホーム",
+    rules: "ルール",
+    mappools: "マッププール",
+    schedule: "スケジュール",
+    players: "プレイヤー",
+    staff: "スタッフ",
+    language: "言語",
+    merch: "ストア",
+    login: "ログイン",
+    logout: "ログアウト",
+    register: "登録する",
+    discord: "ディスコード",
+    userSettings: {
+      note: "ユーザー名の#ID番号も入力してください (例: Naru#1234)",
+      discord: "ディスコードのユーザー名",
+      timezone: "時間帯",
+      tournies: "登録している大会",
+    },
+  },
+};

@@ -1,5 +1,6 @@
 // responsible for loading content on the pages and managing language
 // lazily loads data, and then caches it
+import UI from "./content/ui";
 
 const _data = {};
 
@@ -35,5 +36,10 @@ export default {
 
     _data[target] = content;
     return content;
+  },
+
+  getUI: () => {
+    const lang = localStorage.getItem("lang") || "en";
+    return UI[lang] || UI[en];
   },
 };
