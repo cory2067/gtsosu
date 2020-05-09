@@ -56,3 +56,7 @@ div .UserCard-form {
   flex-wrap: unset;
   padding: var(--s);
 }
+
+.UserCard-bad {
+  color: #cc3300;
+}

@@ -14,6 +14,11 @@ class UserCard extends Component {
 
   render() {
     const timezone = `UTC${this.props.user.timezone > 0 ? "+" : ""}${this.props.user.timezone}`;
+    const badRank =
+      this.props.rankRange &&
+      (this.props.user.rank < this.props.rankRange[0] ||
+        this.props.user.rank > this.props.rankRange[1]);
+
     return (
       <div>
         <div className="UserCard-outside">
@@ -50,7 +55,7 @@ class UserCard extends Component {
                 {this.props.user.isCaptain && <CrownOutlined className="UserCard-captain" />}
               </div>
               {!this.props.hideRank && (
-                <div className="UserCard-rank">
+                <div className={`UserCard-rank ${badRank ? "UserCard-bad" : ""}`}>
                   <span>{`#${this.props.user.rank}`}</span>
                 </div>
               )}

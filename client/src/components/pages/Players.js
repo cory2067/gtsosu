@@ -35,6 +35,7 @@ class Players extends Component {
     this.setState({
       players,
       hasTeams: tourney.teams,
+      rankRange: [tourney.rankMin, tourney.rankMax !== -1 ? tourney.rankMax : Infinity],
     });
 
     if (tourney.teams) {
@@ -291,6 +292,7 @@ class Players extends Component {
                     canEdit={this.isAdmin() && !this.state.hasTeams}
                     onEdit={this.handlePlayerEdit}
                     stats={stats}
+                    rankRange={this.state.rankRange}
                     extra={stats && stats.seedName && `${stats.seedName} Seed (#${stats.seedNum})`}
                   />
                 );
