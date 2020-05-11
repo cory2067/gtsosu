@@ -40,4 +40,25 @@ export default {
       tournies: "登録している大会",
     },
   },
+
+  ko: {
+    home: "홈",
+    rules: "규칙",
+    mappools: "맵풀",
+    schedule: "일정",
+    players: "참가자 목록",
+    staff: "스태프 목록",
+    language: "언어",
+    merch: "상품",
+    login: "로그인",
+    logout: "로그아웃",
+    register: "회원가입",
+    discord: "디스코드",
+    userSettings: {
+      note: "디스코드 유저명 뒤에 #으로 시작하는 태그를 꼭 포함해주세요. (예: Naru#1234)",
+      discord: "디스코드 유저명",
+      timezone: "시간대",
+      tournies: "참여한 토너먼트",
+    },
+  },
 };
