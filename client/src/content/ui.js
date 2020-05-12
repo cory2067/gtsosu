@@ -61,4 +61,25 @@ export default {
       tournies: "참여한 토너먼트",
     },
   },
+
+  de: {
+    home: "Home",
+    rules: "Regeln",
+    mappools: "Mappools",
+    schedule: "Zeitplan",
+    players: "Spieler",
+    staff: "Turnierstab",
+    language: "Sprache",
+    merch: "Merchshop",
+    login: "Login",
+    logout: "Logout",
+    register: "Registrieren",
+    discord: "Discord",
+    userSettings: {
+      note: "Vergesst nicht die #Zahl in eurem Discord Benutzernamen (z. Bsp. Naru#1234)",
+      discord: "Discord Benutzername",
+      timezone: "Zeitzone",
+      tournies: "Meine Turniere",
+    },
+  },
 };
