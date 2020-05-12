@@ -104,7 +104,7 @@ export default {
     },
   },
 
-  zh-sg: {
+  "zh-sg": {
     home: "主页",
     rules: "规则",
     mappools: "铺面",
@@ -114,7 +114,7 @@ export default {
     language: "语言",
     merch: "货品",
     login: "登入",
-    logout: “登出",
+    logout: "登出",
     register: "报名",
     discord: "Discord",
     userSettings: {
