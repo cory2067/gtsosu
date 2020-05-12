@@ -124,4 +124,25 @@ export default {
       tournies: "我的比赛",
     },
   },
+
+  fr: {
+    home: "Accueil",
+    rules: "Règles",
+    mappools: "Mappools",
+    schedule: "Horaires",
+    players: "Participants",
+    staff: "Staff",
+    language: "Langue",
+    merch: "Boutique",
+    login: "Connexion",
+    logout: "Déconnexion",
+    register: "Inscription",
+    discord: "Discord",
+    userSettings: {
+      note: "N'oubliez pas votre #nombre dans votre pseudo Discord (ex. Naru#1234)",
+      discord: "Pseudo Discord",
+      timezone: "Fuseau horaire",
+      tournies: "Mes tournois",
+    },
+  },
 };
