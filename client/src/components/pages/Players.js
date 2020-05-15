@@ -208,7 +208,7 @@ class Players extends Component {
   exportPlayers = () => {
     const header = "Username,User ID,Country,Rank,Discord Username,Timezone";
     const body = this.state.players
-      .map((p) => `${p.username},${p.userid},${p.country},${p.rank},${p.discord},${p.timezone}`)
+      .map((p) => `${p.username},${p.userid},${p.country},${p.rank},"${p.discord}",${p.timezone}`)
       .join("\n");
     console.log(body);
 
