@@ -787,7 +787,7 @@ router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
 
 /**
  * POST /api/refresh
- * Refreshes the rank of a batch of players in this tourney
+ * Refreshes the rank/username of a batch of players in this tourney
  * Params:
  *   - tourney: identifier for the tourney to refresh
  *   - offset: which index player to start on
@@ -797,11 +797,10 @@ router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
  */
 router.postAsync("/refresh", ensure.isAdmin, async (req, res) => {
   const BATCH_SIZE = 8;
-  logger.info(
-    `Refreshing ${req.body.tourney} player ranks, players ${req.body.offset}-${
-      req.body.offset + BATCH_SIZE
-    }`
-  );
+  if (req.body.offset === 0) {
+    logger.info(`${req.user.username} initiated a refresh of ${req.body.tourney} player list`);
+  }
+
   const players = await User.find({ tournies: req.body.tourney })
     .skip(req.body.offset)
     .limit(BATCH_SIZE);
@@ -810,6 +809,7 @@ router.postAsync("/refresh", ensure.isAdmin, async (req, res) => {
     players.map(async (p) => {
       const userData = await osuApi.getUser({ u: p.userid, m: 1, type: "id" });
       p.rank = userData.pp.rank;
+      p.username = userData.name;
       await p.save();
     })
   );
