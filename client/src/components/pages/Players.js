@@ -3,7 +3,7 @@ import "../../utilities.css";
 import "./Players.css";
 import { get, hasAccess, delet, post } from "../../utilities";
 
-import { ReloadOutlined } from "@ant-design/icons";
+import { ReloadOutlined, DownloadOutlined } from "@ant-design/icons";
 import { Layout, Menu, Collapse, Input, Form, Button, Radio, Progress } from "antd";
 import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
@@ -205,6 +205,21 @@ class Players extends Component {
     }
   };
 
+  exportPlayers = () => {
+    const header = "Username,User ID,Country,Rank,Discord Username,Timezone";
+    const body = this.state.players
+      .map((p) => `${p.username},${p.userid},${p.country},${p.rank},${p.discord},${p.timezone}`)
+      .join("\n");
+    console.log(body);
+
+    const dl = document.createElement("a");
+    dl.href = "data:text/csv;chartset=utf-8," + encodeURIComponent(`${header}\n${body}`);
+    console.log(dl.href);
+    dl.target = "_blank";
+    dl.download = `players-${this.props.tourney}.csv`;
+    dl.click();
+  };
+
   render() {
     return (
       <Content className="content">
@@ -267,15 +282,22 @@ class Players extends Component {
 
         {this.isAdmin() && this.state.mode === "players" && (
           <div className="Players-admintool">
-            <Button type="primary" icon={<ReloadOutlined />} onClick={this.refreshRanks}>
-              Refresh Ranks
-            </Button>
+            <div>
+              <Button type="primary" icon={<DownloadOutlined />} onClick={this.exportPlayers}>
+                Export to CSV
+              </Button>
+            </div>
+            <div>
+              <Button type="primary" icon={<ReloadOutlined />} onClick={this.refreshRanks}>
+                Refresh Ranks
+              </Button>
 
-            {this.state.refreshPercent > -1 && (
-              <div className="Players-progress">
-                <Progress percent={this.state.refreshPercent} />
-              </div>
-            )}
+              {this.state.refreshPercent > -1 && (
+                <div className="Players-progress">
+                  <Progress percent={this.state.refreshPercent} />
+                </div>
+              )}
+            </div>
           </div>
         )}
 

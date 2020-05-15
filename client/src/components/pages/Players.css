@@ -30,6 +30,11 @@
   display: flex;
 }
 
+.Players-admintool > div {
+  margin: 0 var(--s);
+  display: flex;
+}
+
 .Players-progress {
   margin-left: var(--m);
   width: 200px;
