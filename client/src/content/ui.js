@@ -166,4 +166,25 @@ export default {
       tournies: "Mis Torneos",
     },
   },
+
+  pl: {
+    home: "Strona Główna",
+    rules: "Zasady",
+    mappools: "Mappool",
+    schedule: "Harmonogram",
+    players: "Gracze",
+    staff: "Kadra",
+    language: "Język",
+    merch: "Merch",
+    login: "Zaloguj się",
+    logout: "Wyloguj się",
+    register: "Zarejestruj się",
+    discord: "Discord",
+    userSettings: {
+      note: "Nie zapomnijcie swojego #numeru przy waszej nazwie na Discordzie (np. Naru#1234)",
+      discord: "Nick Discord ",
+      timezone: "Strefa Czasowa",
+      tournies: "Moje Turnieje",
+    },
+  },
 };
