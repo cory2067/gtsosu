@@ -145,4 +145,25 @@ export default {
       tournies: "Mes tournois",
     },
   },
+
+  es: {
+    home: "Inicio",
+    rules: "Reglas",
+    mappools: "Mappools",
+    schedule: "Horarios",
+    players: "Jugadores",
+    staff: "Staff",
+    language: "Idioma",
+    merch: "Tienda",
+    login: "Iniciar Sesión",
+    logout: "Cerrar Sesión",
+    register: "Registro",
+    discord: "Discord",
+    userSettings: {
+      note: "No te olvides de tu tag de discord: #número Tag (e.g. Naru#1234)",
+      discord: "Nick de Discord",
+      timezone: "Zona Horaria",
+      tournies: "Mis Torneos",
+    },
+  },
 };
