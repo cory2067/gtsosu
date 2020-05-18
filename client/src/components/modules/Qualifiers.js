@@ -144,10 +144,15 @@ class Qualifiers extends Component {
         <div className="Schedule-list">
           <Table dataSource={this.state.lobbies} pagination={false}>
             <Column
-              title="Lobby Time (UTC)"
+              title={
+                <span>
+                  {"Lobby Time "}
+                  <span className="u-bold">({this.props.utcString(this.props.timezone)})</span>
+                </span>
+              }
               dataIndex="time"
               key="time"
-              render={(t) => moment(t).utcOffset(0).format("ddd MM/DD HH:mm")}
+              render={(t) => moment(t).utcOffset(this.props.timezone).format("ddd MM/DD HH:mm")}
             />
 
             <Column

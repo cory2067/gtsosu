@@ -21,6 +21,7 @@ import {
   Tag,
   message,
   Tooltip,
+  Radio,
 } from "antd";
 
 const { Content } = Layout;
@@ -36,6 +37,7 @@ class Schedule extends Component {
       match: {},
       lookup: {},
       matches: [],
+      timezone: 0,
     };
   }
 
@@ -207,11 +209,33 @@ class Schedule extends Component {
     );
   };
 
+  handleTimezone = (e) => {
+    this.setState({ timezone: e.target.value });
+  };
+
+  utcString = (timezone) => {
+    if (timezone === 0) return "UTC";
+    if (timezone < 0) return `UTC${timezone}`;
+    return `UTC+${timezone}`;
+  };
+
   render() {
     return (
       <Content className="content">
         <div className="u-flex">
           <div className="u-sidebar">
+            {this.props.user._id && this.props.user.timezone !== 0 && (
+              <div className="Schedule-timezone">
+                <span>Display times in:</span>
+                <Radio.Group value={this.state.timezone} onChange={this.handleTimezone}>
+                  <Radio.Button value={0}>UTC</Radio.Button>
+                  <Radio.Button value={this.props.user.timezone}>
+                    {this.utcString(this.props.user.timezone)}
+                  </Radio.Button>
+                </Radio.Group>
+              </div>
+            )}
+
             <StageSelector
               selected={this.state.current.index}
               stages={this.state.stages}
@@ -227,6 +251,8 @@ class Schedule extends Component {
                 isRef={this.isRef}
                 teams={this.state.teams}
                 getInfo={this.getInfo}
+                timezone={this.state.timezone}
+                utcString={this.utcString}
               />
             ) : (
               <>
@@ -243,7 +269,7 @@ class Schedule extends Component {
                         <Form.Item label="Match ID" name="code">
                           <Input />
                         </Form.Item>
-                        <Form.Item label="Match Time" name="time">
+                        <Form.Item label="Match Time (UTC)" name="time">
                           <DatePicker showTime format={"MM/DD HH:mm"} minuteStep={15} />
                         </Form.Item>
                         <Form.Item>
@@ -293,10 +319,17 @@ class Schedule extends Component {
                       render={(s, match) => this.displayScore(s, match.score1)}
                     />
                     <Column
-                      title="Match Time (UTC)"
+                      title={
+                        <span>
+                          {"Match Time "}
+                          <span className="u-bold">({this.utcString(this.state.timezone)})</span>
+                        </span>
+                      }
                       dataIndex="time"
                       key="time"
-                      render={(t) => moment(t).utcOffset(0).format("ddd MM/DD HH:mm")}
+                      render={(t) =>
+                        moment(t).utcOffset(this.state.timezone).format("ddd MM/DD HH:mm")
+                      }
                     />
 
                     <Column

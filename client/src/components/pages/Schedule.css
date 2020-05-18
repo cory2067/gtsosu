@@ -1,3 +1,7 @@
 .Schedule-link {
   font-size: 14pt;
 }
+
+.Schedule-timezone {
+  margin-bottom: var(--m);
+}
