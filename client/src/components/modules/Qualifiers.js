@@ -134,7 +134,7 @@ class Qualifiers extends Component {
         )}
 
         <div className="Schedule-list">
-          <Table dataSource={this.state.lobbies}>
+          <Table dataSource={this.state.lobbies} pagination={false}>
             <Column
               title="Lobby Time (UTC)"
               dataIndex="time"

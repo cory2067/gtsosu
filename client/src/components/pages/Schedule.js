@@ -256,7 +256,7 @@ class Schedule extends Component {
                   </Collapse>
                 )}
                 <div className="Schedule-list">
-                  <Table dataSource={this.state.matches}>
+                  <Table dataSource={this.state.matches} pagination={false}>
                     {this.state.current.name === "Group Stage" && (
                       <Column
                         title="Group"
