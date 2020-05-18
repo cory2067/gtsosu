@@ -390,7 +390,7 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
  *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
-  logger.info(`${req.user.username} deleted match ${req.body.code} from ${req.body.tourney}`);
+  logger.info(`${req.user.username} deleted match ${req.body.match} from ${req.body.tourney}`);
   await Match.deleteOne({ _id: req.body.match });
   res.send({});
 });
@@ -564,6 +564,19 @@ router.postAsync("/lobby", ensure.isAdmin, async (req, res) => {
   });
   await lobby.save();
   res.send(lobby);
+});
+
+/**
+ * DELETE /api/lobby
+ * Delete a quals lobby
+ * Params:
+ *  - lobby: the _id of the lobby
+ *  - tourney: identifier for the tournament
+ */
+router.deleteAsync("/lobby", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} deleted lobby ${req.body.lobby} from ${req.body.tourney}`);
+  await QualifiersLobby.deleteOne({ _id: req.body.lobby });
+  res.send({});
 });
 
 /**

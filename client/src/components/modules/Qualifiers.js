@@ -3,6 +3,7 @@ import { Collapse, Form, Button, Table, DatePicker, Tag } from "antd";
 import moment from "moment";
 import AddTag from "../modules/AddTag";
 const { Panel } = Collapse;
+import { DeleteOutlined } from "@ant-design/icons";
 import { get, post, delet, hasAccess } from "../../utilities";
 const { Column } = Table;
 
@@ -113,6 +114,13 @@ class Qualifiers extends Component {
     return p === this.props.user.username;
   };
 
+  handleDelete = async (lobby) => {
+    await delet("/api/lobby", { lobby: lobby._id, tourney: this.props.tourney });
+    this.setState((state) => ({
+      lobbies: state.lobbies.filter((m) => m.key !== lobby.key),
+    }));
+  };
+
   render() {
     return (
       <>
@@ -181,6 +189,25 @@ class Qualifiers extends Component {
                 </span>
               )}
             />
+
+            {this.props.isAdmin() && (
+              <Column
+                title="Delete"
+                key="submit"
+                className="u-textCenter"
+                render={(_, lobby) => (
+                  <span>
+                    <Button
+                      type="primary"
+                      shape="circle"
+                      icon={<DeleteOutlined />}
+                      size="medium"
+                      onClick={() => this.handleDelete(lobby)}
+                    />
+                  </span>
+                )}
+              />
+            )}
           </Table>
         </div>
       </>
