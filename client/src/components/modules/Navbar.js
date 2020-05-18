@@ -81,6 +81,7 @@ class TourneyNavbar extends Component {
             <Menu.Item key="lang-es">Español</Menu.Item>
             <Menu.Item key="lang-pt-br">Português (Brazil)</Menu.Item>
             <Menu.Item key="lang-it">Italiano</Menu.Item>
+            <Menu.Item key="lang-pl">Polski</Menu.Item>
           </SubMenu>
           <Menu.Item key="7">
             <LoginButton {...this.props} />
