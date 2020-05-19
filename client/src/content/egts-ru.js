@@ -42,9 +42,9 @@ C 25-го июля по 26-е июля.`,
     {
       title: "Призы",
       body: `
-- **1-е место:** значок на профиль osu! (ещё не подтверждено), $26 или 1 год osu!supporter, и коврик для мыши с GTS тематикой, сделанный [Foxbox](https://foxbox.io)
-- **2nd place:** $16 или 6 месяцев osu!supporter, и коврик для мыши с GTS тематикой, сделанный [Foxbox](https://foxbox.io)
-- **3rd place:** $8 или 2 месяца osu!supporter, и коврик для мыши с GTS тематикой, сделанный [Foxbox](https://foxbox.io)`,
+- **1-е место:** значок на профиль osu! (ещё не подтверждено), $66 или 1 год osu!supporter, и коврик для мыши с GTS тематикой, сделанный [Foxbox](https://foxbox.io)
+- **2nd place:** $36 или 6 месяцев osu!supporter, и коврик для мыши с GTS тематикой, сделанный [Foxbox](https://foxbox.io)
+- **3rd place:** $28 или 2 месяца osu!supporter, и коврик для мыши с GTS тематикой, сделанный [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `

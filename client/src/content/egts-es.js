@@ -42,9 +42,9 @@ Fin de semana del 25 y 26 de julio.`,
     {
       title: "Premios",
       body: `
-- **1er Lugar:** Medalla de perfil. (por confirmar), $26 o un año de supporter, y un mousepad con el diseño de GTS hecho por [Foxbox](https://foxbox.io)
-- **2ndo Lugar:** $16 o 6 meses de supporter, y un mousepad con el diseño de GTS hecho por [Foxbox](https://foxbox.io)
-- **3er Lugar:** $8 o 2 meses de supporter, y un mousepad con el diseño de GTS hecho por [Foxbox](https://foxbox.io)`,
+- **1er Lugar:** Medalla de perfil. (por confirmar), $66 o un año de supporter, y un mousepad con el diseño de GTS hecho por [Foxbox](https://foxbox.io)
+- **2ndo Lugar:** $36 o 6 meses de supporter, y un mousepad con el diseño de GTS hecho por [Foxbox](https://foxbox.io)
+- **3er Lugar:** $28 o 2 meses de supporter, y un mousepad con el diseño de GTS hecho por [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `

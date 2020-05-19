@@ -38,9 +38,9 @@ Du 25 au 26 juillet.`,
     {
       title: "Prizes",
       body: `
-- **1ère place:** Un badge sur le profil (à confirmer), $26 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
-- **2ème place:** $16 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
-- **3ème place:** $8 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)`,
+- **1ère place:** Un badge sur le profil (à confirmer), $66 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
+- **2ème place:** $36 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
+- **3ème place:** $28 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `

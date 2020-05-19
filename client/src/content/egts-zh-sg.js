@@ -42,9 +42,9 @@ export default {
     {
       title: "獎品",
       body: `
-- **冠軍:** osu! profile badge (未定), $26 (約新臺幣770元）或1年supporter，以及由[Foxbox](https://foxbox.io)製作的GTS主題鼠墊
-- **亞軍:** $16 （約新臺幣480元）或6個月supporter，以及由[Foxbox](https://foxbox.io)製作的GTS主題鼠墊
-- **季軍:** $8 （約新臺幣240元）或兩個月supporter，以及由[Foxbox](https://foxbox.io)製作的GTS主題鼠墊`,
+- **冠軍:** osu! profile badge (未定), $66 (約新臺幣770元）或1年supporter，以及由[Foxbox](https://foxbox.io)製作的GTS主題鼠墊
+- **亞軍:** $36 （約新臺幣480元）或6個月supporter，以及由[Foxbox](https://foxbox.io)製作的GTS主題鼠墊
+- **季軍:** $28 （約新臺幣240元）或兩個月supporter，以及由[Foxbox](https://foxbox.io)製作的GTS主題鼠墊`,
     },
   ],
   rules: `

@@ -42,9 +42,9 @@ export default {
     {
       title: "Preise",
       body: `
-- **Erster Platz:** $26 oder ein Jahr osu!supporter und GTS-basiertes Mauspad von [Foxbox](https://foxbox.io)
-- **Zweiter Platz:** $16 oder ein halbes Jahr osu!supporter und GTS-basiertes Mauspad von [Foxbox](https://foxbox.io)
-- **Dritter Platz:** $8 oder zwei Monate osu!supporter und GTS-basiertes Mauspad von [Foxbox](https://foxbox.io)`,
+- **Erster Platz:** $66 oder ein Jahr osu!supporter und GTS-basiertes Mauspad von [Foxbox](https://foxbox.io)
+- **Zweiter Platz:** $36 oder ein halbes Jahr osu!supporter und GTS-basiertes Mauspad von [Foxbox](https://foxbox.io)
+- **Dritter Platz:** $28 oder zwei Monate osu!supporter und GTS-basiertes Mauspad von [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `

@@ -38,9 +38,9 @@ July 18th until July 19th.7월 18일 ~ 7월 19일
     {
       title: "상품",
       body: `
-- **1등:** osu! 프로필 뱃지 (추후 상세 정보 추가), $26 또는 1년치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)
-- **2등:** $16 또는 6달치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)
-- **3등:** $8 또는 2달치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)`,
+- **1등:** osu! 프로필 뱃지 (추후 상세 정보 추가), $66 또는 1년치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)
+- **2등:** $36 또는 6달치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)
+- **3등:** $28 또는 2달치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `

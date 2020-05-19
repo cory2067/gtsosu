@@ -42,9 +42,9 @@ July 25th until July 26th.`,
     {
       title: "Prizes",
       body: `
-- **1st place:** osu! profile badge (to be confirmed), $26 or one year of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)
-- **2nd place:** $16 or six months of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)
-- **3rd place:** $8 or two months of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)`,
+- **1st place:** osu! profile badge (to be confirmed), $66 or one year of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)
+- **2nd place:** $36 or six months of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)
+- **3rd place:** $28 or two months of supporter, and a GTS-themed mousepad made by [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `

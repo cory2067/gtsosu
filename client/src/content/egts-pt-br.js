@@ -38,9 +38,9 @@ export default {
     {
       title: "Prêmios",
       body: `
-- **1º lugar:** Badge para o perfil do osu! (a ser confirmado), $26 ou 1 ano de supporter, e um mousepad temático do GTS feito por [Foxbox](https://foxbox.io)
-- **2º lugar:** $16 ou 6 meses de supporter, e um mousepad temático do GTS feito por [Foxbox](https://foxbox.io)
-- **3º lugar:** $8 ou 2 meses de supporter, e um mousepad temático do GTS feito por [Foxbox](https://foxbox.io)`,
+- **1º lugar:** Badge para o perfil do osu! (a ser confirmado), $66 ou 1 ano de supporter, e um mousepad temático do GTS feito por [Foxbox](https://foxbox.io)
+- **2º lugar:** $36 ou 6 meses de supporter, e um mousepad temático do GTS feito por [Foxbox](https://foxbox.io)
+- **3º lugar:** $28 ou 2 meses de supporter, e um mousepad temático do GTS feito por [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `
