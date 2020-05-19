@@ -54,6 +54,7 @@ Fin de semana del 25 y 26 de julio.`,
 - Como sistema de score se usará **Score V2.**
 - Cualquier miembro del staff exceptuando **Organizadores**, **Selectores de mapa**, y **Réferis** puede jugar en el torneo.
 - Los jugadores y el staff deberán leer estas reglas. (y asumiremos que se ha hecho esto durante todo el torneo)
+- Los jugadores que están en [esta lista negra](https://docs.google.com/spreadsheets/d/e/2PACX-1vR_ZTkA7f3Z_ApxUPtHKkdXncl_RVLA3pwFFsx-Me1RmJ4QpqsoUii-veVw00XJDYtV1XfJEgy7wfw0/pubhtml), específicamente en la pestaña de ''Kasumi's Blacklist'', no se les permite su ingreso hasta que llegue la fecha asignada en el documento.
 - Todos los participantes deberán de mantener el respeto y el orden en la competencia. No acatar esta regla provocará el baneo/blacklist del torneo. Esta regla también aplica a los miembros del staff.
 - Todo cambio en el reglamento o anuncio importante se dará a conocer en el servidor de Discord.
 

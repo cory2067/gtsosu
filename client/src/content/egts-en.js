@@ -54,6 +54,7 @@ July 25th until July 26th.`,
 - The scoring system that will be used is **Score V2.**
 - Any members of staff apart from the **Hosts**, **Mappool Selectors**, and **Referees** are allowed to play.
 - Players and staff members must have read this ruleset entirely. (and we will assume you did so throughout the tournament)
+- Players who are [on this blacklist](https://docs.google.com/spreadsheets/d/e/2PACX-1vR_ZTkA7f3Z_ApxUPtHKkdXncl_RVLA3pwFFsx-Me1RmJ4QpqsoUii-veVw00XJDYtV1XfJEgy7wfw0/pubhtml), only those noted on the "Kasumii's Blacklist" tab, are not permitted entry in this tournament until the designed date on the spreadsheet.
 - All participants must stay respectful and keep a proper attitude. Not following this rule can result in a ban/blacklist from the tournament. This rule concerns all the staff as well.
 - Any rule changes or unexpected occurrences will be announced in the thread and in the Discord server.
 

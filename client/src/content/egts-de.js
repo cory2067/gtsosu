@@ -54,6 +54,7 @@ export default {
 - Das genutzte Punktesystem im Turnier ist **Score V2**.
 - Jedes Mitglied von dem Organisatorteam außer **Leiter**, **Mappool-Bestimmer** und **Schiedsrichter** dürfen beim Turnier mitmachen.
 - Spieler und Mitglieder vom Organisatorteam müssen den kompletten Regelwerk lesen. (auch während des Turnieres gelten die Regeln)
+- Spieler, die auf dieser [Liste](https://docs.google.com/spreadsheets/d/e/2PACX-1vR_ZTkA7f3Z_ApxUPtHKkdXncl_RVLA3pwFFsx-Me1RmJ4QpqsoUii-veVw00XJDYtV1XfJEgy7wfw0/pubhtml) sind, denen ist es nicht erlaubt, am Turnier bis zu dem Datum in der Liste teilzunehmen.
 - Alle Teilnehmer sollen respektvoll und angemessen gegenüber den anderen Personen verhalten. Wird diese Regel missachtet, wird man vom Turnier verbannt. Diese Regel gilt auch für Mitglieder vom Organisatorteam.
 - Jede Regel, die geändert werden, oder unerwartete Ereignisse werden in dem Thread und auf dem Discord-Server angekündigt.
 
