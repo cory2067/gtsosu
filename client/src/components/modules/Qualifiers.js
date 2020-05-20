@@ -28,13 +28,7 @@ class Qualifiers extends Component {
   }
 
   isStaff = () =>
-    hasAccess(this.props.user, this.props.tourney, [
-      "Host",
-      "Developer",
-      "Referee",
-      "Streamer",
-      "Mapsetter",
-    ]);
+    hasAccess(this.props.user, this.props.tourney, ["Host", "Developer", "Referee", "Mapsetter"]);
 
   canRegister(lobby) {
     if (!this.props.user._id) return false;
