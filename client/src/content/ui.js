@@ -7,7 +7,7 @@ export default {
     players: "Players",
     staff: "Staff",
     language: "Language",
-    merch: "Merch",
+    merch: "Merch (TBA)",
     login: "Login",
     logout: "Logout",
     register: "Register",

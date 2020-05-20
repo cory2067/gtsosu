@@ -42,7 +42,7 @@ July 18th until July 19th`,
     {
       title: "Prizes",
       body: `
- - **1st place:** osu! profile badge (to be confirmed), $64 or 6 months of supporter per player and first place team banner
+ - **1st place:** osu! profile badge (to be confirmed), $64 or 6 months of supporter per player, a mousepad to the colors of our tournament by [Foxbox](https://foxbox.io) and first place team banner
  - **2nd place:** $48 or 4 months of supporter per player and second place team banner
  - **3rd place:** $32 or 2 months of supporter per player and third place team banner`,
     },

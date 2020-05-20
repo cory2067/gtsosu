@@ -38,9 +38,9 @@ Du 25 au 26 juillet.`,
     {
       title: "Prizes",
       body: `
-- **1ère place:** Un badge sur le profil (à confirmer), $26 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
-- **2ème place:** $16 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
-- **3ème place:** $8 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)`,
+- **1ère place:** Un badge sur le profil (à confirmer), $66 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
+- **2ème place:** $36 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)
+- **3ème place:** $28 ou un an d'osu!supporter, et un tapis de souris estampillé GTS réalisé par [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `
@@ -50,6 +50,7 @@ Du 25 au 26 juillet.`,
 - Le système de score utilisé sera **Score V2.**
 - N'importe quel membre du staff, à l'exception des **Hosts**, **Mapsetters**, et **Arbitres**, est autorisé à jouer.
 - Les joueurs et les membres du staff doivent avoir lu ces règles dans leur intégralité (et nous partirons du principe que vous l'avez fait au cours du tournoi).
+- Les joueurs étant [sur cette liste](https://docs.google.com/spreadsheets/d/e/2PACX-1vR_ZTkA7f3Z_ApxUPtHKkdXncl_RVLA3pwFFsx-Me1RmJ4QpqsoUii-veVw00XJDYtV1XfJEgy7wfw0/pubhtml) ne seront pas acceptés dans le tournoi jusqu'à la date désignée sur le spreadsheet.  
 - Tous les participants doivent se montrer respectueux et avoir une attitude correcte. Ne pas suivre cettre règle peut résulter en un bannissement ou mise sur liste noire du tournoi. Cette règle concerne également l'intégralité du staff.
 - N'importe quel changement dans les règles ou circonstances exceptionelles sera annoncé sur le forum post et le serveur Discord.
 

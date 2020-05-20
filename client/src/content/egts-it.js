@@ -42,9 +42,9 @@ Fine settimana del 25 e 26 luglio`,
     {
       title: "Premi",
       body: `
-- **Primo posto:** Medaglia profillo. (per confermare), $26 o un anno di supporter, e un mousepad con il disegno del GTS fatto da [Foxbox] (http://foxbox.io)
-- **Secondo posto:** $16 o 6 mesi di supporter, e un mousepad con il disegno del GTS fatto da [Foxbox] (http://foxbox.io)
-- **3er Lugar:** $8 o 2 mesi di supporter, e un mousepad con il disegno del GTS fatto da [Foxbox] (http://foxbox.io)`,
+- **Primo posto:** Medaglia profillo. (per confermare), $66 o un anno di supporter, e un mousepad con il disegno del GTS fatto da [Foxbox] (http://foxbox.io)
+- **Secondo posto:** $36 o 6 mesi di supporter, e un mousepad con il disegno del GTS fatto da [Foxbox] (http://foxbox.io)
+- **3er Lugar:** $28 o 2 mesi di supporter, e un mousepad con il disegno del GTS fatto da [Foxbox] (http://foxbox.io)`,
     },
   ],
   rules: `
@@ -54,6 +54,7 @@ Fine settimana del 25 e 26 luglio`,
 - Come sistema di punteggio si userà **Score V2.**
 - Ogni membro dello staff tranne **Organizzatori**, **Selettori di mappe** e **Arbitri** può giocare nel torneo.
 - I giocatori e lo staff devono leggere queste regole (e assumeremo che questo è stato fatto per tutto il torneo).
+- I giocatori che sono [in questa lista nera](https://docs.google.com/spreadsheets/d/e/2PACX-1vR_ZTkA7f3Z_ApxUPtHKkdXncl_RVLA3pwFFsx-Me1RmJ4QpqsoUii-veVw00XJDYtV1XfJEgy7wfw0/pubhtml), solo quelli nella scheda "Kasumii's Blacklist", non possono registrarsi al torneo fino alla data scritta nel documento.
 - Tutti i partecipanti devono mantenere il respetto e l'ordine nella competenza. Non rispettare questa regola causerà un ban/blacklist dal torneo.
 - Tutti i cambi di regole o annunci importante verrano detti nel server di Discord.
 

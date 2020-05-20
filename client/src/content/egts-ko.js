@@ -38,9 +38,9 @@ July 18th until July 19th.7월 18일 ~ 7월 19일
     {
       title: "상품",
       body: `
-- **1등:** osu! 프로필 뱃지 (추후 상세 정보 추가), $26 또는 1년치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)
-- **2등:** $16 또는 6달치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)
-- **3등:** $8 또는 2달치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)`,
+- **1등:** osu! 프로필 뱃지 (추후 상세 정보 추가), $66 또는 1년치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)
+- **2등:** $36 또는 6달치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)
+- **3등:** $28 또는 2달치 osu! 서포터, GTS-테마 마우스패드 by [Foxbox](https://foxbox.io)`,
     },
   ],
   rules: `
@@ -50,6 +50,7 @@ July 18th until July 19th.7월 18일 ~ 7월 19일
 - 모든 경기는 **Score V2** 방식으로 점수를 매깁니다.ㄴ
 - **Hosts 주최자**, **Mappool Selectors 맵풀 셀렉터**, and **Referees 심판**을 제외한 모든 선수는 이 대회에 참가할 수 있습니다.
 - 모든 참가자와 스태프는 모든 규칙을 숙지해야 합니다. 주최측은 모두가 그렇게 했음을 전제하고 대회를 진행합니다.
+- [이 블랙리스트](https://docs.google.com/spreadsheets/d/e/2PACX-1vR_ZTkA7f3Z_ApxUPtHKkdXncl_RVLA3pwFFsx-Me1RmJ4QpqsoUii-veVw00XJDYtV1XfJEgy7wfw0/pubhtml)에서 "Kasumii's Blacklist" 탭의 목록에 이름이 있는 플레이어는 해당 목록에 기재된 기한까지 이 대회에 참가신청을 할 수 없습니다.
 - 모든 참가자와 스태프는 상대를 존중해야 합니다. 이를 어길 경우 본 토너먼트의 블랙리스트에 등재될 수 있습니다.
 - 규칙에 변경점이 생기거나 대회 중 예상하지 못한 예외사항이 생길 경우 해당 사항에 대한 공지는 본 대회의 디스코드 서버에서 이루어집니다.
 
