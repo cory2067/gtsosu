@@ -27,7 +27,7 @@ class MapCard extends Component {
         }
         bordered={true}
         cover={
-          <a href={`https://osu.ppy.sh/b/${this.props.mapId}`}>
+          <a target="_blank" href={`https://osu.ppy.sh/b/${this.props.mapId}`}>
             <img src={this.props.image} />
           </a>
         }
