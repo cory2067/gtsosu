@@ -33,11 +33,12 @@ class Qualifiers extends Component {
   canRegister(lobby) {
     if (!this.props.user._id) return false;
     if (this.isStaff()) return false;
-    if (lobby.length >= 8) return false;
+    if (lobby.length >= 8) return false; // indiv. limit
     if (!this.props.teams) {
       return this.state.lobbies.every((lobby) => !lobby.players.includes(this.props.user.username));
     }
 
+    if (lobby.length >= 4) return false; // team limit
     return this.state.lobbies.every((lobby) =>
       lobby.players.every((team) => {
         const info = this.props.getInfo(team);
