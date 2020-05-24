@@ -32,20 +32,20 @@ class Qualifiers extends Component {
 
   canRegister(lobby) {
     if (!this.props.user._id) return false;
-    if (this.isStaff()) return false;
+    //if (this.isStaff()) return false;
     if (lobby.length >= 8) return false; // indiv. limit
     if (!this.props.teams) {
       return this.state.lobbies.every((lobby) => !lobby.players.includes(this.props.user.username));
     }
 
     if (lobby.length >= 4) return false; // team limit
-    return this.state.lobbies.every((lobby) =>
-      lobby.players.every((team) => {
-        const info = this.props.getInfo(team);
-        if (!info.players) return true;
-        return info.players.every((p) => p.username !== this.props.user.username);
-      })
-    );
+    const myTeam = this.props.getTeam(this.props.user.username);
+    if (!myTeam) return false;
+
+    const isCaptain = myTeam.players[0].username === this.props.user.username;
+    if (!isCaptain) return false;
+
+    return this.state.lobbies.every((lobby) => lobby.players.every((team) => team !== myTeam.name));
   }
 
   onFinish = async (lobbyData) => {

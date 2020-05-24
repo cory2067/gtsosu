@@ -223,6 +223,13 @@ class Schedule extends Component {
     return `UTC+${timezone}`;
   };
 
+  getTeam = (playerName) => {
+    if (!this.state.teams) return null;
+    return Object.values(this.state.lookup).filter((team) =>
+      team.players.some((p) => p.username === playerName)
+    )[0];
+  };
+
   render() {
     return (
       <Content className="content">
@@ -254,6 +261,7 @@ class Schedule extends Component {
                 isAdmin={this.isAdmin}
                 isRef={this.isRef}
                 teams={this.state.teams}
+                getTeam={this.getTeam}
                 getInfo={this.getInfo}
                 timezone={this.state.timezone}
                 utcString={this.utcString}
@@ -292,10 +300,7 @@ class Schedule extends Component {
                         title="Group"
                         dataIndex="player1"
                         key="group"
-                        render={(t) => {
-                          console.log(this.getStats(t));
-                          return <span className="u-bold">{this.getStats(t).group}</span>;
-                        }}
+                        render={(t) => <span className="u-bold">{this.getStats(t).group}</span>}
                       />
                     )}
 
