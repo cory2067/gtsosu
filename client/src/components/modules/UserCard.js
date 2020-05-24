@@ -21,7 +21,11 @@ class UserCard extends Component {
 
     return (
       <div>
-        <div className="UserCard-outside">
+        <div
+          className={`UserCard-outside ${
+            this.props.canEdit && this.props.showGroups ? "UserCard-wide" : ""
+          }`}
+        >
           {this.props.user.discord ? (
             <Tooltip title={`${this.props.user.discord}, ${timezone}`}>
               <div
@@ -73,7 +77,7 @@ class UserCard extends Component {
                 initialValues={this.props.stats}
                 onEdit={this.props.onEdit}
                 target={this.props.user._id}
-                hideGroups={this.props.hideGroups}
+                hideGroups={!this.props.showGroups}
               />
             </div>
           )}

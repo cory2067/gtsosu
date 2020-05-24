@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema({
       tourney: String,
       seedName: String,
       seedNum: Number,
+      group: String,
       regTime: Date,
     },
   ],

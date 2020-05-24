@@ -19,6 +19,7 @@ class Players extends Component {
       players: [],
       teams: [],
       hasTeams: false,
+      hasGroups: false,
       sort: "rank",
       mode: "players",
       refreshPercent: -1,
@@ -35,6 +36,7 @@ class Players extends Component {
     this.setState({
       players,
       hasTeams: tourney.teams,
+      hasGroups: tourney.stages.some((s) => s.name === "Group Stage"),
       rankRange: [tourney.rankMin, tourney.rankMax !== -1 ? tourney.rankMax : Infinity],
     });
 
@@ -72,6 +74,10 @@ class Players extends Component {
         players.sort(
           (x, y) => (this.getStats(x).seedNum || x.rank) - (this.getStats(y).seedNum || y.rank)
         );
+      } else if (sort === "group") {
+        players.sort((x, y) =>
+          (this.getStats(x).group || "_") < (this.getStats(y).group || "_") ? -1 : 1
+        );
       } else if (sort === "alpha") {
         players.sort((x, y) => (x.username.toLowerCase() < y.username.toLowerCase() ? -1 : 1));
       } else if (sort === "country") {
@@ -93,7 +99,7 @@ class Players extends Component {
       } else if (sort === "seed") {
         teams.sort((x, y) => (x.seedNum || 0) - (y.seedNum || 0));
       } else if (sort === "group") {
-        teams.sort((x, y) => (x.group < y.group ? -1 : 1));
+        teams.sort((x, y) => ((x.group || "_") < (y.group || "_") ? -1 : 1));
       } else if (sort === "rank") {
         teams.sort(
           (x, y) =>
@@ -244,6 +250,9 @@ class Players extends Component {
                   <Radio.Button value="rank">Rank</Radio.Button>
                   <Radio.Button value="alpha">Alphabetical</Radio.Button>
                   {!this.state.hasTeams && <Radio.Button value="seed">Seed</Radio.Button>}
+                  {!this.state.hasTeams && this.state.hasGroups && (
+                    <Radio.Button value="group">Group</Radio.Button>
+                  )}
                   <Radio.Button value="country">Country</Radio.Button>
                   <Radio.Button value="reg">Reg Time</Radio.Button>
                 </>
@@ -305,6 +314,13 @@ class Players extends Component {
           {this.state.mode === "players"
             ? this.state.players.map((player) => {
                 const stats = player.stats.filter((t) => t.tourney == this.props.tourney)[0];
+                const extra =
+                  stats && stats.seedName
+                    ? `${stats.seedName} Seed (#${stats.seedNum})${
+                        stats.group ? `, Group ${stats.group}` : ""
+                      }`
+                    : "";
+
                 return (
                   <UserCard
                     canDelete={this.isAdmin()}
@@ -315,7 +331,8 @@ class Players extends Component {
                     onEdit={this.handlePlayerEdit}
                     stats={stats}
                     rankRange={this.state.rankRange}
-                    extra={stats && stats.seedName && `${stats.seedName} Seed (#${stats.seedNum})`}
+                    showGroups={this.state.hasGroups}
+                    extra={extra}
                   />
                 );
               })

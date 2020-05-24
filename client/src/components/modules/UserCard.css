@@ -5,8 +5,11 @@
   grid-template-rows: 60px;
   background-color: white;
   box-shadow: 2px 2px 8px;
-  width: 412px;
   margin: var(--s);
+}
+
+.UserCard-wide {
+  grid-template-columns: 60px 440px;
 }
 
 .UserCard-avatar {

@@ -191,11 +191,15 @@ class Schedule extends Component {
   };
 
   getInfo = (name) => this.state.lookup[name] || {};
+  getStats = (name) => {
+    const info = this.getInfo(name);
+    if (!info.stats) return info;
+    const stats = info.stats.filter((s) => s.tourney === this.props.tourney)[0];
+    return stats || {};
+  };
 
   renderName = (p) => {
-    const stats = this.state.teams
-      ? this.getInfo(p)
-      : (this.getInfo(p).stats || []).filter((t) => t.tourney === this.props.tourney)[0];
+    const stats = this.getStats(p);
 
     const title = stats ? `${stats.seedName} Seed (#${stats.seedNum})` : "Unseeded player";
 
@@ -288,7 +292,10 @@ class Schedule extends Component {
                         title="Group"
                         dataIndex="player1"
                         key="group"
-                        render={(t) => <span className="u-bold">{this.getInfo(t).group}</span>}
+                        render={(t) => {
+                          console.log(this.getStats(t));
+                          return <span className="u-bold">{this.getStats(t).group}</span>;
+                        }}
                       />
                     )}
 
