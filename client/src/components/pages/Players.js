@@ -230,17 +230,17 @@ class Players extends Component {
     return (
       <Content className="content">
         <div className="Players-topbar">
-          {this.state.hasTeams && (
-            <Menu
-              mode="horizontal"
-              className="Players-mode-select"
-              onClick={this.handleModeChange}
-              selectedKeys={[this.state.mode]}
-            >
-              <Menu.Item key="players">Players ({this.state.players.length})</Menu.Item>
+          <Menu
+            mode="horizontal"
+            className="Players-mode-select"
+            onClick={this.handleModeChange}
+            selectedKeys={[this.state.mode]}
+          >
+            <Menu.Item key="players">Players ({this.state.players.length})</Menu.Item>
+            {this.state.hasTeams && (
               <Menu.Item key="teams">Teams ({this.state.teams.length})</Menu.Item>
-            </Menu>
-          )}
+            )}
+          </Menu>
 
           <div>
             <span className="Players-sort">Sort by:</span>
