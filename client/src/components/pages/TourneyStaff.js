@@ -10,18 +10,20 @@ const { Panel } = Collapse;
 
 const roles = [
   "Host",
-  "Designer",
   "Developer",
-  "Statistician",
   "Mapsetter",
+  "Designer",
   "Referee",
   "Stream Highlighter",
   "Streamer",
   "Commentator",
   "Translator",
   "Wiki Editor",
+  "Statistician",
   "Recruiter",
 ];
+
+const roleScores = Object.fromEntries(roles.map((role, i) => [role, roles.length - i]));
 
 class TourneyStaff extends Component {
   constructor(props) {
@@ -32,15 +34,35 @@ class TourneyStaff extends Component {
   async componentDidMount() {
     document.title = `${this.props.tourney.toUpperCase()}: Staff`;
     const staff = await get("/api/staff", { tourney: this.props.tourney });
-    this.setState({ staff });
+    this.setState({ staff: this.sort(staff) });
   }
+
+  getRoles = (user) =>
+    user.roles.filter((r) => r.tourney === this.props.tourney).map((r) => r.role);
+
+  getImportance = (user) => {
+    const myRoles = this.getRoles(user);
+    const scores = myRoles.map((r) => roleScores[r]).sort((a, b) => b - a);
+
+    let total = 0;
+    scores.forEach((score, i) => (total += score * Math.pow(roles.length, -i)));
+    return total;
+  };
+
+  sort = (staff) => {
+    return staff.sort((x, y) => {
+      const imp = this.getImportance(y) - this.getImportance(x);
+      if (imp) return imp;
+      return x.username.toLowerCase() > y.username.toLowerCase() ? 1 : -1;
+    });
+  };
 
   isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
 
   onFinish = async (form) => {
     const newStaff = await post("/api/staff", { tourney: this.props.tourney, ...form });
     this.setState((state) => ({
-      staff: [...state.staff.filter((s) => s._id !== newStaff._id), newStaff],
+      staff: this.sort([...state.staff.filter((s) => s._id !== newStaff._id), newStaff]),
     }));
   };
 
@@ -80,22 +102,16 @@ class TourneyStaff extends Component {
           </Collapse>
         )}
         <div className="TourneyStaff-container">
-          {this.state.staff.map((user) => {
-            const roles = user.roles
-              .filter((r) => r.tourney === this.props.tourney)
-              .map((r) => r.role)
-              .join(", ");
-            return (
-              <UserCard
-                canDelete={this.isAdmin()}
-                onDelete={this.handleDelete}
-                key={user.userid}
-                user={user}
-                extra={roles}
-                hideRank
-              />
-            );
-          })}
+          {this.state.staff.map((user) => (
+            <UserCard
+              canDelete={this.isAdmin()}
+              onDelete={this.handleDelete}
+              key={user.userid}
+              user={user}
+              extra={this.getRoles(user).join(", ")}
+              hideRank
+            />
+          ))}
         </div>
       </Content>
     );
