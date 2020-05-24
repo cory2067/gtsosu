@@ -50,6 +50,16 @@ class Mappools extends Component {
   isPooler = () =>
     hasAccess(this.props.user, this.props.tourney, ["Host", "Developer", "Mapsetter"]);
 
+  sortMaps = (maps) => {
+    const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, TB: 5 };
+    return maps.sort((a, b) => {
+      if (mods[a.mod] - mods[b.mod] != 0) {
+        return mods[a.mod] - mods[b.mod];
+      }
+      return a.index - b.index;
+    });
+  };
+
   getMappool = async (stage) => {
     if (!stage) return this.setState({ maps: [] });
 
@@ -87,7 +97,11 @@ class Mappools extends Component {
       stage: this.state.current.name,
     })
       .then((res) => {
-        this.setState((state) => ({ maps: state.maps.concat(res), loading: false, modal: false }));
+        this.setState((state) => ({
+          maps: this.sortMaps(state.maps.concat(res)),
+          loading: false,
+          modal: false,
+        }));
       })
       .catch((err) => {
         message.error("Could not submit map. Make sure the map ID is correct.");
