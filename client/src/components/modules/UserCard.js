@@ -37,7 +37,11 @@ class UserCard extends Component {
           )}
           <div className="UserCard-content">
             <div className="UserCard-top">
-              <div className="UserCard-name">
+              <div
+                className={`UserCard-name ${
+                  this.props.user.username.length > 14 ? "UserCard-long" : ""
+                }`}
+              >
                 {this.props.user.country && <FlagIcon code={this.props.user.country} />}
                 <a href={`https://osu.ppy.sh/users/${this.props.user.userid}`}>
                   {this.props.user.username}
@@ -69,7 +73,7 @@ class UserCard extends Component {
                 initialValues={this.props.stats}
                 onEdit={this.props.onEdit}
                 target={this.props.user._id}
-                hideGroups
+                hideGroups={this.props.hideGroups}
               />
             </div>
           )}

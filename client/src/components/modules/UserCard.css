@@ -32,6 +32,10 @@
   align-items: center;
 }
 
+.UserCard-long {
+  font-size: 14pt;
+}
+
 .UserCard-name a {
   margin-left: 4px;
 }
