@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import FlagIcon from "./FlagIcon";
 import UserCard from "./UserCard";
 import SeedGroupForm from "./SeedGroupForm";
-import { Popconfirm } from "antd";
+import { Popconfirm, Tooltip } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 
 import "./TeamCard.css";
@@ -22,8 +22,16 @@ class TeamCard extends Component {
         <div>
           <div className="TeamCard-head-wrapper">
             <div className="TeamCard-header">
-              <FlagIcon size={32} code={this.props.country} className="TeamCard-flag" />
-              <span className="TeamCard-name">{this.props.name}</span>
+              <Tooltip
+                title={
+                  this.props.seedName
+                    ? `${this.props.seedName} Seed (#${this.props.seedNum})`
+                    : `Seed not yet determined`
+                }
+              >
+                <FlagIcon size={32} code={this.props.country} className="TeamCard-flag" />
+                <span className="TeamCard-name">{this.props.name}</span>
+              </Tooltip>
               {this.props.isAdmin && (
                 <Popconfirm
                   title={`Are you sure you want to remove ${this.props.name}?`}
@@ -35,7 +43,7 @@ class TeamCard extends Component {
                 </Popconfirm>
               )}
             </div>
-            {this.props.group && <div className="TeamCard-group">Group {this.props.group}</div>}
+            {this.props.group && <div className="TeamCard-group">{this.props.group}</div>}
           </div>
           {this.props.players
             .map((p, i) => ({ ...p, isCaptain: i === 0, country: null }))
