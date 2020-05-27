@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Link } from "@reach/router";
 
-import { Card } from "antd";
+import { Card, Popconfirm } from "antd";
 import "./MapCard.css";
 
 class MapCard extends Component {
@@ -33,7 +33,14 @@ class MapCard extends Component {
         }
         extra={
           this.props.isPooler() && (
-            <DeleteOutlined onClick={() => this.props.handleDelete(this.props.mapId)} />
+            <Popconfirm
+              title={`Are you sure you want to remove ${this.props.mod}${this.props.index}?`}
+              onConfirm={() => this.props.handleDelete(this.props.mapId)}
+              okText="Yes"
+              cancelText="No"
+            >
+              <DeleteOutlined />
+            </Popconfirm>
           )
         }
         className="MapCard-card"

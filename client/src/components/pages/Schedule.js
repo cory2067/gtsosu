@@ -239,7 +239,7 @@ class Schedule extends Component {
     let matches = this.state.matches;
     if (this.state.show === "mine" && this.props.user._id) {
       const me = this.state.teams
-        ? this.getTeam(this.props.user.username).name
+        ? (this.getTeam(this.props.user.username) || {}).name
         : this.props.user.username;
 
       matches = matches.filter((m) => m.player1 === me || m.player2 === me);
@@ -271,7 +271,7 @@ class Schedule extends Component {
 
             {this.props.user._id && !quals && (
               <div className="Schedule-filter">
-                <span>Matches to display:</span>
+                <span>Matches shown:</span>
                 <Radio.Group value={this.state.show} onChange={this.handleFilter}>
                   <Radio.Button value="all">All</Radio.Button>
                   <Radio.Button value="mine">Mine</Radio.Button>

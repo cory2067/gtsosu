@@ -3,6 +3,15 @@ import "../../utilities.css";
 
 import { Form, Select, Input, Modal, InputNumber } from "antd";
 
+const layout = {
+  labelCol: {
+    span: 4,
+  },
+  wrapperCol: {
+    span: 14,
+  },
+};
+
 class AddMapModal extends Component {
   render() {
     return (
@@ -13,7 +22,7 @@ class AddMapModal extends Component {
         onOk={this.props.handleOk}
         onCancel={this.props.handleCancel}
       >
-        <Form onValuesChange={this.props.onValuesChange}>
+        <Form {...layout} onValuesChange={this.props.onValuesChange}>
           <Form.Item name="id" label="Map ID">
             <Input />
           </Form.Item>
