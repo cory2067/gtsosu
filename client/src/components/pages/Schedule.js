@@ -38,6 +38,7 @@ class Schedule extends Component {
       lookup: {},
       matches: [],
       timezone: 0,
+      show: "all",
     };
   }
 
@@ -217,6 +218,10 @@ class Schedule extends Component {
     this.setState({ timezone: e.target.value });
   };
 
+  handleFilter = (e) => {
+    this.setState({ show: e.target.value });
+  };
+
   utcString = (timezone) => {
     if (timezone === 0) return "UTC";
     if (timezone < 0) return `UTC${timezone}`;
@@ -231,6 +236,17 @@ class Schedule extends Component {
   };
 
   render() {
+    let matches = this.state.matches;
+    if (this.state.show === "mine" && this.props.user._id) {
+      const me = this.state.teams
+        ? this.getTeam(this.props.user.username).name
+        : this.props.user.username;
+
+      matches = matches.filter((m) => m.player1 === me || m.player2 === me);
+    }
+
+    const quals = this.state.current.name === "Qualifiers";
+
     return (
       <Content className="content">
         <div className="u-flex">
@@ -252,9 +268,19 @@ class Schedule extends Component {
               stages={this.state.stages}
               onClick={this.handleMenuClick}
             />
+
+            {this.props.user._id && !quals && (
+              <div className="Schedule-filter">
+                <span>Matches to display:</span>
+                <Radio.Group value={this.state.show} onChange={this.handleFilter}>
+                  <Radio.Button value="all">All</Radio.Button>
+                  <Radio.Button value="mine">Mine</Radio.Button>
+                </Radio.Group>
+              </div>
+            )}
           </div>
           <div>
-            {this.state.current.name === "Qualifiers" ? (
+            {quals ? (
               <Qualifiers
                 {...this.props}
                 stripTimezone={this.stripTimezone}
@@ -294,7 +320,7 @@ class Schedule extends Component {
                   </Collapse>
                 )}
                 <div className="Schedule-list">
-                  <Table dataSource={this.state.matches} pagination={false}>
+                  <Table dataSource={matches} pagination={false}>
                     {this.state.current.name === "Group Stage" && (
                       <Column
                         title="Group"

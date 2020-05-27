@@ -5,3 +5,7 @@
 .Schedule-timezone {
   margin-bottom: var(--m);
 }
+
+.Schedule-filter {
+  margin-top: var(--m);
+}
