@@ -21,6 +21,7 @@ import {
   Tag,
   message,
   Tooltip,
+  Select,
   Radio,
 } from "antd";
 
@@ -299,10 +300,18 @@ class Schedule extends Component {
                     <Panel header={`Add new ${this.state.current.name} match`} key="1">
                       <Form name="basic" onFinish={this.onFinish}>
                         <Form.Item label={this.state.teams ? "Team 1" : "Player 1"} name="player1">
-                          <Input />
+                          <Select showSearch>
+                            {Object.keys(this.state.lookup).map((name) => (
+                              <Select.Option value={name}>{name}</Select.Option>
+                            ))}
+                          </Select>
                         </Form.Item>
                         <Form.Item label={this.state.teams ? "Team 2" : "Player 2"} name="player2">
-                          <Input />
+                          <Select showSearch>
+                            {Object.keys(this.state.lookup).map((name) => (
+                              <Select.Option value={name}>{name}</Select.Option>
+                            ))}
+                          </Select>
                         </Form.Item>
                         <Form.Item label="Match ID" name="code">
                           <Input />
