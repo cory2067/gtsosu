@@ -1,7 +1,7 @@
 export default {
   name: "Expert Global Taiko Showdown",
   description:
-    "The Expert Global Taiko Showdown is our 1v1 tournament targeted towards top players, even though it has no rank limit. The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.",
+    "The Expert Global Taiko Showdown is our 1v1 tournament targeted towards top players, even though it has no rank limit. The top 64 of it after qualifiers will face-off in a group stage, followed by a heated double-elimination bracket.",
   discord: "https://discord.gg/3mGC3HB",
   homepage: [
     {
@@ -17,22 +17,20 @@ May 3rd until May 17th.
 May 17th until May 24th.
 ### Qualifiers
 May 30th until May 31st.
-### Round of 128 + Loser's Bracket Round 1
+### Group Stage
 June 6th until June 7th.
-### Round of 64 + Loser's Bracket Round 2
+### Round of 32 + Loser's Bracket Round 1
 June 13th until June 14th.
-### Round of 32 + Loser's Bracket Round 3 and 4
+### Round of 16 + Loser's Bracket Round 2 and 3
 June 20th until June 21st.
-### Round of 16 + Loser's Bracket Round 5 and 6
+### Quarterfinals + Loser's Bracket Round 4 and 5
 June 27th until June 28th.
-### Quarterfinals + Loser's Bracket 7 and 8
+### Semifinals + Loser's Bracket 6 and 7
 July 4th until July 5th.
-### Semifinals + Loser's Bracket 9 and 10
-July 11th until July 12th.
 ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
-July 18th until July 19th.
+July 11th until July 12th.
 ### Grand Finals
-July 25th until July 26th.`,
+July 18th until July 19th.`,
     },
     {
       title: "Registration",
@@ -50,7 +48,7 @@ July 25th until July 26th.`,
   rules: `
 # General Rules
 - This tournament is a **1v1 double-elimination tournament.** 
-- All players will first play in the qualifiers stage, then the top 128 players will be playing in a **double-elimination bracket.**
+- All players will first play in the qualifiers stage, then the top 64 players will be playing in a ** group stage, followed by a double-elimination bracket.**
 - The scoring system that will be used is **Score V2.**
 - Any members of staff apart from the **Hosts**, **Mappool Selectors**, and **Referees** are allowed to play.
 - Players and staff members must have read this ruleset entirely. (and we will assume you did so throughout the tournament)
@@ -59,11 +57,18 @@ July 25th until July 26th.`,
 - Any rule changes or unexpected occurrences will be announced in the thread and in the Discord server.
 
 # Stage Regulations
-- There are nine stages in the 1v1 tournament, the Qualifiers, the RO128, the RO64, the RO32, the RO16, the Quarterfinals, the Semifinals, the Finals, and the Grand Finals. It may change depending on if a region gets less players than expected, or much more than expected.
+- There are eight stages in the 1v1 tournament, the Qualifiers, the Group Stage, the RO32, the RO16, the Quarterfinals, the Semifinals, the Finals, and the Grand Finals.
 - Players will be seeded with the average of their ranks on each map during the Qualifiers round.
-- In case there are more than 128 registered players, only the top 128 of the Qualifiers will go in the rest of the tournament.
+- Players will be drawn in **16 groups of 4 players** during a drawing show which will happen on Sunday May 31st.
+ - In the Group Stage all the players from each group will face each other. The **best 2 teams** get out of their group. 
+ - Rankings of each group are determined by sorting the results of each players's performance in the following priority: 
+    - Most matches won.
+    - Highest (number of beatmaps won - number of maps lost) score.
+    - Most beatmaps won.
+    - Winner of the match played previously between the tied players.
+ - In Group stage, 'Win by default' will be considered as win by 5:0, +1.0 score difference ratio.
 - The winning condition for each stage are listed below:
-    - Round Of 128, Round Of 64, Round Of 32, Round Of 16: Best-Of-9 (First to 5 points)
+    - Group Stage, Round Of 32, Round Of 16: Best-Of-9 (First to 5 points)
     - Quarterfinals: Best-Of-11 (First to 6 points)
     - Semifinals, Finals, and Grand Finals: Best-Of-13 (First to 7 points)
    
@@ -71,20 +76,20 @@ July 25th until July 26th.`,
 - During this round there will be multiple lobbies available at various hours.
 - A private match will be created and players will be invited into the lobby when it's their time. Make sure you're online at this time.
 - There are no warmups.
-- Seeding will be made with the average rank of each team on each map. 
+- Seeding will be made with the average rank of each player on each map. 
 - Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking.
-- Only the 128 best players will continue on to the bracket stage.
+- Only the 64 best players will continue on to the bracket stage.
 # Mappool Instructions
-- There will be 1 mappool for each of the following: Qualifiers, Round of 128, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals, and Grand Finals. 
+- There will be 1 mappool for each of the following: Qualifiers, Group Stage, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals, and Grand Finals. 
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
 - The Qualifiers pool will be different from all the other rounds, as it will have a format of 2 NoMod maps, 1 Hidden map, 1 HardRock map, 1 DoubleTime map.
 - Each mappool consists of 6 brackets: **NoMod, Hidden, HardRock, DoubleTime, FreeMod, and Tiebreaker**.
-- The mappools from Round of 128 until Round of 16 will have 14 maps each. The quarterfinals mappool will have 15 maps. The mappools from Semifinals until Grand Finals will have 19 maps.
-- The size of the NoMod bracket will be of 4 in Round Of 128 until Round Of 16, it will be of 5 in Quarterfinals, and it will be of 6 in Semifinals until Grand Finals.
-- The size of the Hidden, Hard Rock, and Double Time will be of 2 from RO128 until Quarterfinals, and it will be of 3 from Semifinals until Grand Finals.
+- The mappools from Group Stage until Round of 16 will have 14 maps each. The quarterfinals mappool will have 15 maps. The mappools from Semifinals until Grand Finals will have 19 maps.
+- The size of the NoMod bracket will be of 4 in Group Stage until Round Of 16, it will be of 5 in Quarterfinals, and it will be of 6 in Semifinals until Grand Finals.
+- The size of the Hidden, Hard Rock, and Double Time will be of 2 from Group Stage until Quarterfinals, and it will be of 3 from Semifinals until Grand Finals.
 - The size of the FreeMod pool will be of 3 during the rest of the tournament.
-- The FreeMod pool is played with FreeMod activated. Every individual player can pick Hidden, HardRock or both. **At least one player of each team must have at least one mod activated.**
-- The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mod activated.
+- The FreeMod pool is played with FreeMod activated. Every player HAS to pick Hidden, HardRock or both.
+- The Tiebreaker is played under FreeMod conditions but it is not necessary to enable mods.
 - The mappool for each stage will be showcased a week before.
 
 # Scheduling Instructions

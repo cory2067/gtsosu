@@ -7,7 +7,7 @@ export default {
       code: "egts",
       description: `
 The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
-The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
+The top 64 of it after qualifiers will face-off in a group stage, followed by a heated double-elimination bracket.`,
     },
     {
       title: "IGTS",
