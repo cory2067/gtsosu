@@ -411,7 +411,7 @@ router.postAsync("/reschedule", ensure.isAdmin, async (req, res) => {
   );
 
   logger.info(
-    `${req.user.username} rescheduled ${req.body.tourney} match ${match.code} to ${req.body.time}`
+    `${req.user.username} rescheduled ${req.body.tourney} match ${newMatch.code} to ${req.body.time}`
   );
   res.send(newMatch);
 });
