@@ -9,7 +9,9 @@ function loggedIn(req, res, next) {
   next();
 }
 
-function ensure(required, title) {
+// ensure the user is an admin, or otherwise has one of the roles specified in userRoles
+function ensure(userRoles, title) {
+  const roles = ["Host", "Developer", ...userRoles];
   return (req, res, next) => {
     if (!req.user || !req.user.username) {
       return res.status(401).send({ error: "Not logged in, refusing access." });
@@ -19,7 +21,7 @@ function ensure(required, title) {
 
     if (
       req.user.admin ||
-      req.user.roles.some((r) => required.includes(r.role) && r.tourney === tourney)
+      req.user.roles.some((r) => roles.includes(r.role) && r.tourney === tourney)
     ) {
       return next();
     }
@@ -30,8 +32,10 @@ function ensure(required, title) {
 }
 
 module.exports = {
-  isAdmin: ensure(["Host", "Developer"], "admin"),
-  isPooler: ensure(["Host", "Developer", "Mapsetter"], "pooler"),
-  isRef: ensure(["Host", "Developer", "Referee", "Streamer", "Commentator"], "ref"),
+  isAdmin: ensure([], "admin"),
+  isPooler: ensure(["Mapsetter"], "pooler"),
+  isRef: ensure(["Referee"], "ref"),
+  isStreamer: ensure(["Streamer"], "streamer"),
+  isCommentator: ensure(["Commentator"], "commentator"),
   loggedIn,
 };

@@ -86,15 +86,11 @@ class Schedule extends Component {
     this.getMatches(this.state.stages[key].name);
   };
 
-  isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
-  isRef = () =>
-    hasAccess(this.props.user, this.props.tourney, [
-      "Host",
-      "Developer",
-      "Referee",
-      "Streamer",
-      "Commentator",
-    ]);
+  // perms controls
+  isAdmin = () => hasAccess(this.props.user, this.props.tourney, []);
+  isRef = () => hasAccess(this.props.user, this.props.tourney, ["Referee"]);
+  isStreamer = () => hasAccess(this.props.user, this.props.tourney, ["Streamer"]);
+  isCommentator = () => hasAccess(this.props.user, this.props.tourney, ["Commentator"]);
 
   // janky way to nuke the timezone, forcing UTC time
   stripTimezone = (time) => time.toString().split("GMT")[0] + "GMT";
@@ -248,7 +244,11 @@ class Schedule extends Component {
 
   onEdit = async (val, i) => {
     const time = this.stripTimezone(val.seconds(0).toString());
-    const newMatch = await post("/api/reschedule", { match: this.state.matches[i]._id, time });
+    const newMatch = await post("/api/reschedule", {
+      match: this.state.matches[i]._id,
+      tourney: this.props.tourney,
+      time,
+    });
     newMatch.key = newMatch._id;
 
     this.setState((state) => ({
@@ -444,13 +444,15 @@ class Schedule extends Component {
                       render={(r, match) =>
                         r ? (
                           <Tag
-                            closable={this.isRef()}
+                            closable={this.isStreamer()}
                             onClose={() => this.removeStreamer(match.key)}
                           >
                             {r}
                           </Tag>
                         ) : (
-                          this.isRef() && <AddTag onClick={() => this.addStreamer(match.key)} />
+                          this.isStreamer() && (
+                            <AddTag onClick={() => this.addStreamer(match.key)} />
+                          )
                         )
                       }
                     />
@@ -463,14 +465,14 @@ class Schedule extends Component {
                         <span>
                           {rs.map((r) => (
                             <Tag
-                              closable={this.isRef()}
+                              closable={this.isCommentator()}
                               onClose={() => this.removeCommentator(match.key, r)}
                               key={r}
                             >
                               {r}
                             </Tag>
                           ))}
-                          {this.isRef() && !rs.includes(this.props.user.username) && (
+                          {this.isCommentator() && !rs.includes(this.props.user.username) && (
                             <AddTag onClick={() => this.addCommentator(match.key)} />
                           )}
                         </span>

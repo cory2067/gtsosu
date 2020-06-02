@@ -187,7 +187,7 @@ class Players extends Component {
     this.setState({ sort });
   };
 
-  isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
+  isAdmin = () => hasAccess(this.props.user, this.props.tourney, []);
 
   refreshRanks = async () => {
     this.setState({ refreshPercent: 0 });

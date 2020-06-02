@@ -400,10 +400,14 @@ router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
  * Reschedule a tourney match
  * Params:
  *   - match: the _id of the match
+ *   - tourney: identifier for the tournament
  *   - time: the new match time (in UTC)
  */
 router.postAsync("/reschedule", ensure.isAdmin, async (req, res) => {
-  logger.info(`${req.user.username} rescheduled match ${req.body.match} to ${req.body.time} `);
+  logger.info(
+    `${req.user.username} rescheduled ${req.body.tourney} match ${req.body.match} to ${req.body.time}`
+  );
+
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match },
     { $set: { time: new Date(req.body.time) } },
@@ -490,7 +494,7 @@ router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
  *  - match: the _id of the match
  *  - tourney: identifier for the tournament
  */
-router.postAsync("/streamer", ensure.isRef, async (req, res) => {
+router.postAsync("/streamer", ensure.isStreamer, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
   if (match.streamer) return res.status(400).send({ error: "already exists" });
   match.streamer = req.user.username;
@@ -507,7 +511,7 @@ router.postAsync("/streamer", ensure.isRef, async (req, res) => {
  *  - match: the _id of the match
  *  - tourney: identifier for the tournament
  */
-router.deleteAsync("/streamer", ensure.isRef, async (req, res) => {
+router.deleteAsync("/streamer", ensure.isStreamer, async (req, res) => {
   const match = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
     { $unset: { streamer: 1 } },
@@ -525,7 +529,7 @@ router.deleteAsync("/streamer", ensure.isRef, async (req, res) => {
  *  - match: the _id of the match
  *  - tourney: identifier for the tournament
  */
-router.postAsync("/commentator", ensure.isRef, async (req, res) => {
+router.postAsync("/commentator", ensure.isCommentator, async (req, res) => {
   const match = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
     { $push: { commentators: req.user.username } },
@@ -544,7 +548,7 @@ router.postAsync("/commentator", ensure.isRef, async (req, res) => {
  *  - user: name of the person to remove
  *  - tourney: identifier for the tournament
  */
-router.deleteAsync("/commentator", ensure.isRef, async (req, res) => {
+router.deleteAsync("/commentator", ensure.isCommentator, async (req, res) => {
   const match = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
     { $pull: { commentators: req.body.user } },

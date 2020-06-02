@@ -45,7 +45,8 @@ export function delet(endpoint, params = {}) {
   }).then(processResponse);
 }
 
-export function hasAccess(user, tourney, roles) {
+export function hasAccess(user, tourney, userRoles) {
+  const roles = ["Host", "Developer", ...userRoles];
   return (
     user.username &&
     (user.admin || user.roles.some((r) => r.tourney === tourney && roles.includes(r.role)))

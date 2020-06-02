@@ -57,7 +57,7 @@ class TourneyStaff extends Component {
     });
   };
 
-  isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
+  isAdmin = () => hasAccess(this.props.user, this.props.tourney, []);
 
   onFinish = async (form) => {
     const newStaff = await post("/api/staff", { tourney: this.props.tourney, ...form });

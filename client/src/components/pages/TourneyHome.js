@@ -41,7 +41,7 @@ class TourneyHome extends Component {
     });
   }
 
-  isAdmin = () => hasAccess(this.props.user, this.props.tourney, ["Host", "Developer"]);
+  isAdmin = () => hasAccess(this.props.user, this.props.tourney, []);
 
   isRegistered = () => {
     return this.props.user.tournies && this.props.user.tournies.includes(this.props.tourney);
