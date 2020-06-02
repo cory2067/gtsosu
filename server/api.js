@@ -396,6 +396,23 @@ router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
 });
 
 /**
+ * POST /api/reschedule
+ * Reschedule a tourney match
+ * Params:
+ *   - match: the _id of the match
+ *   - time: the new match time (in UTC)
+ */
+router.postAsync("/reschedule", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} rescheduled match ${req.body.match} to ${req.body.time} `);
+  const newMatch = await Match.findOneAndUpdate(
+    { _id: req.body.match },
+    { $set: { time: new Date(req.body.time) } },
+    { new: true }
+  );
+  res.send(newMatch);
+});
+
+/**
  * GET /api/matches
  * Get all matches for a stage
  * Params:

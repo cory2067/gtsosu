@@ -40,6 +40,7 @@ class Schedule extends Component {
       matches: [],
       timezone: 0,
       show: "all",
+      editing: -1,
     };
   }
 
@@ -216,6 +217,7 @@ class Schedule extends Component {
   };
 
   handleTimezone = (e) => {
+    if (this.state.editing > -1) return;
     this.setState({ timezone: e.target.value });
   };
 
@@ -234,6 +236,25 @@ class Schedule extends Component {
     return Object.values(this.state.lookup).filter((team) =>
       team.players.some((p) => p.username === playerName)
     )[0];
+  };
+
+  startEdit = (i) => {
+    if (!this.isAdmin()) return;
+    this.setState({
+      timezone: 0,
+      editing: i,
+    });
+  };
+
+  onEdit = async (val, i) => {
+    const time = this.stripTimezone(val.seconds(0).toString());
+    const newMatch = await post("/api/reschedule", { match: this.state.matches[i]._id, time });
+    newMatch.key = newMatch._id;
+
+    this.setState((state) => ({
+      editing: -1,
+      matches: state.matches.map((m, index) => (index === i ? newMatch : m)),
+    }));
   };
 
   render() {
@@ -302,14 +323,18 @@ class Schedule extends Component {
                         <Form.Item label={this.state.teams ? "Team 1" : "Player 1"} name="player1">
                           <Select showSearch>
                             {Object.keys(this.state.lookup).map((name) => (
-                              <Select.Option value={name}>{name}</Select.Option>
+                              <Select.Option key={name} value={name}>
+                                {name}
+                              </Select.Option>
                             ))}
                           </Select>
                         </Form.Item>
                         <Form.Item label={this.state.teams ? "Team 2" : "Player 2"} name="player2">
                           <Select showSearch>
                             {Object.keys(this.state.lookup).map((name) => (
-                              <Select.Option value={name}>{name}</Select.Option>
+                              <Select.Option key={name} value={name}>
+                                {name}
+                              </Select.Option>
                             ))}
                           </Select>
                         </Form.Item>
@@ -374,8 +399,23 @@ class Schedule extends Component {
                       }
                       dataIndex="time"
                       key="time"
-                      render={(t) =>
-                        moment(t).utcOffset(this.state.timezone).format("ddd MM/DD HH:mm")
+                      render={(t, _, i) =>
+                        this.state.editing === i ? (
+                          <DatePicker
+                            defaultValue={moment(t).utcOffset(0)}
+                            onChange={(val) => this.onEdit(val, i)}
+                            showTime
+                            format={"MM/DD HH:mm"}
+                            minuteStep={15}
+                          />
+                        ) : (
+                          <span
+                            className={this.isAdmin() ? "u-pointer" : ""}
+                            onClick={() => this.startEdit(i)}
+                          >
+                            {moment(t).utcOffset(this.state.timezone).format("ddd MM/DD HH:mm")}
+                          </span>
+                        )
                       }
                     />
 
