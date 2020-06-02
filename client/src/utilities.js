@@ -58,7 +58,13 @@ export async function getStage(tourneyId) {
   const tourney = await get("/api/tournament", { tourney: tourneyId });
   if (!tourney.stages || tourney.stages.length === 0) return [tourney, {}];
 
-  const curIndex = parseInt(location.hash.substring(1)) || 0; // parse stage from url
+  let curIndex;
+  if (!location.hash.substring(1)) {
+    curIndex = tourney.stages.filter((s) => s.poolVisible).length - 1;
+  } else {
+    curIndex = parseInt(location.hash.substring(1)) || 0;
+  }
+
   const current = tourney.stages[curIndex] || tourney.stages[0];
 
   return [tourney, { ...current, index: curIndex }];

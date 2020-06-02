@@ -404,14 +404,14 @@ router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
  *   - time: the new match time (in UTC)
  */
 router.postAsync("/reschedule", ensure.isAdmin, async (req, res) => {
-  logger.info(
-    `${req.user.username} rescheduled ${req.body.tourney} match ${req.body.match} to ${req.body.time}`
-  );
-
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match },
     { $set: { time: new Date(req.body.time) } },
     { new: true }
+  );
+
+  logger.info(
+    `${req.user.username} rescheduled ${req.body.tourney} match ${match.code} to ${req.body.time}`
   );
   res.send(newMatch);
 });
