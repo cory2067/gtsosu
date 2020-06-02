@@ -21,6 +21,7 @@ const roles = [
   "Wiki Editor",
   "Statistician",
   "Recruiter",
+  "Showcase",
 ];
 
 const roleScores = Object.fromEntries(roles.map((role, i) => [role, roles.length - i]));
