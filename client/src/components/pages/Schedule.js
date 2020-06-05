@@ -264,7 +264,14 @@ class Schedule extends Component {
         ? (this.getTeam(this.props.user.username) || {}).name
         : this.props.user.username;
 
-      matches = matches.filter((m) => m.player1 === me || m.player2 === me);
+      matches = matches.filter(
+        (m) =>
+          m.player1 === me ||
+          m.player2 === me ||
+          m.referee === me ||
+          m.streamer === me ||
+          m.commentators.includes(me)
+      );
     }
 
     const quals = this.state.current.name === "Qualifiers";
