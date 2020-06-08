@@ -268,9 +268,9 @@ class Schedule extends Component {
         (m) =>
           m.player1 === me ||
           m.player2 === me ||
-          m.referee === me ||
-          m.streamer === me ||
-          m.commentators.includes(me)
+          m.referee === this.props.user.username ||
+          m.streamer === this.props.user.username ||
+          m.commentators.includes(this.props.user.username)
       );
     }
 
