@@ -841,10 +841,14 @@ router.postAsync("/refresh", ensure.isAdmin, async (req, res) => {
 
   await Promise.all(
     players.map(async (p) => {
-      const userData = await osuApi.getUser({ u: p.userid, m: 1, type: "id" });
-      p.rank = userData.pp.rank;
-      p.username = userData.name;
-      await p.save();
+      try {
+        const userData = await osuApi.getUser({ u: p.userid, m: 1, type: "id" });
+        p.rank = userData.pp.rank;
+        p.username = userData.name;
+        await p.save();
+      } catch (e) {
+        logger.warn(`Failed to update rank for ${p.username}, skipping`);
+      }
     })
   );
 
