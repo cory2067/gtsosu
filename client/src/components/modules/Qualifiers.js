@@ -27,7 +27,8 @@ class Qualifiers extends Component {
     this.setState({ lobbies: lobbies.map((m) => ({ ...m, key: m._id })) });
   }
 
-  isStaff = () => hasAccess(this.props.user, this.props.tourney, ["Referee", "Mapsetter"]);
+  isStaff = () =>
+    hasAccess(this.props.user, this.props.tourney, ["Referee", "Mapsetter", "All-Star Mapsetter"]);
 
   canRegister(lobby) {
     if (!this.props.user._id) return false;

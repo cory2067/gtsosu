@@ -12,6 +12,7 @@ const roles = [
   "Host",
   "Developer",
   "Mapsetter",
+  "All-Star Mapsetter",
   "Designer",
   "Referee",
   "Stream Highlighter",

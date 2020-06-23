@@ -47,7 +47,12 @@ class Mappools extends Component {
     }
   }
 
-  isPooler = () => hasAccess(this.props.user, this.props.tourney, ["Mapsetter"]);
+  isPooler = () =>
+    hasAccess(
+      this.props.user,
+      this.props.tourney,
+      this.state.current.name === "All Stars" ? ["Mapsetter", "All-Star Mapsetter"] : ["Mapsetter"]
+    );
 
   sortMaps = (maps) => {
     const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, TB: 5 };

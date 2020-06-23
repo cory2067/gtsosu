@@ -33,7 +33,7 @@ function ensure(userRoles, title) {
 
 module.exports = {
   isAdmin: ensure([], "admin"),
-  isPooler: ensure(["Mapsetter"], "pooler"),
+  isPooler: ensure(["Mapsetter", "All-Star Mapsetter"], "pooler"),
   isRef: ensure(["Referee"], "ref"),
   isStreamer: ensure(["Streamer"], "streamer"),
   isCommentator: ensure(["Commentator"], "commentator"),
