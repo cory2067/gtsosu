@@ -37,7 +37,7 @@ class AddMapModal extends Component {
             </Select>
           </Form.Item>
           <Form.Item name="index" label="Index">
-            <InputNumber min={1} max={8} />
+            <InputNumber min={1} max={64} />
           </Form.Item>
         </Form>
       </Modal>
