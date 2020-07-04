@@ -17,8 +17,9 @@ const router = addAsync(express.Router());
 const round = (num) => Math.round(num * 100) / 100;
 const formatTime = (time) =>
   Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + Math.floor(time % 60);
-const scaleTime = (time, mod) => (mod === "DT" ? (time * 2) / 3 : time);
-const scaleBPM = (bpm, mod) => (mod === "DT" ? bpm * 1.5 : bpm);
+const scaleTime = (time, mod) =>
+  mod === "DT" ? (time * 2) / 3 : mod === "HT" ? (time * 3) / 2 : time;
+const scaleBPM = (bpm, mod) => (mod === "DT" ? (bpm * 3) / 2 : mod === "HT" ? (bpm * 2) / 3 : bpm);
 const scaleDiff = (diff, mod) => (mod === "HR" ? Math.min(10, round(diff * 1.4)) : diff);
 
 const checkPermissions = (req, roles) => {
@@ -54,7 +55,7 @@ router.postAsync("/map", ensure.isPooler, async (req, res) => {
   logger.info(`${req.user.username} added ${req.body.id} to ${req.body.stage} mappool`);
 
   const mod = req.body.mod;
-  const modId = { HR: 16, DT: 64 }[mod] || 0; // mod enum used by osu api
+  const modId = { HR: 16, DT: 64, HT: 256 }[mod] || 0; // mod enum used by osu api
   const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId }))[0];
 
   // all map metadata cached in our db, so we don't need to spam calls to the osu api
@@ -65,7 +66,7 @@ router.postAsync("/map", ensure.isPooler, async (req, res) => {
     artist: mapData.artist,
     creator: mapData.creator,
     diff: mapData.version,
-    bpm: scaleBPM(parseFloat(mapData.bpm), mod),
+    bpm: round(scaleBPM(parseFloat(mapData.bpm), mod)),
     sr: round(parseFloat(mapData.difficulty.rating)),
     od: scaleDiff(parseFloat(mapData.difficulty.overall), mod),
     hp: scaleDiff(parseFloat(mapData.difficulty.drain), mod),
@@ -96,7 +97,7 @@ router.getAsync("/maps", async (req, res) => {
     return res.status(403).send({ error: "This pool hasn't been released yet!" });
   }
 
-  const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, TB: 5 };
+  const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, HT: 5, TB: 6 };
   maps.sort((a, b) => {
     if (mods[a.mod] - mods[b.mod] != 0) {
       return mods[a.mod] - mods[b.mod];
