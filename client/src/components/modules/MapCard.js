@@ -35,7 +35,7 @@ class MapCard extends Component {
           this.props.isPooler() && (
             <Popconfirm
               title={`Are you sure you want to remove ${this.props.mod}${this.props.index}?`}
-              onConfirm={() => this.props.handleDelete(this.props.mapId)}
+              onConfirm={() => this.props.handleDelete(this.props._id)}
               okText="Yes"
               cancelText="No"
             >

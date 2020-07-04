@@ -125,7 +125,7 @@ class Mappools extends Component {
 
   handleDelete = (id) => {
     this.setState((state) => ({
-      maps: state.maps.filter((map) => map.mapId != id),
+      maps: state.maps.filter((map) => map._id !== id),
     }));
     delet("/api/map", { tourney: this.props.tourney, stage: this.state.current.name, id });
   };

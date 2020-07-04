@@ -111,13 +111,13 @@ router.getAsync("/maps", async (req, res) => {
  * DELETE /api/maps
  * Delete a map from the pool
  * Params:
- *   - id: ID of the map to delete
+ *   - id: _id of the map to delete
  *   - tourney: identifier for the tourney
  *   - stage: which pool, e.g. qf, sf, f, gf
  */
 router.deleteAsync("/map", ensure.isPooler, async (req, res) => {
   logger.info(`${req.user.username} deleted ${req.body.id} from ${req.body.stage} pool`);
-  await Map.deleteOne({ tourney: req.body.tourney, stage: req.body.stage, mapId: req.body.id });
+  await Map.deleteOne({ tourney: req.body.tourney, stage: req.body.stage, _id: req.body.id });
   res.send({});
 });
 
