@@ -35,9 +35,9 @@ JOctober 24th until October 25th.`,
     {
       title: "Prizes",
       body: `
-      - **1st place:** osu! profile badge (to be confirmed), $16 or six months of supporter per player
-      - **2nd place:** $12 or four months of supporter per player 
-      - **3rd place:** $8 or two months of supporter per player`,
+- **1st place:** osu! profile badge (to be confirmed), $16 or six months of supporter per player
+- **2nd place:** $12 or four months of supporter per player 
+- **3rd place:** $8 or two months of supporter per player`,
     },
   ],
   rules: `
