@@ -11,15 +11,36 @@ export default {
     {
       title: "Dates",
       body: `
-ur an idiot, not released yet Lo.`,
+      ### Registration Phase
+      May 3rd until May 17th.
+      ### Screening phase
+      May 17th until May 24th.
+      ### Qualifiers
+      May 30th until May 31st.
+      ### Group Stage
+      June 6th until June 7th.
+      ### Round of 32 + Loser's Bracket Round 1
+      June 13th until June 14th.
+      ### Round of 16 + Loser's Bracket Round 2 
+      June 20th until June 21st.
+      ### Quarterfinals + Loser's Bracket Round 3 and 4
+      June 27th until June 28th.
+      ### Semifinals + Loser's Bracket 5 and 6
+      July 4th until July 5th.
+      ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
+      July 11th until July 12th.
+      ### Grand Finals
+      July 18th until July 19th.`,
     },
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
       title: "Prizes",
       body: `
-not released yet Lo`,
+      - **1st place:** osu! profile badge (to be confirmed), $16 or six months of supporter per player
+      - **2nd place:** $12 or four months of supporter per player 
+      - **3rd place:** $8 or two months of supporter per player`,
     },
   ],
   rules: `
-  not released yet Lo`,
+  not released yet cuz i'm lazy`,
 };
