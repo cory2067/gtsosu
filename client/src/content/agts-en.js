@@ -11,26 +11,25 @@ export default {
     {
       title: "Dates",
       body: `
-      ### Registration Phase
-      May 3rd until May 17th.
-      ### Screening phase
-      May 17th until May 24th.
-      ### Qualifiers
-      May 30th until May 31st.
-      ### Group Stage
-      June 6th until June 7th.
-      ### Round of 32 + Loser's Bracket Round 1
-      June 13th until June 14th.
-      ### Round of 16 + Loser's Bracket Round 2 
-      June 20th until June 21st.
-      ### Quarterfinals + Loser's Bracket Round 3 and 4
-      June 27th until June 28th.
-      ### Semifinals + Loser's Bracket 5 and 6
-      July 4th until July 5th.
-      ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
-      July 11th until July 12th.
-      ### Grand Finals
-      July 18th until July 19th.`,
+### Registration Phase
+August 16th until August 30th.
+### Screening phase
+August 30th until September 6th.
+### Qualifiers
+September 12th until September 13th.
+### Group Stage
+September 19th until September 20th.
+### Round of 16 + Loser's Bracket Round 1
+September 26th until September 27th.
+### Quarterfinals + Loser's Bracket Round 2
+October 3rd - October 4th.
+### Semifinals + Loser's Bracket Round 3 and 4
+October 10th until October 11th.
+### Winner's Bracket Finals and Loser's Bracket Finals and Grand Finals
+October 17th until October 18th.
+### Grand Finals and All Stars
+JOctober 24th until October 25th.`,
+
     },
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
