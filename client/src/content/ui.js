@@ -52,7 +52,7 @@ export default {
     merch: "상품",
     login: "로그인",
     logout: "로그아웃",
-    register: "회원가입",
+    register: "참가신청",
     discord: "디스코드",
     userSettings: {
       note: "디스코드 유저명 뒤에 #으로 시작하는 태그를 꼭 포함해주세요. (예: Naru#1234)",

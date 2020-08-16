@@ -35,9 +35,9 @@ export default {
     {
       title: "Prix",
       body: `
-- **Première place:** Badge sur le profil osu! (à confirmer), six mois d'osu!supporter par joueur
-- **Deuxième place:** Quatre mois d'osu!supporter par joueur 
-- **Troisième place:** Deux mois d'osu!supporter par joueur`,
+- **Première place:** Badge sur le profil osu! (à confirmer), un an et 4 mois d'osu!supporter par joueur, ainsi qu'un tapis de souris aux couleurs du tournoi par Foxbox.
+- **Deuxième place:** Un an d'osu!supporter par joueur. 
+- **Troisième place:** Six mois d'osu!supporter par joueur.`,
     },
   ],
   rules: `
@@ -101,7 +101,7 @@ export default {
  - S'il y a moins que le nombre minimum de joueurs nécessaire pour effectuer un match à l'heure prévue alors le match peut être retardé au maximum de 10 minutes.
  - Il n'y a pas de pénalité pour ne pas avoir rejoint la salle juste après l'horaire du match tant que cela reste dans les 10 minutes autorisées.
  - Si les deux équipes n'ont pas assez de joueurs à la fin des 10 minutes, cela comptera comme une défaite pour les deux équipes pendant la phase de groupe. Dans la phase éliminatoire, c'est l'équipe avec le plus haut seed qui sera déclarée victorieuse.
- - Le match sera joué en TeamVs et ScoreV2 et le nom de la salle doit être : "AGTSGTS 2020: (Team Red) vs (Team Blue)".
+ - Le match sera joué en TeamVs et ScoreV2 et le nom de la salle doit être : "AGTS 2020: (Team Red) vs (Team Blue)".
  - Chaque équipe a droit à une beatmap d'échauffement. Celle-ci doit durer moins de 3 minutes. Il est autorisé d'inviter tous les joueurs dans la salle pour les échauffements.
  - Si une équipe met plus de 2 minutes à choisir sa beatmap d'échauffement alors celle-ci ne sera pas jouée.
  - Chaque capitaine doit bannir une beatmap prise dans le pool (sauf le Tiebreaker). Ces beatmaps ne pourront plus être choisies par aucune équipe pendant tout le match.

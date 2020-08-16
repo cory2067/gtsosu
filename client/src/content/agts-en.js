@@ -35,9 +35,9 @@ October 24th until October 25th.`,
     {
       title: "Prizes",
       body: `
-- **1st place:** osu! profile badge (to be confirmed), six months of supporter per player
-- **2nd place:** Four months of supporter per player 
-- **3rd place:** Two months of supporter per player`,
+- **1st place:** osu! profile badge (to be confirmed), one year and 4 months of supporter per player, along with a customized mousepad by Foxbox.
+- **2nd place:** One year of supporter per player
+- **3rd place:** Six months of supporter per player`,
     },
   ],
   rules: `
@@ -101,7 +101,7 @@ October 24th until October 25th.`,
  - If less than the minimum required players attend, the maximum time the match can be postponed is 10 minutes. 
  - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time. 
  - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the double elimination bracket the highest seeded team will advance. 
- - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "IGTS 2020: (Team Red) vs (Team Blue)". 
+ - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "AGTS 2020: (Team Red) vs (Team Blue)". 
  - Each team is allowed one warm-up but it must be below 3 minutes. Everyone is allowed in the room during warm ups. 
  - If a team takes more than 2 mins to decide on a warm-up the referee will be skipping it. 
  - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match. 

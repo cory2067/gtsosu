@@ -35,9 +35,9 @@ export default {
     {
       title: "Premios",
       body: `
-- **1er lugar:** Medalla de perfil (por confirmar), seis meses de support por cada jugador.
-- **2ndo lugar:** Cuatro meses de support por cada jugador. 
-- **3er lugar:** Dos meses de support por cada jugador.`,
+- **1er lugar:** Medalla de perfil (por confirmar), 1 año y 4 meses de osu! supporter por jugador, y un mousepad personalidado hecho por Foxbox.
+- **2ndo lugar:** 1 año de supporter por jugador. 
+- **3er lugar:** 6 meses de supporter por jugador.`,
     },
   ],
   rules: `

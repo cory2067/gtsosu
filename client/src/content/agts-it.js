@@ -34,14 +34,9 @@ Dal 24 ottobre al 25 ottobre.`,
     { title: "Registrazione", body: "Per favore clica sul bottone di registrazione sopra dopo averti collegato col tuo account di osu, poi clicca sul bottone di DIscord per unirti al server del nostro torneo. **Unirti al Discord è obbligatorio per giocare in questo torneo, e sarai rimosso dal torneo se non lo fai.**" }, 
     {
       title: "Premi",
-      body: `
-- **1st place:** osu! profile badge (to be confirmed), six months of supporter per player
-- **2nd place:** Four months of supporter per player 
-- **3rd place:** Two months of supporter per player
-
-- **Primo posto:** Medaglia sul profilo (per confermare), sei mesi di supporter per giocatore.
-- **Secondo posto:** Quatro mesi di supporter per giocatore.
-- **Terzo posto:** Due mesi di supporter per giocatore.`,
+      body: ` - **Primo posto:** Medaglia sul profilo (per confermare), 1 anno e 4 mesi di supporter per giocatore, insieme a un mousepad personalizzato fatto da Foxbox.
+- **Secondo posto:** 1 anno di supporter per giocatore.
+- **Terzo posto:** 6 mesi di supporter per giocatore.`,
     },
   ],
   rules: `
@@ -102,7 +97,7 @@ Dal 24 ottobre al 25 ottobre.`,
  - Se meno del minimo di giocatori richiesti si presenta i giocatori aspettano fino a 10 minuti. Se i giocatori necessari non arrivano alla partita, questa sarà posposta.
  - Non c'è nessuna punizioni per non entrare alla stanza dopo l'inizio della partita se questa non viene posposta.
  - Se nessuna delle nazioni ha il minimo di giocatori richiesti dopo 10 minuti, conta come perdita per entrambe squadre nella fase a gironi. Nella fase di dopia eliminazione, la squadra di seed più alta va avanti.
- - Il match si giocherà come TeamVs e ScoreV2 e il nome della stanza deve essere: "IGTS 2020: (Squadra rossa) vs (Squadra blu)".
+ - Il match si giocherà come TeamVs e ScoreV2 e il nome della stanza deve essere: "AGTS 2020: (Squadra rossa) vs (Squadra blu)".
  - Ogni suqadra può scelgiere una mappa di riscaldamento se dura meo di 3 minuti. Tutti possono essere nella stanza durante i riscaldamenti.
  - Se una squadra ci mette più di 2 minuti per decidere il riscaldamento, il referee lo salta.
  - Ogni capitano deve bannare **una mappa** della pool (tranne il Tiebreaker). Queste mappe non possono essere scelte da nessuna squadra in tutta la partita.

@@ -35,9 +35,9 @@ export default {
     {
       title: "Preise",
       body: `
-- **1. Platz:** osu! Profilmedaille (noch ausstehend), 6 Monate Supporter pro Spieler
-- **2. Platz:** 4 Monate Supporter pro Spieler
-- **3. Platz:** 2 Monate Supporter pro Spieler`,
+- **1. Platz:** osu! Profilmedaille (noch ausstehend), 1 Jahr und 4 Monate Supporter pro Spieler, zusammen mit einem personalisierten Mousepad von Foxbox.
+- **2. Platz:** 1 Jahr Supporter pro Spieler
+- **3. Platz:** 6 Monate Supporter pro Spieler`,
     },
   ],
   rules: `
@@ -101,7 +101,7 @@ export default {
  - Falls nicht genügend Spieler eines Teams anwesend sind, kann das Spiel um maximal 10 Minuten verzögert werden. 
  - Verspätungen werden nicht bestraft, solange sie im Rahmen der 10-minütigen Verzögerung stattfinden.
  - Sollten beide Teams nicht genügend Spieler zur Verfügung haben, wird dies in der Gruppenphase als eine Niederlage für beide Teams gewertet. Im Doppel-Eliminierungs-Format rückt das Team mit dem höheren Seed vor.
- - Das Spiel wird in TeamVS und ScoreV2 ausgetragen und der Name der Lobby muss "IGTS 2020: (Rotes Team) vs (Blaues Team)" lauten. 
+ - Das Spiel wird in TeamVS und ScoreV2 ausgetragen und der Name der Lobby muss "AGTS 2020: (Rotes Team) vs (Blaues Team)" lauten. 
  - Jedes Team darf ein Warm-Up wählen, es muss jedoch unter 3 Minuten lang sein. Alle Spieler sind während der Warm-Ups in der Lobby zugelassen. 
  - Falls ein Team länger als 2 Minuten braucht um ein Warm-Up festzulegen, überspringt der Schiedsrichter dieses. 
  - Jeder Kapitän muss genau **eine Beatmap** aus dem Pool verbieten (außer des Tiebreakers). Diese Beatmap kann man während des gesamten Spiels nicht wählen. 
