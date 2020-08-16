@@ -76,8 +76,7 @@ class TourneyNavbar extends Component {
             <Menu.Item key="lang-ru">Русский (Not available for AGTS)</Menu.Item>
             <Menu.Item key="lang-fr">Français</Menu.Item>
             <Menu.Item key="lang-ja">日本語</Menu.Item>
-            <Menu.Item key="lang-zh-sg">中文 (Singapore) (Not available for AGTS)</Menu.Item>
-            <Menu.Item key="lang-zh-cn">中文 (PRC)</Menu.Item>
+            <Menu.Item key="lang-zh-cn">中文 (Simplified)</Menu.Item>
             <Menu.Item key="lang-de">Deutsch</Menu.Item>
             <Menu.Item key="lang-es">Español</Menu.Item>
             <Menu.Item key="lang-pt-br">Português (Brazil) (Not available for AGTS)</Menu.Item>
