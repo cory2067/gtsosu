@@ -224,26 +224,20 @@ router.getAsync("/staff", async (req, res) => {
  */
 router.postAsync("/staff", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} added ${req.body.username} as ${req.body.tourney} staff`);
+
+  const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
   const user = await User.findOneAndUpdate(
     { username: req.body.username },
-    { $push: { roles: { tourney: req.body.tourney, role: req.body.role } } },
-    { new: true }
+    {
+      $set: {
+        userid: userData.id,
+        country: userData.country,
+        avatar: `https://a.ppy.sh/${userData.id}`,
+      },
+      $push: { roles: { tourney: req.body.tourney, role: req.body.role } },
+    },
+    { new: true, upsert: true }
   );
-
-  if (!user) {
-    // if this staff member has not created a GTS account yet, generate one right now
-    const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
-    const newUser = new User({
-      username: userData.name,
-      userid: userData.id,
-      country: userData.country,
-      avatar: `https://a.ppy.sh/${userData.id}`,
-      roles: [{ tourney: req.body.tourney, role: req.body.role }],
-    });
-    await newUser.save();
-    logger.info(`Generated new staff account for ${req.body.username}`);
-    return res.send(newUser);
-  }
 
   res.send(user);
 });
