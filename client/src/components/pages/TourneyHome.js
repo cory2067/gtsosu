@@ -123,15 +123,16 @@ class TourneyHome extends Component {
               <ReactMarkdown source={this.state.data.description} />
             </div>
             <div className="TourneyHome-button-box">
-              <Button
-                type="primary"
-                size="large"
-                disabled={regMessage !== UI.register}
-                onClick={this.register}
-                onMouseEnter={() => this.handleRegHover()}
-              >
-                {regMessage}
-              </Button>
+              <div onMouseEnter={() => this.handleRegHover()}>
+                <Button
+                  type="primary"
+                  size="large"
+                  disabled={regMessage !== UI.register}
+                  onClick={this.register}
+                >
+                  {regMessage}
+                </Button>
+              </div>
               <Button type="primary" size="large" href={this.state.data.discord}>
                 {UI.discord}
               </Button>
