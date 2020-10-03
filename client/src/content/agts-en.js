@@ -146,7 +146,7 @@ October 24th until October 25th.`,
  - The mappool will be made by a special team of mappoolers. 
  - The event will be a 4 vs 4 match with the following rules: 
    - BO15. 
-   - Mappool will consist of 20 FreeMod maps and 1 TB. All the maps can be played with any mods combination. Some of them might be impossible to put a mod on though! 
+   - Mappool will consist of 4 NoMod maps, 4 Hidden maps, 4 Hard Rock maps, 4 Hidden and Hard Rock maps, 4 Double Time maps and 1 TieBreaker.
    - No bans. 
    - Map selection is the same as a normal match. 
    - Same rules as a normal match for disconnections. 
