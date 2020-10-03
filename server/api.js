@@ -20,7 +20,8 @@ const formatTime = (time) =>
 const scaleTime = (time, mod) =>
   mod === "DT" ? (time * 2) / 3 : mod === "HT" ? (time * 3) / 2 : time;
 const scaleBPM = (bpm, mod) => (mod === "DT" ? (bpm * 3) / 2 : mod === "HT" ? (bpm * 2) / 3 : bpm);
-const scaleDiff = (diff, mod) => (mod === "HR" ? Math.min(10, round(diff * 1.4)) : diff);
+const scaleDiff = (diff, mod) =>
+  mod === "HR" || mod === "HDHR" ? Math.min(10, round(diff * 1.4)) : diff;
 
 const checkPermissions = (req, roles) => {
   const tourney = req.query.tourney || req.body.tourney;
@@ -55,7 +56,7 @@ router.postAsync("/map", ensure.isPooler, async (req, res) => {
   logger.info(`${req.user.username} added ${req.body.id} to ${req.body.stage} mappool`);
 
   const mod = req.body.mod;
-  const modId = { HR: 16, DT: 64, HT: 256 }[mod] || 0; // mod enum used by osu api
+  const modId = { HR: 16, HDHR: 16, DT: 64, HT: 256 }[mod] || 0; // mod enum used by osu api
   const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId }))[0];
 
   // all map metadata cached in our db, so we don't need to spam calls to the osu api
@@ -97,7 +98,7 @@ router.getAsync("/maps", async (req, res) => {
     return res.status(403).send({ error: "This pool hasn't been released yet!" });
   }
 
-  const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, HT: 5, TB: 6 };
+  const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, HT: 5, HDHR: 6, TB: 7 };
   maps.sort((a, b) => {
     if (mods[a.mod] - mods[b.mod] != 0) {
       return mods[a.mod] - mods[b.mod];

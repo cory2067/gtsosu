@@ -33,6 +33,7 @@ class AddMapModal extends Component {
               <Select.Option value="HR">Hard Rock</Select.Option>
               <Select.Option value="DT">Double Time</Select.Option>
               <Select.Option value="FM">Freemod</Select.Option>
+              <Select.Option value="HDHR">Hidden + Hard Rock</Select.Option>
               <Select.Option value="HT">Half Time</Select.Option>
               <Select.Option value="TB">Tiebreaker</Select.Option>
             </Select>

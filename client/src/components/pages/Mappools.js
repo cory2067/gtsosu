@@ -55,7 +55,7 @@ class Mappools extends Component {
     );
 
   sortMaps = (maps) => {
-    const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, HT: 5, TB: 6 };
+    const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, HT: 5, HDHR: 6, TB: 7 };
     return maps.sort((a, b) => {
       if (mods[a.mod] - mods[b.mod] != 0) {
         return mods[a.mod] - mods[b.mod];
