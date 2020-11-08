@@ -72,16 +72,18 @@ class TourneyNavbar extends Component {
           {/* TODO avoid hardcoding this list */}
           <SubMenu title={UI.language} className="Navbar-language">
             <Menu.Item key="lang-en">English</Menu.Item>
-            <Menu.Item key="lang-ko">한국어 (Not available for AGTS)</Menu.Item>
-            <Menu.Item key="lang-ru">Русский (Not available for AGTS)</Menu.Item>
             <Menu.Item key="lang-fr">Français</Menu.Item>
-            <Menu.Item key="lang-ja">日本語</Menu.Item>
-            <Menu.Item key="lang-zh-cn">中文 (Simplified)</Menu.Item>
+            <Menu.Item key="lang-zh_cn">中文 (Simplified)</Menu.Item>
             <Menu.Item key="lang-de">Deutsch</Menu.Item>
-            <Menu.Item key="lang-es">Español</Menu.Item>
-            <Menu.Item key="lang-pt-br">Português (Brazil) (Not available for AGTS)</Menu.Item>
+            <Menu.Item key="lang-es_cl">Español (Chile)</Menu.Item>
             <Menu.Item key="lang-it">Italiano</Menu.Item>
-            <Menu.Item key="lang-pl">Polski (Not available for AGTS)</Menu.Item>
+            <Menu.Item key="lang-nl">Nederlands</Menu.Item>
+            <Menu.Item key="lang-ko">한국어 (Not available for BGTS)</Menu.Item>
+            <Menu.Item key="lang-ru">Русский (Not available for BGTS)</Menu.Item>
+            <Menu.Item key="lang-ja">日本語 Not available for BGTS)</Menu.Item>
+            <Menu.Item key="lang-es">Español (Not available for BGTS)</Menu.Item>
+            <Menu.Item key="lang-pt-br">Português (Brazil) (Not available for BGTS)</Menu.Item>
+            <Menu.Item key="lang-pl">Polski (Not available for BGTS)</Menu.Item>
           </SubMenu>
           <Menu.Item key="7">
             <LoginButton {...this.props} />
