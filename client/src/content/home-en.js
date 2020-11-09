@@ -31,5 +31,46 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 8 t
 The Beginners Global Taiko Showdown, our 2v2 tournament for beginner players, being restricted for ranks #8,000 to no bottom rank limit.
 The top 16 teams after qualifiers will then face off in a Group Stage, where 8 teams will go through, and play in a double-elimination bracket.`,
     },
+    {
+      title: "CGTS (Asia)",
+      code: "cgts_asia",
+      description: `
+The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket.
+The top 32 players after qualifiers in the 1v1 tournaments will then face off in a double-elimination bracket.`,
+    },
+    {
+      title: "CGTS (Europe)",
+      code: "cgts_eu",
+      description: `
+The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket.
+The top 32 players after qualifiers in the 1v1 tournaments will then face off in a double-elimination bracket.`,
+    },
+    {
+      title: "CGTS (North America)",
+      code: "cgts_na",
+      description: `
+The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket.
+The top 32 players after qualifiers in the 1v1 tournaments will then face off in a double-elimination bracket.`,
+    },
+    {
+      title: "CGTS (Oceania / South East Asia)",
+      code: "cgts_osea",
+      description: `
+The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket.
+The top 32 players after qualifiers in the 1v1 tournaments will then face off in a double-elimination bracket.`,
+    },
+    {
+      title: "CGTS (South America)",
+      code: "cgts_sa",
+      description: `
+The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket.
+The top 32 players after qualifiers in the 1v1 tournaments will then face off in a double-elimination bracket.`,
+    },
+    {
+      title: "CGTS (4v4)",
+      code: "cgts_4v4",
+      description: `
+The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket.`,
+    },
   ],
-}
+};
