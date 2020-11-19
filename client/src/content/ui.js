@@ -68,7 +68,7 @@ export default {
     mappools: "Mappools",
     schedule: "Zeitplan",
     players: "Spieler",
-    staff: "Turnierstab",
+    staff: "Mitarbeiter",
     language: "Sprache",
     merch: "Merchshop",
     login: "Login",

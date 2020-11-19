@@ -19,14 +19,18 @@ November 22nd until November 29th.
 December 5th until December 6th.
 ### Group Stage
 December 12th until December 13rd.
-### Quarterfinals + Loser's Bracket Round 1
+### Round of 32 + Loser's Bracket Round 1
 December 19th until December 20th.
-### Semifinals + Loser's Bracket Round 2
+### Round of 16 + Loser's Bracket Round 2
 December 26th until December 27th.
-### Winner's Bracket Finals and Loser's Bracket Finals and Grand Finals
+### Quarterfinals + Loser's Bracket Round 3 and 4
 January 2nd until January 3rd.
+### Semifinals + Loser's Bracket Round 5 and 6
+January 9th until January 10th.
+### Winner's Bracket Finals and Loser's Bracket Finals and Grand Finals
+January 16th until January 17th.
  ### Grand Finals and All Stars
-January 9th until January 10th.`,
+January 23rd until January 24th.`,
     },
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
@@ -44,18 +48,19 @@ January 9th until January 10th.`,
   - The Score System used will be **Score V2**.
   - Any player who meets the requirements stated in the rank restrictions part is allowed to sign up. Since this tournament will aim to get badged some players might be declined by osu staff. 
   - To keep the competition fair, there is a team in charge of checking the profile of every single player, and if a player's skill is too high for this tournament, they will not be able to play in this tournament. 
-  - Any members of staff apart from **Organizers, Mappoolers and Referees** are allowed to play.
+  - Any members of staff apart from **Organizers, Mappoolers, Player Moderation Team and Referees** are allowed to play.
   - Players and staff members must have read this ruleset entirely (and we will assume you did so throughout the tournament).
   - All participants must stay respectful and keep a proper attitude. Not following this rule can result in a ban/blacklist from the tournament. This rule concerns all the staff as well.
   - Any rule changes or unexpected occurrences will be announced in the Discord server.
  
  # Tournament Registration and Teams Creation
-  - In order to participate you need to need to be in the rank range of #8000 to infinity.
+  - In order to participate you need to be in the rank range of #8000 to infinity.
   - Players sign up individually. When their registration is accepted, they will get a country role.
   - The Player Moderation Team can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
   - We are allowing 2 teams for a country under certain conditions:
     - There are **7 or more players** signed up for a country.
     - Each team has to have **at least 3 players**.
+    - The tournament must have not reached 32 different countries eligible for a team.
   - Because of the previous rule there are going to be different situations when creating the teams: 
     - If there are 5 players or less signed up for a country, those players will form the team representing their country. 
     - In case there are more than 10 players signed up for a country, players will decide among themselves who will partake in the tournament. If they cannot decide the top 10 players by ranking will be chosen to form the 2 teams. 
@@ -68,9 +73,9 @@ January 9th until January 10th.`,
   - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches. 
  
  # Stage Regulations
-  - There are six stages in this tournament: the Qualifiers, the Group Stage, the Quarterfinals, the Semifinals, the Finals and the Grand Finals. 
+  - There are eight stages in this tournament: the Qualifiers, the Group Stage, the Round of 32, the Round of 16, the Quarterfinals, the Semifinals, the Finals and the Grand Finals. 
   - The team will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part) 
-  - Teams will be drawn in **4 groups of 4 teams** during a drawing show which will happen on Sunday December 6th. 
+  - Teams will be drawn in **16 groups of 4 teams** during a drawing show which will happen on Sunday December 6th. 
   - In the Group Stage all the teams from each group will face each other. The **best 2 teams** get out of their group. 
   - Rankings of each group are determined by sorting the results of each team's performance in the following priority: 
      - Most matches won.
@@ -79,9 +84,9 @@ January 9th until January 10th.`,
      - Winner of the match played previously between the tied teams.
   - In Group stage, 'Win by default' will be considered as win by 5:0, +1.0 score difference ratio.
   - The winning condition for each stage is:
-    - Group Stage : BO9 (win 5 maps)
-    - Quarterfinals and Loser's Bracket Round 1: BO11 (win 6 maps)
-    - Semifinals, Finals, Grand Finals and Loser's Bracket Round 2, 3 and 4: BO13 (win 7 maps)
+    - Group Stage: BO9 (win 5 maps)
+    - Round of 32, Round of 16, Quarterfinals, Loser's Bracket Round 1, 2, 3 and 4: BO11 (win 6 maps)
+    - Semifinals, Finals, Grand Finals and Loser's Bracket Round 5, 6, Finals and Grand Finals: BO13 (win 7 maps)
  
  # Qualifiers Regulations
   - During this round there will be multiple lobbies available at various hours. 
@@ -91,7 +96,7 @@ January 9th until January 10th.`,
   - Only two players from a team will be playing per map. There is no limitations on player swapping. 
   - Seedings will be done with the average rank of each team on each map. 
   - Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking. 
-  - Only the 16 best teams will continue on to the Group Stage. 
+  - Only the 64 best teams will continue on to the Group Stage. 
  
  # Match Regulations
   - A private lobby will be created 10 minutes before your match by a referee. Both team's captains will be invited into the room when it's match time. Then the referee or the captains will invite the other players into the room. 
@@ -118,14 +123,15 @@ January 9th until January 10th.`,
   - In case of a tie in points (example: 4-4 in BO9) the tiebreaker is selected. 
  
  # Mappool Instructions
-  - There will be 1 mappool for each of the following: Qualifiers, Group Stage, Quarterfinals, Semifinals, Finals and Grand Finals. A different pool will be prepared for All-Star (see All-Star Rules for more details). 
+  - There will be 1 mappool for each of the following: Qualifiers, Group Stage, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals and Grand Finals. A different pool will be prepared for All-Star (see All-Star Rules for more details). 
   - The Qualifiers pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 Hard Rock map, 1 Double Time map. 
   - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend. 
   - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker. 
-  - The Group Stage mappool will consist of 14 maps, Quarterfinals mappool will consist of 15 maps, SemiFinals, Finals and Grand Finals mappool will consist of 16 maps. 
+  - The Group Stage mappool will consist of 14 maps, the Round of 32, Round of 16, Quarterfinals mappools will consist of 15 maps, the SemiFinals, Finals and Grand Finals mappool will consist of 19 maps. 
   - The size of the Hidden, HardRock and DoubleTime brackets will be 2 until Semifinals, where it increases to 3 for the rest of the tournament and 3 for the FreeMod bracket in all stages. 
   - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least one player of each team must have at least one mod activated**. 
-  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated. 
+  - The size of the NoMod bracket will be of 4 in Group Stage. It will be increasing to 5 starting from Round of 32, until Quarterfinals. From Semifinals until Grand Finals, the size of the NoMod bracket will be of 6. 
+  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mod activated. 
   - The mappool for each stage will be showcased a week beforehand. 
  
  # Scheduling Instructions
