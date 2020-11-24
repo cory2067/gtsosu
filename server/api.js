@@ -231,7 +231,7 @@ router.postAsync("/staff", ensure.isAdmin, async (req, res) => {
     { userid: userData.id },
     {
       $set: {
-        username: req.body.username,
+        username: userData.name,
         country: userData.country,
         avatar: `https://a.ppy.sh/${userData.id}`,
       },
