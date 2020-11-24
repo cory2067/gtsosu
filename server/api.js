@@ -228,10 +228,10 @@ router.postAsync("/staff", ensure.isAdmin, async (req, res) => {
 
   const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
   const user = await User.findOneAndUpdate(
-    { username: req.body.username },
+    { userid: userData.id },
     {
       $set: {
-        userid: userData.id,
+        username: req.body.username,
         country: userData.country,
         avatar: `https://a.ppy.sh/${userData.id}`,
       },
