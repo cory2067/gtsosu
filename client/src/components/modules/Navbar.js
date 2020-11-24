@@ -14,6 +14,9 @@ const { SubMenu } = Menu;
 
 const UI = ContentManager.getUI();
 
+const MERCH_LINK = "https://teespring.com/stores/gtsosu-store";
+const MOUSEPAD_LINK = "https://merch.streamelements.com/gtsosu";
+
 class RootNavbar extends Component {
   render() {
     return (
@@ -28,7 +31,14 @@ class RootNavbar extends Component {
           {/*<Menu.Item key="2">
             <Link to="/staff">{UI.staff}</Link>*
     </Menu.Item>*/}
-          <Menu.Item key="3">{UI.merch}</Menu.Item>
+          <SubMenu title={UI.merch.title} className="Navbar-language">
+            <Menu.Item key="3.0">
+              <a href={MERCH_LINK}>{UI.merch.mainStore}</a>
+            </Menu.Item>
+            <Menu.Item key="3.1">
+              <a href={MOUSEPAD_LINK}>{UI.merch.mousepads}</a>
+            </Menu.Item>
+          </SubMenu>
           <Menu.Item key="4">
             <LoginButton {...this.props} />
           </Menu.Item>
