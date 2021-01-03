@@ -22,15 +22,15 @@ December 12th until December 13rd.
 ### Round of 32 + Loser's Bracket Round 1
 December 19th until December 20th.
 ### Round of 16 + Loser's Bracket Round 2
-December 26th until December 27th.
-### Quarterfinals + Loser's Bracket Round 3 and 4
-January 2nd until January 3rd.
-### Semifinals + Loser's Bracket Round 5 and 6
 January 9th until January 10th.
-### Winner's Bracket Finals and Loser's Bracket Finals and Grand Finals
+### Quarterfinals + Loser's Bracket Round 3 and 4
 January 16th until January 17th.
+### Semifinals + Loser's Bracket Round 5 and 6
+January 23rd until January 24th.
+### Winner's Bracket Finals and Loser's Bracket Finals and Grand Finals
+January 30th until January 31st.
  ### Grand Finals and All Stars
-January 23rd until January 24th.`,
+February 6th until February 7th.`,
     },
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
