@@ -147,6 +147,7 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
     Tournament.findOne({ code: req.body.tourney }),
   ]);
 
+  const username = userData.name;
   const rank = userData.pp.rank;
   if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (overrank)`);
@@ -171,7 +172,37 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
         tournies: req.body.tourney,
         stats: { regTime: new Date(), tourney: req.body.tourney },
       },
-      $set: { rank },
+      $set: { rank, username },
+    },
+    { new: true }
+  );
+  res.send(user);
+});
+
+/**
+ * POST /api/force-register
+ * Forces registration of a player. Bypassess all checks.
+ * Params:
+ *   -
+ *   - tourney: identifier for the tourney to register for
+ */
+router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
+  const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
+
+  const rank = userData.pp.rank;
+  const username = userData.name;
+  logger.info(
+    `${req.body.username} registered for ${req.body.tourney} (forced by ${req.user.username})`
+  );
+
+  const user = await User.findOneAndUpdate(
+    { userid: userData.id },
+    {
+      $push: {
+        tournies: req.body.tourney,
+        stats: { regTime: new Date(), tourney: req.body.tourney },
+      },
+      $set: { rank, username },
     },
     { new: true }
   );

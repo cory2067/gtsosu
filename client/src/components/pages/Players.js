@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import "../../utilities.css";
 import "./Players.css";
 import { get, hasAccess, delet, post } from "../../utilities";
+import AddPlayerModal from "../modules/AddPlayerModal";
 
-import { ReloadOutlined, DownloadOutlined } from "@ant-design/icons";
+import { PlusOutlined, ReloadOutlined, DownloadOutlined } from "@ant-design/icons";
 import { Layout, Menu, Collapse, Input, Form, Button, Radio, Progress } from "antd";
 import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
@@ -23,6 +24,9 @@ class Players extends Component {
       sort: "rank",
       mode: "players",
       refreshPercent: -1,
+      modalVisible: false,
+      modalLoading: false,
+      addPlayerData: {},
     };
   }
 
@@ -187,6 +191,22 @@ class Players extends Component {
     this.setState({ sort });
   };
 
+  handleAddPlayer = async () => {
+    this.setState({ modalLoading: true });
+    const player = await post("/api/force-register", {
+      ...this.state.addPlayerData,
+      tourney: this.props.tourney,
+    });
+    this.setState(
+      (state) => ({
+        players: [...state.players, player],
+        modalLoading: false,
+        modalVisible: false,
+      }),
+      () => this.sortPlayers(this.state.sort)
+    );
+  };
+
   isAdmin = () => hasAccess(this.props.user, this.props.tourney, []);
 
   refreshRanks = async () => {
@@ -289,8 +309,25 @@ class Players extends Component {
           </Collapse>
         )}
 
+        <AddPlayerModal
+          visible={this.state.modalVisible}
+          loading={this.state.modalLoading}
+          handleOk={this.handleAddPlayer}
+          handleCancel={() => this.setState({ modalVisible: false })}
+          onValuesChange={(changed, data) => this.setState({ addPlayerData: data })}
+        />
+
         {this.isAdmin() && this.state.mode === "players" && (
           <div className="Players-admintool">
+            <div>
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={() => this.setState({ modalVisible: true })}
+              >
+                Add Player
+              </Button>
+            </div>
             <div>
               <Button type="primary" icon={<DownloadOutlined />} onClick={this.exportPlayers}>
                 Export to CSV
