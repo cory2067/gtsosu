@@ -19,14 +19,16 @@ export default {
 5. und 6. Dezember.
 ### Gruppenphase
 12. und 13. Dezember.
-### Viertelfinale + Verliererbracket Runde 1
-19. und 20. Dezember.
-### Halbfinale + Verliererbracket Runde 2
-26. und 27. Dezember.
-### Gewinnerbracket Finale + Verliererbracket Finale und Großes Finale
-2. und 3. Januar.
+### Achtelfinale + Verliererbracket Runde 2
+9. und 10. Januar.
+### Viertelfinale + Verliererbracket Runde 3 und 4
+16. und 17. Januar.
+### Halbfinale + Verliererbracket Runde 5 und 6
+23. und 24. Januar.
+### Gewinnerbracket Finale + Verliererbracket Halbfinale und Großes Finale
+30. und 31. Januar.
 ### Großes Finale und All-Stars
-9. und 10. Januar.`,
+6. und 7. Februar.`,
 
     },
     { title: "Anmeldung", body: "Bitte klick auf die Anmeldefläche, nachdem du dich mit deinem osu! Account angemeldet hast, dann klick auf die Discordfläche um dem Turnierserver beizutreten. **Dem Discordserver beizutreten ist erforderlich, um in diesem Turnier teilnehmen zu können; wer dies nicht tut, wird vom Turnier ausgeschlossen.**" }, 

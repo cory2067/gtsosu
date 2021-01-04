@@ -19,14 +19,16 @@ export default {
 5 en 6 December.
 ### Groepsfase.
 12 en 13 December.
-### Kwartfinales + Verliezers Ronde 1
-19 en 20 December.
-### Halve Finale + Verliezers Ronde 2
-26 en 27 December.
-### Winnaars finale, Verliezers finale en Grote Finale
-2 en 3 Januari.
- ### Grote Finale en All Stars
-9 en 10 Januari.`,
+### Ronde van 16 + Verliezer's Bracket Ronde 2
+9 en 10 januari.
+### Kwartfinales + Verliezer's Bracket Ronde 3 en 4
+16 en 17 januari.
+### Halve finales + Verliezer's Bracket Ronde 5 en 6.
+23 en 24 januari.
+### Winnaar's Bracket Finale, Verliezer's Bracket Finale en de Grote Finale
+30 en 31 januari
+### Grote Finale en All Stars
+6 en 7 februari.`,
     },
     { title: "Registratie", body: "Druk op de Registratie knop hierboven nadat je ingelogd bent met je osu! account, druk daarna op de Discord knop om de toernooi server binnen te treden. **Je bent verplicht om de Discord server binnen te treden om mee te doen met dit toernooi. Je wordt eruit gezet als je er niet in zit.**" }, 
     {
