@@ -26,6 +26,12 @@ class TourneyHome extends Component {
     document.title = `${this.props.tourney.toUpperCase()}: Home`;
     const data = await ContentManager.get(this.props.tourney);
     if (!data) return navigate("/404");
+
+    if (data.divisions) {
+      const division = this.props.tourney.split("-")[1];
+      if (!data.divisions.includes(division)) return navigate("/404");
+    }
+
     this.setState({ data });
 
     const tourney = await get("/api/tournament", { tourney: this.props.tourney });

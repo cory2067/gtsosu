@@ -12,7 +12,8 @@ export default {
 
   // returns a promise for the content
   // 'target' is either 'home' or the code for a tournament
-  get: async (target) => {
+  get: async (_target) => {
+    const target = _target.split("-")[0]; // discard division names
     const lang = localStorage.getItem("lang") || "en";
 
     if (_data[target]) {

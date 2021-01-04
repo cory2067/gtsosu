@@ -3,6 +3,7 @@ export default {
   description:
     "The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket. The top 32 players after qualifiers in the 1v1 tournaments will then face off in a souble-elimination bracket.",
   discord: "https://discord.gg/3mGC3HB",
+  divisions: ["4v4", "asia", "eu", "na", "osea", "sa"],
   homepage: [
     {
       title: "Restrictions",
@@ -15,16 +16,20 @@ export default {
 January 9th until January 24th.
 ### Screening phase
 January 24th until January 31st.
-### Team picking phase
-March 13th until March 20th.
 ### Qualifiers
-March 27th until March 28th.
-### Semifinals + Loser's Bracket Round 1
-April 3rd until April 4th.
+February 6th until February 7th.
+### Round of 32 + Loser's Bracket Round 1
+February 13rd until February 14th.
+### Round of 16 + Loser's Bracket Round 2 
+February 20th until February 21st.
+### Quarterfinals + Loser's Bracket Round 3 and 4
+February 27th until February 28th.
+### Semifinals + Loser's Bracket 5 and 6
+March 6th until March 7th.
 ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
-April 10th until April 11th.
-### Grand Finals + Asia vs The rest of the world showmatch
-April 17th until April 18th.`,
+March 13rd until March 14th.
+### Grand Finals
+ March 20th until March 21st.`,
     },
     {
       title: "Registration",
