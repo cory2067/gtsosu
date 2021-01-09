@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import countries from "../../content/countries";
 import "../../utilities.css";
 
 import { Form, Input, Modal, InputNumber, Select, Switch } from "antd";
@@ -38,6 +39,13 @@ class EditTourneyModal extends Component {
             <Select mode="multiple">
               {stages.map((k) => (
                 <Select.Option key={k}>{k}</Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="countries" label="Allowed country codes">
+            <Select mode="multiple" placeholder="Allow all">
+              {countries.map((c) => (
+                <Select.Option key={c}>{c}</Select.Option>
               ))}
             </Select>
           </Form.Item>

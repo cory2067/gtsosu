@@ -149,6 +149,7 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
 
   const username = userData.name;
   const rank = userData.pp.rank;
+  const country = userData.country;
   if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (overrank)`);
     return res
@@ -161,6 +162,13 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
     return res
       .status(400)
       .send({ error: `You are underranked for this tourney (your rank: ${rank})` });
+  }
+
+  if (tourney.countries && tourney.countries.length && !tourney.countries.includes(country)) {
+    logger.info(
+      `${req.user.username} failed to register for ${req.body.tourney} (country not allowed)`
+    );
+    return res.status(400).send({ error: `Your country can't participate in this division` });
   }
 
   logger.info(`${req.user.username} registered for ${req.body.tourney}`);
@@ -336,27 +344,25 @@ router.getAsync("/tournament", async (req, res) => {
  *   - tourney: identifier for the tournament
  *   - registrationOpen: are players allowed to register
  *   - teams: true if this tourney has teams
+ *   - countries: what countries can participate in this tourney (empty if all)
+ *   - rankMin / rankMax: rank restriction
  *   - stages: what stages this tourney consists of
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
-  const tourney = await Tournament.findOne({ code: req.body.tourney });
+  let tourney = await Tournament.findOne({ code: req.body.tourney });
 
   if (!tourney) {
-    const newTourney = new Tournament({
+    tourney = new Tournament({
       code: req.body.tourney,
-      stages: req.body.stages.map((s) => ({ name: s, poolVisible: false, mappack: "" })),
-      teams: req.body.teams,
-      registrationOpen: req.body.registrationOpen,
     });
-    await newTourney.save();
-    return res.send(newTourney);
   }
 
   tourney.registrationOpen = req.body.registrationOpen;
   tourney.teams = req.body.teams;
   tourney.rankMin = req.body.rankMin;
   tourney.rankMax = req.body.rankMax;
+  tourney.countries = req.body.countries;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];

@@ -13,6 +13,7 @@ const Tournament = new mongoose.Schema({
   ],
   rankMin: Number,
   rankMax: Number,
+  countries: [String],
 });
 
 module.exports = mongoose.model("Tournament", Tournament);

@@ -43,6 +43,7 @@ class TourneyHome extends Component {
         stages: (tourney.stages || []).map((s) => s.name),
         rankMin: tourney.rankMin || -1,
         rankMax: tourney.rankMax || -1,
+        countries: tourney.countries || [],
       },
     });
   }
