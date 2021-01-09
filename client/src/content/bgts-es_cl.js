@@ -19,14 +19,16 @@ export default {
 5 y 6 de diciembre.
 ### Fase de Grupos
 12 y 13 de diciembre.
-### Cuartos de Final + Ronda 1 del Bracket de Perdedores
-19 y 20 de diciembre.
-### Semifinal + Ronda 2 del Bracket de Perdedores
-26 y 27 de diciembre.
-### Final del Bracket de Ganadores, Final del Bracket de Perdedores, y Gran Final del Bracket de Perdedores
-2 y 3 de enero.
- ### Gran Final y Salón de la Fama
-9 y 10 de enero.`,
+### Ronda de 16 + 2da Ronda del Bracket de Perdedores
+9 de enero al 10 de enero
+### Cuartos de Final + Rondas 3 y 4 del Bracket de Perdedores
+16 de enero al 17 de enero
+### Semifinal + Rondas 5 y 6 del Bracket de Perdedores
+23 de enero al 24 de enero
+### Final del Bracket de Ganadores y del Bracket de Perdedores + Gran Final
+30 de enero al 31 de enero
+### Gran Final y Salón de la Fama
+6 de febrero al 7 de febrero`,
     },
     { title: "Inscripción", body: "Haz click en el botón de Inscripción después de entrar con tu cuenta de osu!, y después haz click en el botón de Discord para unirte al servidor del torneo. **Unirse al servidor de Discord es mandatorio para jugar en el torneo. Quienes no estén dentro al iniciar el torneo serán removidos.**" }, 
     {

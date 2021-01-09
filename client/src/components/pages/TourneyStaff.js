@@ -15,6 +15,7 @@ const roles = [
   "All-Star Mapsetter",
   "Players Moderation Team",
   "Designer",
+  "Composer",
   "Referee",
   "Streamer",
   "Commentator",

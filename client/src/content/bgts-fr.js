@@ -19,14 +19,16 @@ export default {
 5 décembre et 6 décembre.
 ### Phase de Groupes
 12 décembre et 13 décembre.
-### Quarts de Finale + Premier tour de Loser's Bracket
-19 décembre et 20 décembre.
-### Demi-Finales + Deuxième tour de Loser's Bracket
-26 décembre et 27 décembre.
+### Huitièmes de Finale + Deuxième tour de Loser's Bracket
+9 janvier et 10 janvier.
+### Quarts de Finale + Troisième et Quatrième tour de Loser's Bracket
+16 janvier et 17 janvier.
+### Demi-Finales + Cinquième et Sixième tour de Loser's Bracket
+23 janvier et 24 janvier.
 ### Finale du Winner's Bracket, Finale et Grande Finale du Loser's Bracket
-2 janvier et 3 janvier.
- ### Grande Finale et All-Stars
-9 janvier et 10 janvier.`,
+30 janvier et 31 janvier.
+### Grande Finale et All-Stars
+6 février et 7 février.`,
     },
     { title: "S'inscrire", body: "Cliquez sur le bouton S'inscrire au dessus une fois que vous êtes connecté avec votre compte osu!, puis cliquez sur le bouton Discord pour rejoindre le serveur du tournoi. **Joindre le serveur est obligatoire pour jouer le tournoi, et vous serez retiré de celui-ci si vous ne le faites pas.**" }, 
     {

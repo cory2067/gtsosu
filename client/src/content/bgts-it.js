@@ -19,14 +19,16 @@ Dal 22 novembre al 29 novembre.
 Dal 5 dicembre al 6 dicembre.
 ### Fase a gruppi
 Dal 12 dicembre al 13 dicembre.
-### Quarti di finali + Staffa perdenti 1
-Dal 19 dicembre al 20 dicembre.
-### Semifinali + Staffa perdenti 2
-Dal 26 dicembre al 27 dicembre.
-### Finali (staffa vincitori) + Finali e Grandi finali (staffa perdenti)
-Dal 2 gennaio al 3 gennaio.
-### Grandi finali e All Stars
-Dal 9 gennaio al 10 gennaio.`,
+### Round di 16 + Staffa perdenti 2
+Dal 9 gennaio al 10 gennaio.
+### Quarti di finale + Staffa perdenti 3 e 4
+Dal 16 gennaio al 17 gennaio.
+### Semifinali + Staffa perdenti 5 e 6
+Dal 23 gennaio al 24 gennaio.
+### Finali (staffa vincitori) + Finali e Grande Finale (staffa perdenti)
+Dal 30 gennaio al 31 gennaio.
+### Grande Finale e All Stars
+Dal 6 febbraio al 7 febbraio.`,
     },
     { title: "Registrazioni", body: "Per favore clica sul bottone di registrazione sopra dopo averti collegato col tuo account di osu, poi clicca sul bottone di DIscord per unirti al server del nostro torneo. **Unirti al Discord è obbligatorio per giocare in questo torneo, e sarai rimosso dal torneo se non lo fai.**" }, 
     {
