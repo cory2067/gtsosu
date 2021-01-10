@@ -1,7 +1,7 @@
 export default {
   name: "Continental Global Taiko Showdown",
   description:
-    "The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket. The top 32 players after qualifiers in the 1v1 tournaments will then face off in a ouble-elimination bracket.",
+    "The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket. The top 32 players after qualifiers in the 1v1 tournaments will then face off in a double-elimination bracket.",
   discord: "https://discord.gg/3mGC3HB",
   divisions: ["4v4", "asia", "eu", "na", "osea", "sa"],
   homepage: [
