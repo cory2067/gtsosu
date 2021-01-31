@@ -41,6 +41,11 @@ class Schedule extends Component {
       timezone: 0,
       show: "all",
       editing: -1,
+      formData: {
+        score1: 0,
+        score2: 0,
+        link: "",
+      },
     };
   }
 

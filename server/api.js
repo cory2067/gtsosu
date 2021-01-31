@@ -477,7 +477,7 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
     {
-      $set: { score1: req.body.score1, score2: req.body.score2, link: req.body.link },
+      $set: { score1: req.body.score1 || 0, score2: req.body.score2 || 0, link: req.body.link },
     },
     { new: true }
   );
