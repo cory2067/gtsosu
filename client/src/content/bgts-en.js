@@ -35,10 +35,7 @@ February 6th until February 7th.`,
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
       title: "Prizes",
-      body: `
-- **1st place:** osu! profile badge (to be confirmed), 6 months of supporter per player, along with a customized mousepad by Foxbox.
- - **2nd place:** $48 aka 4 months of supporter per player
- - **3rd place:** $32 aka 2 months of supporter per player`,
+      body: `there are no prizes the prize is dying`,
     },
   ],
   rules: `
