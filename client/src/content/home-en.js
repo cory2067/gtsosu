@@ -45,6 +45,14 @@ The top 16 teams after qualifiers will then face off in a Group Stage, where 8 t
       description: `
 The Continental Global Taiko Showdown, our 1v1 tournament with no rank limit, for 5 different regions all at once, for which the top 8 of each then goes to a 4v4 tournament double-elimination bracket.
 The top 32 players after qualifiers in the 1v1 tournaments will then face off in a double-elimination bracket.`,
+},
+{
+
+  title: "BTT",
+  code: "btt",
+  description: `
+  Welcome, potentially new Taiko players, or just beginning Taiko players aiming to improve their game! It's perhaps a bit difficult to get into Taiko just due to how intimidating the game looks, or based off of the colors confusing you, or even just afraid to jump out of your comfort zone* (*note not all reasons listed here)! Not to worry, we're here to put the spotlight onto you, with the Beginner's Taiko Tournament Season 6! In this, we'll get to see new members of the Taiko community partake and improve their skills. Who knows, perhaps one of these players will be a top Taiko player in the future? In any case, to get to the top, you must work hard from a lower point in the pyramid so to say.`,
     },
   ],
 };
+
