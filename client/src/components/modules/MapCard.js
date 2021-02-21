@@ -9,6 +9,7 @@ import { Link } from "@reach/router";
 
 import { Card, Popconfirm } from "antd";
 import "./MapCard.css";
+import DefaultBG from "../../public/default-bg.png";
 
 class MapCard extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class MapCard extends Component {
         bordered={true}
         cover={
           <a target="_blank" href={`https://osu.ppy.sh/b/${this.props.mapId}`}>
-            <img src={this.props.image} />
+            <img src={this.props.image} onError={(e) => (e.target.src = DefaultBG)} />
           </a>
         }
         extra={
