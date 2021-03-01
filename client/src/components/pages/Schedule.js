@@ -205,7 +205,8 @@ class Schedule extends Component {
   renderName = (p) => {
     const stats = this.getStats(p);
 
-    const title = stats ? `${stats.seedName} Seed (#${stats.seedNum})` : "Unseeded player";
+    const title =
+      stats && stats.seedName && stats.seedNum ? `${stats.seedName} Seed (#${stats.seedNum})` : "";
 
     return (
       <Tooltip title={title}>
