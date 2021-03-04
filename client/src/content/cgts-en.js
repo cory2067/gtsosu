@@ -30,7 +30,7 @@ March 6th until March 7th.
 March 13rd until March 14th.
 ### Grand Finals
 March 20th until March 21st.
-### 4v4 phase's Qualifiers
+### 4v4 phase's Seeding Phase
 March 27th until March 28th.
 ### 4v4 phase's Semifinals + Loser's Bracket Round 1
 April 3rd until April 4th.
@@ -47,7 +47,13 @@ April 17th.`,
     {
       title: "Prizes",
       body: 
-      "Nothing currently planned. Sorry!",
+`- **1v1 1st place:** $40, special plaque to the winner's name, specially made taiko keypad
+- **1v1 2nd place:** $20, special plaque to the winner's name, specially made taiko keypad
+- **1v1 3rd place:** $10, special plaque to the winner's name, specially made taiko keypad
+- **4v4 1st place:** $43,75 per player, special plaque per player, specially made taiko keypad, osu! profile badge
+- **4v4 2nd place:** $23,75 per player, special plaque per player, specially made taiko keypad
+- **4v4 3rd place:** $13,75 per player, special plaque per player, specially made taiko keypad
+      `,
     },
   ],
   rules: `
