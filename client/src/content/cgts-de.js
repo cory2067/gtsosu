@@ -30,7 +30,7 @@ export default {
 13. und 14. März.
 ### Großes Finale
 20. und 21. März.
-### Qualifikation der 4-gegen-4-Phase
+### Seedingphase der 4-gegen-4-Phase
 27. und 28. März.
 ### Halbfinale + Verliererbracket 1 der 4-gegen-4-Phase
 3. und 4. April.
@@ -47,7 +47,12 @@ export default {
     {
       title: "Preise",
       body: 
-      "Im Moment ist nichts geplant, sorry!",
+`- **1. Platz im 1-gegen-1:** $40 (ca. 33€), ein personalisiertes Abzeichen mit dem Namen des Gewinners, ein speziell angefertigtes Taiko-Keypad
+- **2. Platz im 1-gegen-1:** $20 (ca. 17€), ein personalisiertes Abzeichen mit dem Namen des Gewinners, ein speziell angefertigtes Taiko-Keypad
+- **3. Platz im 1-gegen-1:** $10 (ca. 8€), ein personalisiertes Abzeichen mit dem Namen des Gewinners, ein speziell angefertigtes Taiko-Keypad
+- **1. Platz im 4-gegen-4:** $43,75 (ca. 36€) pro Spieler, ein personalisiertes Abzeichen pro Spieler, ein speziell angefertigtes Taiko-Keypad, osu! Profilmedaille
+- **2. Platz im 4-gegen-4:** $23,75 (ca. 20€) pro Spieler, ein personalisiertes Abzeichen pro Spieler, ein speziell angefertigtes Taiko-Keypad, 
+- **3. Platz im 4-gegen-4:** $13,75 (ca. 11€) pro Spieler, ein personalisiertes Abzeichen pro Spieler, ein speziell angefertigtes Taiko-Keypad`,
     },
   ],
   rules: `

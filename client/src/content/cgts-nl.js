@@ -30,7 +30,7 @@ Februari 20th until Februari 21st.
 13 en 14 Maart.
 ### Grote Finale
 20 en 21 Maart.
-### Kwalificatie voor de 4v4 fase
+### 4v4 Fase, Seeding Fase
 27 en 28 Maart.
 ### 4v4 fase Halve finale + Verliezer's Bracket Ronde 1
 3 en 4 April.
@@ -47,7 +47,12 @@ Februari 20th until Februari 21st.
     {
       title: "Prijzen",
       body: 
-      "Niks gepland voor nu. Sorry!",
+`- **1v1 1ste plaats:** $40 (€33,19), een speciaal plaquette met de naam van de winnaar, een speciaal gemaakte taiko keypad
+- **1v1 2de plaats:** $20 (€16,59), een speciaal plaquette met de naam van de winnaar, een speciaal gemaakte taiko keypad
+- **1v1 3de plaats:** $10  (€8,30), een speciaal plaquette met de naam van de winnaar, een speciaal gemaakte taiko keypad
+- **4v4 1ste plaats:** $43,75 (€36,30) per speler, een speciaal plaquette per speler, een speciaal gemaakte taiko keypad, osu!profiel badge
+- **4v4 2de plaats:** $23,75 (€19,71) per speler, een speciaal plaquette per speler, een speciaal gemaakte taiko keypad
+- **4v4 3de plaats:** $13,75 (€11,41) per speler, een speciaal plaquette per speler, een speciaal gemaakte taiko keypad`,
     },
   ],
   rules: `
