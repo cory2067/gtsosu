@@ -39,6 +39,14 @@ class App extends Component {
   };
 
   render() {
+    /*
+      Each route for a tourney can optionally specify a year
+      if a year is not specified, it will default to the most recent iteration
+      of the tourney.
+
+      TourneyRouteWrapper transforms the 'tourney' prop to include the year of the tourney
+      e.g. /2019/igts -> props.tourney === "igts_2019"
+    */
     return (
       <>
         <Layout>
@@ -50,17 +58,69 @@ class App extends Component {
           <Router primary={false}>
             <Home path="/" />
             <Staff path="/staff" />
-            <TourneyHome
+
+            <TourneyRouteWrapper
               setLoginAttention={this.setLoginAttention}
               user={this.state.user}
               path="/:tourney/home"
               updateUser={this.updateUser}
+              PageComponent={TourneyHome}
             />
-            <TourneyStaff user={this.state.user} path="/:tourney/staff" />
-            <Rules path="/:tourney/rules" />
-            <Mappools user={this.state.user} path="/:tourney/pools" />
-            <Players user={this.state.user} path="/:tourney/players" />
-            <Schedule user={this.state.user} path="/:tourney/schedule" />
+            <TourneyRouteWrapper
+              setLoginAttention={this.setLoginAttention}
+              user={this.state.user}
+              path="/:year/:tourney/home"
+              updateUser={this.updateUser}
+              PageComponent={TourneyHome}
+            />
+
+            <TourneyRouteWrapper
+              user={this.state.user}
+              path="/:tourney/staff"
+              PageComponent={TourneyStaff}
+            />
+            <TourneyRouteWrapper
+              user={this.state.user}
+              path="/:year/:tourney/staff"
+              PageComponent={TourneyStaff}
+            />
+
+            <TourneyRouteWrapper path="/:tourney/rules" PageComponent={Rules} />
+            <TourneyRouteWrapper path="/:year/:tourney/rules" PageComponent={Rules} />
+
+            <TourneyRouteWrapper
+              user={this.state.user}
+              path="/:tourney/pools"
+              PageComponent={Mappools}
+            />
+            <TourneyRouteWrapper
+              user={this.state.user}
+              path="/:year/:tourney/pools"
+              PageComponent={Mappools}
+            />
+
+            <TourneyRouteWrapper
+              user={this.state.user}
+              path="/:tourney/players"
+              PageComponent={Players}
+            />
+            <TourneyRouteWrapper
+              user={this.state.user}
+              path="/:year/:tourney/players"
+              PageComponent={Players}
+            />
+
+            <TourneyRouteWrapper
+              user={this.state.user}
+              path="/:tourney/schedule"
+              PageComponent={Schedule}
+            />
+            <TourneyRouteWrapper
+              user={this.state.user}
+              path="/:year/:tourney/schedule"
+              PageComponent={Schedule}
+            />
+
             <NotFound default />
           </Router>
           <Footer></Footer>
@@ -68,6 +128,13 @@ class App extends Component {
       </>
     );
   }
+}
+
+function TourneyRouteWrapper(props) {
+  const { PageComponent, year, tourney } = props;
+
+  // TODO populate year in tourney prop
+  return <PageComponent {...props} />;
 }
 
 export default App;
