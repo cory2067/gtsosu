@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router } from "@reach/router";
+import { navigate, Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Home from "./pages/Home.js";
 import Staff from "./pages/Staff.js";
@@ -13,6 +13,7 @@ import Navbar from "./modules/Navbar";
 import { get } from "../utilities";
 
 import "../utilities.css";
+import YearConfig from "../content/year-config";
 
 import { Layout } from "antd";
 import "antd/dist/antd.css";
@@ -131,14 +132,12 @@ class App extends Component {
 }
 
 function TourneyRouteWrapper(props) {
-  const { PageComponent, _year, tourney } = props;
+  const { PageComponent, year, tourney } = props;
 
-  let year = _year;
-  if (!year) {
-    year = tourney.includes("cgts") ? 2021 : 2020;
-  }
+  const _year = year ?? YearConfig[tourney];
+  if (!_year) navigate("/404");
 
-  return <PageComponent {...props} tourney={`${tourney}_${year}`} />;
+  return <PageComponent {...props} tourney={`${tourney}_${_year}`} />;
 }
 
 export default App;
