@@ -131,10 +131,14 @@ class App extends Component {
 }
 
 function TourneyRouteWrapper(props) {
-  const { PageComponent, year, tourney } = props;
+  const { PageComponent, _year, tourney } = props;
 
-  // TODO populate year in tourney prop
-  return <PageComponent {...props} />;
+  let year = _year;
+  if (!year) {
+    year = tourney.includes("cgts") ? 2021 : 2020;
+  }
+
+  return <PageComponent {...props} tourney={`${tourney}_${year}`} />;
 }
 
 export default App;

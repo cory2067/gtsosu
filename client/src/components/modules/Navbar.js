@@ -55,6 +55,8 @@ class RootNavbar extends Component {
 
 class TourneyNavbar extends Component {
   render() {
+    const prefix = window.location.pathname.split("/").slice(0, -1).join("/");
+    console.log(prefix);
     return (
       <Header>
         <Link to="/">
@@ -62,22 +64,22 @@ class TourneyNavbar extends Component {
         </Link>
         <Menu theme="dark" mode="horizontal" selectable={false} onClick={this.props.handleClick}>
           <Menu.Item key="1">
-            <Link to={`/${this.props.tourney}/home`}>{UI.home}</Link>
+            <Link to={`${prefix}/home`}>{UI.home}</Link>
           </Menu.Item>
           <Menu.Item key="2">
-            <Link to={`/${this.props.tourney}/rules`}>{UI.rules}</Link>
+            <Link to={`${prefix}/rules`}>{UI.rules}</Link>
           </Menu.Item>
           <Menu.Item key="3">
-            <Link to={`/${this.props.tourney}/pools`}>{UI.mappools}</Link>
+            <Link to={`${prefix}/pools`}>{UI.mappools}</Link>
           </Menu.Item>
           <Menu.Item key="4">
-            <Link to={`/${this.props.tourney}/schedule`}>{UI.schedule}</Link>
+            <Link to={`${prefix}/schedule`}>{UI.schedule}</Link>
           </Menu.Item>
           <Menu.Item key="5">
-            <Link to={`/${this.props.tourney}/players`}>{UI.players}</Link>
+            <Link to={`${prefix}/players`}>{UI.players}</Link>
           </Menu.Item>
           <Menu.Item key="6">
-            <Link to={`/${this.props.tourney}/staff`}>{UI.staff}</Link>
+            <Link to={`${prefix}/staff`}>{UI.staff}</Link>
           </Menu.Item>
           {/* TODO avoid hardcoding this list */}
           <SubMenu title={UI.language} className="Navbar-language">
