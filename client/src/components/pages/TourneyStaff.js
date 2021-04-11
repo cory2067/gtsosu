@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../utilities.css";
-import { get, post, hasAccess, delet } from "../../utilities";
+import { get, post, hasAccess, delet, prettifyTourney } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
@@ -35,7 +35,7 @@ class TourneyStaff extends Component {
   }
 
   async componentDidMount() {
-    document.title = `${this.props.tourney.toUpperCase()}: Staff`;
+    document.title = `${prettifyTourney(this.props.tourney)}: Staff`;
     const staff = await get("/api/staff", { tourney: this.props.tourney });
     this.setState({ staff: this.sort(staff) });
   }

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
+import { navigate } from "@reach/router";
 import "../../utilities.css";
+import { prettifyTourney } from "../../utilities";
 
 import { Layout, Card } from "antd";
 const { Content } = Layout;
@@ -13,7 +15,7 @@ class Rules extends Component {
   }
 
   async componentDidMount() {
-    document.title = `${this.props.tourney.toUpperCase()}: Rules`;
+    document.title = `${prettifyTourney(this.props.tourney)}: Rules`;
     const data = await ContentManager.get(this.props.tourney);
     if (!data) return navigate("/404");
     this.setState({ data });

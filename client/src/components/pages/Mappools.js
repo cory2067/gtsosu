@@ -4,7 +4,7 @@ import StageSelector from "../modules/StageSelector";
 import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
 import "../../utilities.css";
-import { get, post, delet, hasAccess, getStage } from "../../utilities";
+import { get, post, delet, hasAccess, getStage, prettifyTourney } from "../../utilities";
 import { navigate } from "@reach/router";
 import "./Mappools.css";
 
@@ -26,7 +26,8 @@ class Mappools extends Component {
   formRef = React.createRef();
 
   async componentDidMount() {
-    document.title = `${this.props.tourney.toUpperCase()}: Mappools`;
+    document.title = `${prettifyTourney(this.props.tourney)}: Mappools`;
+
     const [tourney, current] = await getStage(this.props.tourney);
     this.setState({ stages: tourney.stages, current });
     await this.getMappool(current.name);

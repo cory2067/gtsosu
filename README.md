@@ -29,6 +29,8 @@ Next, update the home page, which is `home-en.js`. Add a new entry for the new t
 
 Next, specify the current year for the tournament in `year-config.js`. This is required so that when a user navigates to `/tourney/home`, it knows which year of the tourney to open by default. Old iterations of the tourney can be accessed by explicitly including the year in the url, such as `/2020/agts/home`.
 
+Now, you should be able to view your new tournament. Configure the settings (e.g. rank restrictions) by clicking the pencil icon next to the tourney name.
+
 Finally, add translations as specified below.
 
 ## Translations

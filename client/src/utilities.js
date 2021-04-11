@@ -69,3 +69,7 @@ export async function getStage(tourneyId) {
 
   return [tourney, { ...current, index: curIndex }];
 }
+
+export function prettifyTourney(tourney) {
+  return `${tourney.replace("_", " ").toUpperCase()}`;
+}

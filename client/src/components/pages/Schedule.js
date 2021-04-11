@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { get, post, hasAccess, delet, getStage } from "../../utilities";
+import { get, post, hasAccess, delet, getStage, prettifyTourney } from "../../utilities";
 import "../../utilities.css";
 import StageSelector from "../modules/StageSelector";
 import SubmitResultsModal from "../modules/SubmitResultsModal";
@@ -50,7 +50,7 @@ class Schedule extends Component {
   }
 
   async componentDidMount() {
-    document.title = `${this.props.tourney.toUpperCase()}: Schedule`;
+    document.title = `${prettifyTourney(this.props.tourney)}: Schedule`;
     const [tourney, current] = await getStage(this.props.tourney);
     this.getMatches(current.name);
     this.setState({

@@ -5,7 +5,7 @@ import "./TourneyHome.css";
 
 import { Layout, Card, Button, Modal, notification, message } from "antd";
 import { ExclamationCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { get, post, hasAccess } from "../../utilities";
+import { get, post, hasAccess, prettifyTourney } from "../../utilities";
 import { navigate } from "@reach/router";
 import ContentManager from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
@@ -23,7 +23,7 @@ class TourneyHome extends Component {
   }
 
   async componentDidMount() {
-    document.title = `${this.props.tourney.toUpperCase()}: Home`;
+    document.title = `${prettifyTourney(this.props.tourney)}: Home`;
     const data = await ContentManager.get(this.props.tourney);
     if (!data) return navigate("/404");
 

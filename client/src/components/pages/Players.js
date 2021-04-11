@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../../utilities.css";
 import "./Players.css";
-import { get, hasAccess, delet, post } from "../../utilities";
+import { get, hasAccess, delet, post, prettifyTourney } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";
 
 import { PlusOutlined, ReloadOutlined, DownloadOutlined } from "@ant-design/icons";
@@ -31,7 +31,7 @@ class Players extends Component {
   }
 
   async componentDidMount() {
-    document.title = `${this.props.tourney.toUpperCase()}: Players`;
+    document.title = `${prettifyTourney(this.props.tourney)}: Players`;
     const [players, tourney] = await Promise.all([
       get("/api/players", { tourney: this.props.tourney }),
       get("/api/tournament", { tourney: this.props.tourney }),
