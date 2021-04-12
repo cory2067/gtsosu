@@ -134,7 +134,8 @@ class App extends Component {
 function TourneyRouteWrapper(props) {
   const { PageComponent, year, tourney } = props;
 
-  const _year = year ?? YearConfig[tourney];
+  const tourneyName = tourney.split("-")[0]; // discard division
+  const _year = year ?? YearConfig[tourneyName];
   if (!_year) navigate("/404");
 
   return <PageComponent {...props} tourney={`${tourney}_${_year}`} />;

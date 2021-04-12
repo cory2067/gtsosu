@@ -5,7 +5,7 @@ import "./TourneyHome.css";
 
 import { Layout, Card, Button, Modal, notification, message } from "antd";
 import { ExclamationCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { get, post, hasAccess, prettifyTourney } from "../../utilities";
+import { get, post, hasAccess, prettifyTourney, tokenizeTourney } from "../../utilities";
 import { navigate } from "@reach/router";
 import ContentManager from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
@@ -28,7 +28,7 @@ class TourneyHome extends Component {
     if (!data) return navigate("/404");
 
     if (data.divisions) {
-      const division = this.props.tourney.split("-")[1];
+      const { division } = tokenizeTourney(this.props.tourney);
       if (!data.divisions.includes(division)) return navigate("/404");
     }
 

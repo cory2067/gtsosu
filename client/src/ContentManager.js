@@ -1,6 +1,7 @@
 // responsible for loading content on the pages and managing language
 // lazily loads data, and then caches it
 import UI from "./content/ui";
+import { tokenizeTourney } from "./utilities";
 
 const _data = {};
 
@@ -11,9 +12,11 @@ export default {
   },
 
   // returns a promise for the content
-  // 'target' is either 'home' or the code for a tournament
-  get: async (_target) => {
-    const target = _target.split("-")[0]; // discard division names
+  get: async (tourney) => {
+    // chop off division names, e.g. cgts-4v4_2020 -> cgts_2020
+    const { code, year } = tokenizeTourney(tourney);
+    const target = `${code}_${year}`;
+
     const lang = localStorage.getItem("lang") || "en";
 
     if (_data[target]) {

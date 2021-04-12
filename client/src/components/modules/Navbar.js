@@ -56,7 +56,6 @@ class RootNavbar extends Component {
 class TourneyNavbar extends Component {
   render() {
     const prefix = window.location.pathname.split("/").slice(0, -1).join("/");
-    console.log(prefix);
     return (
       <Header>
         <Link to="/">

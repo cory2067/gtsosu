@@ -73,3 +73,10 @@ export async function getStage(tourneyId) {
 export function prettifyTourney(tourney) {
   return `${tourney.replace("_", " ").toUpperCase()}`;
 }
+
+export function tokenizeTourney(tourney) {
+  const [codeAndDivision, year] = tourney.split("_");
+  const [code, division] = codeAndDivision.split("-");
+
+  return { code, year, division };
+}
