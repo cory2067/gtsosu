@@ -15,14 +15,14 @@ The top 64 of it after qualifiers will face-off in a group stage, followed by a 
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
 It's our 2v2 tournament for intermediate level players being restricted for ranks #3,500 to #10,000. 
-The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket. Next edition will be released on April 17th.`,
+The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.`,
     },
     {
       title: "AGTS",
       code: "agts",
       description: `
 The Advanced Global Taiko Showdown, our 2v2 tournament for advanced-level players, being restricted for ranks #500 to #3,500. 
-The top 32 teams after qualifiers will then face off in a Group Stage, where 8 teams will go through, and play in a double-elimination bracket. Next edition will be released on June 26th.`,
+The top 32 teams after qualifiers will then face off in a Group Stage, where 8 teams will go through, and play in a double-elimination bracket.`,
     },
     {
       title: "BGTS",
