@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { navigate, Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Home from "./pages/Home.js";
+import Archives from "./pages/Archives.js";
 import Staff from "./pages/Staff.js";
 import TourneyHome from "./pages/TourneyHome";
 import TourneyStaff from "./pages/TourneyStaff";
@@ -58,6 +59,7 @@ class App extends Component {
           />
           <Router primary={false}>
             <Home path="/" />
+            <Archives path="/archives" />
             <Staff path="/staff" />
 
             <TourneyRouteWrapper

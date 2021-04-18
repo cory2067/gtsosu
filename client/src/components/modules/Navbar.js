@@ -31,6 +31,9 @@ class RootNavbar extends Component {
           {/*<Menu.Item key="2">
             <Link to="/staff">{UI.staff}</Link>*
     </Menu.Item>*/}
+          <Menu.Item key="2">
+            <Link to="/archives">{UI.archives}</Link>
+          </Menu.Item>
           <SubMenu title={UI.merch.title} className="Navbar-language">
             <Menu.Item key="3.0">
               <a href={MERCH_LINK}>{UI.merch.mainStore}</a>
@@ -181,6 +184,7 @@ class Navbar extends Component {
         )}
         <Router>
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/" />
+          <RootNavbar {...this.props} openSettings={this.openSettings} path="/archives" />
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/staff" />
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/404" />
           <TourneyNavbar

@@ -244,6 +244,15 @@ router.getAsync("/players", async (req, res) => {
 });
 
 /**
+ * GET /api/tourneys
+ * Get a list of all tournaments
+ */
+router.getAsync("/tourneys", async (req, res) => {
+  const tourneys = await Tournament.find({});
+  res.send(tourneys);
+});
+
+/**
  * GET /api/staff
  * Get staff list for a tourney
  * Params:

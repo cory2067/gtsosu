@@ -22,6 +22,7 @@ export default {
       timezone: "Timezone",
       tournies: "My Tournies",
     },
+    archives: "Archives",
   },
 
   ja: {
@@ -47,6 +48,7 @@ export default {
       timezone: "時間帯",
       tournies: "登録している大会",
     },
+    archives: "アーカイブ",
   },
 
   ko: {
@@ -72,6 +74,7 @@ export default {
       timezone: "시간대",
       tournies: "참여한 토너먼트",
     },
+    archives: "Archives",
   },
 
   de: {
@@ -97,6 +100,7 @@ export default {
       timezone: "Zeitzone",
       tournies: "Meine Turniere",
     },
+    archives: "Archives",
   },
 
   ru: {
@@ -122,6 +126,7 @@ export default {
       timezone: "Часовой пояс",
       tournies: "Мои Турниры",
     },
+    archives: "Archives",
   },
 
   "zh-sg": {
@@ -147,6 +152,7 @@ export default {
       timezone: "时间区域",
       tournies: "我的比赛",
     },
+    archives: "Archives",
   },
 
   fr: {
@@ -172,6 +178,7 @@ export default {
       timezone: "Fuseau horaire",
       tournies: "Mes tournois",
     },
+    archives: "Archives",
   },
 
   es: {
@@ -197,6 +204,7 @@ export default {
       timezone: "Zona Horaria",
       tournies: "Mis Torneos",
     },
+    archives: "Archives",
   },
 
   pl: {
@@ -222,6 +230,7 @@ export default {
       timezone: "Strefa Czasowa",
       tournies: "Moje Turnieje",
     },
+    archives: "Archives",
   },
 
   es_cl: {
@@ -247,30 +256,32 @@ export default {
       timezone: "Zona Horaria",
       tournies: "Mis Torneos",
     },
+    archives: "Archives",
+  },
 
-    nl: {
-      home: "Startpagina",
-      rules: "Regels",
-      mappools: "Mappools",
-      schedule: "Schema",
-      players: "Spelers",
-      staff: "Medewerkers",
-      language: "Taal",
-      merch: {
-        title: "Merch",
-        mainStore: "Main Store",
-        mousepads: "Mousepads",
-      },
-      login: "Inloggen",
-      logout: "Uitloggen",
-      register: "Registreren",
-      discord: "Discord",
-      userSettings: {
-        note: "Vergeet niet de #nummer in je Discord gebruikersnaam (bijv. Naru#1234)",
-        discord: "Discord Gebruikersnaam",
-        timezone: "Tijdzone",
-        tournies: "Mijn Toernooien",
-      },
+  nl: {
+    home: "Startpagina",
+    rules: "Regels",
+    mappools: "Mappools",
+    schedule: "Schema",
+    players: "Spelers",
+    staff: "Medewerkers",
+    language: "Taal",
+    merch: {
+      title: "Merch",
+      mainStore: "Main Store",
+      mousepads: "Mousepads",
     },
+    login: "Inloggen",
+    logout: "Uitloggen",
+    register: "Registreren",
+    discord: "Discord",
+    userSettings: {
+      note: "Vergeet niet de #nummer in je Discord gebruikersnaam (bijv. Naru#1234)",
+      discord: "Discord Gebruikersnaam",
+      timezone: "Tijdzone",
+      tournies: "Mijn Toernooien",
+    },
+    archives: "Archives",
   },
 };

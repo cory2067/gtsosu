@@ -78,5 +78,5 @@ export function tokenizeTourney(tourney) {
   const [codeAndDivision, year] = tourney.split("_");
   const [code, division] = codeAndDivision.split("-");
 
-  return { code, year, division };
+  return { code, year: parseInt(year), division, codeAndDivision };
 }
