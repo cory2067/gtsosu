@@ -24,6 +24,8 @@ function Archives(props) {
             ...tokens,
           };
         })
+        .filter((t) => t.code !== "test")
+        .reverse()
         .sort((a, b) => b.year - a.year);
 
       setTourneys(tourneyList);
