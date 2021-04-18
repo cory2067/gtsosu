@@ -55,7 +55,7 @@ class TourneyHome extends Component {
   };
 
   register = () => {
-    const tourney = this.props.tourney.toUpperCase();
+    const tourney = prettifyTourney(this.props.tourney);
     const success = {
       message: `Success`,
       description: `You are now registered for ${tourney}`,
