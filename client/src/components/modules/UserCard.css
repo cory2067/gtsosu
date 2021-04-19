@@ -10,8 +10,8 @@
 }
 
 .UserCard-wide {
-  grid-template-columns: 60px 440px;
-  width: 502px;
+  grid-template-columns: 75px 440px;
+  width: 517px;
 }
 
 .UserCard-avatar {
