@@ -34,7 +34,10 @@ June 26th until June 27th.`,
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
       title: "Prizes",
-      body: `Nothing confirmed yet.`,
+      body: `
+- **1st place:** Trophy to the name of each winner, 1 year and 4 months of supporter, osu! profile badge.
+- **2nd place:** One year of supporter per player
+- **3rd place:** Six months of supporter per player`,
     },
   ],
   rules: `
@@ -49,7 +52,7 @@ June 26th until June 27th.`,
  - Any rule changes or unexpected occurrences will be announced in the Discord server.
 
 # Tournament Registration and Teams Creation
- - In order to participate you need to need to be in the rank range of #500 to #3500.
+ - In order to participate you need to need to be in the rank range of #1000 to #4500.
  - Players sign up individually. When their registration is accepted, they will get a country role.
  - The staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
  - This year we are allowing 2 teams for a country under certain conditions:
@@ -69,7 +72,7 @@ June 26th until June 27th.`,
 # Stage Regulations
  - There are seven stages in this tournament: the Qualifiers, the Group Stage, the RO16, the Quarterfinals, the Semifinals, the Finals and the Grand Finals. 
  - The team will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part) 
- - Teams will be drawn in **8 groups of 4 teams** during a drawing show which will happen on Sunday May 9th. 
+ - Teams will be drawn in **8 groups of 4 teams** during a drawing show which will happen on Sunday June 13th. 
  - In the Group Stage all the teams from each group will face each other. The **best 2 teams** get out of their group. 
  - Rankings of each group are determined by sorting the results of each team's performance in the following priority: 
     - Most matches won.
@@ -98,7 +101,7 @@ June 26th until June 27th.`,
  - If less than the minimum required players attend, the maximum time the match can be postponed is 10 minutes. 
  - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time. 
  - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the double elimination bracket the highest seeded team will advance. 
- - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "AGTS 2021: (Team Red) vs (Team Blue)". 
+ - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "RGTS 2021: (Team Red) vs (Team Blue)". 
  - Each team is allowed one warm-up but it must be below 3 minutes, and must be sent to the referee and streamer of the match one hour prior to the match's start time. Otherwise, the team will have no warmups.
  - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
  - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match. 
@@ -122,8 +125,10 @@ June 26th until June 27th.`,
  - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend. 
  - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker. 
  - The Group Stage mappool will consist of 14 maps, Round of 16 and Quarterfinals mappool will consist of 15 maps, SemiFinals, Finals and Grand Finals mappool will consist of 16 maps. 
- - The size of the Hidden, HardRock and DoubleTime brackets will be 2 until Semifinals, where it increases to 3 for the rest of the tournament and 3 for the FreeMod bracket in all stages. 
+ - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages as well. 
  - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least one player of each team must have at least one mod activated**. 
+ - Players must select different mod combinations. Both players using Hidden, only HardRock or double Hidden+HardRock is disallowed.
+ - The size of the NoMod bracket will be 4 in Group Stage, 5 in Round of 16 and Quarterfinals and 6 for Semifinals, Finals and Grand Finals.
  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated. 
  - The mappool for each stage will be showcased a week beforehand. 
 
