@@ -72,7 +72,7 @@ June 26th until June 27th.`,
 # Stage Regulations
  - There are seven stages in this tournament: the Qualifiers, the Group Stage, the RO16, the Quarterfinals, the Semifinals, the Finals and the Grand Finals. 
  - The team will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part) 
- - Teams will be drawn in **8 groups of 4 teams** during a drawing show which will happen on Sunday June 13th. 
+ - Teams will be drawn in **8 groups of 4 teams** during a drawing show which will happen on Sunday May 16th 18:00UTC. 
  - In the Group Stage all the teams from each group will face each other. The **best 2 teams** get out of their group. 
  - Rankings of each group are determined by sorting the results of each team's performance in the following priority: 
     - Most matches won.
@@ -101,7 +101,7 @@ June 26th until June 27th.`,
  - If less than the minimum required players attend, the maximum time the match can be postponed is 10 minutes. 
  - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time. 
  - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the double elimination bracket the highest seeded team will advance. 
- - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "RGTS 2021: (Team Red) vs (Team Blue)". 
+ - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "AGTS 2021: (Team Red) vs (Team Blue)". 
  - Each team is allowed one warm-up but it must be below 3 minutes, and must be sent to the referee and streamer of the match one hour prior to the match's start time. Otherwise, the team will have no warmups.
  - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
  - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match. 
