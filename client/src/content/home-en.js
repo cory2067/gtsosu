@@ -25,12 +25,12 @@ The Advanced Global Taiko Showdown, our 2v2 tournament for advanced-level player
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
     },
     {
-      title: "BGTS",
-      code: "bgts",
+      title: "RGTS",
+      code: "rgts",
       description: `
-The Beginners Global Taiko Showdown, our 2v2 tournament for beginner players, being restricted for ranks #8,000 to no bottom rank limit.
-The top 16 teams after qualifiers will then face off in a Group Stage, where 8 teams will go through, and play in a double-elimination bracket.`,
-    },
+The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, being restricted for ranks #1,000 to #4,500.
+The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
+    }
   ],
 };
 
