@@ -54,7 +54,7 @@ July 24th until July 25th.`,
 # Tournament Registration and Teams Creation
  - In order to participate you need to need to be in the rank range of #1000 to #4500.
  - Players sign up individually. When their registration is accepted, they will get a country role.
- - The staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
+ - osu! staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
  - This year we are allowing 2 teams for a country under certain conditions:
    - There are **7 or more players** signed up for a country.
    - Each team has to have **at least 3 players**.
@@ -72,7 +72,7 @@ July 24th until July 25th.`,
 # Stage Regulations
  - There are seven stages in this tournament: the Qualifiers, the Group Stage, the RO16, the Quarterfinals, the Semifinals, the Finals and the Grand Finals. 
  - The team will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part) 
- - Teams will be drawn in **8 groups of 4 teams** during a drawing show which will happen on Sunday May 9th. 
+ - Teams will be drawn in **8 groups of 4 teams** during a drawing show which will happen on Sunday June 13th. 
  - In the Group Stage all the teams from each group will face each other. The **best 2 teams** get out of their group. 
  - Rankings of each group are determined by sorting the results of each team's performance in the following priority: 
     - Most matches won.

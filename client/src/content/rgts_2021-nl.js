@@ -1,7 +1,7 @@
 export default {
   name: "Rising Global Taiko Showdown",
   description:
-    "De Rising Global Taiko Showdown, ons 2v2 toernooi voor mid-range spelers, met een rank van #1,000 tot #4,500. De top 32 teams na de kwalificatie zullen tegen elkaar strijden in de Groepsfase, waar de 16 beste teams doorheen komen, die daarna een dubbele eliminatie bracket spelen.",
+    "De Rising Global Taiko Showdown, ons 2-tegen-2 toernooi voor middelklasse spelers, met een rank van #1,000 tot #4,500. De top 32 teams na de kwalificatie zullen tegen elkaar strijden in de Groepsfase, waar de 16 beste teams doorheen komen, die daarna een dubbele eliminatie bracket spelen.",
   discord: "https://discord.gg/3mGC3HB",
   homepage: [
     {
@@ -45,7 +45,7 @@ export default {
  - Dit is een **2v2 team toernooi** met teams van **maximaal 5 spelers**.
  - De teams zullen eerst door een **kwalificatie** ronde gaan. Daarna spelen ze in een **Groepsfase** en uiteindelijk in een **dubbele eliminatie ronde**.
  - **ScoreV2** wordt gebruikt als score systeem.
- - Elke speler die binnen de voorwaarden valt zoals aangegeven bij restricties kan zich opgeven. Sommige spelers kunnen niet deelnemen door de osu staff, aangezien je profiel badges kunt winnen in dit toernooi.
+ - Elke speler die binnen de voorwaarden valt zoals aangegeven bij restricties kan zich opgeven. Sommige spelers kunnen niet deelnemen door de osu!medewerkers, aangezien je profiel badges kunt winnen in dit toernooi.
  - De medewerkers van het toernooi mogen zelf meespelen, zolang ze geen deel zijn van de **Organisatie, Mappoolers en Scheidsrechters**.
  - Zowel spelers als medewerkers moeten de regels compleet gelezen hebben (en we gaan ervan uit dat je dit ook gedaan hebt).
  - Alle deelnemers moeten respectvol blijven en een goede instelling hebben. Je kunt gebanned of op de blacklist gezet worden als je deze regel niet volgt. Dit gelt ook voor medewerkers.
@@ -54,7 +54,7 @@ export default {
 # Toernooi Registratie en het maken van Teams
  - Om mee te kunnen doen, moet je een rank hebben tussen #1000 en #4500.
  - Spelers melden zich individueel aan. Wanneer hun registratie geaccepteerd is, krijgen ze een land role in de Discord server.
- - De osu!staff kunnen spelers verbieden om deel te nemen aan het toernooi, als ze de conclusie trekken dat hun skill niveau te hoog is voor dit toernooi.
+ - De osu!medewerkers kunnen spelers verbieden om deel te nemen aan het toernooi, als ze de conclusie trekken dat hun skill niveau te hoog is voor dit toernooi.
  - Dit jaar mogen er 2 teams meedoen per land onder de volgende condities:
    - Er zijn **7 of meer spelers** aangemeld voor een land.
    - Het kleinste team heeft **op z'n minst 3 spelers**.
@@ -72,7 +72,7 @@ export default {
 # Regels per Toernooifase
  - Dit toernooi heeft 7 fases: Kwalificatie, Groep, Ronde van 16, Kwartfinales, Halve finales, finales en de Grote Finale.
  - Na de Kwalificatie ronde zullen de teams geranked worden op hun scores tijdens de kwalificatie en verdeeld worden over 4 'seeds': Top seed, High seed, Low seed and Unseeded. (Dit 'seeding' process wordt later uitgelegd bij 'Regels bij de Kwalificatie ronde') 
- - De teams zullen verdeeld worden in **8 groepen van 4 teams** tijdens een livestream op zondag 9 Mei. 
+ - De teams zullen verdeeld worden in **8 groepen van 4 teams** tijdens een livestream op zondag 13 Juni. 
  - In de Groepsfase zal elk team tegen elk team binnen hun groep spelen. De **beste 2 teams** na deze wedstrijden gaan door uit hun groep.
  - De ranks binnen een groep worden bepaald door de resultaten per team te sorteren op de volgende prioriteit: 
     - Meest gewonnen wedstrijden.

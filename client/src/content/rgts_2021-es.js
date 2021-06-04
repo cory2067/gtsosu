@@ -55,6 +55,7 @@ Desde el 25 de julio hasta el 25 de julio.`,
  # Registro en el torneo y creación de equipos
  - Para participar necesitas estar en el rango de rank entre #1.000 y #4.500.
  - Los jugadores se registran individualmente. Cuando su registro sea aceptado, obtendrán un rol de su país.
+ - El staff de osu! puede rechazar que un jugador juegue en el torneo si considera que su nivel de habilidad es muy alto para el objetivo del torneo.
  - Este año permitimos 2 equipos por país bajo ciertas condiciones:
    - Hay **7 o más jugadores** registrados para un país.
    - Cada equipo tiene que tener **al menos 3 jugadores**.
@@ -71,7 +72,7 @@ Desde el 25 de julio hasta el 25 de julio.`,
  # Regulaciones de fase
  - Hay siete fases en este torneo: las clasificatorias, la fase de grupo, la ronda de 16, los cuartos de final, las semi finales, las finales y la gran final.
  - Los equipos serán seedeados con la media de sus ranks en cada mapa jugado en las clasificatorias en 4 seeds: top seed, high seed, low seed y unseeded. (El proceso de seeding es explicado más precisamente en la sección de instrucciones de las clasificatorias)
- - Los equipos serán divididos en **8 grupos de 4 equipos** durante una transmisión en vivo de **drawings** el día 9 de mayo.
+ - Los equipos serán divididos en **8 grupos de 4 equipos** durante una transmisión en vivo de **drawings** el día domingo 16 de mayo.
  - En la fase de grupo, todos los equipos de un grupo jugarán los unos contra los otros. Los **mejores 2 equipos** saldrán de su grupo y pasarán a la siguiente ronda.
  - Los rankings de cada grupo son determinados al ordenar el rendimiento de cada equipo siguiendo esta prioridad:
    - Más partidos ganados.

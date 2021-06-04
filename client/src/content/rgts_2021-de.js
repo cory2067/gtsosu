@@ -1,7 +1,7 @@
 export default {
   name: "Rising Global Taiko Showdown",
   description:
-    "Der Rising Global Taiko Showdown, unser 2-gegen-2 Turnier für Mittelklasse Spieler zwischen Rang #1000 und #4500. Nach der Qualifikation werden die besten 32 Teams in der Gruppenphase aufeinandertreffen. Aus dieser gehen 16 Teams hervor und werden in einem Doppel-Eliminierungs-Format gegeneinander spielen.",
+    "Der Rising Global Taiko Showdown, unser 2-gegen-2 Turnier für Spieler mittlerer Ranghöhe zwischen Rang #1000 und #4500. Nach der Qualifikation werden die besten 32 Teams in der Gruppenphase aufeinandertreffen. Aus dieser gehen 16 Teams hervor und werden in einem Doppel-Eliminierungs-Format gegeneinander spielen.",
   discord: "https://discord.gg/3mGC3HB",
   homepage: [
     {
@@ -37,7 +37,7 @@ export default {
       body: `
 - **1. Platz:** Eine Trophäe im Namen jedes Spielers, 1 Jahr und 4 Monate Supporter pro Spieler, osu! Profilmedaille.
 - **2. Platz:** 1 Jahr Supporter pro Spieler
-- **3- Platz:** 6 Monate Supporter pro Spieler`,
+- **3. Platz:** 6 Monate Supporter pro Spieler`,
     },
   ],
   rules: `
@@ -46,7 +46,7 @@ export default {
  - Die Teams durchlaufen zuerst die **Qualifikation**. Danach spielen sie in der **Gruppenphase**, um schließlich in einem **Doppel-Eliminierungs-Format** gegeneinander anzutreten.
  - Als Wertungssystem wird **Score V2** benutzt.
  - Jeder Spieler, der den oben genannten Ranganforderungen entspricht, darf sich anmelden. Da dieses Turnier das Ziel hat, eine Profilmedaille als Preis herauszugeben, kann es passieren, dass Spieler von den osu! Mitarbeitern abgelehnt werden.
- - Alle Mitarbeiter des Turniers außer **Organisatoren, Mappooler und Schiedsrichter** dürfen teilnehmen.
+ - Alle Mitarbeiter außer **Organisatoren, Mappooler und Schiedsrichter** dürfen am Turnier teilnehmen.
  - Spieler und Mitarbeiter müssen das Regelwerk in voller Länge gelesen haben (und wir werden während des Turniers davon ausgehen, dass dies getan wurde).
  - Alle Teilnehmer müssen sich respektvoll und angemessen verhalten. Verstöße gegen diese Regel können zu einem Ausschluss von diesem Turnier führen. Diese Regel betrifft auch sämtliche Mitarbeiter.
  - Regeländerungen und unerwartete Vorfälle werden im Discordserver verkündet.
@@ -54,7 +54,7 @@ export default {
 # Turnieranmeldung und Teambildung
  - Du musst dich zwischen Rang #1000 und #4500 befinden um teilnehmen zu können.
  - Spieler müssen sich einzeln anmelden. Sobald deine Anmeldung akzeptiert wurde, wird dir eine Länderrolle zugewiesen.
- - Das Mitarbeiterteam kann einen Spieler vom Turnier ausschließen, wenn sein Können als ungeeignet, für die vom Turnier angestrebte Zielgruppe, erachtet wird. 
+ - Osu! Mitarbeiter können einen Spieler vom Turnier ausschließen, wenn sein Können als ungeeignet, für die vom Turnier angestrebte Zielgruppe, erachtet wird. 
  - Dieses Jahr werden 2 Teams pro Land erlaubt unter den folgenden Konditionen:
    - Es sind **mehr als 7 Spieler** für ein Land angemeldet.
    - Jedes Team muss aus **mindestens 3 Spielern** bestehen.
@@ -72,7 +72,7 @@ export default {
 # Regelungen zu den Phasen
 - Das Turnier ist in 7 Phasen eingeteilt: die Qualifikation, die Gruppenphase, das Achtelfinale, das Viertelfinale, das Halbfinale, das Finale und das Große Finale. 
  - Die Teams werden anhand ihrer durchschnittlichen Platzierung in der Qualifikation in einen der 4 Seeds eingeteilt: Top Seed, High Seed, Low Seed und Unseeded. (Das Seedingverfahren wird unter Regelungen zur Qualifikation noch genauer erklärt.) 
- - Teams werden per Zufall in **8 Gruppen à 4 Teams** während einer Liveübertragung am Sonntag, den 9. Mai eingeteilt. 
+ - Teams werden per Zufall in **8 Gruppen à 4 Teams** während einer Liveübertragung am Sonntag, den 13. Juni eingeteilt. 
  - In der Gruppenphase treten alle Teams innerhalb ihrer Gruppe gegeneinander an. Die **2 besten Teams** einer Gruppe rücken in das Achtelfinale vor. 
  - Die Platzierung innerhalb der Gruppe ergibt sich aus der Leistung der Teams in der folgenden Priorität:
     - Gewonnene Spiele.
