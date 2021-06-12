@@ -36,7 +36,9 @@ August 21st until August 22nd.`,
     {
       title: "Prizes",
       body: `
-Who knows?`,
+  - **1st place:** osu! profile badge (Pending), 1 year of supporter or $26 per player, physical trophy.
+  - **2nd place:** osu! profile badge (Pending), 6 months of supporter or $16 per player, physical trophy.
+  - **3rd place:** osu! profile badge (Pending), 4 months of supporter or $12 per player, physical trophy.`,
     },
   ],
   rules: `
