@@ -38,7 +38,7 @@ August 21st until August 22nd.`,
       body: `
   - **1st place:** osu! profile badge (Pending), 1 year of supporter or $26 per player, physical trophy.
   - **2nd place:** osu! profile badge (Pending), 6 months of supporter or $16 per player, physical trophy.
-  - **3rd place:** osu! profile badge (Pending), 4 months of supporter or $12 per player, physical trophy.`,
+    - **3rd place:** osu! profile badge (Pending), 4 months of supporter or $12 per player, physical trophy.`,
     },
   ],
   rules: `
@@ -112,7 +112,7 @@ August 21st until August 22nd.`,
  - Mappool B consists of 6 brackets: Double Time, Hidden + Hard Rock, Convert, Easy, Challenge, and the TieBreaker.
  - Mappool B has 1 Double Time map, 1 Hidden + Hard Rock map, 1 Convert map, 1 Easy map, 2 Challenge maps, and the TieBreaker.
  - **MAPPOOL B MAPS CANNOT BE BANNED WHATSOEVER.**
- - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least two players of each team must have at least one mod activated**. 
+ - The FreeMod pool is played with FreeMod activated. Every individual player can pick **NoMod, Hidden or HardRock**.
  - Challenge maps, also known as EX maps, will always be played under NoMod conditions.
  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mod activated. 
  - The mappool for each stage will be showcased a week beforehand. 
