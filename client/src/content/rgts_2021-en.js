@@ -6,7 +6,7 @@ export default {
   homepage: [
     {
       title: "Restrictions",
-      body: `This tournament is open for players rank #1,000 to #4,500. Any osu!taiko player in this rank range who has not been restricted within the past 12 months will be allowed in this tournament. The osu! support reserves the right from removing any player from the tournament following the screening phase.`,
+      body: `This tournament is open for players rank #1,000 to #4,500. Any osu!taiko player in this rank range who has not been restricted within the past 12 months will be allowed in this tournament. The osu! support reserves the right from removing any player from the tournament following the screening phase. You are not allowed to rank up further than #1000 during the tournament. If you pass this limit you'll be disqualified.`,
     },
     {
       title: "Dates",
