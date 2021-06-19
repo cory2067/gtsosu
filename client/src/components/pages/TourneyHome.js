@@ -44,6 +44,7 @@ class TourneyHome extends Component {
         rankMin: tourney.rankMin || -1,
         rankMax: tourney.rankMax || -1,
         countries: tourney.countries || [],
+        flags: tourney.flags || [],
       },
     });
   }
@@ -88,6 +89,7 @@ class TourneyHome extends Component {
   };
 
   handleOk = async () => {
+    console.log(this.state.formData);
     const tourney = await post("/api/tournament", {
       ...this.state.formData,
       tourney: this.props.tourney,

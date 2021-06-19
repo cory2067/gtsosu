@@ -356,6 +356,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - countries: what countries can participate in this tourney (empty if all)
  *   - rankMin / rankMax: rank restriction
  *   - stages: what stages this tourney consists of
+ *   - flags: list of special options for the tourney
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
@@ -372,6 +373,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.rankMin = req.body.rankMin;
   tourney.rankMax = req.body.rankMax;
   tourney.countries = req.body.countries;
+  tourney.flags = req.body.flags;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];
