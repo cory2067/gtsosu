@@ -100,10 +100,10 @@ class Qualifiers extends Component {
   removeReferee = (key) => this.remove("referee", key);
   removePlayer = (key, user) => this.remove("player", key, user);
 
-  isMe = (p) => {
+  canRemoveFromLobby = (p) => {
     if (this.props.teams) {
       const players = this.props.getInfo(p).players;
-      return players && players.some((p) => p._id === this.props.user._id);
+      return players && players[0]._id === this.props.user._id; // must be captain (index 0)
     }
 
     return p === this.props.user.username;
@@ -173,7 +173,7 @@ class Qualifiers extends Component {
                 <span>
                   {rs.map((r) => (
                     <Tag
-                      closable={this.props.isAdmin() || this.isMe(r)}
+                      closable={this.props.isAdmin() || this.canRemoveFromLobby(r)}
                       onClose={() => this.removePlayer(lobby.key, r)}
                       key={r}
                     >
