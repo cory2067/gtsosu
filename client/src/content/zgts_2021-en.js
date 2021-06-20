@@ -1,5 +1,5 @@
 export default {
-  name: "Random Global Taiko Showdown",
+  name: "Zandom Global Taiko Showdown",
   description:
     "why are you signing up to this",
   discord: "https://discord.gg/3mGC3HB",
