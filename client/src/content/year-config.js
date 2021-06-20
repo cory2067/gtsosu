@@ -9,4 +9,5 @@ export default {
   rgts: 2021,
   test: 2020,
   tsc: 2021,
+  zgts: 2021,
 };

@@ -38,6 +38,12 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 16 
 The Taiko Suiji Cup 2021, one of the biggest osu!taiko tournaments. 4v4, no rank limit, and entirely random teams.
 The top 32 teams after the seeding phase will play in a double-elimination bracket.`,
     }
+    ,{
+      title: "RGTS 2021",
+      code: "zgts",
+      description: `
+random tournament`,
+    }
   ],
 };
 
