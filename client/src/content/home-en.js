@@ -39,8 +39,14 @@ The Taiko Suiji Cup 2021, one of the biggest osu!taiko tournaments. 4v4, no rank
 The top 32 teams after the seeding phase will play in a double-elimination bracket.`,
     }
     ,{
-      title: "RGTS 2021",
+      title: "ZGTS 2021",
       code: "zgts",
+      description: `
+random tournament`,
+    }
+    ,{
+      title: "ZGTS 2021",
+      code: "ygts",
       description: `
 random tournament`,
     }

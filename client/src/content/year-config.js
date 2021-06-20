@@ -10,4 +10,5 @@ export default {
   test: 2020,
   tsc: 2021,
   zgts: 2021,
+  ygts: 2021,
 };
