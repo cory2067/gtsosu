@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const MapSchema = new mongoose.Schema({
   mapId: Number,
-  mod: { type: String, enum: ["NM", "HD", "HR", "DT", "FM", "HT", "HDHR", "TB"] },
+  mod: { type: String, enum: ["NM", "HD", "HR", "DT", "FM", "HT", "HDHR", "EZ", "CV", "EX", "TB"] },
   index: Number,
   title: String,
   artist: String,
