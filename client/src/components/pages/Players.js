@@ -27,6 +27,7 @@ class Players extends Component {
       modalVisible: false,
       modalLoading: false,
       addPlayerData: {},
+      flags: new Set(),
     };
   }
 
@@ -42,6 +43,7 @@ class Players extends Component {
       hasTeams: tourney.teams,
       hasGroups: tourney.stages.some((s) => s.name === "Group Stage"),
       rankRange: [tourney.rankMin, tourney.rankMax !== -1 ? tourney.rankMax : Infinity],
+      flags: new Set(tourney.flags || []),
     });
 
     if (tourney.teams) {
@@ -246,6 +248,36 @@ class Players extends Component {
     dl.click();
   };
 
+  // suiji is special, since it's has seeds by both player and by team
+  hasPlayerSeeds = () => !this.state.hasTeams || this.state.flags.has("suiji");
+  hasTeamSeeds = () => this.state.hasTeams || this.state.flags.has("suiji");
+
+  assignSuijiSeeds = async () => {
+    const players = [...this.state.players].sort((x, y) => x.rank - y.rank);
+    const getSeedName = (rank) => {
+      if (rank < 64) {
+        return "A";
+      }
+      if (rank < 128) {
+        return "B";
+      }
+      if (rank < 192) {
+        return "C";
+      }
+      if (rank < 256) {
+        return "D";
+      }
+      return undefined;
+    };
+
+    for (const [index, player] of players.entries()) {
+      await this.handlePlayerEdit({ seedName: getSeedName(index), seedNum: index + 1 }, player._id);
+      this.setState({
+        refreshPercent: Math.min(100, Math.round((100 * (index + 1)) / this.state.players.length)),
+      });
+    }
+  };
+
   render() {
     return (
       <Content className="content">
@@ -269,7 +301,7 @@ class Players extends Component {
                 <>
                   <Radio.Button value="rank">Rank</Radio.Button>
                   <Radio.Button value="alpha">Alphabetical</Radio.Button>
-                  {!this.state.hasTeams && <Radio.Button value="seed">Seed</Radio.Button>}
+                  {!this.hasPlayerSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
                   {!this.state.hasTeams && this.state.hasGroups && (
                     <Radio.Button value="group">Group</Radio.Button>
                   )}
@@ -279,7 +311,7 @@ class Players extends Component {
               ) : (
                 <>
                   <Radio.Button value="alpha">Alphabetical</Radio.Button>
-                  <Radio.Button value="seed">Seed</Radio.Button>
+                  {this.hasTeamSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
                   <Radio.Button value="group">Group</Radio.Button>
                   <Radio.Button value="rank">Avg Rank</Radio.Button>
                 </>
@@ -344,6 +376,13 @@ class Players extends Component {
                 </div>
               )}
             </div>
+            {this.state.flags.has("suiji") && (
+              <div>
+                <Button type="primary" onClick={this.assignSuijiSeeds}>
+                  Assign Suiji Seeds
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
@@ -364,12 +403,13 @@ class Players extends Component {
                     onDelete={this.handleDelete}
                     key={player.userid}
                     user={player}
-                    canEdit={this.isAdmin() && !this.state.hasTeams}
+                    canEdit={this.isAdmin() && this.hasPlayerSeeds()}
                     onEdit={this.handlePlayerEdit}
                     stats={stats}
                     rankRange={this.state.rankRange}
                     showGroups={this.state.hasGroups}
                     extra={extra}
+                    flags={this.state.flags}
                   />
                 );
               })
@@ -379,6 +419,8 @@ class Players extends Component {
                   isAdmin={this.isAdmin()}
                   onDelete={this.handleTeamDelete}
                   onEdit={this.handleTeamEdit}
+                  showGroups={this.state.hasGroups}
+                  flags={this.state.flags}
                   {...team}
                 />
               ))}

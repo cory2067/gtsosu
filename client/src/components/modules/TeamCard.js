@@ -56,8 +56,11 @@ class TeamCard extends Component {
             <div className="TeamCard-form">
               <SeedGroupForm
                 onEdit={this.props.onEdit}
+                isTeam={true}
                 initialValues={defaults}
                 target={this.props._id}
+                hideGroups={!this.props.showGroups}
+                flags={this.props.flags}
               />
             </div>
           )}

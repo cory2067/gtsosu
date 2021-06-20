@@ -74,10 +74,12 @@ class UserCard extends Component {
             <div>
               <SeedGroupForm
                 className="UserCard-form"
+                isTeam={false}
                 initialValues={this.props.stats}
                 onEdit={this.props.onEdit}
                 target={this.props.user._id}
                 hideGroups={!this.props.showGroups}
+                flags={this.props.flags}
               />
             </div>
           )}

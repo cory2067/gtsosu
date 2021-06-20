@@ -1,7 +1,19 @@
 import React, { Component } from "react";
 import { Form, Select, Button, InputNumber } from "antd";
 
+const seedNames = {
+  default: ["Top", "High", "Mid", "Low"],
+  suiji: ["A", "B", "C", "D"],
+};
+
 class SeedGroupForm extends Component {
+  getSeedNames = () => {
+    if (!this.props.isTeam && this.props.flags && this.props.flags.has("suiji")) {
+      return seedNames.suiji;
+    }
+    return seedNames.default;
+  };
+
   render() {
     return (
       <Form
@@ -12,11 +24,12 @@ class SeedGroupForm extends Component {
         name={this.props.target}
       >
         <Form.Item name="seedName" label="Seed">
-          <Select placeholder="High">
-            <Select.Option value="Top">Top</Select.Option>
-            <Select.Option value="High">High</Select.Option>
-            <Select.Option value="Mid">Mid</Select.Option>
-            <Select.Option value="Low">Low</Select.Option>
+          <Select placeholder={this.getSeedNames()[0]}>
+            {this.getSeedNames().map((seed) => (
+              <Select.Option key={seed} value={seed}>
+                {seed}
+              </Select.Option>
+            ))}
           </Select>
         </Form.Item>
         <Form.Item name="seedNum" label="Seed #">
