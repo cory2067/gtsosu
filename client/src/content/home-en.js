@@ -40,12 +40,6 @@ The top 32 teams after the seeding phase will play in a double-elimination brack
     }
     ,{
       title: "ZGTS 2021",
-      code: "zgts",
-      description: `
-random tournament`,
-    }
-    ,{
-      title: "ZGTS 2021",
       code: "ygts",
       description: `
 random tournament`,
