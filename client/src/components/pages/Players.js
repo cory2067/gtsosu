@@ -146,6 +146,7 @@ class Players extends Component {
       players: players,
       name: formData.name,
       tourney: this.props.tourney,
+      icon: formData.icon,
     });
 
     this.setState((state) => ({
@@ -329,6 +330,10 @@ class Players extends Component {
                   <Input />
                 </Form.Item>
                 <Form.Item label="Team Name" name="name">
+                  <Input />
+                </Form.Item>
+                Optional link to a team flag (the dimensions should be 70x47)
+                <Form.Item label="Custom flag" name="icon">
                   <Input />
                 </Form.Item>
                 <Form.Item>

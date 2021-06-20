@@ -29,7 +29,12 @@ class TeamCard extends Component {
                     : `Seed not yet determined`
                 }
               >
-                <FlagIcon size={32} code={this.props.country} className="TeamCard-flag" />
+                <FlagIcon
+                  size={32}
+                  customIcon={this.props.icon}
+                  code={this.props.country}
+                  className="TeamCard-flag"
+                />
                 <span className="TeamCard-name">{this.props.name}</span>
               </Tooltip>
               {this.props.isAdmin && (

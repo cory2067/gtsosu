@@ -211,7 +211,7 @@ class Schedule extends Component {
     return (
       <Tooltip title={title}>
         <span className="Players-name">
-          <FlagIcon size={14} code={this.getInfo(p).country} />
+          <FlagIcon size={14} code={this.getInfo(p).country} customIcon={this.getInfo(p).icon} />
           {p}
         </span>
       </Tooltip>

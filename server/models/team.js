@@ -9,6 +9,7 @@ const TeamSchema = new mongoose.Schema({
   seedNum: Number,
   group: String,
   tourney: String,
+  icon: String,
 });
 
 module.exports = mongoose.model("Team", TeamSchema);

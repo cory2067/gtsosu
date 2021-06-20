@@ -768,6 +768,7 @@ router.postAsync("/team", ensure.isAdmin, async (req, res) => {
     players: players.map((p) => p._id),
     tourney: req.body.tourney,
     country: players[0].country,
+    icon: req.body.icon,
   });
 
   await team.save();
