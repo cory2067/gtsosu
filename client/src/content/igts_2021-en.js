@@ -62,7 +62,8 @@ September 4th until September 5th.`,
 - In order to participate you need to need to be in the rank range of #3500 to #10,000.
 - Players sign up individually. When their registration is accepted, they will get a country role.
 - osu! staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
-- This year we are allowing 2 teams for a country under certain conditions:
+- If there are more than 35 unique countries able to participate after screening, only 1 team per country will be allowed. In that case, if there are more than 5 players signed up for a country they will decide among themselves who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team. 
+- If there are less than 35 unique countries, we are allowing 2 teams for a country under certain conditions:
   - There are **7 or more players** signed up for a country.
   - Each team has to have **at least 3 players**.
 - Because of the previous rule there are going to be different situations when creating the teams: 
@@ -70,11 +71,11 @@ September 4th until September 5th.`,
   - In case there are more than 10 players signed up for a country, players will decide among themselves who will partake in the tournament. If they cannot decide the top 10 players by ranking will be chosen to form the 2 teams. 
   - If there are 6 players, players will have to decide on the 5 players who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team. 
   - If there are 7 to 10 players (after keeping the best ranked ones) signed up for a country, the players from that country will have a few days to decide how to split themselves between the 2 teams. 
-  It is recommended to come to an agreement as fast as possible to then decide on the captain and be able to schedule and prepare your matches rapidly. 
   - In case the players can't come to an agreement, they will be ranked by pp and put in the 2 teams with at least 3 members in each of them with the best ones in a first team and the lowest in the second. 
+- It is recommended to come to an agreement as fast as possible to then decide on the captain and be able to schedule and prepare your matches rapidly. 
   - The players will decide on the captain of their team. 
   - If the players can't agree or find a captain, the highest ranked player will be chosen.
-- The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches. 
+  - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches. 
 
 # Stage Regulations
 - There are seven stages in this tournament: the Qualifiers, the Group Stage, the RO16, the Quarterfinals, the Semifinals, the Finals and the Grand Finals. 
@@ -128,7 +129,7 @@ September 4th until September 5th.`,
 
 # Mappool Instructions
 - There will be 1 mappool for each of the following: Qualifiers, Group Stage, RO16, Quarterfinals, Semifinals, Finals and Grand Finals. A different pool will be prepared for All-Star (see All-Star Rules for more details). 
-- The Qualifiers pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 Hard Rock map, 1 Double Time map. 
+- The Qualifiers pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 HardRock map, 1 DoubleTime map and 1 FreeMod map. 
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend. 
 - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker. 
 - The Group Stage mappool will consist of 14 maps, Round of 16 and Quarterfinals mappool will consist of 15 maps, SemiFinals, Finals and Grand Finals mappool will consist of 16 maps. 
@@ -151,12 +152,12 @@ It'll showcase the best players of the tournament playing against each other in 
 - 8 players will participate in this event. They will be decided by vote. 
 - The top 8 players will play in All-Star. If there are more than 2 players from a country in the top 8 most voted players only the 2 best will partake in All-Star. 
 - The top 2 players will be captains of each team. Their teammates will be decided by the ranking of the next 6 players. The topmost voted player will play with players with an odd number and the second most voted player with players with an even number. 
-- The mappool will be made by a special team of mappoolers. 
+- The Grand Finals mappool will be used.
 - The event will be a 4 vs 4 match with the following rules: 
   - BO15. 
-  - Mappool will consist of 4 NoMod maps, 4 Hidden maps, 4 Hard Rock maps, 4 Hidden and Hard Rock maps, 4 Double Time maps and 1 TieBreaker.
-  - No bans. 
-  - Map selection is the same as a normal match. 
+  - All the maps are under true Freemod rule meaning players are free to pick any of the following mods or a combination of them: NoMod, Hidden, HardRock.
+  - No bans.
+  - Map selection is the same as a normal match.
   - Same rules as a normal match for disconnections.
   `,
 };
