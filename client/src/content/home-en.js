@@ -10,7 +10,7 @@ The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards t
 The top 64 of it after qualifiers will face-off in a group stage, followed by a heated double-elimination bracket. Next edition will be released on September 5th.`,
     },
     {
-      title: "IGTS 2020",
+      title: "IGTS 2021",
       code: "igts",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
