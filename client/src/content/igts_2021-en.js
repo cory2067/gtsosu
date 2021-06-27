@@ -59,7 +59,8 @@ September 4th until September 5th.`,
 - Any rule changes or unexpected occurrences will be announced in the Discord server.
 
 # Tournament Registration and Teams Creation
-- In order to participate you need to need to be in the rank range of #3500 to #10,000.
+- In order to participate you need to meet the criteria stated in the **rank restrictions** part. 
+- You are not allowed to rank up further than #2500 during the tournament. If you pass this limit you'll be disqualified. 
 - Players sign up individually. When their registration is accepted, they will get a country role.
 - osu! staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
 - If there are more than 35 unique countries able to participate after screening, only 1 team per country will be allowed. In that case, if there are more than 5 players signed up for a country they will decide among themselves who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team. 
@@ -110,7 +111,7 @@ September 4th until September 5th.`,
 - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time. 
 - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the double elimination bracket the highest seeded team will advance. 
 - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "IGTS 2021: (Team Red) vs (Team Blue)". 
-- Each team is allowed one warm-up but it must be below 3 minutes, and must be sent to the referee and streamer of the match one hour prior to the match's start time. Otherwise, the team will have no warmups.
+- Each team is allowed one warm-up but it must be below 3 minutes, and must be sent to the referee and streamer of the match one hour prior to the match's start time.
 - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
 - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match. 
 - The captain of each team will roll with the command "!roll" in the chat. 
@@ -128,7 +129,7 @@ September 4th until September 5th.`,
 - In case of a tie in points (example: 4-4 in BO9) the tiebreaker is selected. 
 
 # Mappool Instructions
-- There will be 1 mappool for each of the following: Qualifiers, Group Stage, RO16, Quarterfinals, Semifinals, Finals and Grand Finals. A different pool will be prepared for All-Star (see All-Star Rules for more details). 
+- There will be 1 mappool for each of the following: Qualifiers, Group Stage, RO16, Quarterfinals, Semifinals, Finals and Grand Finals.
 - The Qualifiers pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 HardRock map, 1 DoubleTime map and 1 FreeMod map. 
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend. 
 - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker. 
