@@ -63,7 +63,7 @@ September 4th until September 5th.`,
 - You are not allowed to rank up further than #2500 during the tournament. If you pass this limit you'll be disqualified. 
 - Players sign up individually. When their registration is accepted, they will get a country role.
 - osu! staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
-- If there are more than 35 unique countries able to participate after screening, only 1 team per country will be allowed. In that case, if there are more than 5 players signed up for a country they will decide among themselves who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team. 
+- If there are 35 or more unique countries able to participate after screening, only 1 team per country will be allowed. In that case, if there are more than 5 players signed up for a country they will decide among themselves who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team. 
 - If there are less than 35 unique countries, we are allowing 2 teams for a country under certain conditions:
   - There are **7 or more players** signed up for a country.
   - Each team has to have **at least 3 players**.
