@@ -32,6 +32,13 @@ The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, bein
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
     }
     ,{
+      title: "LGTS 2021",
+      code: "lgts",
+      description: `
+The LordEnder Global Taiko Showdown, the 8th GTS tournament. It's a tournament with no rank range. Teams are made entirely by LordEnder. The teams will be seeded by LordEnder. 
+The top 16 teams will go through and play in a double-elimination bracket.`,
+    }
+    ,{
       title: "TSC 2021",
       code: "tsc",
       description: `
