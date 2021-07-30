@@ -44,6 +44,10 @@ app.get("*", (req, res, next) => {
 app.use("/api", api);
 app.use("/auth", auth);
 
+// serve static resources (e.g. flags)
+const publicPath = path.resolve(__dirname, "..", "client", "src", "public");
+app.use("/public", express.static(publicPath));
+
 // load the compiled react files, which will serve /index.html and /bundle.js
 const reactPath = path.resolve(__dirname, "..", "client", "dist");
 app.use(express.static(reactPath));
