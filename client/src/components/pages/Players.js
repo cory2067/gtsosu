@@ -133,10 +133,24 @@ class Players extends Component {
   };
 
   handleModeChange = (e) => {
-    this.setState({
-      mode: e.key,
-      sort: e.key === "players" ? "rank" : "alpha",
-    });
+    if (e.key === "players") {
+      this.setState(
+        {
+          mode: "players",
+          sort: "rank",
+        },
+        () => this.sortPlayers("rank")
+      );
+    } else {
+      console.log("sort team");
+      this.setState(
+        {
+          mode: "teams",
+          sort: "alpha",
+        },
+        () => this.sortTeams("alpha")
+      );
+    }
   };
 
   onFinish = async (formData) => {
