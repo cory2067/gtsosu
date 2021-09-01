@@ -203,6 +203,26 @@ class Schedule extends Component {
   };
 
   renderName = (p) => {
+    if (p.startsWith("Winner of ")) {
+      const code = p.split("Winner of ")[1];
+      const match = this.state.matches.filter((match) => match.code === code)[0];
+      if (!match || match.score1 === match.score2) {
+        // no winner of the match yet, just display "Winner of X"
+        return (
+          <span className="Players-name">
+            <FlagIcon size={14} />
+            {p}
+          </span>
+        );
+      }
+
+      // may recurse through several match references
+      if (match.score1 > match.score2) {
+        return this.renderName(match.player1);
+      }
+      return this.renderName(match.player2);
+    }
+
     const stats = this.getStats(p);
 
     const title =
@@ -340,6 +360,13 @@ class Schedule extends Component {
                                 {name}
                               </Select.Option>
                             ))}
+                            {this.state.matches
+                              .map((match) => `Winner of ${match.code}`)
+                              .map((name) => (
+                                <Select.Option key={name} value={name}>
+                                  {name}
+                                </Select.Option>
+                              ))}
                           </Select>
                         </Form.Item>
                         <Form.Item label={this.state.teams ? "Team 2" : "Player 2"} name="player2">
@@ -349,6 +376,13 @@ class Schedule extends Component {
                                 {name}
                               </Select.Option>
                             ))}
+                            {this.state.matches
+                              .map((match) => `Winner of ${match.code}`)
+                              .map((name) => (
+                                <Select.Option key={name} value={name}>
+                                  {name}
+                                </Select.Option>
+                              ))}
                           </Select>
                         </Form.Item>
                         <Form.Item label="Match ID" name="code">
