@@ -102,7 +102,7 @@ export default {
  - Il n'y a pas de pénalité pour ne pas avoir rejoint la salle juste après l'horaire du match tant que cela reste dans les 10 minutes autorisées.
  - Si les deux équipes n'ont pas assez de joueurs à la fin des 10 minutes, cela comptera comme une défaite pour les deux équipes pendant la phase de groupe. Dans la phase éliminatoire, c'est l'équipe avec le plus haut seed qui sera déclarée victorieuse.
  - Le match sera joué en TeamVs et ScoreV2 et le nom de la salle doit être : "RGTS 2020: (Team Red) vs (Team Blue)". 
- -Chaque équipe a droit à une beatmap d'échauffement. Celle-ci doit durer moins de 3 minutes. Il est possible d'inviter tous les joueurs dans la salle pour les échauffements.
+ - Chaque équipe a droit à une beatmap d'échauffement. Celle-ci doit durer moins de 3 minutes. Il est possible d'inviter tous les joueurs dans la salle pour les échauffements.
  - Si l'échauffement d'une équipe ne respecte pas la limite de temps imposée dans la règle ci-dessus, alors leur échauffement ne sera pas joué.
  - Chaque capitaine doit bannir une beatmap prise dans le pool (sauf le Tiebreaker). Ces beatmaps ne pourront pas être choisies par aucune équipe pendant tout le match.
  - Le capitaine de chaque équipe va faire un jet de dés en tapant la commande "!roll" dans le chat.

@@ -7,7 +7,7 @@ export default {
       code: "egts",
       description: `
 The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
-The top 128 of it after qualifiers will face-off in a heated double-elimination bracket. Next edition will be released on September 4th.`,
+The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
     },
     {
       title: "IGTS 2021",
@@ -44,12 +44,6 @@ The top 16 teams will go through and play in a double-elimination bracket.`,
       description: `
 The Taiko Suiji Cup 2021, one of the biggest osu!taiko tournaments. 4v4, no rank limit, and entirely random teams.
 The top 32 teams after the seeding phase will play in a double-elimination bracket.`,
-    }
-    ,{
-      title: "YGTS 2021",
-      code: "ygts",
-      description: `
-i don't fucking know`,
     }
   ],
 };

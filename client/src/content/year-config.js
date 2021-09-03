@@ -4,7 +4,7 @@ export default {
   agts: 2021,
   bgts: 2020,
   cgts: 2021,
-  egts: 2020,
+  egts: 2021,
   igts: 2021,
   lgts: 2021,
   rgts: 2021,

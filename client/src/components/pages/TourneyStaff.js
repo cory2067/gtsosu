@@ -12,6 +12,8 @@ const roles = [
   "Host",
   "Developer",
   "Mapsetter",
+  "Head pooler",
+  "Mapper",
   "All-Star Mapsetter",
   "Players Moderation Team",
   "Designer",

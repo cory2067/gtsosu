@@ -89,15 +89,15 @@ class TourneyNavbar extends Component {
             <Menu.Item key="lang-fr">Français</Menu.Item>
             <Menu.Item key="lang-zh_cn">中文 (Simplified)</Menu.Item>
             <Menu.Item key="lang-de">Deutsch</Menu.Item>
-            <Menu.Item key="lang-es_cl">Español (Chile) (Not available for RGTS)</Menu.Item>
-            <Menu.Item key="lang-it">Italiano (Not available for RGTS)</Menu.Item>
-            <Menu.Item key="lang-nl">Nederlands</Menu.Item>
+            <Menu.Item key="lang-es_cl">Español (Chile) (Not available for EGTS)</Menu.Item>
+            <Menu.Item key="lang-it">Italiano</Menu.Item>
+            <Menu.Item key="lang-nl">Nederlands (Not available for EGTS</Menu.Item>
             <Menu.Item key="lang-ko">한국어</Menu.Item>
-            <Menu.Item key="lang-ru">Русский (Not available for RGTS)</Menu.Item>
+            <Menu.Item key="lang-ru">Русский (Not available for EGTS)</Menu.Item>
             <Menu.Item key="lang-ja">日本語</Menu.Item>
-            <Menu.Item key="lang-es">Español</Menu.Item>
-            <Menu.Item key="lang-pt-br">Português (Brazil) (Not available for RGTS)</Menu.Item>
-            <Menu.Item key="lang-pl">Polski (Not available for RGTS)</Menu.Item>
+            <Menu.Item key="lang-es">Español (Not available for EGTS)</Menu.Item>
+            <Menu.Item key="lang-pt-br">Português (Brazil) (Not available for EGTS)</Menu.Item>
+            <Menu.Item key="lang-pl">Polski (Not available for EGTS)</Menu.Item>
           </SubMenu>
           <Menu.Item key="7">
             <LoginButton {...this.props} />
