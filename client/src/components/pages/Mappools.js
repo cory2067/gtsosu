@@ -52,7 +52,7 @@ class Mappools extends Component {
     hasAccess(
       this.props.user,
       this.props.tourney,
-      this.state.current.name === "All Stars" ? ["Mapsetter", "All-Star Mapsetter", "Head Pooler"] : ["Mapsetter", "Head Pooler"]
+      this.state.current.name === "All Stars" ? ["Mapsetter", "All-Star Mapsetter", "Head Pooler", "Mapper"] : ["Mapsetter", "Head Pooler", "Mapper"]
     );
 
   sortMaps = (maps) => {

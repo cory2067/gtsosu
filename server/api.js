@@ -45,8 +45,8 @@ const checkPermissions = (req, roles) => {
 
 const isAdmin = (req) => checkPermissions(req, []);
 const canViewHiddenPools = (req) =>
-  checkPermissions(req, ["Mapsetter", "Showcase", "All-Star Mapsetter"]);
-const cantPlay = (req) => checkPermissions(req, ["Mapsetter", "Referee", "All-Star Mapsetter"]);
+  checkPermissions(req, ["Mapsetter", "Showcase", "All-Star Mapsetter", "Head Pooler", "Mapper"]);
+const cantPlay = (req) => checkPermissions(req, ["Mapsetter", "Referee", "All-Star Mapsetter", "Head Pooler", "Mapper"]);
 
 /**
  * POST /api/map
