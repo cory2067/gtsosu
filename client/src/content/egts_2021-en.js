@@ -80,13 +80,13 @@ All prizes are sponsored by [LotusPro](https://lotuspro.io/).
 - There will be 1 mappool for each of the following: Qualifiers, Round of 128, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals, and Grand Finals. 
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
 - The Qualifiers pool will be different from all the other rounds, as it will have a format of 3 NoMod maps, 2 Hidden maps, 2 HardRock maps, 2 DoubleTime maps, and a Hidden + HardRock map.
-- Each mappool consists of 6 brackets: **NoMod, Hidden, HardRock, DoubleTime, FreeMod, and Tiebreaker**.
+- Each mappool consists of 6 brackets: **NoMod, Hidden, HardRock, DoubleTime, ForceMod, and Tiebreaker**.
 - The mappools for Round of 128 and Round of 64 will have 14 maps each. The mappools from Round of 32 until Quarterfinals will have 15 maps each. The mappools from Semifinals until Grand Finals will have 19 maps each.
 - The size of the NoMod bracket will be of 4 in Round of 128 and Round of 64, it will be of 5 from Round of 32 until Quarterfinals, and it will be of 6 in Semifinals until Grand Finals.
 - The size of the Hidden, Hard Rock, and Double Time will be of 2 from Round of 128 until Quarterfinals, and it will be of 3 from Semifinals until Grand Finals.
-- The size of the FreeMod pool will be of 3 during the rest of the tournament.
-- The FreeMod pool is played with FreeMod activated. Every player HAS to pick Hidden, HardRock or both.
-- The Tiebreaker is played under FreeMod conditions but it is not necessary to enable mods.
+- The size of the ForceMod pool will be of 3 during the rest of the tournament.
+- The ForceMod pool is played with ForceMod activated. Every player HAS to pick Hidden, HardRock or both.
+- The Tiebreaker is played under ForceMod conditions but it is not necessary to enable mods.
 - The mappool for each stage will be showcased a week before.
 
 # Scheduling Instructions
