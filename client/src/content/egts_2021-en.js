@@ -19,17 +19,17 @@ September 19th until September 26th.
 October 2nd until October 3rd.
 ### Round of 128
 October 9th until October 10th.
-### Round of 64 + Loser's Bracket Round 1 and 2
+### Round of 64 + Loser's Bracket Round 1
 October 16th until October 17th.
-### Round of 32 + Loser's Bracket Round 3 and 4
+### Round of 32 + Loser's Bracket Round 2 and 3
 October 23rd until October 24th.
-### Round of 16 + Loser's Bracket Round 5 and 6
+### Round of 16 + Loser's Bracket Round 4 and 5
 October 30th until October 31st.
-### Quarterfinals + Loser's Bracket 7 and 8
+### Quarterfinals + Loser's Bracket 6 and 7
 November 6th until November 7th.
-### Semifinals + Loser's Bracket Round 9 and 10
+### Semifinals + Loser's Bracket Round 8 and 9
 November 13rd until November 14th.
-### Winner's Bracket Finals + Loser's Bracket Finals
+### Winner's Bracket Finals + Loser's Bracket Round 10 and Finals
 November 20th until November 21st.
 ### Loser's Bracket Grand Finals + Grand Finals + All-Stars
 November 27th until November 28th.`,
