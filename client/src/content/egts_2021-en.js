@@ -28,7 +28,7 @@ October 30th until October 31st.
 ### Quarterfinals + Loser's Bracket 6 and 7
 November 6th until November 7th.
 ### Semifinals + Loser's Bracket Round 8 and 9
-November 13rd until November 14th.
+November 13th until November 14th.
 ### Winner's Bracket Finals + Loser's Bracket Round 10 and Finals
 November 20th until November 21st.
 ### Loser's Bracket Grand Finals + Grand Finals + All-Stars
