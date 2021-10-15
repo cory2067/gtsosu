@@ -64,8 +64,8 @@ All prizes are sponsored by [LotusPro](https://lotuspro.io/).
 - There are nine stages in the 1v1 tournament, the Qualifiers, the RO128, the RO64, the RO32, the RO16, the Quarterfinals, the Semifinals, the Finals, and the Grand Finals.
 - Players will be seeded with the average of their ranks on each map during the Qualifiers round.
 - The winning condition for each stage are listed below:
-    - Round of 128, Round of 64, Round of 32, Round of 16: Best-Of-9 (First to 5 points)
-    - Quarterfinals: Best-Of-11 (First to 6 points)
+    - Round of 128, Round of 64: Best-Of-9 (First to 5 points)
+    - Round of 32, Round of 16, Quarterfinals: Best-Of-11 (First to 6 points)
     - Semifinals, Finals, and Grand Finals: Best-Of-13 (First to 7 points)
    
 # Qualifiers Regulations
@@ -83,7 +83,7 @@ All prizes are sponsored by [LotusPro](https://lotuspro.io/).
 - Each mappool consists of 6 brackets: **NoMod, Hidden, HardRock, DoubleTime, ForceMod, and Tiebreaker**.
 - The mappools for Round of 128 and Round of 64 will have 14 maps each. The mappools from Round of 32 until Quarterfinals will have 15 maps each. The mappools from Semifinals until Grand Finals will have 19 maps each.
 - The size of the NoMod bracket will be of 4 in Round of 128 and Round of 64, it will be of 5 from Round of 32 until Quarterfinals, and it will be of 6 in Semifinals until Grand Finals.
-- The size of the Hidden, Hard Rock, and Double Time will be of 2 from Round of 128 until Quarterfinals, and it will be of 3 from Semifinals until Grand Finals.
+- The size of the Hidden, Hard Rock, and Double Time will be of 2 during the entire tournament.
 - The size of the ForceMod pool will be of 3 during the rest of the tournament.
 - The ForceMod pool is played with ForceMod activated. Every player HAS to pick Hidden, HardRock or both.
 - The Tiebreaker is played under ForceMod conditions but it is not necessary to enable mods.
