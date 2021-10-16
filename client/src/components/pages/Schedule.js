@@ -114,8 +114,10 @@ class Schedule extends Component {
     }));
   };
 
-  add = async (role, key) => {
-    const newMatch = await post(`/api/${role}`, { match: key, tourney: this.props.tourney });
+  add = async (role, key, optionalUser) => {
+    const user = optionalUser ?? prompt("Enter a username");
+
+    const newMatch = await post(`/api/${role}`, { match: key, user, tourney: this.props.tourney });
     this.setState((state) => ({
       matches: state.matches.map((m) => {
         if (m.key === key) {
@@ -139,11 +141,11 @@ class Schedule extends Component {
     }));
   };
 
-  addReferee = (key) => this.add("referee", key);
-  addStreamer = (key) => this.add("streamer", key);
-  addCommentator = (key) => this.add("commentator", key);
-  removeReferee = (key) => this.remove("referee", key);
-  removeStreamer = (key) => this.remove("streamer", key);
+  addReferee = (key, user) => this.add("referee", key, user);
+  addStreamer = (key, user) => this.add("streamer", key, user);
+  addCommentator = (key, user) => this.add("commentator", key, user);
+  removeReferee = (key, user) => this.remove("referee", key, user);
+  removeStreamer = (key, user) => this.remove("streamer", key, user);
   removeCommentator = (key, user) => this.remove("commentator", key, user);
 
   handleAddResults = (match) => {
@@ -300,6 +302,7 @@ class Schedule extends Component {
       );
     }
 
+    const username = this.props.user.username;
     const quals = this.state.current.name === "Qualifiers";
 
     return (
@@ -474,12 +477,22 @@ class Schedule extends Component {
                         r ? (
                           <Tag
                             closable={this.isRef()}
-                            onClose={() => this.removeReferee(match.key)}
+                            onClose={() => this.removeReferee(match.key, r)}
                           >
                             {r}
                           </Tag>
                         ) : (
-                          this.isRef() && <AddTag onClick={() => this.addReferee(match.key)} />
+                          <>
+                            {this.isRef() && (
+                              <AddTag onClick={() => this.addReferee(match.key, username)} />
+                            )}
+                            {this.isAdmin() && (
+                              <AddTag
+                                text="Add someone"
+                                onClick={() => this.addReferee(match.key)}
+                              />
+                            )}
+                          </>
                         )
                       }
                     />
@@ -497,9 +510,17 @@ class Schedule extends Component {
                             {r}
                           </Tag>
                         ) : (
-                          this.isStreamer() && (
-                            <AddTag onClick={() => this.addStreamer(match.key)} />
-                          )
+                          <>
+                            {this.isStreamer() && (
+                              <AddTag onClick={() => this.addStreamer(match.key, username)} />
+                            )}
+                            {this.isAdmin() && (
+                              <AddTag
+                                text="Add someone"
+                                onClick={() => this.addStreamer(match.key)}
+                              />
+                            )}
+                          </>
                         )
                       }
                     />
@@ -519,8 +540,14 @@ class Schedule extends Component {
                               {r}
                             </Tag>
                           ))}
-                          {this.isCommentator() && !rs.includes(this.props.user.username) && (
-                            <AddTag onClick={() => this.addCommentator(match.key)} />
+                          {this.isCommentator() && !rs.includes(username) && (
+                            <AddTag onClick={() => this.addCommentator(match.key, username)} />
+                          )}
+                          {this.isAdmin() && (
+                            <AddTag
+                              text="Add someone"
+                              onClick={() => this.addCommentator(match.key)}
+                            />
                           )}
                         </span>
                       )}

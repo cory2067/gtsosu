@@ -46,7 +46,8 @@ const checkPermissions = (req, roles) => {
 const isAdmin = (req) => checkPermissions(req, []);
 const canViewHiddenPools = (req) =>
   checkPermissions(req, ["Mapsetter", "Showcase", "All-Star Mapsetter", "Head Pooler", "Mapper"]);
-const cantPlay = (req) => checkPermissions(req, ["Mapsetter", "Referee", "All-Star Mapsetter", "Head Pooler", "Mapper"]);
+const cantPlay = (req) =>
+  checkPermissions(req, ["Mapsetter", "Referee", "All-Star Mapsetter", "Head Pooler", "Mapper"]);
 
 /**
  * POST /api/map
@@ -506,18 +507,19 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
 
 /**
  * POST /api/referee
- * Add self as a referee to a match
+ * Add referee to a match
  * Params:
  *  - match: the _id of the match
+ *  - user: name of the person to add
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/referee", ensure.isRef, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
   if (match.referee) return res.status(400).send({ error: "already exists" });
-  match.referee = req.user.username;
+  match.referee = req.body.user;
   await match.save();
 
-  logger.info(`${req.user.username} signed up to ref ${match.code}`);
+  logger.info(`${req.body.user} signed up to ref ${match.code}`);
   res.send(match);
 });
 
@@ -541,18 +543,19 @@ router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
 
 /**
  * POST /api/streamer
- * Add self as a streamer to a match
+ * Add streamer to a match
  * Params:
  *  - match: the _id of the match
+ *  - user: name of the person to add
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/streamer", ensure.isStreamer, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
   if (match.streamer) return res.status(400).send({ error: "already exists" });
-  match.streamer = req.user.username;
+  match.streamer = req.body.user;
   await match.save();
 
-  logger.info(`${req.user.username} signed up to stream ${match.code}`);
+  logger.info(`${req.body.user} signed up to stream ${match.code}`);
   res.send(match);
 });
 
@@ -576,19 +579,20 @@ router.deleteAsync("/streamer", ensure.isStreamer, async (req, res) => {
 
 /**
  * POST /api/commentator
- * Add self as a commentator to a match
+ * Add commentator to a match
  * Params:
  *  - match: the _id of the match
+ *  - user: name of the person to add
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/commentator", ensure.isCommentator, async (req, res) => {
   const match = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
-    { $push: { commentators: req.user.username } },
+    { $push: { commentators: req.body.user } },
     { new: true }
   );
 
-  logger.info(`${req.user.username} signed up to commentate ${match.code}`);
+  logger.info(`${req.body.user} signed up to commentate ${match.code}`);
   res.send(match);
 });
 
