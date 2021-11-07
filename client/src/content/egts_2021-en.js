@@ -31,7 +31,7 @@ November 6th until November 7th.
 November 13th until November 14th.
 ### Winner's Bracket Finals + Loser's Bracket Round 10 and Finals
 November 20th until November 21st.
-### Loser's Bracket Grand Finals + Grand Finals + All-Stars
+### Loser's Bracket Grand Finals + Grand Finals
 November 27th until November 28th.`,
     },
     {
