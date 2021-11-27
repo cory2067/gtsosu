@@ -234,7 +234,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
       .send({ error: `A team must have ${MIN_PLAYERS} to ${MAX_PLAYERS} players` });
   }
 
-  if (numPlayers !== new Set(req.body.players).length) {
+  if (numPlayers !== new Set(req.body.players).size) {
     return res.status(400).send({ error: "Team can't have duplicate players" });
   }
 

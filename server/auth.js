@@ -7,6 +7,15 @@ const OAuth2Strategy = require("passport-oauth2").Strategy;
 const router = express.Router();
 const User = require("./models/user");
 
+// Perform post-processing on the user object at login time, like overrides for dev
+const finalize = async (user) => {
+  if (process.env.NODE_ENV !== "production" && process.env.DEV_ADMIN) {
+    user.admin = process.env.DEV_ADMIN === "true";
+    await user.save();
+  }
+  return user;
+};
+
 passport.use(
   new OAuth2Strategy(
     {
@@ -29,7 +38,7 @@ passport.use(
           await existing.save();
         }
 
-        return done(null, existing);
+        return done(null, await finalize(existing));
       }
 
       const user = new User({
@@ -40,7 +49,7 @@ passport.use(
         discord: me.discord || "",
       });
       await user.save();
-      done(null, user);
+      done(null, await finalize(user));
     }
   )
 );
