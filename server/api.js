@@ -234,6 +234,10 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
       .send({ error: `A team must have ${MIN_PLAYERS} to ${MAX_PLAYERS} players` });
   }
 
+  if (numPlayers !== new Set(req.body.players).length) {
+    return res.status(400).send({ error: "Team can't have duplicate players" });
+  }
+
   const tourney = await Tournament.findOne({ code: req.body.tourney });
 
   const updates = [];
@@ -241,7 +245,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     const user = await User.findOne({ username });
     if (user && cantPlay(user, req.body.tourney)) {
       logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
-      //return res.status(400).send({ error: "Staff member on team." });
+      return res.status(400).send({ error: "Staff member on team." });
     }
 
     let userData;
