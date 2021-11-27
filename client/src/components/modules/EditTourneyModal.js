@@ -52,6 +52,7 @@ class EditTourneyModal extends Component {
           <Form.Item name="flags" label="Special options">
             <Select mode="multiple">
               <Select.Option key="suiji">Suiji</Select.Option>
+              <Select.Option key="registerAsTeam">Register as team</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item name="rankMin" label="Minimum rank">

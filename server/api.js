@@ -30,24 +30,35 @@ const scaleDiff = (diff, mod) => {
   return diff;
 };
 
-const checkPermissions = (req, roles) => {
-  const tourney = req.query.tourney || req.body.tourney;
-
+const checkPermissions = (user, tourney, roles) => {
   return (
-    req.user &&
-    req.user.username &&
-    (req.user.admin ||
-      req.user.roles.some(
+    user &&
+    user.username &&
+    (user.admin ||
+      user.roles.some(
         (r) => ["Host", "Developer", ...roles].includes(r.role) && r.tourney == tourney
       ))
   );
 };
 
-const isAdmin = (req) => checkPermissions(req, []);
-const canViewHiddenPools = (req) =>
-  checkPermissions(req, ["Mapsetter", "Showcase", "All-Star Mapsetter", "Head Pooler", "Mapper"]);
-const cantPlay = (req) =>
-  checkPermissions(req, ["Mapsetter", "Referee", "All-Star Mapsetter", "Head Pooler", "Mapper"]);
+const isAdmin = (user, tourney) => checkPermissions(user, tourney, []);
+const canViewHiddenPools = (user, tourney) =>
+  checkPermissions(user, tourney, [
+    "Mapsetter",
+    "Showcase",
+    "All-Star Mapsetter",
+    "Head Pooler",
+    "Mapper",
+  ]);
+
+const cantPlay = (user, tourney) =>
+  checkPermissions(user, tourney, [
+    "Mapsetter",
+    "Referee",
+    "All-Star Mapsetter",
+    "Head Pooler",
+    "Mapper",
+  ]);
 
 /**
  * POST /api/map
@@ -102,7 +113,7 @@ router.getAsync("/maps", async (req, res) => {
 
   // if super hacker kiddo tries to view a pool before it's released
   const stageData = tourney.stages.filter((s) => s.name === req.query.stage)[0];
-  if (!stageData.poolVisible && !canViewHiddenPools(req)) {
+  if (!stageData.poolVisible && !canViewHiddenPools(req.user, req.query.tourney)) {
     return res.status(403).send({ error: "This pool hasn't been released yet!" });
   }
 
@@ -145,7 +156,7 @@ router.getAsync("/whoami", async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
-  if (cantPlay(req)) {
+  if (cantPlay(req.user, req.body.tourney)) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (staff)`);
     return res.status(400).send({ error: "You're a staff member." });
   }
@@ -193,6 +204,102 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
     { new: true }
   );
   res.send(user);
+});
+
+/**
+ * POST /api/register-team
+ * Register a team for a given tournament.
+ * Params:
+ *   - name: team name
+ *   - tourney: identifier for the tourney to register for
+ *   - players: list of players on the team, the first entry should equal the submitting user
+ *   - icon: custom flag for the team
+ */
+router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
+  if (req.body.players[0] !== req.user.username) {
+    return res.status(400).send({ error: "Invalid team format" });
+  }
+
+  if (!req.body.name) {
+    return res.status(400).send({ error: "Please add a team name" });
+  }
+
+  // TODO: instead of hardcoding these, add them as configurable vars for the Tournament
+  const MIN_PLAYERS = 3;
+  const MAX_PLAYERS = 6;
+  const numPlayers = req.body.players.length;
+  if (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
+    return res
+      .status(400)
+      .send({ error: `A team must have ${MIN_PLAYERS} to ${MAX_PLAYERS} players` });
+  }
+
+  const tourney = await Tournament.findOne({ code: req.body.tourney });
+
+  const updates = [];
+  for (const username of req.body.players) {
+    const user = await User.findOne({ username });
+    if (user && cantPlay(user, req.body.tourney)) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
+      //return res.status(400).send({ error: "Staff member on team." });
+    }
+
+    let userData;
+    try {
+      userData = await osuApi.getUser({ u: username, m: 1 });
+    } catch (e) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (no osu user)`);
+      return res.status(400).send({ error: `Couldn't find an osu! player named ${username}` });
+    }
+
+    const rank = userData.pp.rank;
+    if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (overrank)`);
+      return res
+        .status(400)
+        .send({ error: `${username} is overranked for this tourney (rank: ${rank})` });
+    }
+
+    if (tourney.rankMax !== -1 && rank > tourney.rankMax) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (underrank)`);
+      return res
+        .status(400)
+        .send({ error: `${username} is underranked for this tourney (rank: ${rank})` });
+    }
+
+    updates.push([
+      { userid: userData.id },
+      {
+        $set: {
+          username: userData.name,
+          country: userData.country,
+          avatar: `https://a.ppy.sh/${userData.id}`,
+          rank,
+        },
+        $push: {
+          tournies: req.body.tourney,
+          stats: { regTime: new Date(), tourney: req.body.tourney },
+        },
+      },
+      { new: true, upsert: true },
+    ]);
+  }
+
+  const players = await Promise.all(
+    updates.map((updateArgs) => User.findOneAndUpdate(...updateArgs))
+  );
+
+  const team = new Team({
+    name: req.body.name,
+    players: players.map((p) => p._id),
+    tourney: req.body.tourney,
+    country: players[0].country,
+    icon: req.body.icon,
+  });
+
+  await team.save();
+  logger.info(`Registered team ${req.body.name} for ${req.body.tourney}`);
+  res.send({ ...team.toObject(), players });
 });
 
 /**
@@ -342,7 +449,7 @@ router.getAsync("/tournament", async (req, res) => {
   if (!tourney) return res.send({});
 
   const stages = tourney.stages;
-  if (stages && !canViewHiddenPools(req)) {
+  if (stages && !canViewHiddenPools(req.user, req.query.tourney)) {
     tourney.stages = stages.filter((s) => s.poolVisible);
   }
 
@@ -727,7 +834,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
  *  - tourney: code for this tourney
  */
 router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  if (!isAdmin(req)) {
+  if (!isAdmin(req.user, req.body.tourney)) {
     // makes sure the player has permission to do this
 
     if (req.body.teams) {
