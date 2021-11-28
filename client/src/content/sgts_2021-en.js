@@ -33,7 +33,7 @@ February 19th until February 20th.`,
     {
       title: "Registration",
       body:
-        "Click on the Discord button to join the server of our tournament, from there you can sign up as described in 'Tournament Registration and Teams Creation' in the rules. **Joining the Discord is mandatory to play in this tournament, you cannot sign up for the tournament if you don't do so.**",
+        "The captain of your team needs to press the registration button after they've logged in with their osu! account to register your team. Then every team member needs to click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, you cannot sign up for the tournament if you don't do so.**",
     },
     {
       title: "Prizes",
@@ -44,7 +44,7 @@ February 19th until February 20th.`,
   rules: `
 # General Rules
 - This tournament is a **3v3 double-elimination tournament** with teams of **6 players maximum**. 
-- The players will play in a **double-elimination bracket**.
+- The teams will play in a **double-elimination bracket**.
 - The Score System used will be **Score V2**.
 - Any player who meets the requirements stated in the rank restrictions part is allowed to sign up. Since this tournament will aim to get badged some players might be declined by osu! staff.
 - Any members of staff apart from **Organizers, Mappoolers, Mappers and Referees** are allowed to play.
@@ -56,17 +56,16 @@ February 19th until February 20th.`,
  - In order to participate you need to need to be in a team of **3 to 6 players** of your choosing. There is no limit to who you can have on your team, with exception to the staff mentioned above and people who are already on another team.
  - One member of the team will need to be the captain. This should be decided before you sign up.
  - The captain is going to be the one to reschedule a match if needed and will ensure that their teammates are here for the matches. 
- - To sign up, you or one of your teammates need to send a message in the #sgts-signup channel containing the following.
-   - A ping to @TaikoMom (or another host if unavailable)
-   - A list of your and your teammates' usernames, be sure to note who the captain is!
-   - Your teamname.
-   - A custom flag, a .png file of 70x47.
- - TaikoMom (or another host if unavailable) will add your team to the site and give you access to a team chat. It might take some time before your sign-up is processed as this needs to be done manually.
+ - To sign up, the captain will need to register your entire team via the 'register' button on the home page.
+   - The person in the first slot is the captain. This will be filled in automatically with the player who is registering, hence why the captain needs to be the one registering.
+   - You must add a custom team name.
+   - You can add a custom flag, a link to an image of size 70x47. This isn't mandatory, but leaving this blank means the country flag of the team captain is taken as your team's flag.
+ - One of the hosts will give you your team and player roles in the discord, as well as access to a team chat. It might take some time before this is done as this needs to be done manually.
  - Teams will be numbered on order of signup. This number will be used for your team chat, as well as your teamname if you do not submit a custom teamname.
 
 # Stage Regulations
 - There are seven stages in the 3v3 tournament, the Qualifiers, the RO32, the RO16, the Quarterfinals, the Semifinals, the Finals, and the Grand Finals.
-- Players will be seeded with the average of their ranks on each map during the Qualifiers round.
+- Teams will be seeded with the average of their ranks on each map during the Qualifiers round.
 - The winning condition for each stage are listed below:
     - Round of 32, Round of 16: Best-Of-9 (First to 5 points)
     - Quarterfinals: Best-Of-11 (First to 6 points)
@@ -96,7 +95,7 @@ February 19th until February 20th.`,
 # Scheduling Instructions
 - Every stage will be held **during the weekend**. (it is however allowed to schedule on another day if no good time is found during the weekend and a referee is available)
 - We will try to schedule as best as possible to fit with the timezones. The schedule will be released the previous weekend of each stage.
-- Reschedules will only be considered if both players agree to a time, this needs to be done and notified to the tournament staff before **Thursday at 23:59 UTC** in that particular week when your match takes place.
+- Reschedules will only be considered if both teams agree to a time, this needs to be done and notified to the tournament staff before **Thursday at 23:59 UTC** in that particular week when your match takes place.
 
 # Match Regulations
 - A private lobby will be created 10 minutes before your match by a referee. Both team captains will be invited into the room when it's match time. 
@@ -117,7 +116,7 @@ February 19th until February 20th.`,
 - Teams will have 2 minutes to pick a beatmap and 2 minutes to get ready. If a team captain didn't tell their pick before the end of the timer the map will be picked with a roll. And if players do not get ready before the end of the timer, the match will be started, no matter what.
 - If a player disconnects between the beatmaps, another player form the team will need to take their spot.
 - If there is no other team member to replace the disconnected layer, the match can be delayed 10 minutes at maximum. This delay can only be applied once.
-- If a player disconnects after 30 seconds, they get treated as if they failed the map.
+- If a player disconnects after 30 seconds, their score will be nullified at the end of the map.
 - Disconnects within 30 seconds after beatmap begin can be rematched. This is only allowed once per team.
 - Failed players' scores do count.
 - If the beatmap ends in a draw the game will be nullified and the map will be replayed. If it does end in a tie again, the map will be nullified again, and the team who picked it will have to pick another map.
