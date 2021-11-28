@@ -242,18 +242,18 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
 
   const updates = [];
   for (const username of req.body.players) {
-    const user = await User.findOne({ username });
-    if (user && cantPlay(user, req.body.tourney)) {
-      logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
-      return res.status(400).send({ error: "Staff member on team." });
-    }
-
     let userData;
     try {
       userData = await osuApi.getUser({ u: username, m: 1 });
     } catch (e) {
       logger.info(`${username} failed to register for ${req.body.tourney} (no osu user)`);
       return res.status(400).send({ error: `Couldn't find an osu! player named ${username}` });
+    }
+
+    const user = await User.findOne({ username: userData.name });
+    if (user && cantPlay(user, req.body.tourney)) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
+      return res.status(400).send({ error: "Staff member on team." });
     }
 
     const rank = userData.pp.rank;
