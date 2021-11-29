@@ -224,6 +224,10 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "Please add a team name" });
   }
 
+  if (req.body.name.length > 40) {
+    return res.status(400).send({ error: "Team name is too long (max 40 characters)" });
+  }
+
   // TODO: instead of hardcoding these, add them as configurable vars for the Tournament
   const MIN_PLAYERS = 3;
   const MAX_PLAYERS = 6;
@@ -250,7 +254,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
       return res.status(400).send({ error: `Couldn't find an osu! player named ${username}` });
     }
 
-    const user = await User.findOne({ username: userData.name });
+    const user = await User.findOne({ userid: userData.id });
     if (user && cantPlay(user, req.body.tourney)) {
       logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
       return res.status(400).send({ error: "Staff member on team." });
