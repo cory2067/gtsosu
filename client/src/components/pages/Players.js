@@ -3,6 +3,7 @@ import "../../utilities.css";
 import "./Players.css";
 import { get, hasAccess, delet, post, prettifyTourney } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";
+import CreateTeamModal from "../modules/CreateTeamModal";
 
 import { PlusOutlined, ReloadOutlined, DownloadOutlined } from "@ant-design/icons";
 import { Layout, Menu, Collapse, Input, Form, Button, Radio, Progress } from "antd";
@@ -28,6 +29,7 @@ class Players extends Component {
       modalLoading: false,
       addPlayerData: {},
       flags: new Set(),
+      editingTeam: -1,
     };
   }
 
@@ -168,7 +170,31 @@ class Players extends Component {
     }));
   };
 
-  handleTeamEdit = async (formData, _id) => {
+  handleTeamEdit = async (team) => {
+    this.setState({ loading: true });
+    const _id = this.state.editingTeam;
+    try {
+      const newTeam = await post("/api/edit-team", {
+        ...team,
+        _id,
+        tourney: this.props.tourney,
+      });
+      this.setState((state) => ({
+        teams: state.teams.map((t) => {
+          if (t._id === _id) return newTeam;
+          return t;
+        }),
+      }));
+    } catch (e) {
+      alert(`Couldn't update team: ${e}`);
+    }
+    this.setState({
+      loading: false,
+      editingTeam: -1,
+    });
+  };
+
+  handleTeamEditStats = async (formData, _id) => {
     const newTeam = await post("/api/team-stats", {
       ...formData,
       _id,
@@ -437,13 +463,25 @@ class Players extends Component {
                   key={team._id}
                   isAdmin={this.isAdmin()}
                   onDelete={this.handleTeamDelete}
-                  onEdit={this.handleTeamEdit}
+                  onEditStats={this.handleTeamEditStats}
+                  onEdit={(id) => this.setState({ editingTeam: id })}
                   showGroups={this.state.hasGroups}
                   flags={this.state.flags}
                   {...team}
                 />
               ))}
         </div>
+        {this.state.editingTeam != -1 && (
+          <CreateTeamModal
+            initialTeam={this.state.teams.filter((t) => t._id == this.state.editingTeam)[0]}
+            shouldEdit={true}
+            visible={true}
+            user={this.props.user}
+            loading={this.state.loading}
+            handleSubmit={this.handleTeamEdit}
+            handleCancel={() => this.setState({ editingTeam: -1 })}
+          />
+        )}
       </Content>
     );
   }

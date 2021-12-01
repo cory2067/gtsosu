@@ -3,7 +3,7 @@ import FlagIcon from "./FlagIcon";
 import UserCard from "./UserCard";
 import SeedGroupForm from "./SeedGroupForm";
 import { Popconfirm, Tooltip } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import "./TeamCard.css";
 
@@ -38,14 +38,22 @@ class TeamCard extends Component {
                 <span className="TeamCard-name">{this.props.name}</span>
               </Tooltip>
               {this.props.isAdmin && (
-                <Popconfirm
-                  title={`Are you sure you want to remove ${this.props.name}?`}
-                  onConfirm={() => this.props.onDelete(this.props._id)}
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <DeleteOutlined className="TeamCard-delete" />
-                </Popconfirm>
+                <>
+                  {this.props.onEdit && (
+                    <EditOutlined
+                      onClick={() => this.props.onEdit(this.props._id)}
+                      className="TeamCard-icon"
+                    />
+                  )}
+                  <Popconfirm
+                    title={`Are you sure you want to remove ${this.props.name}?`}
+                    onConfirm={() => this.props.onDelete(this.props._id)}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <DeleteOutlined className="TeamCard-icon" />
+                  </Popconfirm>
+                </>
               )}
             </div>
             {this.props.group && <div className="TeamCard-group">{this.props.group}</div>}
@@ -60,7 +68,7 @@ class TeamCard extends Component {
           {this.props.isAdmin && (
             <div className="TeamCard-form">
               <SeedGroupForm
-                onEdit={this.props.onEdit}
+                onEdit={this.props.onEditStats}
                 isTeam={true}
                 initialValues={defaults}
                 target={this.props._id}

@@ -902,6 +902,36 @@ router.postAsync("/team", ensure.isAdmin, async (req, res) => {
 });
 
 /**
+ * POST /api/edit-team
+ * Modify an existing team
+ * Params:
+ *   - _id: id of the existing team
+ *   - name: team name
+ *   - players: a list of players, where the first item is the captain
+ *   - tourney: the code of the tournament
+ */
+router.postAsync("/edit-team", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} edited team ${req.body.name} in ${req.body.tourney}`);
+  const players = await Promise.all(req.body.players.map((username) => User.findOne({ username })));
+
+  const team = await Team.findOneAndUpdate(
+    { _id: req.body._id },
+    {
+      $set: {
+        name: req.body.name,
+        players: players.map((p) => p._id),
+        tourney: req.body.tourney,
+        country: players[0].country,
+        icon: req.body.icon,
+      },
+    },
+    { new: true }
+  ).populate("players");
+
+  res.send({ ...team.toObject() });
+});
+
+/**
  * GET /api/teams
  * Get all teams in a tourney
  * Params:

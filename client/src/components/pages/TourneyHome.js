@@ -9,7 +9,8 @@ import { get, post, hasAccess, prettifyTourney, tokenizeTourney } from "../../ut
 import { navigate } from "@reach/router";
 import ContentManager from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
-import RegisterAsTeamModal from "../modules/RegisterAsTeamModal";
+import CreateTeamModal from "../modules/CreateTeamModal";
+
 const UI = ContentManager.getUI();
 
 const { Content } = Layout;
@@ -196,7 +197,7 @@ class TourneyHome extends Component {
           initialValues={this.state.formData}
         />
         {this.props.user._id && (
-          <RegisterAsTeamModal
+          <CreateTeamModal
             user={this.props.user}
             visible={this.state.showRegisterAsTeam}
             loading={this.state.loading}
