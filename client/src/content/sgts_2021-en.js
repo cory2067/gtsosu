@@ -84,10 +84,9 @@ February 19th until February 20th.`,
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
 - The Qualifiers pool will be different from all the other rounds, as it will have a format of 3 NoMod maps, 2 Hidden maps, 2 HardRock maps, 2 DoubleTime maps, and a Hidden + HardRock map.
 - Each mappool consists of 6 brackets: **NoMod, Hidden, HardRock, DoubleTime, FreeMod, and Tiebreaker**.
-- The mappools from Round of 32 until Quarterfinals will have 15 maps each. The mappools from Semifinals until Grand Finals will have 19 maps each.
-- The size of the NoMod bracket will be of  5 from Round of 32 until Quarterfinals, and it will be of 6 in Semifinals until Grand Finals.
-- The size of the Hidden, Hard Rock, and Double Time will be of 2 from Round of 32 until Quarterfinals, and it will be of 3 from Semifinals until Grand Finals.
-- The size of the FreeMod pool will be of 3 during the rest of the tournament.
+- The mappools will consist of 14 maps in Round of 32, 15 maps in Round of 16 and Quarterfinals, and 16 maps in Semifinals until Grand Finals.
+- The size of the NoMod bracket will be 4 in Round of 32, 5 in Round of 32 and Quarterfinals, and 6 in Semifinals until Grand Finals.
+- The size of the Hidden, Hard Rock, and Double Time will be of 2 in all stages and the size of the FreeMod pool will be of 3 of all stages as well.
 - The FreeMod pool is played with FreeMod activated. Each team needs to have a minimum of 2 mods selected for FreeMod picks. This can be Hidden or Hard Rock and both mods can be selected by one player to satisfy the 2-mod requirement.
 - The Tiebreaker is played under FreeMod conditions but it is not necessary to enable mods.
 - The mappool for each stage will be showcased a week before.
