@@ -96,7 +96,7 @@ class TourneyNavbar extends Component {
             <Menu.Item key="lang-ru">Русский (Not available for SGTS)</Menu.Item>
             <Menu.Item key="lang-ja">日本語 (Not available for SGTS)</Menu.Item>
             <Menu.Item key="lang-es">Español (Not available for SGTS)</Menu.Item>
-            <Menu.Item key="lang-pt-br">Português (Brazil) (Not available for SGTS)</Menu.Item>
+            <Menu.Item key="lang-pt">Português</Menu.Item>
             <Menu.Item key="lang-pl">Polski (Not available for SGTS)</Menu.Item>
           </SubMenu>
           <Menu.Item key="7">

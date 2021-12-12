@@ -83,10 +83,9 @@ export default {
  - Das Verliererbracket wird mit dem gleichen Mappool wie das Gewinnerbracket in der jeweiligen Woche spielen.
  - Der Qualifikations-Mappool unterscheidet sich von allen anderen Mappools, da er aus 3 NoMod-Maps, 2 Hidden-Maps, 2 HardRock-Maps und 2 DoubleTime-Maps und einer Hidden- und HardRock-Map besteht.
  - Der Mappool besteht aus 6 Formaten: **NoMod, Hidden, HardRock, DoubleTime, FreeMod und dem Tiebreaker**. 
- - Die Mappools für die Runde der letzten 32-, Achtelfinale- und Viertelfinale-Mappools beinhalten jeweils 15 Maps. Die Halbfinale-, Finale- and Großes Finale-Mappools bestehen aus jeweils 19 Maps.
- - Die Größe des NoMod-Formats beläuft sich auf 5 Maps in der Runde der letzten 32 bis zum Viertelfinale und 6 Maps ab dem Halbfinale bis zum Großen Finale.
- - Die Größe des Hidden-, HardRock- und DoubleTime-Formats beläuft sich auf 2 Maps von der Runde der letzten 32 bis zum Viertelfinale und auf 3 Maps im Halbfinale, Finale und Großen Finale.
- - Die Größe des FreeMod-Formats beläuft sich auf 3 Maps in allen Phasen.
+ - Der Mappool der Runde der letzten 32 besteht aus 14 Maps. Der Achtelfinale- und Viertelfinale-Mappool bestehen aus 15 Maps. Der Halbfinale-, Finale- and Großes Finale-Mappool bestehen aus 16 Maps. 
+ - Die Größe des Hidden-, HardRock- und DoubleTime-Formats beläuft sich auf 2 Maps in allen Phasen und das FreeMod-Format auf jeweils 3 Maps in allen Phasen.
+ - Die Größe des NoMod-Formats beläuft sich auf 4 Maps in der Runde der letzten 32, 5 Maps im Achtel- und Viertelfinale und 6 Maps im Halbfinale, Finale und Großen Finale.
  - Das FreeMod-Format wird mit FreeMod gespielt. Jedes Team muss mindestens zwei Mods ausgewählt haben für die FreeMod-Picks. Dabei kann entweder Hidden oder HardRock gewählt werden. Ein Spieler kann auch Hidden- und HardRock auswählen, um die Bedingung zu erfüllen.
  - Der Tiebreaker wird unter FreeMod-Bedingungen gespielt, jedoch ist kein Spieler gezwungen einen Mod zu benutzen.
  - Die jeweiligen Mappools werden eine Woche im Voraus per Liveübertragung bekannt gegeben.
