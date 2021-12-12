@@ -76,11 +76,14 @@ class Players extends Component {
     this.setState((state) => {
       const players = [...state.players];
 
+      const getRank = (p) => p.rank || Infinity;
+
       if (sort === "rank") {
-        players.sort((x, y) => x.rank - y.rank);
+        players.sort((x, y) => getRank(x) - getRank(y));
       } else if (sort === "seed") {
         players.sort(
-          (x, y) => (this.getStats(x).seedNum || x.rank) - (this.getStats(y).seedNum || y.rank)
+          (x, y) =>
+            (this.getStats(x).seedNum || getRank(x)) - (this.getStats(y).seedNum || getRank(y))
         );
       } else if (sort === "group") {
         players.sort((x, y) =>

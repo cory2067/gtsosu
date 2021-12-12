@@ -362,8 +362,9 @@ router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
  *   - tourney: identifier for the tournament
  */
 router.getAsync("/players", async (req, res) => {
-  const players = await User.find({ tournies: req.query.tourney }).sort({ rank: 1 });
-  res.send(players);
+  const players = await User.find({ tournies: req.query.tourney });
+  // sort like this to resolve players with rank 0 / undefined rank
+  res.send(players.sort((x, y) => (x.rank || Infinity) - (y.rank || Infinity)));
 });
 
 /**

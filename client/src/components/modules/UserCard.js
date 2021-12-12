@@ -64,7 +64,7 @@ class UserCard extends Component {
               </div>
               {!this.props.hideRank && (
                 <div className={`UserCard-rank ${badRank ? "UserCard-bad" : ""}`}>
-                  <span>{`#${this.props.user.rank}`}</span>
+                  <span>{this.props.user.rank ? `#${this.props.user.rank}` : "No rank"}</span>
                 </div>
               )}
             </div>
