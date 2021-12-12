@@ -60,7 +60,7 @@ class TeamCard extends Component {
           </div>
           {this.props.players
             .map((p, i) => ({ ...p, isCaptain: i === 0, country: null }))
-            .sort((x, y) => x.rank - y.rank)
+            .sort((x, y) => (x.rank || Infinity) - (y.rank || Infinity))
             .map((player) => (
               <UserCard key={player.userid} user={player} />
             ))}
