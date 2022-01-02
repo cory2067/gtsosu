@@ -462,7 +462,7 @@ router.getAsync("/tournament", async (req, res) => {
     tourney.stages = stages.filter((s) => s.poolVisible);
   }
 
-  if (tourney.stages.length === 0) {
+  if (tourney.stages.length === 0 && stages.length) {
     // always show at least one stage, but don't reveal the mappack
     tourney.stages = [{ ...stages[0].toObject(), mappack: "" }];
   }

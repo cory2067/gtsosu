@@ -14,4 +14,5 @@ export default {
   zgts: 2021,
   ygts: 2021,
   btt: 2022,
+  tcl: 2022,
 };
