@@ -82,7 +82,7 @@ February 19th until February 20th.`,
 # Mappool Instructions
 - There will be 1 mappool for each of the following: Qualifiers, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals, and Grand Finals. 
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
-- The Qualifiers pool will be different from all the other rounds, as it will have a format of 3 NoMod maps, 2 Hidden maps, 2 HardRock maps, 2 DoubleTime maps, and a Hidden + HardRock map.
+- The Qualifiers pool will be different from all the other rounds, as it will have a format of 2 NoMod maps, 1 Hidden maps, 1 HardRock maps, 1 DoubleTime maps, and 1 Freemod map.
 - Each mappool consists of 6 brackets: **NoMod, Hidden, HardRock, DoubleTime, FreeMod, and Tiebreaker**.
 - The mappools will consist of 14 maps in Round of 32, 15 maps in Round of 16 and Quarterfinals, and 16 maps in Semifinals until Grand Finals.
 - The size of the NoMod bracket will be 4 in Round of 32, 5 in Round of 16 and Quarterfinals, and 6 in Semifinals until Grand Finals.
