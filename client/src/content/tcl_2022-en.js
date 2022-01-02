@@ -15,7 +15,7 @@ export default {
       title: "Registration",
       body: `Please click on the Register button above after you've logged in with your osu! account, and **submit your school verification here:** https://forms.gle/gxe6o6kjqq3ARue86. 
      
-Then click on the Discord button to join the OCL Discord server.
+Then click on the Discord button to join the OCL Discord server and assign yourself a role for your school.
 **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**`,
     },
     {
@@ -75,7 +75,7 @@ Any rule changes or unexpected occurrences will be announced in the Discord serv
 3. There are no warmups.
 4. Failed scores will count. 
 5. Maps will be played twice in a row during the lobby. However, players can ask for a break of between 2 and 5 minutes between each run. The best run will be taken into account for the ranking. 
-6. Only the 20 best players will continue on to the Group Stage.
+6. Only the 20 best teams will continue on to the Group Stage.
 # Seeding Regulations
 1. As mentioned, seedings will be done with the average rank of each player on each map.
 2. The teams will be seeded with the average of their ranks on each map during the Qualifiers round.
