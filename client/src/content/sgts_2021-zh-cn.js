@@ -82,11 +82,11 @@ export default {
 # 图池介绍
 - 比赛中的每个阶段将有一个图池：资格赛、三十二强赛、十六强赛、八强赛、半决赛、决赛和总决赛。
 - 在同一个周末比赛的胜者组和败者组将使用同一个图池。
-- 资格赛的图池会与其他阶段不同。资格赛图池包括3张NoMod、2张Hidden、2张HardRock、2张DoubleTime谱面以及1张Hidden + HardRock谱面。
+- 资格赛的图池会与其他阶段不同。资格赛图池包括2张NoMod、1张Hidden、1张HardRock、1张DoubleTime谱面以及1张Freemod谱面。
 - 每个图池会有6个类别：**NoMod、Hidden、HardRock、DoubleTime、FreeMod和Tiebreaker**。
-- 三十二强赛的图池有14张谱面。十六强赛、八强赛的图池有15张谱面。半决赛 、决赛和总决赛的图池将有16张谱面。
-- 在所有阶段，Hidden、HardRock和DoubleTime有2张谱面，FreeMod有3张谱面。
-- 在三十二强赛阶段，NoMod有4张谱面；在十六强赛和八强赛阶段，有5张谱面；在半决赛、决赛和总决赛阶段，有6张谱面。
+- 三十二强赛的图池有14张谱面。十六强赛和八强赛的图池有15张谱面。半决赛到总决赛的图池将有16张谱面。
+- 在三十二强赛阶段，NoMod有4张谱面；在十六强赛和八强赛阶段，有5张谱面；在半决赛到总决赛阶段，有6张谱面。
+- 在比赛的所有阶段，Hidden、Hard Rock和Double Time有2张谱面,FreeMod有3张谱面。
 - FreeMod的图池可以自由选择Mod。每支队伍必须使用至少两个Mod。可以使用Hidden或者Hard Rock，也可以一位选手同时使用两个Mod来达到最低要求。
 - Tiebreaker谱面会使用FreeMod规则来比赛，但是选手不必使用Mod。
 - 每个阶段的图池会在前一个星期在Twitch频道直播。
