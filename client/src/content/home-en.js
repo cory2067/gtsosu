@@ -32,7 +32,7 @@ The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, bein
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
     },
     {
-      title: "SGTS 2022",
+      title: "SGTS 2021",
       code: "sgts",
       description: `
 The Squad Global Taiko Showdown, our open-rank 3v3 tournament, where you can make your own team with 3-6 players.
