@@ -6,7 +6,7 @@ import AddPlayerModal from "../modules/AddPlayerModal";
 import CreateTeamModal from "../modules/CreateTeamModal";
 
 import { PlusOutlined, ReloadOutlined, DownloadOutlined } from "@ant-design/icons";
-import { Layout, Menu, Collapse, Input, Form, Button, Radio, Progress } from "antd";
+import { Layout, Menu, Collapse, Input, Form, Button, Radio, Progress, message } from "antd";
 import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
 import moment from "moment";
@@ -161,16 +161,20 @@ class Players extends Component {
   onFinish = async (formData) => {
     const players = formData.players.split(",").map((s) => s.trim());
 
-    const team = await post("/api/team", {
-      players: players,
-      name: formData.name,
-      tourney: this.props.tourney,
-      icon: formData.icon,
-    });
-
-    this.setState((state) => ({
-      teams: [...state.teams, team],
-    }));
+    try {
+      const team = await post("/api/team", {
+        players: players,
+        name: formData.name,
+        tourney: this.props.tourney,
+        icon: formData.icon,
+      });
+      this.setState((state) => ({
+        teams: [...state.teams, team],
+      }));
+      message.success(`Added team ${formData.name}`);
+    } catch (e) {
+      message.error("Couldn't create this team. Make sure all team members are spelled correctly");
+    }
   };
 
   handleTeamEdit = async (team) => {
