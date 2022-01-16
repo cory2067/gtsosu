@@ -19,13 +19,13 @@ December 12th until January 2nd.
 January 8th until January 9th.
 ### Round of 32
 January 15th until January 16th.
-### Round of 16 + Loser's Bracket Round 1
+### Round of 16 + Loser's Bracket Round 1 and 2
 January 22nd until January 23rd.
-### Quarterfinals + Loser's Bracket Round 2 and 3
+### Quarterfinals + Loser's Bracket Round 3 and 4
 January 29th until January 30th.
-###  Semifinals + Loser's Bracket Round 4 and 5
+###  Semifinals + Loser's Bracket Round 5 and 6
 February 5th until February 6th.
-### Finals + Loser's Bracket Round 6 and Finals
+### Finals + Loser's Bracket Finals
 February 12th until February 13th.
 ### Grand Finals + Loser's Bracket Grand Finals
 February 19th until February 20th.`,
