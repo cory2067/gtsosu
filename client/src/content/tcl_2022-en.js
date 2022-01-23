@@ -84,7 +84,7 @@ Any rule changes or unexpected occurrences will be announced in the Discord serv
 1. A private match will be created for your match, and both teams will be invited into their match when it's their time. Make certain you're online at this time.
 2. There will be NO warmups.
 3. Here is how bans and picks will happen. The winner of the !roll will elect if they want to pick or ban first, then the teams will alternate bans. Following this, the teams will alternate picks.
-4. However, we will be introducing a new concept, called protected maps. During the ban phase, each team is allowed to protect a map(s) from being banned by the other team. The Group Stage and Quarterfinal will have 1 protection per team, while the remaining rounds will have 2.
+4. However, we will be introducing a new concept, called protected maps. During the ban phase, each team is allowed to protect a map(s) from being banned by the other team. All rounds will have 1 protection per team.
 5. The format of the full ban and pick phase will look like this: Team 2 Protection #1 -> Team 1 Protection #1 -> Team 2 Ban #1 -> Team 1 Ban #1 (Bans will occur twice starting at Finals weekend) -> Team 1 Pick #1...
 4. A team can't ban a map from the same category twice, but their opponent can ban a map from the same category as him.
 5. You can ban or pick a map that your team has protected.
