@@ -3,18 +3,18 @@ export default {
   description: "Welcome to the website of one of the biggest osu!taiko tournament series!",
   tournies: [
     {
-      title: "EGTS 2020",
+      title: "EGTS 2021",
       code: "egts",
       description: `
 The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
-The top 64 of it after qualifiers will face-off in a group stage, followed by a heated double-elimination bracket. Next edition will be released on September 5th.`,
+The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
     },
     {
-      title: "IGTS 2020",
+      title: "IGTS 2022",
       code: "igts",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
-It's our 2v2 tournament for intermediate level players being restricted for ranks #3,500 to #10,000. 
+It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. 
 The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.`,
     },
     {
@@ -30,13 +30,13 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 16 
       description: `
 The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, being restricted for ranks #1,000 to #4,500.
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
-    }
-    ,{
-      title: "TSC 2021",
-      code: "tsc",
+    },
+    {
+      title: "SGTS 2021",
+      code: "sgts",
       description: `
-The Taiko Suiji Cup 2021, one of the biggest osu!taiko tournaments. 4v4, no rank limit, and entirely random teams.
-The top 32 teams after the seeding phase will play in a double-elimination bracket.`,
+The Squad Global Taiko Showdown, our open-rank 3v3 tournament, where you can make your own team with 3-6 players.
+The top 32 teams after qualifiers will then face off in a double-elimination bracket.`,
     }
   ],
 };
