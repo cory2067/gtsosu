@@ -10,11 +10,11 @@ The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards t
 The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
     },
     {
-      title: "IGTS 2021",
+      title: "IGTS 2022",
       code: "igts",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
-It's our 2v2 tournament for intermediate level players being restricted for ranks #3,500 to #10,000. 
+It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. 
 The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.`,
     },
     {
