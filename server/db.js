@@ -1,11 +1,14 @@
 const mongoose = require("mongoose"); // library to connect to MongoDB
 const logger = require("pino")(); // import pino logger
 
+const srv =
+  process.env.NODE_ENV === "production" ? process.env.MONGO_SRV : process.env.DEV_MONGO_SRV;
+
 module.exports = {
   init: () => {
     // connect to mongodb
     return mongoose
-      .connect(process.env.MONGO_SRV, {
+      .connect(srv, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,

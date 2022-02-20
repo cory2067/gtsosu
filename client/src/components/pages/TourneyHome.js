@@ -9,6 +9,8 @@ import { get, post, hasAccess, prettifyTourney, tokenizeTourney } from "../../ut
 import { navigate } from "@reach/router";
 import ContentManager from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
+import CreateTeamModal from "../modules/CreateTeamModal";
+
 const UI = ContentManager.getUI();
 
 const { Content } = Layout;
@@ -37,6 +39,7 @@ class TourneyHome extends Component {
     const tourney = await get("/api/tournament", { tourney: this.props.tourney });
     this.setState({
       registrationOpen: tourney.registrationOpen || false,
+      tourneyFlags: tourney.flags || [],
       formData: {
         registrationOpen: tourney.registrationOpen || false,
         teams: tourney.teams || false,
@@ -44,6 +47,7 @@ class TourneyHome extends Component {
         rankMin: tourney.rankMin || -1,
         rankMax: tourney.rankMax || -1,
         countries: tourney.countries || [],
+        flags: tourney.flags || [],
       },
     });
   }
@@ -54,7 +58,35 @@ class TourneyHome extends Component {
     return this.props.user.tournies && this.props.user.tournies.includes(this.props.tourney);
   };
 
+  submitTeamRegistration = async (formData) => {
+    this.setState({ loading: true });
+    try {
+      await post("/api/register-team", { ...formData, tourney: this.props.tourney });
+      this.setState({ showRegisterAsTeam: false, loading: false });
+      const tourney = prettifyTourney(this.props.tourney);
+      const success = {
+        message: `Success`,
+        description: `Your team is now registered for ${tourney}`,
+        duration: 3,
+      };
+      notification.open(success);
+    } catch (e) {
+      this.setState({ loading: false });
+      const fail = {
+        message: `Failed`,
+        description: `Registration failed: ${e.error}`,
+        duration: 6,
+      };
+      notification.open(fail);
+    }
+  };
+
   register = () => {
+    if (this.state.tourneyFlags.includes("registerAsTeam")) {
+      this.setState({ showRegisterAsTeam: true });
+      return;
+    }
+
     const tourney = prettifyTourney(this.props.tourney);
     const success = {
       message: `Success`,
@@ -88,6 +120,7 @@ class TourneyHome extends Component {
   };
 
   handleOk = async () => {
+    console.log(this.state.formData);
     const tourney = await post("/api/tournament", {
       ...this.state.formData,
       tourney: this.props.tourney,
@@ -163,6 +196,15 @@ class TourneyHome extends Component {
           onValuesChange={this.handleValuesChange}
           initialValues={this.state.formData}
         />
+        {this.props.user._id && (
+          <CreateTeamModal
+            user={this.props.user}
+            visible={this.state.showRegisterAsTeam}
+            loading={this.state.loading}
+            handleSubmit={this.submitTeamRegistration}
+            handleCancel={() => this.setState({ showRegisterAsTeam: false })}
+          />
+        )}
       </Content>
     );
   }

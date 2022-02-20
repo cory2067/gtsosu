@@ -4,6 +4,7 @@ import {
   StarTwoTone,
   ClockCircleTwoTone,
   DashboardTwoTone,
+  DownloadOutlined,
 } from "@ant-design/icons";
 import { Link } from "@reach/router";
 
@@ -33,7 +34,7 @@ class MapCard extends Component {
           </a>
         }
         extra={
-          this.props.isPooler() && (
+          this.props.isPooler() ? (
             <Popconfirm
               title={`Are you sure you want to remove ${this.props.mod}${this.props.index}?`}
               onConfirm={() => this.props.handleDelete(this.props._id)}
@@ -42,6 +43,10 @@ class MapCard extends Component {
             >
               <DeleteOutlined />
             </Popconfirm>
+          ) : (
+            <a href={`osu://b/${this.props.mapId}`}>
+              <DownloadOutlined style={{ fontSize: "18px" }} />
+            </a>
           )
         }
         className="MapCard-card"

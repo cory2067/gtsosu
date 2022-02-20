@@ -64,7 +64,7 @@ class UserCard extends Component {
               </div>
               {!this.props.hideRank && (
                 <div className={`UserCard-rank ${badRank ? "UserCard-bad" : ""}`}>
-                  <span>{`#${this.props.user.rank}`}</span>
+                  <span>{this.props.user.rank ? `#${this.props.user.rank}` : "No rank"}</span>
                 </div>
               )}
             </div>
@@ -74,10 +74,12 @@ class UserCard extends Component {
             <div>
               <SeedGroupForm
                 className="UserCard-form"
+                isTeam={false}
                 initialValues={this.props.stats}
                 onEdit={this.props.onEdit}
                 target={this.props.user._id}
                 hideGroups={!this.props.showGroups}
+                flags={this.props.flags}
               />
             </div>
           )}

@@ -114,8 +114,10 @@ class Schedule extends Component {
     }));
   };
 
-  add = async (role, key) => {
-    const newMatch = await post(`/api/${role}`, { match: key, tourney: this.props.tourney });
+  add = async (role, key, optionalUser) => {
+    const user = optionalUser ?? prompt("Enter a username");
+
+    const newMatch = await post(`/api/${role}`, { match: key, user, tourney: this.props.tourney });
     this.setState((state) => ({
       matches: state.matches.map((m) => {
         if (m.key === key) {
@@ -139,11 +141,11 @@ class Schedule extends Component {
     }));
   };
 
-  addReferee = (key) => this.add("referee", key);
-  addStreamer = (key) => this.add("streamer", key);
-  addCommentator = (key) => this.add("commentator", key);
-  removeReferee = (key) => this.remove("referee", key);
-  removeStreamer = (key) => this.remove("streamer", key);
+  addReferee = (key, user) => this.add("referee", key, user);
+  addStreamer = (key, user) => this.add("streamer", key, user);
+  addCommentator = (key, user) => this.add("commentator", key, user);
+  removeReferee = (key, user) => this.remove("referee", key, user);
+  removeStreamer = (key, user) => this.remove("streamer", key, user);
   removeCommentator = (key, user) => this.remove("commentator", key, user);
 
   handleAddResults = (match) => {
@@ -203,6 +205,26 @@ class Schedule extends Component {
   };
 
   renderName = (p) => {
+    if (p.startsWith("Winner of ")) {
+      const code = p.split("Winner of ")[1];
+      const match = this.state.matches.filter((match) => match.code === code)[0];
+      if (!match || match.score1 === match.score2) {
+        // no winner of the match yet, just display "Winner of X"
+        return (
+          <span className="Players-name">
+            <FlagIcon size={14} />
+            {p}
+          </span>
+        );
+      }
+
+      // may recurse through several match references
+      if (match.score1 > match.score2) {
+        return this.renderName(match.player1);
+      }
+      return this.renderName(match.player2);
+    }
+
     const stats = this.getStats(p);
 
     const title =
@@ -211,7 +233,7 @@ class Schedule extends Component {
     return (
       <Tooltip title={title}>
         <span className="Players-name">
-          <FlagIcon size={14} code={this.getInfo(p).country} />
+          <FlagIcon size={14} code={this.getInfo(p).country} customIcon={this.getInfo(p).icon} />
           {p}
         </span>
       </Tooltip>
@@ -280,6 +302,7 @@ class Schedule extends Component {
       );
     }
 
+    const username = this.props.user.username;
     const quals = this.state.current.name === "Qualifiers";
 
     return (
@@ -340,6 +363,13 @@ class Schedule extends Component {
                                 {name}
                               </Select.Option>
                             ))}
+                            {this.state.matches
+                              .map((match) => `Winner of ${match.code}`)
+                              .map((name) => (
+                                <Select.Option key={name} value={name}>
+                                  {name}
+                                </Select.Option>
+                              ))}
                           </Select>
                         </Form.Item>
                         <Form.Item label={this.state.teams ? "Team 2" : "Player 2"} name="player2">
@@ -349,6 +379,13 @@ class Schedule extends Component {
                                 {name}
                               </Select.Option>
                             ))}
+                            {this.state.matches
+                              .map((match) => `Winner of ${match.code}`)
+                              .map((name) => (
+                                <Select.Option key={name} value={name}>
+                                  {name}
+                                </Select.Option>
+                              ))}
                           </Select>
                         </Form.Item>
                         <Form.Item label="Match ID" name="code">
@@ -440,12 +477,22 @@ class Schedule extends Component {
                         r ? (
                           <Tag
                             closable={this.isRef()}
-                            onClose={() => this.removeReferee(match.key)}
+                            onClose={() => this.removeReferee(match.key, r)}
                           >
                             {r}
                           </Tag>
                         ) : (
-                          this.isRef() && <AddTag onClick={() => this.addReferee(match.key)} />
+                          <>
+                            {this.isRef() && (
+                              <AddTag onClick={() => this.addReferee(match.key, username)} />
+                            )}
+                            {this.isAdmin() && (
+                              <AddTag
+                                text="Add someone"
+                                onClick={() => this.addReferee(match.key)}
+                              />
+                            )}
+                          </>
                         )
                       }
                     />
@@ -463,9 +510,17 @@ class Schedule extends Component {
                             {r}
                           </Tag>
                         ) : (
-                          this.isStreamer() && (
-                            <AddTag onClick={() => this.addStreamer(match.key)} />
-                          )
+                          <>
+                            {this.isStreamer() && (
+                              <AddTag onClick={() => this.addStreamer(match.key, username)} />
+                            )}
+                            {this.isAdmin() && (
+                              <AddTag
+                                text="Add someone"
+                                onClick={() => this.addStreamer(match.key)}
+                              />
+                            )}
+                          </>
                         )
                       }
                     />
@@ -485,8 +540,14 @@ class Schedule extends Component {
                               {r}
                             </Tag>
                           ))}
-                          {this.isCommentator() && !rs.includes(this.props.user.username) && (
-                            <AddTag onClick={() => this.addCommentator(match.key)} />
+                          {this.isCommentator() && !rs.includes(username) && (
+                            <AddTag onClick={() => this.addCommentator(match.key, username)} />
+                          )}
+                          {this.isAdmin() && (
+                            <AddTag
+                              text="Add someone"
+                              onClick={() => this.addCommentator(match.key)}
+                            />
                           )}
                         </span>
                       )}

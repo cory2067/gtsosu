@@ -34,7 +34,7 @@
   margin-left: var(--s);
 }
 
-.TeamCard-delete {
+.TeamCard-icon {
   margin-left: var(--s);
   cursor: pointer;
 }

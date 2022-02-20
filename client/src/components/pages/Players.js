@@ -3,9 +3,10 @@ import "../../utilities.css";
 import "./Players.css";
 import { get, hasAccess, delet, post, prettifyTourney } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";
+import CreateTeamModal from "../modules/CreateTeamModal";
 
 import { PlusOutlined, ReloadOutlined, DownloadOutlined } from "@ant-design/icons";
-import { Layout, Menu, Collapse, Input, Form, Button, Radio, Progress } from "antd";
+import { Layout, Menu, Collapse, Input, Form, Button, Radio, Progress, message } from "antd";
 import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
 import moment from "moment";
@@ -27,6 +28,8 @@ class Players extends Component {
       modalVisible: false,
       modalLoading: false,
       addPlayerData: {},
+      flags: new Set(),
+      editingTeam: -1,
     };
   }
 
@@ -42,6 +45,7 @@ class Players extends Component {
       hasTeams: tourney.teams,
       hasGroups: tourney.stages.some((s) => s.name === "Group Stage"),
       rankRange: [tourney.rankMin, tourney.rankMax !== -1 ? tourney.rankMax : Infinity],
+      flags: new Set(tourney.flags || []),
     });
 
     if (tourney.teams) {
@@ -72,11 +76,14 @@ class Players extends Component {
     this.setState((state) => {
       const players = [...state.players];
 
+      const getRank = (p) => p.rank || Infinity;
+
       if (sort === "rank") {
-        players.sort((x, y) => x.rank - y.rank);
+        players.sort((x, y) => getRank(x) - getRank(y));
       } else if (sort === "seed") {
         players.sort(
-          (x, y) => (this.getStats(x).seedNum || x.rank) - (this.getStats(y).seedNum || y.rank)
+          (x, y) =>
+            (this.getStats(x).seedNum || getRank(x)) - (this.getStats(y).seedNum || getRank(y))
         );
       } else if (sort === "group") {
         players.sort((x, y) =>
@@ -131,27 +138,70 @@ class Players extends Component {
   };
 
   handleModeChange = (e) => {
-    this.setState({
-      mode: e.key,
-      sort: e.key === "players" ? "rank" : "alpha",
-    });
+    if (e.key === "players") {
+      this.setState(
+        {
+          mode: "players",
+          sort: "rank",
+        },
+        () => this.sortPlayers("rank")
+      );
+    } else {
+      console.log("sort team");
+      this.setState(
+        {
+          mode: "teams",
+          sort: "alpha",
+        },
+        () => this.sortTeams("alpha")
+      );
+    }
   };
 
   onFinish = async (formData) => {
     const players = formData.players.split(",").map((s) => s.trim());
 
-    const team = await post("/api/team", {
-      players: players,
-      name: formData.name,
-      tourney: this.props.tourney,
-    });
-
-    this.setState((state) => ({
-      teams: [...state.teams, team],
-    }));
+    try {
+      const team = await post("/api/team", {
+        players: players,
+        name: formData.name,
+        tourney: this.props.tourney,
+        icon: formData.icon,
+      });
+      this.setState((state) => ({
+        teams: [...state.teams, team],
+      }));
+      message.success(`Added team ${formData.name}`);
+    } catch (e) {
+      message.error("Couldn't create this team. Make sure all team members are spelled correctly");
+    }
   };
 
-  handleTeamEdit = async (formData, _id) => {
+  handleTeamEdit = async (team) => {
+    this.setState({ loading: true });
+    const _id = this.state.editingTeam;
+    try {
+      const newTeam = await post("/api/edit-team", {
+        ...team,
+        _id,
+        tourney: this.props.tourney,
+      });
+      this.setState((state) => ({
+        teams: state.teams.map((t) => {
+          if (t._id === _id) return newTeam;
+          return t;
+        }),
+      }));
+    } catch (e) {
+      alert(`Couldn't update team: ${e}`);
+    }
+    this.setState({
+      loading: false,
+      editingTeam: -1,
+    });
+  };
+
+  handleTeamEditStats = async (formData, _id) => {
     const newTeam = await post("/api/team-stats", {
       ...formData,
       _id,
@@ -246,6 +296,36 @@ class Players extends Component {
     dl.click();
   };
 
+  // suiji is special, since it's has seeds by both player and by team
+  hasPlayerSeeds = () => !this.state.hasTeams || this.state.flags.has("suiji");
+  hasTeamSeeds = () => this.state.hasTeams || this.state.flags.has("suiji");
+
+  assignSuijiSeeds = async () => {
+    const players = [...this.state.players].sort((x, y) => x.rank - y.rank);
+    const getSeedName = (rank) => {
+      if (rank < 64) {
+        return "A";
+      }
+      if (rank < 128) {
+        return "B";
+      }
+      if (rank < 192) {
+        return "C";
+      }
+      if (rank < 256) {
+        return "D";
+      }
+      return undefined;
+    };
+
+    for (const [index, player] of players.entries()) {
+      await this.handlePlayerEdit({ seedName: getSeedName(index), seedNum: index + 1 }, player._id);
+      this.setState({
+        refreshPercent: Math.min(100, Math.round((100 * (index + 1)) / this.state.players.length)),
+      });
+    }
+  };
+
   render() {
     return (
       <Content className="content">
@@ -269,7 +349,7 @@ class Players extends Component {
                 <>
                   <Radio.Button value="rank">Rank</Radio.Button>
                   <Radio.Button value="alpha">Alphabetical</Radio.Button>
-                  {!this.state.hasTeams && <Radio.Button value="seed">Seed</Radio.Button>}
+                  {!this.hasPlayerSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
                   {!this.state.hasTeams && this.state.hasGroups && (
                     <Radio.Button value="group">Group</Radio.Button>
                   )}
@@ -279,7 +359,7 @@ class Players extends Component {
               ) : (
                 <>
                   <Radio.Button value="alpha">Alphabetical</Radio.Button>
-                  <Radio.Button value="seed">Seed</Radio.Button>
+                  {this.hasTeamSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
                   <Radio.Button value="group">Group</Radio.Button>
                   <Radio.Button value="rank">Avg Rank</Radio.Button>
                 </>
@@ -297,6 +377,10 @@ class Players extends Component {
                   <Input />
                 </Form.Item>
                 <Form.Item label="Team Name" name="name">
+                  <Input />
+                </Form.Item>
+                Optional link to a team flag (the dimensions should be 70x47)
+                <Form.Item label="Custom flag" name="icon">
                   <Input />
                 </Form.Item>
                 <Form.Item>
@@ -344,6 +428,13 @@ class Players extends Component {
                 </div>
               )}
             </div>
+            {this.state.flags.has("suiji") && (
+              <div>
+                <Button type="primary" onClick={this.assignSuijiSeeds}>
+                  Assign Suiji Seeds
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
@@ -364,12 +455,13 @@ class Players extends Component {
                     onDelete={this.handleDelete}
                     key={player.userid}
                     user={player}
-                    canEdit={this.isAdmin() && !this.state.hasTeams}
+                    canEdit={this.isAdmin() && this.hasPlayerSeeds()}
                     onEdit={this.handlePlayerEdit}
                     stats={stats}
                     rankRange={this.state.rankRange}
                     showGroups={this.state.hasGroups}
                     extra={extra}
+                    flags={this.state.flags}
                   />
                 );
               })
@@ -378,11 +470,25 @@ class Players extends Component {
                   key={team._id}
                   isAdmin={this.isAdmin()}
                   onDelete={this.handleTeamDelete}
-                  onEdit={this.handleTeamEdit}
+                  onEditStats={this.handleTeamEditStats}
+                  onEdit={(id) => this.setState({ editingTeam: id })}
+                  showGroups={this.state.hasGroups}
+                  flags={this.state.flags}
                   {...team}
                 />
               ))}
         </div>
+        {this.state.editingTeam != -1 && (
+          <CreateTeamModal
+            initialTeam={this.state.teams.filter((t) => t._id == this.state.editingTeam)[0]}
+            shouldEdit={true}
+            visible={true}
+            user={this.props.user}
+            loading={this.state.loading}
+            handleSubmit={this.handleTeamEdit}
+            handleCancel={() => this.setState({ editingTeam: -1 })}
+          />
+        )}
       </Content>
     );
   }

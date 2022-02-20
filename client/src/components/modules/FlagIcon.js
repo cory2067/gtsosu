@@ -7,7 +7,7 @@ class FlagIcon extends Component {
       <img
         className="FlagIcon-img"
         style={this.props.size ? { height: this.props.size } : {}}
-        src={`https://osu.ppy.sh/images/flags/${this.props.code}.png`}
+        src={this.props.customIcon || `/public/flags/${this.props.code}.png`}
       ></img>
     );
   }

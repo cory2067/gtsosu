@@ -20,26 +20,45 @@ const formatTime = (time) =>
 const scaleTime = (time, mod) =>
   mod === "DT" ? (time * 2) / 3 : mod === "HT" ? (time * 3) / 2 : time;
 const scaleBPM = (bpm, mod) => (mod === "DT" ? (bpm * 3) / 2 : mod === "HT" ? (bpm * 2) / 3 : bpm);
-const scaleDiff = (diff, mod) =>
-  mod === "HR" || mod === "HDHR" ? Math.min(10, round(diff * 1.4)) : diff;
+const scaleDiff = (diff, mod) => {
+  if (mod === "HR" || mod === "HDHR") {
+    return Math.min(10, round(diff * 1.4));
+  }
+  if (mod == "EZ") {
+    return Math.min(10, round(diff / 2));
+  }
+  return diff;
+};
 
-const checkPermissions = (req, roles) => {
-  const tourney = req.query.tourney || req.body.tourney;
-
+const checkPermissions = (user, tourney, roles) => {
   return (
-    req.user &&
-    req.user.username &&
-    (req.user.admin ||
-      req.user.roles.some(
+    user &&
+    user.username &&
+    (user.admin ||
+      user.roles.some(
         (r) => ["Host", "Developer", ...roles].includes(r.role) && r.tourney == tourney
       ))
   );
 };
 
-const isAdmin = (req) => checkPermissions(req, []);
-const canViewHiddenPools = (req) =>
-  checkPermissions(req, ["Mapsetter", "Showcase", "All-Star Mapsetter"]);
-const cantPlay = (req) => checkPermissions(req, ["Mapsetter", "Referee", "All-Star Mapsetter"]);
+const isAdmin = (user, tourney) => checkPermissions(user, tourney, []);
+const canViewHiddenPools = (user, tourney) =>
+  checkPermissions(user, tourney, [
+    "Mapsetter",
+    "Showcase",
+    "All-Star Mapsetter",
+    "Head Pooler",
+    "Mapper",
+  ]);
+
+const cantPlay = (user, tourney) =>
+  checkPermissions(user, tourney, [
+    "Mapsetter",
+    "Referee",
+    "All-Star Mapsetter",
+    "Head Pooler",
+    "Mapper",
+  ]);
 
 /**
  * POST /api/map
@@ -56,8 +75,8 @@ router.postAsync("/map", ensure.isPooler, async (req, res) => {
   logger.info(`${req.user.username} added ${req.body.id} to ${req.body.stage} mappool`);
 
   const mod = req.body.mod;
-  const modId = { HR: 16, HDHR: 16, DT: 64, HT: 256 }[mod] || 0; // mod enum used by osu api
-  const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId }))[0];
+  const modId = { EZ: 2, HR: 16, HDHR: 16, DT: 64, HT: 256 }[mod] || 0; // mod enum used by osu api
+  const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId, m: 1, a: 1 }))[0];
 
   // all map metadata cached in our db, so we don't need to spam calls to the osu api
   const newMap = new Map({
@@ -94,11 +113,11 @@ router.getAsync("/maps", async (req, res) => {
 
   // if super hacker kiddo tries to view a pool before it's released
   const stageData = tourney.stages.filter((s) => s.name === req.query.stage)[0];
-  if (!stageData.poolVisible && !canViewHiddenPools(req)) {
+  if (!stageData.poolVisible && !canViewHiddenPools(req.user, req.query.tourney)) {
     return res.status(403).send({ error: "This pool hasn't been released yet!" });
   }
 
-  const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, HT: 5, HDHR: 6, TB: 7 };
+  const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, HT: 5, HDHR: 6, EZ: 7, CV: 8, EX: 9, TB: 10 };
   maps.sort((a, b) => {
     if (mods[a.mod] - mods[b.mod] != 0) {
       return mods[a.mod] - mods[b.mod];
@@ -137,7 +156,7 @@ router.getAsync("/whoami", async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
-  if (cantPlay(req)) {
+  if (cantPlay(req.user, req.body.tourney)) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (staff)`);
     return res.status(400).send({ error: "You're a staff member." });
   }
@@ -185,6 +204,110 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
     { new: true }
   );
   res.send(user);
+});
+
+/**
+ * POST /api/register-team
+ * Register a team for a given tournament.
+ * Params:
+ *   - name: team name
+ *   - tourney: identifier for the tourney to register for
+ *   - players: list of players on the team, the first entry should equal the submitting user
+ *   - icon: custom flag for the team
+ */
+router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
+  if (req.body.players[0] !== req.user.username) {
+    return res.status(400).send({ error: "Invalid team format" });
+  }
+
+  if (!req.body.name) {
+    return res.status(400).send({ error: "Please add a team name" });
+  }
+
+  if (req.body.name.length > 40) {
+    return res.status(400).send({ error: "Team name is too long (max 40 characters)" });
+  }
+
+  // TODO: instead of hardcoding these, add them as configurable vars for the Tournament
+  const MIN_PLAYERS = 3;
+  const MAX_PLAYERS = 6;
+  const numPlayers = req.body.players.length;
+  if (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
+    return res
+      .status(400)
+      .send({ error: `A team must have ${MIN_PLAYERS} to ${MAX_PLAYERS} players` });
+  }
+
+  if (numPlayers !== new Set(req.body.players).size) {
+    return res.status(400).send({ error: "Team can't have duplicate players" });
+  }
+
+  const tourney = await Tournament.findOne({ code: req.body.tourney });
+
+  const updates = [];
+  for (const username of req.body.players) {
+    let userData;
+    try {
+      userData = await osuApi.getUser({ u: username, m: 1 });
+    } catch (e) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (no osu user)`);
+      return res.status(400).send({ error: `Couldn't find an osu! player named ${username}` });
+    }
+
+    const user = await User.findOne({ userid: userData.id });
+    if (user && cantPlay(user, req.body.tourney)) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
+      return res.status(400).send({ error: "Staff member on team." });
+    }
+
+    const rank = userData.pp.rank;
+    if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (overrank)`);
+      return res
+        .status(400)
+        .send({ error: `${username} is overranked for this tourney (rank: ${rank})` });
+    }
+
+    if (tourney.rankMax !== -1 && rank > tourney.rankMax) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (underrank)`);
+      return res
+        .status(400)
+        .send({ error: `${username} is underranked for this tourney (rank: ${rank})` });
+    }
+
+    updates.push([
+      { userid: userData.id },
+      {
+        $set: {
+          username: userData.name,
+          country: userData.country,
+          avatar: `https://a.ppy.sh/${userData.id}`,
+          rank,
+        },
+        $push: {
+          tournies: req.body.tourney,
+          stats: { regTime: new Date(), tourney: req.body.tourney },
+        },
+      },
+      { new: true, upsert: true },
+    ]);
+  }
+
+  const players = await Promise.all(
+    updates.map((updateArgs) => User.findOneAndUpdate(...updateArgs))
+  );
+
+  const team = new Team({
+    name: req.body.name,
+    players: players.map((p) => p._id),
+    tourney: req.body.tourney,
+    country: players[0].country,
+    icon: req.body.icon,
+  });
+
+  await team.save();
+  logger.info(`Registered team ${req.body.name} for ${req.body.tourney}`);
+  res.send({ ...team.toObject(), players });
 });
 
 /**
@@ -239,8 +362,9 @@ router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
  *   - tourney: identifier for the tournament
  */
 router.getAsync("/players", async (req, res) => {
-  const players = await User.find({ tournies: req.query.tourney }).sort({ rank: 1 });
-  res.send(players);
+  const players = await User.find({ tournies: req.query.tourney });
+  // sort like this to resolve players with rank 0 / undefined rank
+  res.send(players.sort((x, y) => (x.rank || Infinity) - (y.rank || Infinity)));
 });
 
 /**
@@ -334,11 +458,11 @@ router.getAsync("/tournament", async (req, res) => {
   if (!tourney) return res.send({});
 
   const stages = tourney.stages;
-  if (stages && !canViewHiddenPools(req)) {
+  if (stages && !canViewHiddenPools(req.user, req.query.tourney)) {
     tourney.stages = stages.filter((s) => s.poolVisible);
   }
 
-  if (tourney.stages.length === 0) {
+  if (tourney.stages.length === 0 && stages.length) {
     // always show at least one stage, but don't reveal the mappack
     tourney.stages = [{ ...stages[0].toObject(), mappack: "" }];
   }
@@ -356,6 +480,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - countries: what countries can participate in this tourney (empty if all)
  *   - rankMin / rankMax: rank restriction
  *   - stages: what stages this tourney consists of
+ *   - flags: list of special options for the tourney
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
@@ -372,6 +497,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.rankMin = req.body.rankMin;
   tourney.rankMax = req.body.rankMax;
   tourney.countries = req.body.countries;
+  tourney.flags = req.body.flags;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];
@@ -497,18 +623,19 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
 
 /**
  * POST /api/referee
- * Add self as a referee to a match
+ * Add referee to a match
  * Params:
  *  - match: the _id of the match
+ *  - user: name of the person to add
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/referee", ensure.isRef, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
   if (match.referee) return res.status(400).send({ error: "already exists" });
-  match.referee = req.user.username;
+  match.referee = req.body.user;
   await match.save();
 
-  logger.info(`${req.user.username} signed up to ref ${match.code}`);
+  logger.info(`${req.body.user} signed up to ref ${match.code}`);
   res.send(match);
 });
 
@@ -532,18 +659,19 @@ router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
 
 /**
  * POST /api/streamer
- * Add self as a streamer to a match
+ * Add streamer to a match
  * Params:
  *  - match: the _id of the match
+ *  - user: name of the person to add
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/streamer", ensure.isStreamer, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
   if (match.streamer) return res.status(400).send({ error: "already exists" });
-  match.streamer = req.user.username;
+  match.streamer = req.body.user;
   await match.save();
 
-  logger.info(`${req.user.username} signed up to stream ${match.code}`);
+  logger.info(`${req.body.user} signed up to stream ${match.code}`);
   res.send(match);
 });
 
@@ -567,19 +695,20 @@ router.deleteAsync("/streamer", ensure.isStreamer, async (req, res) => {
 
 /**
  * POST /api/commentator
- * Add self as a commentator to a match
+ * Add commentator to a match
  * Params:
  *  - match: the _id of the match
+ *  - user: name of the person to add
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/commentator", ensure.isCommentator, async (req, res) => {
   const match = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
-    { $push: { commentators: req.user.username } },
+    { $push: { commentators: req.body.user } },
     { new: true }
   );
 
-  logger.info(`${req.user.username} signed up to commentate ${match.code}`);
+  logger.info(`${req.body.user} signed up to commentate ${match.code}`);
   res.send(match);
 });
 
@@ -714,7 +843,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
  *  - tourney: code for this tourney
  */
 router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  if (!isAdmin(req)) {
+  if (!isAdmin(req.user, req.body.tourney)) {
     // makes sure the player has permission to do this
 
     if (req.body.teams) {
@@ -766,10 +895,41 @@ router.postAsync("/team", ensure.isAdmin, async (req, res) => {
     players: players.map((p) => p._id),
     tourney: req.body.tourney,
     country: players[0].country,
+    icon: req.body.icon,
   });
 
   await team.save();
   res.send({ ...team.toObject(), players });
+});
+
+/**
+ * POST /api/edit-team
+ * Modify an existing team
+ * Params:
+ *   - _id: id of the existing team
+ *   - name: team name
+ *   - players: a list of players, where the first item is the captain
+ *   - tourney: the code of the tournament
+ */
+router.postAsync("/edit-team", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} edited team ${req.body.name} in ${req.body.tourney}`);
+  const players = await Promise.all(req.body.players.map((username) => User.findOne({ username })));
+
+  const team = await Team.findOneAndUpdate(
+    { _id: req.body._id },
+    {
+      $set: {
+        name: req.body.name,
+        players: players.map((p) => p._id),
+        tourney: req.body.tourney,
+        country: players[0].country,
+        icon: req.body.icon,
+      },
+    },
+    { new: true }
+  ).populate("players");
+
+  res.send({ ...team.toObject() });
 });
 
 /**

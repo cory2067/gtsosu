@@ -7,13 +7,22 @@ const OAuth2Strategy = require("passport-oauth2").Strategy;
 const router = express.Router();
 const User = require("./models/user");
 
-passport.use(
+// Perform post-processing on the user object at login time, like overrides for dev
+const finalize = async (user) => {
+  if (process.env.NODE_ENV !== "production" && process.env.DEV_ADMIN) {
+    user.admin = process.env.DEV_ADMIN === "true";
+    await user.save();
+  }
+  return user;
+};
+
+const makeAuthStrategy = (clientId, clientSecret) =>
   new OAuth2Strategy(
     {
       authorizationURL: "https://osu.ppy.sh/oauth/authorize",
       tokenURL: "https://osu.ppy.sh/oauth/token",
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
+      clientID: clientId,
+      clientSecret: clientSecret,
       callbackURL: "/auth/osu/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -29,7 +38,7 @@ passport.use(
           await existing.save();
         }
 
-        return done(null, existing);
+        return done(null, await finalize(existing));
       }
 
       const user = new User({
@@ -40,10 +49,21 @@ passport.use(
         discord: me.discord || "",
       });
       await user.save();
-      done(null, user);
+      done(null, await finalize(user));
     }
-  )
-);
+  );
+
+const getStrategy = (req) => (req.hostname === "taikotourney.com" ? "taikotourney" : "default");
+
+passport.use("default", makeAuthStrategy(process.env.CLIENT_ID, process.env.CLIENT_SECRET));
+
+// Need separate oauth id/secret for taikotourney.com domain
+if (process.env.TT_CLIENT_ID && process.env.TT_CLIENT_SECRET) {
+  passport.use(
+    "taikotourney",
+    makeAuthStrategy(process.env.TT_CLIENT_ID, process.env.TT_CLIENT_SECRET)
+  );
+}
 
 passport.serializeUser((user, done) => {
   done(null, user._id);
@@ -54,7 +74,8 @@ passport.deserializeUser(async (id, done) => {
   done(null, user);
 });
 
-router.get("/login", passport.authenticate("oauth2"));
+router.get("/login", (req, res) => passport.authenticate(getStrategy(req))(req, res));
+
 router.get("/logout", (req, res) => {
   req.logout();
   res.redirect("/");
@@ -62,8 +83,9 @@ router.get("/logout", (req, res) => {
 
 router.get(
   "/osu/callback",
-  passport.authenticate("oauth2", { failureRedirect: "/login" }),
-  function (req, res) {
+  (req, res, next) =>
+    passport.authenticate(getStrategy(req), { failureRedirect: "/login" })(req, res, next),
+  (req, res) => {
     // Successful authentication!
     // janky thing to close the login popup window
     res.send("<script>setInterval(window.close)</script>");
