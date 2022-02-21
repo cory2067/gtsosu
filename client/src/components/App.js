@@ -10,6 +10,7 @@ import Rules from "./pages/Rules";
 import Mappools from "./pages/Mappools";
 import Players from "./pages/Players";
 import Schedule from "./pages/Schedule";
+import PoolHelper from "./pages/PoolHelper";
 import Navbar from "./modules/Navbar";
 import { get } from "../utilities";
 
@@ -61,6 +62,7 @@ class App extends Component {
             <Home path="/" />
             <Archives path="/archives" />
             <Staff path="/staff" />
+            <PoolHelper path="/pool-helper" />
 
             <TourneyRouteWrapper
               setLoginAttention={this.setLoginAttention}

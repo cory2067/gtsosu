@@ -186,6 +186,7 @@ class Navbar extends Component {
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/" />
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/archives" />
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/staff" />
+          <RootNavbar {...this.props} openSettings={this.openSettings} path="/pool-helper" />
           <RootNavbar {...this.props} openSettings={this.openSettings} path="/404" />
           <TourneyNavbar
             {...this.props}

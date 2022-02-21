@@ -1061,6 +1061,26 @@ router.postAsync("/refresh", ensure.isAdmin, async (req, res) => {
   });
 });
 
+/**
+ * GET /api/map-history
+ * Get the history of the map being used in GTS tourneys
+ * Params:
+ *   - id: id of the map
+ */
+router.getAsync("/map-history", async (req, res) => {
+  const mapData = (await osuApi.getBeatmaps({ b: req.query.id, m: 1, a: 1 }))[0];
+
+  const mapId = parseInt(mapData.id);
+  const { title, artist, diff, creator } = mapData;
+  const [sameDiff, sameSet, sameSong] = await Promise.all([
+    Map.find({ mapId }),
+    Map.find({ mapId: { $ne: mapId }, title, artist, creator }),
+    Map.find({ creator: { $ne: creator }, title, artist }),
+  ]);
+
+  res.send({ sameDiff, sameSet, sameSong, mapData });
+});
+
 router.all("*", (req, res) => {
   logger.warn(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });

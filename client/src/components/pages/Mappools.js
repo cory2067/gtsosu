@@ -52,7 +52,9 @@ class Mappools extends Component {
     hasAccess(
       this.props.user,
       this.props.tourney,
-      this.state.current.name === "All Stars" ? ["Mapsetter", "All-Star Mapsetter", "Head Pooler", "Mapper"] : ["Mapsetter", "Head Pooler", "Mapper"]
+      this.state.current.name === "All Stars"
+        ? ["Mapsetter", "All-Star Mapsetter", "Head Pooler", "Mapper"]
+        : ["Mapsetter", "Head Pooler", "Mapper"]
     );
 
   sortMaps = (maps) => {
@@ -198,6 +200,11 @@ class Mappools extends Component {
                     <Button type="primary" htmlType="submit">
                       Save
                     </Button>
+                  </Form.Item>
+                  <Form.Item>
+                    <a target="_blank" href="/pool-helper">
+                      <Button>Pool Helper</Button>
+                    </a>
                   </Form.Item>
                 </Form>
               </div>
