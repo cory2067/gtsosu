@@ -15,4 +15,5 @@ export default {
   ygts: 2021,
   btt: 2022,
   tcl: 2022,
+  ftwc: 2022,
 };
