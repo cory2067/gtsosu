@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Collapse, Form, Button, Table, DatePicker, Tag } from "antd";
 import moment from "moment";
 import AddTag from "../modules/AddTag";
+import AddPlayerModal from "../modules/AddPlayerModal";
 const { Panel } = Collapse;
 import { DeleteOutlined } from "@ant-design/icons";
 import { get, post, delet, hasAccess } from "../../utilities";
@@ -16,8 +17,14 @@ class Qualifiers extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.getLobbies();
+    
+    const participants = await (this.props.teams
+      ? get("/api/teams", { tourney: this.props.tourney })
+      : get("/api/players", { tourney: this.props.tourney }));
+    const lookup = Object.fromEntries(participants.map((p) => [p.name || p.username, p]));
+    this.setState({ lookup });
   }
 
   async getLobbies() {
@@ -61,9 +68,10 @@ class Qualifiers extends Component {
     }));
   };
 
-  add = async (role, key) => {
+  add = async (role, key, user) => {
     const newLobby = await post(`/api/lobby-${role}`, {
       lobby: key,
+      user,
       teams: this.props.teams,
       tourney: this.props.tourney,
     });
@@ -99,6 +107,18 @@ class Qualifiers extends Component {
   addPlayer = (key) => this.add("player", key);
   removeReferee = (key) => this.remove("referee", key);
   removePlayer = (key, user) => this.remove("player", key, user);
+  
+  promptAndAddReferee = (key) => {
+    const user = prompt("Enter a username");
+    if (!user) return;
+    this.add("referee", key, user);
+  }
+  
+  promptAndAddPlayer = (key) => {
+    const user = prompt(this.props.teams ? "Enter a team name" : "Enter a username");
+    if (!user) return;
+    this.add("player", key, user);
+  }
 
   canRemoveFromLobby = (p) => {
     if (this.props.teams) {
@@ -114,6 +134,17 @@ class Qualifiers extends Component {
     this.setState((state) => ({
       lobbies: state.lobbies.filter((m) => m.key !== lobby.key),
     }));
+  };
+  
+  handleAddPlayer = async () => {
+    this.setState({ modalLoading: true });
+    this.add("player", this.state.lobbyKey, this.state.addPlayerData);
+    this.setState(
+      (state) => ({
+        modalLoading: false,
+        modalVisible: false,
+      })
+    );
   };
 
   render() {
@@ -160,7 +191,10 @@ class Qualifiers extends Component {
                     {r}
                   </Tag>
                 ) : (
-                  this.props.isRef() && <AddTag onClick={() => this.addReferee(lobby.key)} />
+                  <>
+                    {this.props.isRef() && (<AddTag onClick={() => this.addReferee(lobby.key)} />)}
+                    {this.props.isAdmin() && (<AddTag text="Add someone" onClick={() => this.promptAndAddReferee(lobby.key)} />)}
+                  </>
                 )
               }
             />
@@ -184,6 +218,12 @@ class Qualifiers extends Component {
                     <AddTag
                       text={this.props.teams ? "Add my team" : "Add me"}
                       onClick={() => this.addPlayer(lobby.key)}
+                    />
+                  )}
+                  {this.props.isAdmin() && (
+                    <AddTag
+                      text={this.props.teams ? "Add a team" : "Add someone"}
+                      onClick={() => this.setState({ modalVisible: true, lobbyKey: lobby.key })}
                     />
                   )}
                 </span>
@@ -210,6 +250,16 @@ class Qualifiers extends Component {
             )}
           </Table>
         </div>
+        <AddPlayerModal
+          title={this.props.teams ? "Add a team" : "Add a player"}
+          label={this.props.teams ? "Team Name" : "Player Name"}
+          visible={this.state.modalVisible}
+          loading={this.state.modalLoading}
+          handleOk={this.handleAddPlayer}
+          handleCancel={() => this.setState({ modalVisible: false })}
+          onValuesChange={(changed, data) => this.setState({ addPlayerData: data.username })}
+          options={this.state.lookup}
+        />
       </>
     );
   }
