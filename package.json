@@ -28,7 +28,7 @@
     "heroku-ssl-redirect": "0.0.4",
     "moment": "^2.27.0",
     "mongoose": "^5.10.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "node-osu": "^2.2.0",
     "nodemon": "^1.19.4",
     "passport": "^0.4.1",
