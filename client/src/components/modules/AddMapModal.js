@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "../../utilities.css";
 
-import { Form, Select, Input, Modal, InputNumber } from "antd";
+import { Form, Select, Input, Modal, InputNumber, Switch } from "antd";
 
 const layout = {
   labelCol: {
-    span: 4,
+    span: 6,
   },
   wrapperCol: {
     span: 14,
@@ -43,6 +43,12 @@ class AddMapModal extends Component {
           </Form.Item>
           <Form.Item name="index" label="Index">
             <InputNumber min={1} max={64} />
+          </Form.Item>
+          <Form.Item name="customMap" label="Custom map" valuePropName="checked">
+            <Switch />
+          </Form.Item>
+          <Form.Item name="customSong" label="Custom song" valuePropName="checked">
+            <Switch />
           </Form.Item>
         </Form>
       </Modal>

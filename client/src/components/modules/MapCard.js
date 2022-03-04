@@ -7,6 +7,8 @@ import {
   DownloadOutlined,
 } from "@ant-design/icons";
 import { Link } from "@reach/router";
+import CustomMapBadge from "../../public/custom-map-badge.svg";
+import CustomSongBadge from "../../public/custom-song-badge.svg";
 
 import { Card, Popconfirm } from "antd";
 import "./MapCard.css";
@@ -25,11 +27,14 @@ class MapCard extends Component {
           <div className="MapCard-title">
             <div className={`MapCard-icon mod-${this.props.mod}`}></div>
             {`${this.props.mod}${this.props.index}`}
+            <div style={{ marginRight: 12 }} />
+            {this.props.customMap && (<img className="MapCard-overlay-icon" src={CustomMapBadge} />)}
+            {this.props.customSong && (<img className="MapCard-overlay-icon" src={CustomSongBadge} />)}
           </div>
         }
         bordered={true}
         cover={
-          <a target="_blank" href={`https://osu.ppy.sh/b/${this.props.mapId}`}>
+          <a target="_blank" href={`https://osu.ppy.sh/b/${this.props.mapId}`} style={{ position: "relative" }}>
             <img src={this.props.image} onError={(e) => (e.target.src = DefaultBG)} />
           </a>
         }
