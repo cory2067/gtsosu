@@ -394,6 +394,7 @@ class Players extends Component {
         )}
 
         <AddPlayerModal
+          title="Force player registration"
           visible={this.state.modalVisible}
           loading={this.state.modalLoading}
           handleOk={this.handleAddPlayer}
