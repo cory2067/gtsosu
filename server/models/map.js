@@ -17,6 +17,8 @@ const MapSchema = new mongoose.Schema({
   image: String,
   tourney: String,
   stage: String,
+  customMap: Boolean,
+  customSong: Boolean
 });
 
 module.exports = mongoose.model("Map", MapSchema);
