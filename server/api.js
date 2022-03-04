@@ -774,7 +774,7 @@ router.deleteAsync("/lobby", ensure.isAdmin, async (req, res) => {
 
 /**
  * POST /api/lobby-referee
- * Add self as a referee to a quals lobby
+ * Add a referee to a quals lobby
  * Params:
  *  - lobby: the _id of the lobby
  *  - user: name of the person to add (default: self)
@@ -809,14 +809,15 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
 
 /**
  * POST /api/lobby-player
- * Add self as a player/team to a quals lobby
+ * Add a player/team to a quals lobby
  * Params:
  *  - lobby: the _id of the lobby
  *  - teams: true to add team, false to add player
- *  - user: name of the person to add (default: self)
+ *  - user: name of the person/team to add (default: self)
  *  - tourney: identifier of the tournament
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
+  if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
   if (!req.body.user && !req.user.tournies.includes(req.body.tourney)) return res.status(403).send({});
   logger.info(`${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${req.body.lobby} in ${req.body.tourney}`);
 

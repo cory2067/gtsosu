@@ -16,14 +16,14 @@ class AddPlayerModal extends Component {
         <Form onValuesChange={this.props.onValuesChange}>
           <Form.Item name="username" label={this.props.label ?? "Player Name"}>
             {!this.props.options ? (<Input />) :
-            (<Select showSearch>
-              {Object.keys(this.props.options ?? []).map((name) => (
-                <Select.Option key={name} value={name}>
-                  {name}
-                </Select.Option>
-              ))}
-            </Select>)
-            }
+              (<Select showSearch>
+                {Object.keys(this.props.options ?? []).map((name) => (
+                  <Select.Option key={name} value={name}>
+                    {name}
+                  </Select.Option>
+                ))}
+              </Select>
+            )}
           </Form.Item>
         </Form>
       </Modal>

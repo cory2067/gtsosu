@@ -113,12 +113,6 @@ class Qualifiers extends Component {
     if (!user) return;
     this.add("referee", key, user);
   }
-  
-  promptAndAddPlayer = (key) => {
-    const user = prompt(this.props.teams ? "Enter a team name" : "Enter a username");
-    if (!user) return;
-    this.add("player", key, user);
-  }
 
   canRemoveFromLobby = (p) => {
     if (this.props.teams) {
