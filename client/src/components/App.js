@@ -32,7 +32,7 @@ export default function App(props) {
   }, []);
 
   const updateUser = (user) => {
-    setUser({ user });
+    setUser(user);
   };
 
   const toggleLoginAttention = (value) => {
