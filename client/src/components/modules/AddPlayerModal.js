@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "../../utilities.css";
 
 import { Form, Input, Modal, Select } from "antd";
