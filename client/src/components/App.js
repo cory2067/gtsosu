@@ -21,7 +21,7 @@ import { Layout } from "antd";
 import "antd/dist/antd.css";
 const { Footer } = Layout;
 
-export default function App(props) {
+export default function App() {
   const [user, setUser] = useState({});
   const [loginAttention, setLoginAttention] = useState(false);
 
@@ -30,14 +30,6 @@ export default function App(props) {
       setUser(res);
     });
   }, []);
-
-  const updateUser = (user) => {
-    setUser(user);
-  };
-
-  const toggleLoginAttention = (value) => {
-    setLoginAttention(value);
-  };
 
   /*
     Each route for a tourney can optionally specify a year
@@ -50,7 +42,7 @@ export default function App(props) {
   return (
     <>
       <Layout>
-        <Navbar attention={loginAttention} user={user} updateUser={updateUser} />
+        <Navbar attention={loginAttention} user={user} setUser={setUser} />
         <Router primary={false}>
           <Home path="/" />
           <Archives path="/archives" />
@@ -58,17 +50,17 @@ export default function App(props) {
           <PoolHelper path="/pool-helper" />
 
           <TourneyRouteWrapper
-            setLoginAttention={toggleLoginAttention}
             user={user}
+            setUser={setUser}
+            setLoginAttention={setLoginAttention}
             path="/:tourney/home"
-            updateUser={updateUser}
             PageComponent={TourneyHome}
           />
           <TourneyRouteWrapper
-            setLoginAttention={toggleLoginAttention}
             user={user}
+            setUser={setUser}
+            setLoginAttention={setLoginAttention}
             path="/:year/:tourney/home"
-            updateUser={updateUser}
             PageComponent={TourneyHome}
           />
 
