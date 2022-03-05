@@ -10,7 +10,7 @@ import { Link } from "@reach/router";
 import CustomMapBadge from "../../public/custom-map-badge.svg";
 import CustomSongBadge from "../../public/custom-song-badge.svg";
 
-import { Card, Popconfirm } from "antd";
+import { Card, Popconfirm, Tooltip } from "antd";
 import "./MapCard.css";
 import DefaultBG from "../../public/default-bg.png";
 
@@ -28,8 +28,16 @@ class MapCard extends Component {
             <div className={`MapCard-icon mod-${this.props.mod}`}></div>
             {`${this.props.mod}${this.props.index}`}
             <div style={{ marginRight: 12 }} />
-            {this.props.customMap && (<img className="MapCard-overlay-icon" src={CustomMapBadge} />)}
-            {this.props.customSong && (<img className="MapCard-overlay-icon" src={CustomSongBadge} />)}
+            {this.props.customMap && (
+              <Tooltip title="GTS custom map">
+                <img className="MapCard-overlay-icon" src={CustomMapBadge} />
+              </Tooltip>
+            )}
+            {this.props.customSong && (
+              <Tooltip title="GTS custom song">
+                <img className="MapCard-overlay-icon" src={CustomSongBadge} />
+              </Tooltip>
+            )}
           </div>
         }
         bordered={true}
