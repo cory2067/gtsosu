@@ -34,7 +34,7 @@
     "nodemon": "^1.19.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
-    "passport-oauth2": "^1.5.0",
+    "passport-oauth2": "^1.6.1",
     "pg": "^7.18.2",
     "pino": "^5.17.0",
     "pino-pretty": "^3.6.1",
