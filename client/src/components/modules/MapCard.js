@@ -29,12 +29,12 @@ class MapCard extends Component {
             {`${this.props.mod}${this.props.index}`}
             <div style={{ marginRight: 12 }} />
             {this.props.customMap && (
-              <Tooltip title="GTS custom map">
+              <Tooltip title="GTS Custom Map">
                 <img className="MapCard-overlay-icon" src={CustomMapBadge} />
               </Tooltip>
             )}
             {this.props.customSong && (
-              <Tooltip title="GTS custom song">
+              <Tooltip title="GTS Custom Song">
                 <img className="MapCard-overlay-icon" src={CustomSongBadge} />
               </Tooltip>
             )}
