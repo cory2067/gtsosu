@@ -100,7 +100,8 @@ April 30th until April 31st.`,
 - There are no warmups.
 - Failed scores will count.
 - Only two players from a team will be playing per map. There is no limitations on player swapping. 
-- Seedings will be done with the average rank of each team on each map. 
+- Seedings will be done with the average rank of each team on each map.
+- If two teams are tied, the one with the highest combined score of the best run on each map will be seeded higher.
 - Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking. 
 - Only the 32 best teams will continue on to the Group Stage. 
 
@@ -111,7 +112,7 @@ April 30th until April 31st.`,
 - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time. 
 - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the double elimination bracket the highest seeded team will advance. 
 - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "IGTS 2022: (Team Red) vs (Team Blue)". 
-- Each team is allowed one warm-up but it must be below 3 minutes, and must be sent to the referee and streamer of the match one hour prior to the match's start time.
+- Each team is allowed one warm-up but the total time of the map must be below 3 minutes and must be sent to the referee and streamer of the match one hour prior to the match's start time.
 - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
 - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match. 
 - The captain of each team will roll with the command "!roll" in the chat. 
