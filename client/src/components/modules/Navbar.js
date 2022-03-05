@@ -143,7 +143,7 @@ class Navbar extends Component {
 
     this.setState({ loading: true });
     await post("/api/settings", { ...this.state.formData });
-    this.props.updateUser({ ...this.props.user, ...this.state.formData });
+    this.props.setUser({ ...this.props.user, ...this.state.formData });
     this.setState({ loading: false, visible: false });
   };
 
