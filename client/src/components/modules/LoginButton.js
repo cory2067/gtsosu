@@ -13,7 +13,7 @@ class LoginButton extends Component {
   submit = async () => {
     if (this.props.user.username) {
       await fetch("/auth/logout");
-      this.props.updateUser({});
+      this.props.setUser({});
       return;
     }
 
@@ -34,7 +34,7 @@ class LoginButton extends Component {
       if (popup.closed) {
         clearInterval(loop);
         const user = await get("/api/whoami");
-        this.props.updateUser(user);
+        this.props.setUser(user);
       }
     }, 50);
     return loop;

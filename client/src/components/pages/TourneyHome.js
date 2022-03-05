@@ -102,7 +102,7 @@ class TourneyHome extends Component {
         try {
           const user = await post("/api/register", { tourney: this.props.tourney });
           notification.open(success);
-          this.props.updateUser(user);
+          this.props.setUser(user);
         } catch (e) {
           const fail = {
             message: `Failed`,

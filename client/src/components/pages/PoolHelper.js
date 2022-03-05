@@ -11,7 +11,6 @@ import StageSelector from "../modules/StageSelector";
 const { Content } = Layout;
 
 function PoolHelper(props) {
-  const [tourneys, setTourneys] = useState([]);
   const [history, setHistory] = useState();
 
   const search = async (form) => {
