@@ -2,7 +2,7 @@
 
 ## Running in development
 
-To run gtsosu, you'll first need to install `nodejs` version 12 or above.
+To run gtsosu, you'll first need to install `nodejs` version 16.
 
 ### Running only the frontend
 
