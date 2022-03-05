@@ -774,18 +774,19 @@ router.deleteAsync("/lobby", ensure.isAdmin, async (req, res) => {
 
 /**
  * POST /api/lobby-referee
- * Add self as a referee to a quals lobby
+ * Add a referee to a quals lobby
  * Params:
  *  - lobby: the _id of the lobby
+ *  - user: name of the person to add (default: self)
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   const lobby = await QualifiersLobby.findOne({ _id: req.body.lobby, tourney: req.body.tourney });
   if (lobby.referee) return res.status(400).send({ error: "already exists" });
-  lobby.referee = req.user.username;
+  lobby.referee = req.body.user ?? req.user.username;
   await lobby.save();
 
-  logger.info(`${req.user.username} signed up to ref a quals lobby for ${req.body.tourney}`);
+  logger.info(`${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${req.body.lobby} for ${req.body.tourney}`);
   res.send(lobby);
 });
 
@@ -808,19 +809,21 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
 
 /**
  * POST /api/lobby-player
- * Add self as a player/team to a quals lobby
+ * Add a player/team to a quals lobby
  * Params:
  *  - lobby: the _id of the lobby
  *  - teams: true to add team, false to add player
+ *  - user: name of the person/team to add (default: self)
  *  - tourney: identifier of the tournament
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  if (!req.user.tournies.includes(req.body.tourney)) return res.status(403).send({});
-  logger.info(`${req.user.username} signed up for a quals lobby in ${req.body.tourney}`);
+  if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
+  if (!req.body.user && !req.user.tournies.includes(req.body.tourney)) return res.status(403).send({});
+  logger.info(`${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${req.body.lobby} in ${req.body.tourney}`);
 
-  const toAdd = req.body.teams
+  const toAdd = req.body.user ?? (req.body.teams
     ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney })).name
-    : req.user.username;
+    : req.user.username);
 
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
