@@ -3,32 +3,32 @@ import "../../utilities.css";
 
 import { Form, Input, Modal, Select } from "antd";
 
-class AddPlayerModal extends Component {
-  render() {
-    return (
-      <Modal
-        title={this.props.title}
-        visible={this.props.visible}
-        confirmLoading={this.props.loading}
-        onOk={this.props.handleOk}
-        onCancel={this.props.handleCancel}
-      >
-        <Form onValuesChange={this.props.onValuesChange}>
-          <Form.Item name="username" label={this.props.label ?? "Player Name"}>
-            {!this.props.options ? (<Input />) :
-              (<Select showSearch>
-                {Object.keys(this.props.options ?? []).map((name) => (
-                  <Select.Option key={name} value={name}>
-                    {name}
-                  </Select.Option>
-                ))}
-              </Select>
-            )}
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  }
-}
+export default function AddPlayerModal(props) {
+  const { handleCancel, handleOk, label, loading, onValuesChange, options, title, visible } = props;
 
-export default AddPlayerModal;
+  return (
+    <Modal
+      title={title}
+      visible={visible}
+      confirmLoading={loading}
+      onOk={handleOk}
+      onCancel={handleCancel}
+    >
+      <Form onValuesChange={onValuesChange}>
+        <Form.Item name="username" label={label ?? "Player Name"}>
+          {!options ? (
+            <Input />
+          ) : (
+            <Select showSearch>
+              {Object.keys(options ?? []).map((name) => (
+                <Select.Option key={name} value={name}>
+                  {name}
+                </Select.Option>
+              ))}
+            </Select>
+          )}
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
+}
