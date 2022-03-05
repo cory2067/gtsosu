@@ -12,9 +12,7 @@ const layout = {
   },
 };
 
-export default function AddMapModal(props) {
-  const { handleCancel, handleOk, loading, onValuesChange, visible } = props;
-
+export default function AddMapModal({ handleCancel, handleOk, loading, onValuesChange, visible }) {
   return (
     <Modal
       title="Add a map"

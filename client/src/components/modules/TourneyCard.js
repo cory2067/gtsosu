@@ -5,9 +5,7 @@ import { Link } from "@reach/router";
 import { Card, List } from "antd";
 import "./TourneyCard.css";
 
-export default function TourneyCard(props) {
-  const { divisions, code, title, description } = props;
-
+export default function TourneyCard({ divisions, code, title, description }) {
   const hasDivisions = !!divisions;
 
   return (

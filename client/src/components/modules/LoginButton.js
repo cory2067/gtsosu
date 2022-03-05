@@ -5,9 +5,7 @@ import "./LoginButton.css";
 
 const UI = ContentManager.getUI();
 
-export default function LoginButton(props) {
-  const { user, setUser, attention } = props;
-
+export default function LoginButton({ user, setUser, attention }) {
   const handleSubmit = async () => {
     if (user.username) {
       await fetch("/auth/logout");

@@ -8,9 +8,7 @@ import { prettifyTourney } from "../../utilities";
 import ContentManager from "../../ContentManager";
 const { Content } = Layout;
 
-export default function Rules(props) {
-  const { tourney } = props;
-
+export default function Rules({ tourney }) {
   const [data, setData] = useState({});
 
   useEffect(() => {

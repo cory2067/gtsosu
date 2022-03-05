@@ -3,9 +3,16 @@ import "../../utilities.css";
 
 import { Form, Input, Modal, Select } from "antd";
 
-export default function AddPlayerModal(props) {
-  const { handleCancel, handleOk, label, loading, onValuesChange, options, title, visible } = props;
-
+export default function AddPlayerModal({
+  handleCancel,
+  handleOk,
+  label,
+  loading,
+  onValuesChange,
+  options,
+  title,
+  visible,
+}) {
   return (
     <Modal
       title={title}

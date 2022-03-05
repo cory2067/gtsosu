@@ -1,9 +1,7 @@
 import React from "react";
 import "./FlagIcon.css";
 
-export default function FlagIcon(props) {
-  const { size, customIcon, code } = props;
-
+export default function FlagIcon({ size, customIcon, code }) {
   return (
     <img
       className="FlagIcon-img"

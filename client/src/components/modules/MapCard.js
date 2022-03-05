@@ -13,29 +13,27 @@ import { Card, Popconfirm, Tooltip } from "antd";
 import "./MapCard.css";
 import DefaultBG from "../../public/default-bg.png";
 
-export default function MapCard(props) {
-  const {
-    _id,
-    artist,
-    bpm,
-    creator,
-    customMap,
-    customSong,
-    diff,
-    handleDelete,
-    hp,
-    image,
-    index,
-    isPooler,
-    length,
-    mapId,
-    mod,
-    od,
-    pooler,
-    sr,
-    title,
-  } = props;
-
+export default function MapCard({
+  _id,
+  artist,
+  bpm,
+  creator,
+  customMap,
+  customSong,
+  diff,
+  handleDelete,
+  hp,
+  image,
+  index,
+  isPooler,
+  length,
+  mapId,
+  mod,
+  od,
+  pooler,
+  sr,
+  title,
+}) {
   return (
     <Card
       title={
