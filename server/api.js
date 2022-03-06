@@ -14,6 +14,9 @@ const QualifiersLobby = require("./models/qualifiers-lobby");
 const { addAsync } = require("@awaitjs/express");
 const router = addAsync(express.Router());
 
+const fs = require("fs");
+const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
+
 const round = (num) => Math.round(num * 100) / 100;
 const formatTime = (time) =>
   Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + Math.floor(time % 60);
@@ -786,7 +789,11 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   lobby.referee = req.body.user ?? req.user.username;
   await lobby.save();
 
-  logger.info(`${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${req.body.lobby} for ${req.body.tourney}`);
+  logger.info(
+    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${
+      req.body.lobby
+    } for ${req.body.tourney}`
+  );
   res.send(lobby);
 });
 
@@ -818,12 +825,19 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
-  if (!req.body.user && !req.user.tournies.includes(req.body.tourney)) return res.status(403).send({});
-  logger.info(`${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${req.body.lobby} in ${req.body.tourney}`);
+  if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
+    return res.status(403).send({});
+  logger.info(
+    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
+      req.body.lobby
+    } in ${req.body.tourney}`
+  );
 
-  const toAdd = req.body.user ?? (req.body.teams
-    ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney })).name
-    : req.user.username);
+  const toAdd =
+    req.body.user ??
+    (req.body.teams
+      ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney })).name
+      : req.user.username);
 
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
@@ -1082,6 +1096,24 @@ router.getAsync("/map-history", async (req, res) => {
   ]);
 
   res.send({ sameDiff, sameSet, sameSong, mapData });
+});
+
+/**
+ * GET /api/languages
+ * Get the supported languages for a tourney
+ * Params:
+ *   - tourney: identifier for the tourney
+ */
+router.getAsync("/languages", async (req, res) => {
+  const regex = new RegExp(`(${req.query.tourney}-(.*)\\.js)`);
+  const langs = CONTENT_DIR.map((name) => {
+    const found = name.match(regex);
+    if (found) {
+      return found[2]; // language code
+    }
+    return null;
+  }).filter((v) => !!v);
+  res.send({ langs });
 });
 
 router.all("*", (req, res) => {
