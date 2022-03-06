@@ -12,6 +12,7 @@ export default function UserCard({
   extra,
   flags,
   hideRank,
+  onDelete,
   onEdit,
   rankRange,
   showGroups,
