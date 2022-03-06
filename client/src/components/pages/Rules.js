@@ -1,33 +1,34 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { navigate } from "@reach/router";
+import { Layout } from "antd";
+
 import "../../utilities.css";
 import { prettifyTourney } from "../../utilities";
-
-import { Layout, Card } from "antd";
-const { Content } = Layout;
 import ContentManager from "../../ContentManager";
+const { Content } = Layout;
 
-class Rules extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { data: {} };
-  }
+export default function Rules({ tourney }) {
+  const [data, setData] = useState({});
 
-  async componentDidMount() {
-    document.title = `${prettifyTourney(this.props.tourney)}: Rules`;
-    const data = await ContentManager.get(this.props.tourney);
-    if (!data) return navigate("/404");
-    this.setState({ data });
-  }
+  useEffect(() => {
+    document.title = `${prettifyTourney(tourney)}: Rules`;
 
-  render() {
-    return (
-      <Content className="content">
-        <ReactMarkdown source={this.state.data.rules} />
-      </Content>
-    );
-  }
+    const fetchData = async () => {
+      try {
+        const data = await ContentManager.get(tourney);
+        setData(data);
+      } catch {
+        return navigate("/404");
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <Content className="content">
+      <ReactMarkdown source={data.rules} />
+    </Content>
+  );
 }
-
-export default Rules;
