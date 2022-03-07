@@ -1,44 +1,35 @@
-import React, { Component } from "react";
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import { Link } from "@reach/router";
 
 import { Card, List } from "antd";
 import "./TourneyCard.css";
 
-class TourneyCard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+export default function TourneyCard({ divisions, code, title, description }) {
+  const hasDivisions = !!divisions;
 
-  render() {
-    const hasDivisions = !!this.props.divisions;
+  return (
+    <Card
+      title={title}
+      bordered={true}
+      extra={!hasDivisions && <Link to={`/${code}/home`}>Visit Tourney</Link>}
+      className="TourneyCard-card"
+    >
+      <ReactMarkdown source={description} />
 
-    return (
-      <Card
-        title={this.props.title}
-        bordered={true}
-        extra={!hasDivisions && <Link to={`/${this.props.code}/home`}>Visit Tourney</Link>}
-        className="TourneyCard-card"
-      >
-        <ReactMarkdown source={this.props.description} />
-
-        {hasDivisions && (
-          <List
-            size="small"
-            header={<div>Divisions</div>}
-            bordered
-            dataSource={this.props.divisions}
-            renderItem={({ title, code }) => (
-              <List.Item>
-                <Link to={`/${this.props.code}-${code}/home`}>{title}</Link>
-              </List.Item>
-            )}
-          />
-        )}
-      </Card>
-    );
-  }
+      {hasDivisions && (
+        <List
+          size="small"
+          header={<div>Divisions</div>}
+          bordered
+          dataSource={divisions}
+          renderItem={({ tourneyTitle, tourneyCode }) => (
+            <List.Item>
+              <Link to={`/${tourneyCode}-${code}/home`}>{tourneyTitle}</Link>
+            </List.Item>
+          )}
+        />
+      )}
+    </Card>
+  );
 }
-
-export default TourneyCard;
