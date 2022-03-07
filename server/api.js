@@ -630,7 +630,7 @@ router.postAsync("/warmup", async (req, res) => {
   } catch (e) {
     res.status(400).send(e.message);
   }
-  console.log("User", req.user.username, "submitted warmup", req.body.warmup);
+  logger.info("User", req.user.username, "submitted warmup", req.body.warmup);
   await match.save();
   await res.send(match);
 });
