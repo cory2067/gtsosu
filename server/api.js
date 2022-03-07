@@ -67,13 +67,14 @@ const canEditWarmup = async (user, playerNo, match) => {
     return team.players[0].username === playerName;
   }
 
+  const tourney = await Tournament.findOne({ code: match.tourney });
+
   // Admin can always edit warmup
-  if (user.isAdmin) return true;
+  if (this.isAdmin(user, tourney)) return true;
 
   // Players can't edit if the match is in less than 1 hour
   if (match.time.getTime() - Date.now() < 3600000) return false;
-
-  const tourney = await Tournament.findOne({ code: match.tourney });
+  
   if (
     tourney.teams &&
     await isCaptainOf(
