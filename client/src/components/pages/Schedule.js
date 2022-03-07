@@ -329,9 +329,9 @@ class Schedule extends Component {
             <LinkOutlined className="Schedule-link" />
           </a>
           {canEdit &&
-            <Button
+            <DeleteOutlined
+              className="Schedule-link"
               onClick={() => this.handleDeleteWarmup(match, playerNo)}
-              icon={<DeleteOutlined />}
               style={{ marginLeft: 12 }}
             />
           }
@@ -341,7 +341,7 @@ class Schedule extends Component {
         type="primary"
         shape="circle"
         icon={<PlusOutlined />}
-        size="large"
+        size="medium"
         onClick={() => this.setState({
           warmupFormData: {
             ...this.state.warmupFormData,
@@ -350,9 +350,6 @@ class Schedule extends Component {
           }, submitWarmupVisible: true
         })}
       />
-    } else {
-      // Not sure if this is necessary
-      return <></>
     }
   }
 
