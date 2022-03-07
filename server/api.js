@@ -74,7 +74,7 @@ const canEditWarmup = async (user, playerNo, match) => {
 
   // Players can't edit if the match is in less than 1 hour
   if (match.time.getTime() - Date.now() < 3600000) return false;
-  
+
   if (
     tourney.teams &&
     await isCaptainOf(
@@ -93,7 +93,7 @@ const canEditWarmup = async (user, playerNo, match) => {
 
 const parseWarmup = async (warmup) => {
   if (!warmup) {
-    return "";
+    throw new Error("No warmup submitted");
   }
 
   let warmupMapId = warmup;
@@ -101,8 +101,16 @@ const parseWarmup = async (warmup) => {
     warmupMapId = warmupMapId.split("/").pop();
   }
 
-  let mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
-  if (!mapData) return "";
+  let mapData = null;
+  try {
+    (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
+  } catch (e) {
+    if (e.message == "Not found") {
+      throw new Error("Beatmap not found");
+    } else {
+      throw new Error(e.message || "An error occured while trying to fetch beatmap data");
+    }
+  }
 
   // Map longer than 3 minutes
   if (mapData.length.drain > 180) {
