@@ -634,10 +634,11 @@ router.postAsync("/warmup", async (req, res) => {
     match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup);
   } catch (e) {
     res.status(400).send(e.message);
+    return;
   }
   logger.info("User", req.user.username, "submitted warmup", req.body.warmup);
   await match.save();
-  await res.send(match);
+  res.send(match);
 });
 
 /**
