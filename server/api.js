@@ -103,7 +103,7 @@ const parseWarmup = async (warmup) => {
 
   let mapData = null;
   try {
-    (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
+    mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
   } catch (e) {
     if (e.message == "Not found") {
       throw new Error("Beatmap not found");
@@ -112,8 +112,13 @@ const parseWarmup = async (warmup) => {
     }
   }
 
+  // No idea if this would ever happen, but just in case
+  if(!mapData) {
+    throw new Error("No beatmap data");
+  }
+
   // Map longer than 3 minutes
-  if (mapData.length.drain > 180) {
+  if (mapData.length.total > 180) {
     throw new Error("Warmup map too long");
   }
 
