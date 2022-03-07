@@ -37,7 +37,7 @@ April 16th until April 17th.
 ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
 April 23rd until April 24th.
 ### Grand Finals + All-Stars
-April 30th until April 31st.`,
+April 30th until May 1st.`,
     },
     {
       title: "Prizes",
@@ -101,7 +101,7 @@ April 30th until April 31st.`,
 - Failed scores will count.
 - Only two players from a team will be playing per map. There is no limitations on player swapping. 
 - Seedings will be done with the average rank of each team on each map.
-- If two teams are tied, the one with the highest combined score of the best run on each map will be seeded higher.
+- If two teams are tied, the team who has the highest combined score of their best runs across all maps, will be seeded higher.
 - Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking. 
 - Only the 32 best teams will continue on to the Group Stage. 
 
