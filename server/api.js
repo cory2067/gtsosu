@@ -1106,14 +1106,23 @@ router.getAsync("/map-history", async (req, res) => {
  */
 router.getAsync("/languages", async (req, res) => {
   const regex = new RegExp(`(${req.query.tourney}-(.*)\\.js)`);
-  const langs = CONTENT_DIR.map((name) => {
+  const languages = CONTENT_DIR.map((name) => {
     const found = name.match(regex);
     if (found) {
-      return found[2]; // language code
+      const code = found[2];
+      return Intl.getCanonicalLocales(code.replace("_", "-"))[0];
     }
     return null;
-  }).filter((v) => !!v);
-  res.send({ langs });
+  })
+    .filter((v) => !!v)
+    .sort((a, b) => {
+      // sort English to the top
+      if (a === "en") return -1;
+      if (b === "en") return 1;
+      return a.localeCompare(b);
+    });
+
+  res.send({ languages });
 });
 
 router.all("*", (req, res) => {

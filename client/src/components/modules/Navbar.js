@@ -1,13 +1,14 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Router } from "@reach/router";
 
 import { Layout, Menu, message } from "antd";
 import LoginButton from "./LoginButton";
 import UserModal from "./UserModal";
 import "./Navbar.css";
-import { post } from "../../utilities";
+import { get, post, tokenizeTourney } from "../../utilities";
 import ContentManager from "../../ContentManager";
 import GTSLogo from "../../public/gts-osu.svg";
+import YearConfig from "../../content/year-config";
 
 const { Header } = Layout;
 const { SubMenu } = Menu;
@@ -18,7 +19,7 @@ const MERCH_LINK = "https://teespring.com/stores/gtsosu-store";
 const MOUSEPAD_LINK = "https://merch.streamelements.com/gtsosu";
 
 function RootNavbar(props) {
-  const { user, setUser, openSettings } = props;
+  const { user, openSettings } = props;
   return (
     <Header>
       <Link to="/">
@@ -55,9 +56,29 @@ function RootNavbar(props) {
   );
 }
 
+const getTourneyInfo = (prefix) => {
+  // TODO (#65): refactor navbar routing to avoid manual string processing like this
+  const parts = prefix.split("/");
+  const { code, division } = tokenizeTourney(parts[parts.length - 1]);
+  const year = parts.length == 3 ? parseInt(parts[1]) : YearConfig[code];
+  return { code, division, year };
+};
+
 function TourneyNavbar(props) {
   const { user, handleClick, openSettings } = props;
+  const [languages, setLanguages] = useState(["en"]);
+
   const prefix = window.location.pathname.split("/").slice(0, -1).join("/");
+  const { code, year } = getTourneyInfo(prefix);
+
+  useEffect(() => {
+    get("/api/languages", { tourney: `${code}_${year}` }).then(({ languages }) => {
+      setLanguages(languages);
+    });
+  }, [code, year]);
+
+  const getLangName = (lang) => new Intl.DisplayNames(lang, { type: "language" }).of(lang);
+
   return (
     <Header>
       <Link to="/">
@@ -82,21 +103,10 @@ function TourneyNavbar(props) {
         <Menu.Item key="6">
           <Link to={`${prefix}/staff`}>{UI.staff}</Link>
         </Menu.Item>
-        {/* TODO avoid hardcoding this list */}
         <SubMenu title={UI.language} className="Navbar-language">
-          <Menu.Item key="lang-en">English</Menu.Item>
-          <Menu.Item key="lang-fr">Français (Not available for SGTS)</Menu.Item>
-          <Menu.Item key="lang-zh_cn">中文 (Simplified)</Menu.Item>
-          <Menu.Item key="lang-de">Deutsch</Menu.Item>
-          <Menu.Item key="lang-es_cl">Español (Chile) (Not available for SGTS)</Menu.Item>
-          <Menu.Item key="lang-it">Italiano (Not available for SGTS)</Menu.Item>
-          <Menu.Item key="lang-nl">Nederlands (Not available for SGTS)</Menu.Item>
-          <Menu.Item key="lang-ko">한국어 (Not available for SGTS)</Menu.Item>
-          <Menu.Item key="lang-ru">Русский (Not available for SGTS)</Menu.Item>
-          <Menu.Item key="lang-ja">日本語 (Not available for SGTS)</Menu.Item>
-          <Menu.Item key="lang-es">Español (Not available for SGTS)</Menu.Item>
-          <Menu.Item key="lang-pt">Português</Menu.Item>
-          <Menu.Item key="lang-pl">Polski (Not available for SGTS)</Menu.Item>
+          {languages.map((lang) => (
+            <Menu.Item key={`lang-${lang}`}>{getLangName(lang)}</Menu.Item>
+          ))}
         </SubMenu>
         <Menu.Item key="7">
           <LoginButton {...props} />
