@@ -1,6 +1,7 @@
 require("dotenv").config();
 
-const express = require("express");
+import express from "express";
+//const express = require("express");
 const path = require("path");
 const logger = require("pino")();
 const passport = require("passport");
