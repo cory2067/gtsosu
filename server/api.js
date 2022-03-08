@@ -1217,8 +1217,7 @@ router.getAsync("/languages", async (req, res) => {
   const languages = CONTENT_DIR.map((name) => {
     const found = name.match(regex);
     if (found) {
-      const code = found[2];
-      return Intl.getCanonicalLocales(code.replace("_", "-"))[0];
+      return found[2]; // language code
     }
     return null;
   })
