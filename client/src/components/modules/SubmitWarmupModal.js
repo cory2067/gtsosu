@@ -1,7 +1,13 @@
 import React from "react";
 import { Form, Modal, Input } from "antd";
 
-export default function SubmitWarmupModal({ visible, handleOk, handleCancel, onValuesChange, loading }) {
+export default function SubmitWarmupModal({
+  visible,
+  handleOk,
+  handleCancel,
+  onValuesChange,
+  loading,
+}) {
   return (
     <Modal
       title="Submit a warmup"
@@ -16,5 +22,5 @@ export default function SubmitWarmupModal({ visible, handleOk, handleCancel, onV
         </Form.Item>
       </Form>
     </Modal>
-  )
+  );
 }

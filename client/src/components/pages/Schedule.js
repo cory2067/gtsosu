@@ -130,7 +130,7 @@ class Schedule extends Component {
     }
 
     return false;
-  }
+  };
 
   // janky way to nuke the timezone, forcing UTC time
   stripTimezone = (time) => time.toString().split("GMT")[0] + "GMT";
@@ -236,21 +236,20 @@ class Schedule extends Component {
           return m;
         }),
         submitWarmupVisible: false,
-        submitWarmupLoading: false
+        submitWarmupLoading: false,
       }));
       message.success("Warmup submitted successfully");
     } catch (e) {
       message.error(e.message || e);
       this.setState({ submitWarmupVisible: false, submitWarmupLoading: false });
     }
-  }
+  };
 
   handleDeleteWarmup = async (match, playerNo) => {
     const newMatch = await delet("/api/warmup", {
       match: match,
       playerNo,
     });
-
 
     this.setState((state) => ({
       matches: state.matches.map((m) => {
@@ -260,7 +259,7 @@ class Schedule extends Component {
         return m;
       }),
     }));
-  }
+  };
 
   displayScore = (score, other) => {
     if (score === -2) {
@@ -328,30 +327,36 @@ class Schedule extends Component {
           <a target="_blank" href={url}>
             <LinkOutlined className="Schedule-link" />
           </a>
-          {canEdit &&
+          {canEdit && (
             <DeleteOutlined
               className="Schedule-link"
               onClick={() => this.handleDeleteWarmup(match, playerNo)}
               style={{ marginLeft: 12 }}
             />
-          }
-        </>)
+          )}
+        </>
+      );
     } else if (canEdit) {
-      return <Button
-        type="primary"
-        shape="circle"
-        icon={<PlusOutlined />}
-        size="medium"
-        onClick={() => this.setState({
-          warmupFormData: {
-            ...this.state.warmupFormData,
-            match: match._id,
-            playerNo,
-          }, submitWarmupVisible: true
-        })}
-      />
+      return (
+        <Button
+          type="primary"
+          shape="circle"
+          icon={<PlusOutlined />}
+          size="medium"
+          onClick={() =>
+            this.setState({
+              warmupFormData: {
+                ...this.state.warmupFormData,
+                match: match._id,
+                playerNo,
+              },
+              submitWarmupVisible: true,
+            })
+          }
+        />
+      );
     }
-  }
+  };
 
   handleTimezone = (e) => {
     if (this.state.editing > -1) return;
@@ -745,11 +750,15 @@ class Schedule extends Component {
           visible={this.state.submitWarmupVisible}
           handleCancel={() => this.setState({ submitWarmupVisible: false })}
           onValuesChange={(values) =>
-            this.setState({ warmupFormData: { ...this.state.warmupFormData, ...values } })}
-          handleOk={() => this.handleSubmitWarmup(
-            this.state.warmupFormData.match,
-            this.state.warmupFormData.playerNo,
-            this.state.warmupFormData.warmup)}
+            this.setState({ warmupFormData: { ...this.state.warmupFormData, ...values } })
+          }
+          handleOk={() =>
+            this.handleSubmitWarmup(
+              this.state.warmupFormData.match,
+              this.state.warmupFormData.playerNo,
+              this.state.warmupFormData.warmup
+            )
+          }
           loading={this.state.submitWarmupLoading}
         />
         <SubmitResultsModal
