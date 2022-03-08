@@ -65,7 +65,7 @@ const cantPlay = (user, tourney) =>
 
 const canEditWarmup = async (user, playerNo, match) => {
   async function isCaptainOf(playerName, teamName, tourney) {
-    const team = await Team.findOne({ name: teamName, tourney: tourney }).populate('players');
+    const team = await Team.findOne({ name: teamName, tourney: tourney }).populate("players");
     if (!team || !team.players || !team.players[0]) return false;
     return team.players[0].username === playerName;
   }
@@ -80,10 +80,8 @@ const canEditWarmup = async (user, playerNo, match) => {
 
   if (
     tourney.teams &&
-    await isCaptainOf(
-      user.username,
-      match[`player${playerNo}`],
-      tourney.code)) {
+    (await isCaptainOf(user.username, match[`player${playerNo}`], tourney.code))
+  ) {
     // User is the captain of the team
     return true;
   } else if (user.username === match[`player${playerNo}`]) {
@@ -92,7 +90,7 @@ const canEditWarmup = async (user, playerNo, match) => {
   }
 
   return false;
-}
+};
 
 const parseWarmup = async (warmup) => {
   if (!warmup) {
@@ -116,7 +114,7 @@ const parseWarmup = async (warmup) => {
   }
 
   // No idea if this would ever happen, but just in case
-  if(!mapData) {
+  if (!mapData) {
     throw new Error("No beatmap data");
   }
 
@@ -126,7 +124,7 @@ const parseWarmup = async (warmup) => {
   }
 
   return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#taiko/${warmupMapId}`;
-}
+};
 
 /**
  * POST /api/map
@@ -630,7 +628,9 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
 router.postAsync("/warmup", async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match });
   if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
-    logger.warn(`${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`);
+    logger.warn(
+      `${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
+    );
     return res.status(403).send("You don't have permission to do that");
   }
   try {
@@ -654,7 +654,9 @@ router.postAsync("/warmup", async (req, res) => {
 router.deleteAsync("/warmup", async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match });
   if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
-    logger.warn(`${req.user.username} tried to delete player ${req.body.playerNo} warmup for ${req.body.match}`);
+    logger.warn(
+      `${req.user.username} tried to delete player ${req.body.playerNo} warmup for ${req.body.match}`
+    );
     return res.status(403).send("You don't have permission to do that");
   }
   match[`warmup${req.body.playerNo}`] = null;
