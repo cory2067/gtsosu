@@ -6,4 +6,6 @@ export const UserRoles = Object.freeze({
   Referee: "Referee",
   Streamer: "Streamer",
   Commentator: "Commentator",
+  Captain: "Captain",
+  Player: "Player",
 });

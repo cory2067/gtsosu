@@ -1,7 +1,8 @@
-import { UserRoles } from "./roles";
+import { UserRoles } from "./UserRoles";
 import "./typedefs"
-import { GlobalContext } from "./context/GlobalContext";
-import { TourneyContext } from "./context/TourneyContext";
+import { GlobalContext } from "./contexts/GlobalContext";
+import { TourneyContext } from "./contexts/TourneyContext";
+import { MatchContext } from "./contexts/MatchContext";
 
 export class UserAuth {
   /**
@@ -37,10 +38,26 @@ export class UserAuth {
 
   /**
    * @param {string} tourney 
-   * @returns {TourneyContext}
+   * @returns {UserAuthWithContext}
    */
   forTourney(tourney) {
     return this.withContext(new TourneyContext(tourney));
+  }
+
+  /**
+   * @param {Match} match 
+   * @returns {UserAuthWithContext}
+   */
+  forMatch(match) {
+    return this.withContext(new MatchContext(match));
+  }
+
+  /**
+   * @param {Team} match 
+   * @returns {UserAuthWithContext}
+   */
+  forTeam(team) {
+    return this.withContext(new TeamContext(team));
   }
 }
 

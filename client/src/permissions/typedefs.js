@@ -55,6 +55,16 @@
  * @property {string} tourney
  * @property {string} stage
  * 
+ * @typedef {Object} Team
+ * @property {string} name
+ * @property {string} country
+ * @property {User[]} players
+ * @property {string} icon
+ * @property {string} tourney
+ * @property {string} seedName
+ * @property {number} seedNum
+ * @property {string} group
+ * 
  * @callback HasRoles
  * @param {User} user
  * @param {string[]} roles
