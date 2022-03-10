@@ -1,5 +1,3 @@
-import { UserRoles } from "../roles";
-
 /**
  * implements PermissionContext
  */
@@ -18,14 +16,13 @@ export class TourneyContext {
 
   /**
    * @param {User} user 
-   * @param {string} roles 
-   * @returns 
+   * @param {string[]} roles 
+   * @returns {boolean}
    */
   hasRoles(user, roles) {
-    const userRoles = [UserRoles.Host, UserRoles.Developer, ...roles];
     return (
       user.username &&
-      user.roles.some((r) => r.tourney === tourney && userRoles.includes(r.role))
+      user.roles.some((r) => r.tourney === this._tourney && roles.includes(r.role))
     );
   }
 }
