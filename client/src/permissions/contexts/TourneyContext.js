@@ -19,7 +19,7 @@ export class TourneyContext {
    * @param {string[]} roles 
    * @returns {boolean}
    */
-  hasRoles(user, roles) {
+  hasRole(user, roles) {
     return (
       user.username &&
       user.roles.some((r) => r.tourney === this._tourney && roles.includes(r.role))

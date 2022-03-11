@@ -29,7 +29,7 @@ export class UserAuth {
    * @returns 
    */
   withContext(context) {
-    return new UserAuthWithContext(this._user, context);
+    return new UserAuthWithContext(this, context);
   }
 
   forGlobal() {
@@ -46,10 +46,12 @@ export class UserAuth {
 
   /**
    * @param {Match} match 
+   * @param {number | undefined} playerNo
+   * @param {Map<string, Team> | Team[]} teams
    * @returns {UserAuthWithContext}
    */
-  forMatch(match) {
-    return this.withContext(new MatchContext(match));
+  forMatch(match, playerNo, teams) {
+    return this.withContext(new MatchContext(match, playerNo, teams));
   }
 
   /**

@@ -1,3 +1,4 @@
+import { UserRoles } from "../UserRoles";
 import { TeamContext } from "./TeamContext";
 
 /**
@@ -15,11 +16,11 @@ export class MatchContext {
   _playerNo;
 
   /**
-   * @type {Map<string, Team>}
+   * @type {Map<string, Team>} // should probably be {[k: string] => Team} when TS is configured
    */
   _teams;
 
-  hasRoles = undefined;
+  hasRole = undefined;
 
   /**
    * @param {Match} match 
@@ -39,32 +40,35 @@ export class MatchContext {
     }
 
     if (this._teams) {
-      this.hasRoles = this.hasRolesTeam;
+      this.hasRole = this.hasRoleTeam;
     } else {
-      this.hasRoles = this.hasRolesIndividual;
+      this.hasRole = this.hasRoleIndividual;
     }
   }
 
   /**
-   * hasRoles for individual tournies
+   * hasRole for individual tournies
    * 
    * @param {User} user 
    * @param {string[]} roles 
    * @returns {boolean}
    */
-  hasRolesIndividual(user, roles) {
+  hasRoleIndividual(user, roles) {
     for (let i = 0, n = roles.length; i < n; ++i) {
       switch (roles[i]) {
-        case UserRoles.Captain: {
-          if (user.username === this._match.players[0].username) {
-            return true;
+        // For individual tournies captain and player means the same thing
+        case UserRoles.Captain:
+        case UserRoles.Player:
+          if (this._playerNo) {
+            if (this._match[`player${this._playerNo}`] === user.username) {
+              return true;
+            }
+          } else {
+            if (this._match.player1 === user.username || this._match.player2 === user.username) {
+              return true;
+            }
           }
-        }
-        case UserRoles.Player: {
-          if (this._match.players.some((player) => player.username === user.username)) {
-            return true;
-          }
-        }
+          break;
       }
     }
 
@@ -72,23 +76,28 @@ export class MatchContext {
   }
 
   /**
-   * hasRoles for team tournies
+   * hasRole for team tournies
    * 
    * @param {User} user 
    * @param {string[]} roles 
    * @returns {boolean}
    */
-  hasRolesTeam(user, roles) {
+  hasRoleTeam(user, roles) {
     if (this._playerNo) {
       const team = this.getTeam(this._playerNo);
-      return new TeamContext(team).hasRoles(user, roles);
+      if (!team) return false;
+      return new TeamContext(team).hasRole(user, roles);
     } else {
       const allTeams = [this.getTeam(1), this.getTeam(2)];
-      return allTeams.some((team) => new TeamContext(team).hasRoles(user, roles));
+      return allTeams.some((team) => new TeamContext(team).hasRole(user, roles));
     }
   }
 
   getTeam(playerNo) {
-    return this._teams?.get(this._match[`player${playerNo}`]);
+    if (this._teams) {
+      return this._teams[this._match[`player${playerNo}`]];
+    } else {
+      return undefined;
+    }
   }
 }

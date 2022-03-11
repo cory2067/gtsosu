@@ -15,19 +15,19 @@ export class TeamContext {
    * @param {string[]} roles
    * @returns {boolean}
    */
-  hasRoles(user, roles) {
+  hasRole(user, roles) {
     for (let i = 0, n = roles.length; i < n; ++i) {
-      switch (roles) {
-        case UserRoles.Captain: {
+      switch (roles[i]) {
+        case UserRoles.Captain:
           if (user.username === this._team.players[0].username) {
             return true;
           }
-        }
-        case UserRoles.Player: {
+          break;
+        case UserRoles.Player:
           if (this._team.players.some((player) => player.username === user.username)) {
             return true;
           }
-        }
+          break;
       }
     }
 
