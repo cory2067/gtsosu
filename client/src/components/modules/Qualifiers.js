@@ -3,8 +3,9 @@ import { Collapse, Form, Button, Table, DatePicker, Tag } from "antd";
 import moment from "moment";
 import AddTag from "../modules/AddTag";
 import AddPlayerModal from "../modules/AddPlayerModal";
+import SubmitLobbyModal from "../modules/SubmitLobbyModal";
 const { Panel } = Collapse;
-import { DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, LinkOutlined, DeleteOutlined } from "@ant-design/icons";
 import { get, post, delet, hasAccess } from "../../utilities";
 const { Column } = Table;
 
@@ -113,12 +114,6 @@ class Qualifiers extends Component {
   addPlayer = (key) => this.add("player", key);
   removeReferee = (key) => this.remove("referee", key);
   removePlayer = (key, user) => this.remove("player", key, user);
-  
-  promptAndAddReferee = (key) => {
-    const user = prompt("Enter a username");
-    if (!user) return;
-    this.add("referee", key, user);
-  }
 
   promptAndAddReferee = (key) => {
     const user = prompt("Enter a username");
@@ -141,25 +136,38 @@ class Qualifiers extends Component {
       lobbies: state.lobbies.filter((m) => m.key !== lobby.key),
     }));
   };
-  
-  handleAddPlayer = async () => {
-    this.setState({ modalLoading: true });
-    this.add("player", this.state.lobbyKey, this.state.addPlayerData);
-    this.setState(
-      (state) => ({
-        modalLoading: false,
-        modalVisible: false,
-      })
-    );
-  };
 
   handleAddPlayer = async () => {
-    this.setState({ modalLoading: true });
+    this.setState({ addPlayerModalLoading: true });
     this.add("player", this.state.lobbyKey, this.state.addPlayerData);
     this.setState((state) => ({
-      modalLoading: false,
-      modalVisible: false,
+      addPlayerModalLoading: false,
+      addPlayerModalVisible: false,
     }));
+  };
+
+  handleSubmitLobbyOk = async () => {
+    this.setState({ submitLobbyModalLoading: true });
+    const newLobby = await post("/api/lobby-results", {
+      ...this.state.formData,
+      lobby: this.state.lobbyKey,
+      tourney: this.props.tourney,
+    });
+
+    this.setState((state) => ({
+      submitLobbyModalLoading: false,
+      submitLobbyModalVisible: false,
+      lobbies: state.lobbies.map((m) => {
+        if (m.key === state.lobbyKey) {
+          return { ...newLobby, key: newLobby._id };
+        }
+        return m;
+      }),
+    }));
+  };
+
+  handleSubmitLobbyValuesChange = (changed, allData) => {
+    this.setState({ formData: allData });
   };
 
   render() {
@@ -243,7 +251,9 @@ class Qualifiers extends Component {
                   {this.props.isAdmin() && (
                     <AddTag
                       text={this.props.teams ? "Add a team" : "Add someone"}
-                      onClick={() => this.setState({ modalVisible: true, lobbyKey: lobby.key })}
+                      onClick={() =>
+                        this.setState({ addPlayerModalVisible: true, lobbyKey: lobby.key })
+                      }
                     />
                   )}
                 </span>
@@ -268,17 +278,61 @@ class Qualifiers extends Component {
                 )}
               />
             )}
+
+            {this.props.isRef() && (
+              <Column
+                title="MP Link"
+                dataIndex="link"
+                key="link"
+                className="u-textCenter"
+                render={(url) =>
+                  url && (
+                    <a target="_blank" href={url}>
+                      <LinkOutlined className="Schedule-link" />
+                    </a>
+                  )
+                }
+              />
+            )}
+
+            {this.props.isRef() && (
+              <Column
+                title="Submit"
+                key="submit"
+                className="u-textCenter"
+                render={(_, lobby) => (
+                  <span>
+                    <Button
+                      type="primary"
+                      shape="circle"
+                      icon={<PlusOutlined />}
+                      size="medium"
+                      onClick={() =>
+                        this.setState({ submitLobbyModalVisible: true, lobbyKey: lobby.key })
+                      }
+                    />
+                  </span>
+                )}
+              />
+            )}
           </Table>
         </div>
         <AddPlayerModal
           title={this.props.teams ? "Add a team" : "Add a player"}
           label={this.props.teams ? "Team Name" : "Player Name"}
-          visible={this.state.modalVisible}
-          loading={this.state.modalLoading}
+          visible={this.state.addPlayerModalVisible}
+          loading={this.state.addPlayerModalLoading}
           handleOk={this.handleAddPlayer}
-          handleCancel={() => this.setState({ modalVisible: false })}
+          handleCancel={() => this.setState({ addPlayerModalVisible: false })}
           onValuesChange={(changed, data) => this.setState({ addPlayerData: data.username })}
           options={this.state.lookup}
+        />
+        <SubmitLobbyModal
+          visible={this.state.submitLobbyModalVisible}
+          loading={this.state.submitLobbyModalLoading}
+          handleCancel={() => this.setState({ submitLobbyModalVisible: false })}
+          handleOk={this.handleSubmitLobbyOk}
+          onValuesChange={this.handleSubmitLobbyValuesChange}
         />
       </>
     );
