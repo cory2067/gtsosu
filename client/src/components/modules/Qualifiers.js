@@ -113,6 +113,12 @@ class Qualifiers extends Component {
   addPlayer = (key) => this.add("player", key);
   removeReferee = (key) => this.remove("referee", key);
   removePlayer = (key, user) => this.remove("player", key, user);
+  
+  promptAndAddReferee = (key) => {
+    const user = prompt("Enter a username");
+    if (!user) return;
+    this.add("referee", key, user);
+  }
 
   promptAndAddReferee = (key) => {
     const user = prompt("Enter a username");
@@ -134,6 +140,17 @@ class Qualifiers extends Component {
     this.setState((state) => ({
       lobbies: state.lobbies.filter((m) => m.key !== lobby.key),
     }));
+  };
+  
+  handleAddPlayer = async () => {
+    this.setState({ modalLoading: true });
+    this.add("player", this.state.lobbyKey, this.state.addPlayerData);
+    this.setState(
+      (state) => ({
+        modalLoading: false,
+        modalVisible: false,
+      })
+    );
   };
 
   handleAddPlayer = async () => {
