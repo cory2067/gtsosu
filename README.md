@@ -2,7 +2,7 @@
 
 ## Running in development
 
-To run gtsosu, you'll first need to install `nodejs` version 12 or above.
+To run gtsosu, you'll first need to install `nodejs` version 16.
 
 ### Running only the frontend
 
@@ -67,11 +67,11 @@ Translations are handled by the `ContentManager.js` module. The `ContentManager`
 
 Add a new file to `client/src/content` with the following name: `tourney_year-language.js`. (e.g. `igts_2020-ja.js`, `egts_2020-fr.js`).
 
-Then, add a selectable option for this language in the navbar if needed. In the `TourneyNavbar` found at `client/src/components/modules/Navbar.js`, add a `Menu.Item` for the new language, following the same pattern as the othe languages. (I may change this process later to be a little prettier)
+The "Languages" dropdown for each tourney should automatically populate based on the translation files you've added.
 
 ### Adding a new UI translation
 
-UI translations are used for parts of the site that do not vary from tournament tournament (e.g. the navbar, the register button, etc). All UI translation are found in `client/src/content/ui.js`. This file contains a mapping from language codes to a dictionary of various terms and their respective translations.
+UI translations are used for parts of the site that do not vary from tournament to tournament (e.g. the navbar, the register button, etc). All UI translation are found in `client/src/content/ui.js`. This file contains a mapping from language codes to a dictionary of various terms and their respective translations.
 
 New terms can be added to this dictionary at will. To use these translations, they can be imported as follows:
 

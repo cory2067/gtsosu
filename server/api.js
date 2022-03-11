@@ -14,6 +14,9 @@ const QualifiersLobby = require("./models/qualifiers-lobby");
 const { addAsync } = require("@awaitjs/express");
 const router = addAsync(express.Router());
 
+const fs = require("fs");
+const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
+
 const round = (num) => Math.round(num * 100) / 100;
 const formatTime = (time) =>
   Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + Math.floor(time % 60);
@@ -59,6 +62,69 @@ const cantPlay = (user, tourney) =>
     "Head Pooler",
     "Mapper",
   ]);
+
+const canEditWarmup = async (user, playerNo, match) => {
+  async function isCaptainOf(playerName, teamName, tourney) {
+    const team = await Team.findOne({ name: teamName, tourney: tourney }).populate("players");
+    if (!team || !team.players || !team.players[0]) return false;
+    return team.players[0].username === playerName;
+  }
+
+  // Admin can always edit warmup
+  if (isAdmin(user, match.tourney)) return true;
+
+  // Players can't edit if the match is in less than 1 hour
+  if (match.time.getTime() - Date.now() < 3600000) return false;
+
+  const tourney = await Tournament.findOne({ code: match.tourney });
+
+  if (
+    tourney.teams &&
+    (await isCaptainOf(user.username, match[`player${playerNo}`], tourney.code))
+  ) {
+    // User is the captain of the team
+    return true;
+  } else if (user.username === match[`player${playerNo}`]) {
+    // User is the player
+    return true;
+  }
+
+  return false;
+};
+
+const parseWarmup = async (warmup) => {
+  if (!warmup) {
+    throw new Error("No warmup submitted");
+  }
+
+  let warmupMapId = warmup;
+  if (warmupMapId.startsWith("http")) {
+    warmupMapId = warmupMapId.split("/").pop();
+  }
+
+  let mapData = null;
+  try {
+    mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
+  } catch (e) {
+    if (e.message == "Not found") {
+      throw new Error("Beatmap not found");
+    } else {
+      throw new Error(e.message || "An error occured while trying to fetch beatmap data");
+    }
+  }
+
+  // No idea if this would ever happen, but just in case
+  if (!mapData) {
+    throw new Error("No beatmap data");
+  }
+
+  // Map longer than 3 minutes
+  if (mapData.length.total > 180) {
+    throw new Error("Warmup map too long");
+  }
+
+  return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#taiko/${warmupMapId}`;
+};
 
 /**
  * POST /api/map
@@ -552,6 +618,53 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
 });
 
 /**
+ * POST /api/warmup
+ * Submit a warmup
+ * Params:
+ *   - match: match ID
+ *   - playerNo: 1 - player 1, 2 - player 2
+ *   - warmup: the warmup map, could be beatmap link or ID
+ */
+router.postAsync("/warmup", async (req, res) => {
+  const match = await Match.findOne({ _id: req.body.match });
+  if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
+    logger.warn(
+      `${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
+    );
+    return res.status(403).send("You don't have permission to do that");
+  }
+  try {
+    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup);
+  } catch (e) {
+    res.status(400).send(e.message);
+    return;
+  }
+  logger.info("User", req.user.username, "submitted warmup", req.body.warmup);
+  await match.save();
+  res.send(match);
+});
+
+/**
+ * DELETE /api/warmup
+ * Delete a warmup
+ * Params:
+ *   - match: match ID
+ *   - playerNo: 1 - player 1, 2 - player 2
+ */
+router.deleteAsync("/warmup", async (req, res) => {
+  const match = await Match.findOne({ _id: req.body.match });
+  if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
+    logger.warn(
+      `${req.user.username} tried to delete player ${req.body.playerNo} warmup for ${req.body.match}`
+    );
+    return res.status(403).send("You don't have permission to do that");
+  }
+  match[`warmup${req.body.playerNo}`] = null;
+  await match.save();
+  res.send(match);
+});
+
+/**
  * DELETE /api/match
  * Delete a tourney match
  * Params:
@@ -786,7 +899,11 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   lobby.referee = req.body.user ?? req.user.username;
   await lobby.save();
 
-  logger.info(`${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${req.body.lobby} for ${req.body.tourney}`);
+  logger.info(
+    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${
+      req.body.lobby
+    } for ${req.body.tourney}`
+  );
   res.send(lobby);
 });
 
@@ -818,12 +935,19 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
-  if (!req.body.user && !req.user.tournies.includes(req.body.tourney)) return res.status(403).send({});
-  logger.info(`${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${req.body.lobby} in ${req.body.tourney}`);
+  if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
+    return res.status(403).send({});
+  logger.info(
+    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
+      req.body.lobby
+    } in ${req.body.tourney}`
+  );
 
-  const toAdd = req.body.user ?? (req.body.teams
-    ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney })).name
-    : req.user.username);
+  const toAdd =
+    req.body.user ??
+    (req.body.teams
+      ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney })).name
+      : req.user.username);
 
   const lobby = await QualifiersLobby.findOneAndUpdate(
     {
@@ -1082,6 +1206,32 @@ router.getAsync("/map-history", async (req, res) => {
   ]);
 
   res.send({ sameDiff, sameSet, sameSong, mapData });
+});
+
+/**
+ * GET /api/languages
+ * Get the supported languages for a tourney
+ * Params:
+ *   - tourney: identifier for the tourney
+ */
+router.getAsync("/languages", async (req, res) => {
+  const regex = new RegExp(`(${req.query.tourney}-(.*)\\.js)`);
+  const languages = CONTENT_DIR.map((name) => {
+    const found = name.match(regex);
+    if (found) {
+      return found[2]; // language code
+    }
+    return null;
+  })
+    .filter((v) => !!v)
+    .sort((a, b) => {
+      // sort English to the top
+      if (a === "en") return -1;
+      if (b === "en") return 1;
+      return a.localeCompare(b);
+    });
+
+  res.send({ languages });
 });
 
 router.all("*", (req, res) => {

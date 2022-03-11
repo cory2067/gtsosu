@@ -5,15 +5,11 @@ import "./LoginButton.css";
 
 const UI = ContentManager.getUI();
 
-class LoginButton extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  submit = async () => {
-    if (this.props.user.username) {
+export default function LoginButton({ user, setUser, attention }) {
+  const handleSubmit = async () => {
+    if (user.username) {
       await fetch("/auth/logout");
-      this.props.updateUser({});
+      setUser({});
       return;
     }
 
@@ -25,31 +21,27 @@ class LoginButton extends Component {
     const popup = window.open(
       "/auth/login/",
       "",
-      `toolbar=no, location=no, directories=no, status=no, menubar=no, 
-      scrollbars=no, resizable=no, copyhistory=no, width=${width}, 
+      `toolbar=no, location=no, directories=no, status=no, menubar=no,
+      scrollbars=no, resizable=no, copyhistory=no, width=${width},
       height=${height}, top=${top}, left=${left}`
     );
 
     const loop = setInterval(async () => {
       if (popup.closed) {
         clearInterval(loop);
-        const user = await get("/api/whoami");
-        this.props.updateUser(user);
+        const userData = await get("/api/whoami");
+        setUser(userData);
       }
     }, 50);
     return loop;
   };
 
-  render() {
-    return (
-      <div
-        className={`LoginButton-button ${this.props.attention ? "LoginButton-attention" : ""}`}
-        onClick={this.submit}
-      >
-        <span>{this.props.user.username ? UI.logout : UI.login}</span>
-      </div>
-    );
-  }
+  return (
+    <div
+      className={`LoginButton-button ${attention ? "LoginButton-attention" : ""}`}
+      onClick={handleSubmit}
+    >
+      <span>{user.username ? UI.logout : UI.login}</span>
+    </div>
+  );
 }
-
-export default LoginButton;

@@ -36,6 +36,12 @@
   box-shadow: 2px 2px 2px var(--darkgrey);
 }
 
+.MapCard-overlay-icon {
+  height: 24px;
+  width: 24px;
+  margin-right: var(--s);
+}
+
 .MapCard-row {
   line-height: 1.25;
   font-size: 13pt;

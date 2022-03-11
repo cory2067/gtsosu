@@ -8,6 +8,7 @@ import { PlusOutlined, LinkOutlined, DeleteOutlined } from "@ant-design/icons";
 import moment from "moment";
 import AddTag from "../modules/AddTag";
 import Qualifiers from "../modules/Qualifiers";
+import SubmitWarmupModal from "../modules/SubmitWarmupModal";
 import "./Schedule.css";
 
 import {
@@ -46,6 +47,13 @@ class Schedule extends Component {
         score2: 0,
         link: "",
       },
+      warmupFormData: {
+        warmup: "",
+        match: "",
+        playerNo: 0,
+      },
+      submitWarmupVisible: false,
+      submitWarmupLoading: false,
     };
   }
 
@@ -96,6 +104,33 @@ class Schedule extends Component {
   isRef = () => hasAccess(this.props.user, this.props.tourney, ["Referee"]);
   isStreamer = () => hasAccess(this.props.user, this.props.tourney, ["Streamer"]);
   isCommentator = () => hasAccess(this.props.user, this.props.tourney, ["Commentator"]);
+  canSubmitWarmup = (match, playerNo) => {
+    if (!this.props.user) return false;
+
+    // Admin can always edit
+    if (this.isAdmin()) return true;
+
+    // Players can't edit if the match is in less than 1 hour
+    if (new Date(match.time) - Date.now() < 3600000) return false;
+
+    if (this.state.teams) {
+      // Team tourney, check if user is the captain
+      const team = this.state.lookup[match[`player${playerNo}`]] || {};
+
+      if (!team?.players) {
+        return false;
+      }
+
+      if (team.players[0]?.username === this.props.user.username) {
+        return true;
+      }
+    } else {
+      // Solo tourney, check if user is player
+      return this.props.user.username === match[`player${playerNo}`];
+    }
+
+    return false;
+  };
 
   // janky way to nuke the timezone, forcing UTC time
   stripTimezone = (time) => time.toString().split("GMT")[0] + "GMT";
@@ -183,6 +218,49 @@ class Schedule extends Component {
     }));
   };
 
+  handleSubmitWarmup = async (match, playerNo, warmupMap) => {
+    this.setState({ submitWarmupLoading: true });
+
+    try {
+      const newMatch = await post("/api/warmup", {
+        match: match,
+        playerNo,
+        warmup: warmupMap,
+      });
+
+      this.setState((state) => ({
+        matches: state.matches.map((m) => {
+          if (m.key === newMatch._id) {
+            return { ...newMatch, key: newMatch._id };
+          }
+          return m;
+        }),
+        submitWarmupVisible: false,
+        submitWarmupLoading: false,
+      }));
+      message.success("Warmup submitted successfully");
+    } catch (e) {
+      message.error(e.message || e);
+      this.setState({ submitWarmupVisible: false, submitWarmupLoading: false });
+    }
+  };
+
+  handleDeleteWarmup = async (match, playerNo) => {
+    const newMatch = await delet("/api/warmup", {
+      match: match,
+      playerNo,
+    });
+
+    this.setState((state) => ({
+      matches: state.matches.map((m) => {
+        if (m.key === newMatch._id) {
+          return { ...newMatch, key: newMatch._id };
+        }
+        return m;
+      }),
+    }));
+  };
+
   displayScore = (score, other) => {
     if (score === -2) {
       return <span>--</span>;
@@ -238,6 +316,46 @@ class Schedule extends Component {
         </span>
       </Tooltip>
     );
+  };
+
+  renderWarmup = (url, match, playerNo) => {
+    const canEdit = this.canSubmitWarmup(match, playerNo);
+
+    if (url) {
+      return (
+        <>
+          <a target="_blank" href={url}>
+            <LinkOutlined className="Schedule-link" />
+          </a>
+          {canEdit && (
+            <DeleteOutlined
+              className="Schedule-link"
+              onClick={() => this.handleDeleteWarmup(match, playerNo)}
+              style={{ marginLeft: 12 }}
+            />
+          )}
+        </>
+      );
+    } else if (canEdit) {
+      return (
+        <Button
+          type="primary"
+          shape="circle"
+          icon={<PlusOutlined />}
+          size="medium"
+          onClick={() =>
+            this.setState({
+              warmupFormData: {
+                ...this.state.warmupFormData,
+                match: match._id,
+                playerNo,
+              },
+              submitWarmupVisible: true,
+            })
+          }
+        />
+      );
+    }
   };
 
   handleTimezone = (e) => {
@@ -428,10 +546,28 @@ class Schedule extends Component {
                       render={this.renderName}
                     />
                     <Column
+                      title="Warmup 1"
+                      dataIndex="warmup1"
+                      key="warmup1"
+                      className="u-textCenter"
+                      render={(url, match) => {
+                        return this.renderWarmup(url, match, 1);
+                      }}
+                    />
+                    <Column
                       title={this.state.teams ? "Team 2" : "Player 2"}
                       dataIndex="player2"
                       key="player2"
                       render={this.renderName}
+                    />
+                    <Column
+                      title="Warmup 2"
+                      dataIndex="warmup2"
+                      key="warmup2"
+                      className="u-textCenter"
+                      render={(url, match) => {
+                        return this.renderWarmup(url, match, 2);
+                      }}
                     />
 
                     <Column
@@ -610,6 +746,21 @@ class Schedule extends Component {
             )}
           </div>
         </div>
+        <SubmitWarmupModal
+          visible={this.state.submitWarmupVisible}
+          handleCancel={() => this.setState({ submitWarmupVisible: false })}
+          onValuesChange={(values) =>
+            this.setState({ warmupFormData: { ...this.state.warmupFormData, ...values } })
+          }
+          handleOk={() =>
+            this.handleSubmitWarmup(
+              this.state.warmupFormData.match,
+              this.state.warmupFormData.playerNo,
+              this.state.warmupFormData.warmup
+            )
+          }
+          loading={this.state.submitWarmupLoading}
+        />
         <SubmitResultsModal
           match={this.state.match}
           visible={this.state.visible}
