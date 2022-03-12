@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../utilities.css";
 import { get, post, hasAccess, delet, prettifyTourney } from "../../utilities";
 import UserCard from "../modules/UserCard";
