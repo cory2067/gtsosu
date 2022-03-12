@@ -4,7 +4,7 @@ import { get, post, hasAccess, delet, prettifyTourney } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
-import { Layout, Collapse, Form, Input, Select, Button } from "antd";
+import { Layout, Collapse, Form, Input, Select, Button, message } from "antd";
 const { Content } = Layout;
 const { Panel } = Collapse;
 
@@ -50,10 +50,20 @@ export default function TourneyStaff({ tourney, user }) {
     });
   };
 
+  const fetchStaff = async () => {
+    try {
+      const staff = await get("/api/staff", { tourney: tourney });
+      setStaff(sortImportance(staff));
+      message.success("Tourney staff fetched successfully!")
+    } catch (e) {
+      message.error("Something went wrong, failed to fetch tourney staff data.");
+    }
+  }
+
   useEffect(() => {
     document.title = `${prettifyTourney(tourney)}: Staff`;
-    const staff = await get("/api/staff", { tourney: tourney });
-    setStaff(sortImportance(staff));
+
+    fetchStaff();
   }, []);
 
   const getRoles = (user) =>
@@ -62,13 +72,24 @@ export default function TourneyStaff({ tourney, user }) {
   const isAdmin = () => hasAccess(user, tourney, []);
 
   const onFinish = async (form) => {
-    const newStaff = await post("/api/staff", { tourney: tourney, ...form });
-    setStaff(sortImportance([...staff.filter((s) => s._id !== newStaff._id), newStaff]))
+    try {
+      const newStaff = await post("/api/staff", { tourney: tourney, ...form });
+      setStaff(sortImportance([...staff.filter((s) => s._id !== newStaff._id), newStaff]));
+      message.success("New tourney staff added!");
+    } catch (e) {
+      message.error("Something went wrong, failed to add new tourney staff.");
+    }
+
   };
 
   const handleDelete = async (username) => {
-    await delet("/api/staff", { tourney: tourney, username });
-    setStaff(staff.filter((s) => s.username !== username))
+    try {
+      await delet("/api/staff", { tourney: tourney, username });
+      setStaff(staff.filter((s) => s.username !== username));
+      message.success("Selected tourney staff deleted!");
+    } catch (e) {
+      message.error("Something went wrong, failed to delete selected staff.");
+    }
   };
 
     return (
