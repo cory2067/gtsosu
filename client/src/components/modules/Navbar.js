@@ -77,7 +77,10 @@ function TourneyNavbar(props) {
     });
   }, [code, year]);
 
-  const getLangName = (lang) => new Intl.DisplayNames(lang, { type: "language" }).of(lang);
+  const getLangName = (lang) => {
+    const canonicalLang = Intl.getCanonicalLocales(lang.replace("_", "-"))[0];
+    return new Intl.DisplayNames(canonicalLang, { type: "language" }).of(canonicalLang);
+  };
 
   return (
     <Header>

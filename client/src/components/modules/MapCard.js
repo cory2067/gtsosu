@@ -80,7 +80,7 @@ export default function MapCard({
       <div className="MapCard-row MapCard-primary">{`${title} [${diff}]`}</div>
       <div className="MapCard-row">{artist}</div>
       <div className="MapCard-row MapCard-small">{`Mapset by ${creator}`}</div>
-      <div className="MapCard-row MapCard-small">{`Picked by ${pooler}`}</div>
+      {!customMap && <div className="MapCard-row MapCard-small">{`Picked by ${pooler}`}</div>}
 
       <div className="MapCard-divider"></div>
 

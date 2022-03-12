@@ -63,6 +63,69 @@ const cantPlay = (user, tourney) =>
     "Mapper",
   ]);
 
+const canEditWarmup = async (user, playerNo, match) => {
+  async function isCaptainOf(playerName, teamName, tourney) {
+    const team = await Team.findOne({ name: teamName, tourney: tourney }).populate("players");
+    if (!team || !team.players || !team.players[0]) return false;
+    return team.players[0].username === playerName;
+  }
+
+  // Admin can always edit warmup
+  if (isAdmin(user, match.tourney)) return true;
+
+  // Players can't edit if the match is in less than 1 hour
+  if (match.time.getTime() - Date.now() < 3600000) return false;
+
+  const tourney = await Tournament.findOne({ code: match.tourney });
+
+  if (
+    tourney.teams &&
+    (await isCaptainOf(user.username, match[`player${playerNo}`], tourney.code))
+  ) {
+    // User is the captain of the team
+    return true;
+  } else if (user.username === match[`player${playerNo}`]) {
+    // User is the player
+    return true;
+  }
+
+  return false;
+};
+
+const parseWarmup = async (warmup) => {
+  if (!warmup) {
+    throw new Error("No warmup submitted");
+  }
+
+  let warmupMapId = warmup;
+  if (warmupMapId.startsWith("http")) {
+    warmupMapId = warmupMapId.split("/").pop();
+  }
+
+  let mapData = null;
+  try {
+    mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
+  } catch (e) {
+    if (e.message == "Not found") {
+      throw new Error("Beatmap not found");
+    } else {
+      throw new Error(e.message || "An error occured while trying to fetch beatmap data");
+    }
+  }
+
+  // No idea if this would ever happen, but just in case
+  if (!mapData) {
+    throw new Error("No beatmap data");
+  }
+
+  // Map longer than 3 minutes
+  if (mapData.length.total > 180) {
+    throw new Error("Warmup map too long");
+  }
+
+  return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#taiko/${warmupMapId}`;
+};
+
 /**
  * POST /api/map
  * Registers a new map into a mappool
@@ -550,6 +613,53 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
     time: new Date(req.body.time),
   });
 
+  await match.save();
+  res.send(match);
+});
+
+/**
+ * POST /api/warmup
+ * Submit a warmup
+ * Params:
+ *   - match: match ID
+ *   - playerNo: 1 - player 1, 2 - player 2
+ *   - warmup: the warmup map, could be beatmap link or ID
+ */
+router.postAsync("/warmup", async (req, res) => {
+  const match = await Match.findOne({ _id: req.body.match });
+  if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
+    logger.warn(
+      `${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
+    );
+    return res.status(403).send("You don't have permission to do that");
+  }
+  try {
+    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup);
+  } catch (e) {
+    res.status(400).send(e.message);
+    return;
+  }
+  logger.info("User", req.user.username, "submitted warmup", req.body.warmup);
+  await match.save();
+  res.send(match);
+});
+
+/**
+ * DELETE /api/warmup
+ * Delete a warmup
+ * Params:
+ *   - match: match ID
+ *   - playerNo: 1 - player 1, 2 - player 2
+ */
+router.deleteAsync("/warmup", async (req, res) => {
+  const match = await Match.findOne({ _id: req.body.match });
+  if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
+    logger.warn(
+      `${req.user.username} tried to delete player ${req.body.playerNo} warmup for ${req.body.match}`
+    );
+    return res.status(403).send("You don't have permission to do that");
+  }
+  match[`warmup${req.body.playerNo}`] = null;
   await match.save();
   res.send(match);
 });
@@ -1109,8 +1219,7 @@ router.getAsync("/languages", async (req, res) => {
   const languages = CONTENT_DIR.map((name) => {
     const found = name.match(regex);
     if (found) {
-      const code = found[2];
-      return Intl.getCanonicalLocales(code.replace("_", "-"))[0];
+      return found[2]; // language code
     }
     return null;
   })

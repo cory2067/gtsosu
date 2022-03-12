@@ -19,7 +19,7 @@ class Qualifiers extends Component {
 
   async componentDidMount() {
     this.getLobbies();
-    
+
     const participants = await (this.props.teams
       ? get("/api/teams", { tourney: this.props.tourney })
       : get("/api/players", { tourney: this.props.tourney }));
@@ -35,7 +35,13 @@ class Qualifiers extends Component {
   }
 
   isStaff = () =>
-    hasAccess(this.props.user, this.props.tourney, ["Referee", "Mapsetter", "All-Star Mapsetter", "Head Pooler", "Mapper"]);
+    hasAccess(this.props.user, this.props.tourney, [
+      "Referee",
+      "Mapsetter",
+      "All-Star Mapsetter",
+      "Head Pooler",
+      "Mapper",
+    ]);
 
   canRegister(lobby) {
     if (!this.props.user._id) return false;
@@ -114,6 +120,12 @@ class Qualifiers extends Component {
     this.add("referee", key, user);
   }
 
+  promptAndAddReferee = (key) => {
+    const user = prompt("Enter a username");
+    if (!user) return;
+    this.add("referee", key, user);
+  };
+
   canRemoveFromLobby = (p) => {
     if (this.props.teams) {
       const players = this.props.getInfo(p).players;
@@ -139,6 +151,15 @@ class Qualifiers extends Component {
         modalVisible: false,
       })
     );
+  };
+
+  handleAddPlayer = async () => {
+    this.setState({ modalLoading: true });
+    this.add("player", this.state.lobbyKey, this.state.addPlayerData);
+    this.setState((state) => ({
+      modalLoading: false,
+      modalVisible: false,
+    }));
   };
 
   render() {
@@ -186,8 +207,13 @@ class Qualifiers extends Component {
                   </Tag>
                 ) : (
                   <>
-                    {this.props.isRef() && (<AddTag onClick={() => this.addReferee(lobby.key)} />)}
-                    {this.props.isAdmin() && (<AddTag text="Add someone" onClick={() => this.promptAndAddReferee(lobby.key)} />)}
+                    {this.props.isRef() && <AddTag onClick={() => this.addReferee(lobby.key)} />}
+                    {this.props.isAdmin() && (
+                      <AddTag
+                        text="Add someone"
+                        onClick={() => this.promptAndAddReferee(lobby.key)}
+                      />
+                    )}
                   </>
                 )
               }
