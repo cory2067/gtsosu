@@ -32,6 +32,7 @@ const roleScores = Object.fromEntries(roles.map((role, i) => [role, roles.length
 
 export default function TourneyStaff({ tourney, user }) {
   const [staff, setStaff] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getImportance = (user) => {
     const myRoles = getRoles(user);
@@ -53,8 +54,8 @@ export default function TourneyStaff({ tourney, user }) {
   const fetchStaff = async () => {
     try {
       const staff = await get("/api/staff", { tourney: tourney });
+
       setStaff(sortImportance(staff));
-      message.success("Tourney staff fetched successfully!")
     } catch (e) {
       message.error("Something went wrong, failed to fetch tourney staff data.");
     }
@@ -73,7 +74,10 @@ export default function TourneyStaff({ tourney, user }) {
 
   const onFinish = async (form) => {
     try {
+      setIsLoading(true);
       const newStaff = await post("/api/staff", { tourney: tourney, ...form });
+
+      setIsLoading(false);
       setStaff(sortImportance([...staff.filter((s) => s._id !== newStaff._id), newStaff]));
       message.success("New tourney staff added!");
     } catch (e) {
@@ -85,10 +89,11 @@ export default function TourneyStaff({ tourney, user }) {
   const handleDelete = async (username) => {
     try {
       await delet("/api/staff", { tourney: tourney, username });
+
       setStaff(staff.filter((s) => s.username !== username));
-      message.success("Selected tourney staff deleted!");
+      message.success("Tourney staff deleted!");
     } catch (e) {
-      message.error("Something went wrong, failed to delete selected staff.");
+      message.error("Something went wrong, failed to delete staff.");
     }
   };
 
@@ -111,7 +116,7 @@ export default function TourneyStaff({ tourney, user }) {
                   </Select>
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={isLoading}>
                     Add
                   </Button>
                 </Form.Item>
