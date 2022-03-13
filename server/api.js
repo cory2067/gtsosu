@@ -1006,6 +1006,27 @@ router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
 });
 
 /**
+ * POST /api/lobby-results
+ * Submit the mp link for a qualifiers lobby
+ * Params:
+ *   - tourney: identifier for the tournament
+ *   - key: the _id of the lobby
+ *   - link: mp link
+ */
+router.postAsync("/lobby-results", ensure.isRef, async (req, res) => {
+  const newLobby = await QualifiersLobby.findOneAndUpdate(
+    { _id: req.body.lobby, tourney: req.body.tourney },
+    {
+      $set: { link: req.body.link },
+    },
+    { new: true }
+  );
+
+  logger.info(`${req.user.username} submitted the mp link for qualifiers lobby ${newLobby._id}`);
+  res.send(newLobby);
+});
+
+/**
  * POST /api/team
  * Create a new team
  * Params:
