@@ -101,7 +101,8 @@ export class UserAuthWithContext {
    * @returns {boolean}
    */
   hasAllRoles(roles) {
-    // How do we handle Host and Dev here?
+    // Do we wanna handle host/dev like this?
+    if (this.hasAnyRole([UserRoles.Host, UserRoles.Developer])) return true;
 
     // Admin has access to everything
     if (this._user.admin) return true;
@@ -117,13 +118,17 @@ export class UserAuthWithContext {
    */
   hasAnyRole(roles) {
     // Host and developers have access to everything(?)
-    const allowedRoles = [UserRoles.Host, UserRoles.Developer, ...roles];
+    // A set is used to avoid duplicates
+    const allowedRoles = new Set(roles);
+    allowedRoles.add(UserRoles.Host);
+    allowedRoles.add(UserRoles.Developer);
 
     // Admin has access to everything
     if (this._user.admin) return true;
 
-    allowedRoles.some(role => {
-      return this.hasRole(role);
-    });
+    for (let role of allowedRoles) {
+      if (this.hasRole(role)) return true;
+    }
+    return false;
   }
 }
