@@ -117,7 +117,7 @@ class Schedule extends Component {
 
     return new UserAuth(this.props.user)
       .forMatch(match, playerNo, this.state.teams ? this.state.lookup : undefined)
-      .hasRole([UserRoles.Captain]);
+      .hasAnyRole([UserRoles.Captain]);
   };
 
   // janky way to nuke the timezone, forcing UTC time

@@ -90,18 +90,40 @@ export class UserAuthWithContext {
   }
 
   /**
+   * @param {string} role 
+   */
+  hasRole(role) {
+    return this._context.hasRole(this._user, role);
+  }
+
+  /**
    * @param {string[]} roles 
    * @returns {boolean}
    */
-  hasRole(roles) {
-    if (!this._context) {
-      throw new Error("Permission context not set");
-    }
+  hasAllRoles(roles) {
+    // How do we handle Host and Dev here?
 
     // Admin has access to everything
     if (this._user.admin) return true;
 
+    return roles.every(role => {
+      return this.hasRole(role);
+    });
+  }
+
+  /**
+   * @param {string[]} roles 
+   * @returns {boolean}
+   */
+  hasAnyRole(roles) {
     // Host and developers have access to everything(?)
-    return this._context.hasRole(this._user, [UserRoles.Host, UserRoles.Developer, ...roles]);
+    const allowedRoles = [UserRoles.Host, UserRoles.Developer, ...roles];
+
+    // Admin has access to everything
+    if (this._user.admin) return true;
+
+    allowedRoles.some(role => {
+      return this.hasRole(role);
+    });
   }
 }
