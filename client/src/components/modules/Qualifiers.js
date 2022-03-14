@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Collapse, Form, Button, Table, DatePicker, Tag } from "antd";
+import { Collapse, Form, Button, Table, DatePicker, Tag, message } from "antd";
 import moment from "moment";
 import AddTag from "../modules/AddTag";
 import AddPlayerModal from "../modules/AddPlayerModal";
@@ -148,22 +148,27 @@ class Qualifiers extends Component {
 
   handleSubmitLobbyOk = async () => {
     this.setState({ submitLobbyModalLoading: true });
-    const newLobby = await post("/api/lobby-results", {
-      ...this.state.formData,
-      lobby: this.state.lobbyKey,
-      tourney: this.props.tourney,
-    });
+    try {
+      const newLobby = await post("/api/lobby-results", {
+        ...this.state.formData,
+        lobby: this.state.lobbyKey,
+        tourney: this.props.tourney,
+      });
 
-    this.setState((state) => ({
-      submitLobbyModalLoading: false,
-      submitLobbyModalVisible: false,
-      lobbies: state.lobbies.map((m) => {
-        if (m.key === state.lobbyKey) {
-          return { ...newLobby, key: newLobby._id };
-        }
-        return m;
-      }),
-    }));
+      this.setState((state) => ({
+        submitLobbyModalLoading: false,
+        submitLobbyModalVisible: false,
+        lobbies: state.lobbies.map((m) => {
+          if (m.key === state.lobbyKey) {
+            return { ...newLobby, key: newLobby._id };
+          }
+          return m;
+        }),
+      }));
+    } catch (e) {
+      message.error(e.message || e);
+      this.setState({ submitLobbyModalLoading: false });
+    }
   };
 
   handleSubmitLobbyValuesChange = (changed, allData) => {

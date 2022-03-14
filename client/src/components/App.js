@@ -10,6 +10,7 @@ import Rules from "./pages/Rules";
 import Mappools from "./pages/Mappools";
 import Players from "./pages/Players";
 import Schedule from "./pages/Schedule";
+import Stats from "./pages/Stats";
 import PoolHelper from "./pages/PoolHelper";
 import Navbar from "./modules/Navbar";
 import { get } from "../utilities";
@@ -86,6 +87,8 @@ export default function App() {
             path="/:year/:tourney/schedule"
             PageComponent={Schedule}
           />
+          <TourneyRouteWrapper user={user} path="/:tourney/stats" PageComponent={Stats} />
+          <TourneyRouteWrapper user={user} path="/:year/:tourney/stats" PageComponent={Stats} />
 
           <NotFound default />
         </Router>

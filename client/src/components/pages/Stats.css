@@ -1,0 +1,18 @@
+.tables-container {
+  display: flex;
+}
+
+.map-stats-table {
+  margin-right: var(--m);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--m);
+}
+
+.stats-settings {
+  margin-bottom: var(--m);
+}
