@@ -9,6 +9,7 @@ const Tournament = new mongoose.Schema({
       name: String,
       poolVisible: Boolean,
       mappack: String,
+      statsVisible: Boolean,
     },
   ],
   rankMin: Number,
