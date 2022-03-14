@@ -52,12 +52,6 @@ export function delet(endpoint, params = {}) {
  */
 export function hasAccess(user, tourney, userRoles) {
   return new UserAuth(user).forTourney(tourney).hasAnyRole(userRoles);
-
-  const roles = ["Host", "Developer", ...userRoles];
-  return (
-    user.username &&
-    (user.admin || user.roles.some((r) => r.tourney === tourney && roles.includes(r.role)))
-  );
 }
 
 // returns the tournament and the current stage indicated bythe page URL
