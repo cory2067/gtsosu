@@ -1,4 +1,5 @@
 export const UserRoles = Object.freeze({
+  Admin: "Admin",
   Host: "Host",
   Developer: "Developer",
   Mapsetter: "Mapsetter",
