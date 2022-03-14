@@ -1,5 +1,6 @@
 import { UserRoles } from "../UserRoles";
 import { TeamContext } from "./TeamContext";
+import { TourneyContext } from "./TourneyContext";
 
 /**
  * implements PermissionContext
@@ -20,6 +21,13 @@ export class MatchContext {
    */
   _teams;
 
+  /**
+   * @type {TourneyContext}
+   * 
+   * For forwarding non player/captain roles to tourney context
+   */
+  _tourneyContext;
+
   hasRole = undefined;
 
   /**
@@ -29,6 +37,7 @@ export class MatchContext {
    */
   constructor(match, playerNo, teams) {
     this._match = match;
+    this._tourneyContext = new TourneyContext(match.tourney);
     this._playerNo = playerNo;
     if (Array.isArray(teams)) {
       this._teams = new Map();
@@ -50,47 +59,52 @@ export class MatchContext {
    * hasRole for individual tournies
    * 
    * @param {User} user 
-   * @param {string[]} roles 
+   * @param {string} role
    * @returns {boolean}
    */
-  hasRoleIndividual(user, roles) {
-    for (let i = 0, n = roles.length; i < n; ++i) {
-      switch (roles[i]) {
-        // For individual tournies captain and player means the same thing
-        case UserRoles.Captain:
-        case UserRoles.Player:
-          if (this._playerNo) {
-            if (this._match[`player${this._playerNo}`] === user.username) {
-              return true;
-            }
-          } else {
-            if (this._match.player1 === user.username || this._match.player2 === user.username) {
-              return true;
-            }
+  hasRoleIndividual(user, role) {
+    switch (role) {
+      // For individual tournies captain and player means the same thing
+      case UserRoles.Captain:
+      case UserRoles.Player:
+        if (this._playerNo) {
+          if (this._match[`player${this._playerNo}`] === user.username) {
+            return true;
           }
-          break;
-      }
-    }
+        } else {
+          if (this._match.player1 === user.username || this._match.player2 === user.username) {
+            return true;
+          }
 
-    return false;
+        }
+      default:
+        return this._tourneyContext.hasRole(user, role);
+    }
   }
 
   /**
    * hasRole for team tournies
    * 
    * @param {User} user 
-   * @param {string[]} roles 
+   * @param {string} role
    * @returns {boolean}
    */
-  hasRoleTeam(user, roles) {
-    if (this._playerNo) {
-      const team = this.getTeam(this._playerNo);
-      if (!team) return false;
-      return new TeamContext(team).hasRole(user, roles);
-    } else {
-      const allTeams = [this.getTeam(1), this.getTeam(2)];
-      return allTeams.some((team) => new TeamContext(team).hasRole(user, roles));
+  hasRoleTeam(user, role) {
+    switch (role) {
+      case UserRoles.Player:
+      case UserRoles.Captain:
+        if (this._playerNo) {
+          const team = this.getTeam(this._playerNo);
+          if (!team) return false;
+          return new TeamContext(team).hasRole(user, role);
+        } else {
+          const allTeams = [this.getTeam(1), this.getTeam(2)];
+          return allTeams.some((team) => new TeamContext(team).hasRole(user, role));
+        }
+      default:
+        return this._tourneyContext.hasRole(user, role);
     }
+
   }
 
   getTeam(playerNo) {

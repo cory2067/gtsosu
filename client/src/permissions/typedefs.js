@@ -65,11 +65,11 @@
  * @property {number} seedNum
  * @property {string} group
  * 
- * @callback HasRoles
+ * @callback HasRole
  * @param {User} user
- * @param {string[]} roles
+ * @param {string} role
  * @returns {boolean}
  * 
  * @typedef PermissionContext // Should be an interface after migrating to typescript
- * @property {HasRoles} hasRoles
+ * @property {HasRole} hasRole
  */

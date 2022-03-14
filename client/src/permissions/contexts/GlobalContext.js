@@ -4,7 +4,7 @@
  export class GlobalContext {
   constructor() { }
 
-  hasRole(user, roles) {
+  hasRole(user, role) {
     // Admin is already handled in principal.js
     return false;
   }

@@ -16,13 +16,13 @@ export class TourneyContext {
 
   /**
    * @param {User} user 
-   * @param {string[]} roles 
+   * @param {string} role
    * @returns {boolean}
    */
-  hasRole(user, roles) {
+  hasRole(user, role) {
     return (
       user.username &&
-      user.roles.some((r) => r.tourney === this._tourney && roles.includes(r.role))
+      user.roles.some((r) => r.tourney === this._tourney && role == r.role)
     );
   }
 }
