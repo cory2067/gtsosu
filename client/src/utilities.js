@@ -1,3 +1,5 @@
+import { UserAuth } from "./permissions/UserAuth";
+
 function formatParams(params) {
   return Object.keys(params)
     .map((key) => key + "=" + encodeURIComponent(params[key]))
@@ -45,7 +47,12 @@ export function delet(endpoint, params = {}) {
   }).then(processResponse);
 }
 
+/**
+ * @deprecated Use UserAuth directly instead
+ */
 export function hasAccess(user, tourney, userRoles) {
+  return new UserAuth(user).forTourney(tourney).hasAnyRole(userRoles);
+
   const roles = ["Host", "Developer", ...userRoles];
   return (
     user.username &&
