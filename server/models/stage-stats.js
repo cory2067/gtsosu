@@ -8,7 +8,7 @@ const StageStatsSchema = new mongoose.Schema({
       mapId: Number,
       playerScores: [{ userId: Number, score: Number }],
       teamScores: [{ teamName: String, score: Number }],
-    }
+    },
   ],
 });
 

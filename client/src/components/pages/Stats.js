@@ -9,77 +9,98 @@ import StageSelector from "../modules/StageSelector";
 
 export default function Stats({ tourney, user }) {
   const [state, setState] = useState({});
-  
+
   const fetchData = async () => {
     const [tourneyModel, currentSelectedStage] = await getStage(tourney);
-    
+
     const players = await get("/api/players", { tourney });
-    
-    let stageMaps = []
+
+    let stageMaps = [];
     try {
       stageMaps = await get("/api/maps", { tourney, stage: currentSelectedStage.name });
     } catch {}
-    
+
     let stageStats = {};
     try {
       stageStats = await get("/api/stage-stats", { tourney, stage: currentSelectedStage.name });
     } catch {}
-    
-    // process, sort, and rank the stats for each map, while tracking overall stats
+
     let overallPlayerStats = new Map();
     let overallTeamStats = new Map();
     const processedStats = new Map();
     // Show empty tables instead of no tables at all if there is no data
-    stageMaps.map((stageMap) => processedStats.set(String(stageMap.mapId), { mapId: stageMap.mapId, playerScores: [], teamScores: [] }));
-    for (const mapStats of (stageStats.maps || [])) {
+    stageMaps.map((stageMap) =>
+      processedStats.set(String(stageMap.mapId), {
+        mapId: stageMap.mapId,
+        playerScores: [],
+        teamScores: [],
+      })
+    );
+
+    // process, sort, and rank the stats for each map, while tracking overall stats
+    for (const mapStats of stageStats.maps || []) {
       const sortedPlayerScores = [...mapStats.playerScores].sort((a, b) => a.score < b.score);
       const sortedTeamScores = [...mapStats.teamScores].sort((a, b) => a.score < b.score);
       const processedPlayerScores = [];
       const processedTeamScores = [];
-      
+
       let currentRank = 1;
       let currentScore;
       for (let i = 0; i < sortedPlayerScores.length; i++) {
         const playerScore = sortedPlayerScores[i];
         if (!currentScore || playerScore.score < currentScore) {
-          currentRank = i+1;
+          currentRank = i + 1;
           currentScore = playerScore.score;
         }
-        
-        processedPlayerScores.push({...playerScore, rank: currentRank});
-        if (!overallPlayerStats.has(playerScore.userId)) overallPlayerStats.set(playerScore.userId, { rankTotal: 0, scoreTotal: 0 });
+
+        processedPlayerScores.push({ ...playerScore, rank: currentRank });
+        if (!overallPlayerStats.has(playerScore.userId))
+          overallPlayerStats.set(playerScore.userId, { rankTotal: 0, scoreTotal: 0 });
         overallPlayerStats.get(playerScore.userId).rankTotal += currentRank;
         overallPlayerStats.get(playerScore.userId).scoreTotal += currentScore;
       }
-      
+
       currentRank = 1;
       currentScore = undefined;
       for (let i = 0; i < sortedTeamScores.length; i++) {
         const teamScore = sortedTeamScores[i];
         if (!currentScore || teamScore.score < currentScore) {
-          currentRank = i+1;
+          currentRank = i + 1;
           currentScore = teamScore.score;
         }
-        
-        processedTeamScores.push({...teamScore, rank: currentRank});
-        if (!overallTeamStats.has(teamScore.teamName)) overallTeamStats.set(teamScore.teamName, { rankTotal: 0, scoreTotal: 0 });
+
+        processedTeamScores.push({ ...teamScore, rank: currentRank });
+        if (!overallTeamStats.has(teamScore.teamName))
+          overallTeamStats.set(teamScore.teamName, { rankTotal: 0, scoreTotal: 0 });
         overallTeamStats.get(teamScore.teamName).rankTotal += currentRank;
         overallTeamStats.get(teamScore.teamName).scoreTotal += currentScore;
       }
-      
-      processedStats.set(String(mapStats.mapId), {...mapStats, playerScores: processedPlayerScores, teamScores: processedTeamScores});
+
+      processedStats.set(String(mapStats.mapId), {
+        ...mapStats,
+        playerScores: processedPlayerScores,
+        teamScores: processedTeamScores,
+      });
     }
-    
+
     // sort and rank overall stats
-    overallPlayerStats = Array.from(overallPlayerStats.entries()).map(([userId, stats]) => ({...stats, userId})).sort((a, b) => a.rankTotal === b.rankTotal ? a.scoreTotal < b.scoreTotal : a.rankTotal > b.rankTotal);
+    overallPlayerStats = Array.from(overallPlayerStats.entries())
+      .map(([userId, stats]) => ({ ...stats, userId }))
+      .sort((a, b) =>
+        a.rankTotal === b.rankTotal ? a.scoreTotal < b.scoreTotal : a.rankTotal > b.rankTotal
+      );
     const overallPlayerStatsWithRank = [];
     for (let i = 0; i < overallPlayerStats.length; i++) {
-      overallPlayerStatsWithRank.push({...overallPlayerStats[i], rank: i+1});
+      overallPlayerStatsWithRank.push({ ...overallPlayerStats[i], rank: i + 1 });
     }
-    overallTeamStats = Array.from(overallTeamStats.entries()).map(([teamName, stats]) => ({...stats, teamName})).sort((a, b) => a.rankTotal === b.rankTotal ? a.scoreTotal < b.scoreTotal : a.rankTotal > b.rankTotal);
+    overallTeamStats = Array.from(overallTeamStats.entries())
+      .map(([teamName, stats]) => ({ ...stats, teamName }))
+      .sort((a, b) =>
+        a.rankTotal === b.rankTotal ? a.scoreTotal < b.scoreTotal : a.rankTotal > b.rankTotal
+      );
     const overallTeamStatsWithRank = [];
     for (let i = 0; i < overallTeamStats.length; i++) {
-      overallTeamStatsWithRank.push({...overallTeamStats[i], rank: i+1});
+      overallTeamStatsWithRank.push({ ...overallTeamStats[i], rank: i + 1 });
     }
 
     setState({
@@ -99,17 +120,17 @@ export default function Stats({ tourney, user }) {
     document.title = `${prettifyTourney(tourney)}: Stats`;
     fetchData();
   }, []);
-  
+
   const isAdmin = () => hasAccess(user, tourney, []);
-  
+
   const toggleStatsVisibility = async (visible) => {
     await post("/api/stage", {
       tourney,
-      stage: {...state.currentSelectedStage, statsVisible: visible},
+      stage: { ...state.currentSelectedStage, statsVisible: visible },
       index: state.currentSelectedStage.index,
     });
     const [tourneyModel, currentSelectedStage] = await getStage(tourney);
-    setState({...state, tourneyModel, currentSelectedStage});
+    setState({ ...state, tourneyModel, currentSelectedStage });
     message.success("Updated stats visibility");
   };
 
@@ -120,18 +141,23 @@ export default function Stats({ tourney, user }) {
           {state.currentSelectedStage && (
             <StageSelector
               selected={state.currentSelectedStage.index}
-              onClick={({key}) => String(state.currentSelectedStage.index) !== key ? fetchData() : {}}
+              onClick={({ key }) =>
+                String(state.currentSelectedStage.index) !== key ? fetchData() : {}
+              }
               stages={state.tourneyModel.stages}
             />
           )}
         </div>
-      
+
         <div>
           {state.currentSelectedStage && isAdmin() && (
             <div className="stats-settings">
               <Form layout="inline">
                 <Form.Item label="Stats Visible" valuePropName="checked">
-                  <Switch checked={state.currentSelectedStage.statsVisible || false} onClick={toggleStatsVisibility}/>
+                  <Switch
+                    checked={state.currentSelectedStage.statsVisible || false}
+                    onClick={toggleStatsVisibility}
+                  />
                 </Form.Item>
               </Form>
             </div>
@@ -140,15 +166,14 @@ export default function Stats({ tourney, user }) {
           <div className="topbar">
             <Menu
               mode="horizontal"
-              onClick={(e) => setState({...state, currentSelectedMapId: e.key})}
+              onClick={(e) => setState({ ...state, currentSelectedMapId: e.key })}
               selectedKeys={[state.currentSelectedMapId]}
             >
               <Menu.Item key="0">Overall</Menu.Item>
-              {
-                state.stageMaps && state.stageMaps.map((stageMap) => (
+              {state.stageMaps &&
+                state.stageMaps.map((stageMap) => (
                   <Menu.Item key={stageMap.mapId}>{`${stageMap.mod}${stageMap.index}`}</Menu.Item>
-                ))
-              }
+                ))}
             </Menu>
           </div>
 
@@ -156,14 +181,17 @@ export default function Stats({ tourney, user }) {
             {state.currentSelectedMapId === "0" && (
               <div className="tables-container">
                 {state.overallTeamStats.length > 0 && (
-                  <Table dataSource={ (isAdmin() || state.currentSelectedStage.statsVisible) && state.overallTeamStats } pagination={false} className="map-stats-table" bordered>
+                  <Table
+                    dataSource={
+                      (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                      state.overallTeamStats
+                    }
+                    pagination={false}
+                    className="map-stats-table"
+                    bordered
+                  >
                     <ColumnGroup title="Team Rankings">
-                      <Column
-                        title="Rank"
-                        dataIndex="rank"
-                        key="rank"
-                        render={(rank) => rank}
-                      />
+                      <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
                       <Column
                         title="Team"
                         dataIndex="teamName"
@@ -185,19 +213,26 @@ export default function Stats({ tourney, user }) {
                     </ColumnGroup>
                   </Table>
                 )}
-                <Table dataSource={ (isAdmin() || state.currentSelectedStage.statsVisible) && state.overallPlayerStats } pagination={false} className="map-stats-table" bordered>
+                <Table
+                  dataSource={
+                    (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                    state.overallPlayerStats
+                  }
+                  pagination={false}
+                  className="map-stats-table"
+                  bordered
+                >
                   <ColumnGroup title="Player Rankings">
-                    <Column
-                      title="Rank"
-                      dataIndex="rank"
-                      key="rank"
-                      render={(rank) => rank}
-                    />
+                    <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
                     <Column
                       title="Player"
                       dataIndex="userId"
                       key="userId"
-                      render={(userId) => state.players.has(String(userId)) ? state.players.get(String(userId)).username : userId}
+                      render={(userId) =>
+                        state.players.has(String(userId))
+                          ? state.players.get(String(userId)).username
+                          : userId
+                      }
                     />
                     <Column
                       title="Rank Total"
@@ -218,15 +253,18 @@ export default function Stats({ tourney, user }) {
 
             {state.processedStats && state.processedStats.has(state.currentSelectedMapId) && (
               <div className="tables-container">
-                { state.processedStats.get(state.currentSelectedMapId).teamScores.length > 0 && (
-                  <Table dataSource={ (isAdmin() || state.currentSelectedStage.statsVisible) && state.processedStats.get(state.currentSelectedMapId).teamScores } pagination={false} className="map-stats-table" bordered>
+                {state.processedStats.get(state.currentSelectedMapId).teamScores.length > 0 && (
+                  <Table
+                    dataSource={
+                      (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                      state.processedStats.get(state.currentSelectedMapId).teamScores
+                    }
+                    pagination={false}
+                    className="map-stats-table"
+                    bordered
+                  >
                     <ColumnGroup title="Team Rankings">
-                      <Column
-                        title="Rank"
-                        dataIndex="rank"
-                        key="rank"
-                        render={(rank) => rank}
-                      />
+                      <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
                       <Column
                         title="Team"
                         dataIndex="teamName"
@@ -242,26 +280,28 @@ export default function Stats({ tourney, user }) {
                     </ColumnGroup>
                   </Table>
                 )}
-                <Table dataSource={ (isAdmin() || state.currentSelectedStage.statsVisible) && state.processedStats.get(state.currentSelectedMapId).playerScores } pagination={false} className="map-stats-table" bordered>
+                <Table
+                  dataSource={
+                    (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                    state.processedStats.get(state.currentSelectedMapId).playerScores
+                  }
+                  pagination={false}
+                  className="map-stats-table"
+                  bordered
+                >
                   <ColumnGroup title="Player Rankings">
-                    <Column
-                      title="Rank"
-                      dataIndex="rank"
-                      key="rank"
-                      render={(rank) => rank}
-                    />
+                    <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
                     <Column
                       title="Player"
                       dataIndex="userId"
                       key="userId"
-                      render={(userId) => state.players.has(String(userId)) ? state.players.get(String(userId)).username : userId}
+                      render={(userId) =>
+                        state.players.has(String(userId))
+                          ? state.players.get(String(userId)).username
+                          : userId
+                      }
                     />
-                    <Column
-                      title="Score"
-                      dataIndex="score"
-                      key="score"
-                      render={(score) => score}
-                    />
+                    <Column title="Score" dataIndex="score" key="score" render={(score) => score} />
                   </ColumnGroup>
                 </Table>
               </div>
