@@ -29,7 +29,7 @@ export class UserAuth {
    * @returns 
    */
   withContext(context) {
-    return new UserAuthWithContext(this, context);
+    return new UserAuthWithContext(this._user, context);
   }
 
   forGlobal() {
@@ -68,21 +68,11 @@ export class UserAuth {
  */
 const SUPER_ROLES = [UserRoles.Host, UserRoles.Developer];
 
-export class UserAuthWithContext {
-  /**
-   * @type {UserAuth}
-   */
-  _userAuth;
-
+export class UserAuthWithContext extends UserAuth {
   /**
    * @type {PermissionContext}
    */
   _context;
-
-  /**
-   * @type {User}
-   */
-  _user
 
   /**
    * @type {boolean}
@@ -90,13 +80,12 @@ export class UserAuthWithContext {
   _hasSuperRole = false;
 
   /**
-   * @param {UserAuth} userAuth 
+   * @param {User} user 
    * @param {PermissionContext} context 
    */
-  constructor(userAuth, context) {
-    this._userAuth = userAuth;
+  constructor(user, context) {
+    super(user);
     this._context = context;
-    this._user = userAuth.getUser();
     this._hasSuperRole = this._user.admin || SUPER_ROLES.some(role => this._context.hasRole(this._user, role));
   }
 
