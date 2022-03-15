@@ -4,7 +4,6 @@ export const UserRoles = Object.freeze({
   Developer: "Developer",
   Mapsetter: "Mapsetter",
   AllStarMapSetter: "All-Star Mapsetter",
-  Pooler: "Pooler",
   HeadPooler: "Head Pooler",
   Referee: "Referee",
   Streamer: "Streamer",
