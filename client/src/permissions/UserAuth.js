@@ -63,6 +63,11 @@ export class UserAuth {
   }
 }
 
+/**
+ * Tournament roles that override checks and return true for all permissions
+ */
+const SUPER_ROLES = [UserRoles.Host, UserRoles.Developer];
+
 export class UserAuthWithContext {
   /**
    * @type {UserAuth}
@@ -80,6 +85,11 @@ export class UserAuthWithContext {
   _user
 
   /**
+   * @type {boolean}
+   */
+  _hasSuperRole = false;
+
+  /**
    * @param {UserAuth} userAuth 
    * @param {PermissionContext} context 
    */
@@ -87,13 +97,14 @@ export class UserAuthWithContext {
     this._userAuth = userAuth;
     this._context = context;
     this._user = userAuth.getUser();
+    this._hasSuperRole = this._user.admin || SUPER_ROLES.some(role => this._context.hasRole(this._user, role));
   }
 
   /**
    * @param {string} role 
    */
   hasRole(role) {
-    return this._context.hasRole(this._user, role);
+    return this._hasSuperRole || this._context.hasRole(this._user, role);
   }
 
   /**
@@ -101,13 +112,7 @@ export class UserAuthWithContext {
    * @returns {boolean}
    */
   hasAllRoles(roles) {
-    // Do we wanna handle host/dev like this?
-    if (this.hasAnyRole([UserRoles.Host, UserRoles.Developer])) return true;
-
-    // Admin has access to everything
-    if (this._user.admin) return true;
-
-    return roles.every(role => {
+    return this._hasSuperRole || roles.every(role => {
       return this.hasRole(role);
     });
   }
@@ -117,18 +122,8 @@ export class UserAuthWithContext {
    * @returns {boolean}
    */
   hasAnyRole(roles) {
-    // Host and developers have access to everything(?)
-    // A set is used to avoid duplicates
-    const allowedRoles = new Set(roles);
-    allowedRoles.add(UserRoles.Host);
-    allowedRoles.add(UserRoles.Developer);
-
-    // Admin has access to everything
-    if (this._user.admin) return true;
-
-    for (let role of allowedRoles) {
-      if (this.hasRole(role)) return true;
-    }
-    return false;
+    return this._hasSuperRole || roles.some(role => {
+      return this.hasRole(role);
+    });
   }
 }
