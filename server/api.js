@@ -1146,9 +1146,6 @@ router.postAsync("/lobby-results", ensure.isRef, async (req, res) => {
  *   - stage: identifier for the stage
  */
 router.getAsync("/stage-stats", async (req, res) => {
-  logger.info(
-    `${req.user.username} requested stage stats for ${req.query.tourney} ${req.query.stage}`
-  );
   const tourney = await Tournament.findOne({ code: req.query.tourney });
   if (!tourney) return res.send({});
   const theStage = tourney.stages.find((stage) => stage.name === req.query.stage);
