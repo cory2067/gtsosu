@@ -106,6 +106,9 @@ function TourneyNavbar(props) {
         <Menu.Item key="6">
           <Link to={`${prefix}/staff`}>{UI.staff}</Link>
         </Menu.Item>
+        <Menu.Item key="8">
+          <Link to={`${prefix}/stats`}>{UI.stats}</Link>
+        </Menu.Item>
         <SubMenu title={UI.language} className="Navbar-language">
           {languages.map((lang) => (
             <Menu.Item key={`lang-${lang}`}>{getLangName(lang)}</Menu.Item>

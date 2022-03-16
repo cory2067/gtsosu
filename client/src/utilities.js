@@ -61,7 +61,7 @@ export async function getStage(tourneyId) {
 
   let curIndex;
   if (!location.hash.substring(1)) {
-    curIndex = tourney.stages.filter((s) => s.poolVisible).length - 1;
+    curIndex = Math.max(0, tourney.stages.filter((s) => s.poolVisible).length - 1);
   } else {
     curIndex = parseInt(location.hash.substring(1)) || 0;
   }

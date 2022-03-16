@@ -23,6 +23,7 @@ export default {
       tournies: "My Tournies",
     },
     archives: "Archives",
+    stats: "Stats",
   },
 
   ja: {
