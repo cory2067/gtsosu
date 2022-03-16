@@ -3,7 +3,7 @@ const logger = require("pino")();
 const osu = require("node-osu");
 const osuApi = new osu.Api(process.env.OSU_API_KEY);
 
-const ensure = require("./ensure");
+import ensure from "./ensure"; // todo finish converting imports to `import`
 const User = require("./models/user");
 const Team = require("./models/team");
 const TourneyMap = require("./models/map");
@@ -12,7 +12,7 @@ const Match = require("./models/match");
 const QualifiersLobby = require("./models/qualifiers-lobby");
 const StageStats = require("./models/stage-stats");
 
-const { addAsync } = require("@awaitjs/express");
+import { addAsync } from "@awaitjs/express";
 const router = addAsync(express.Router());
 
 const fs = require("fs");
@@ -1392,4 +1392,4 @@ router.all("*", (req, res) => {
   res.status(404).send({ msg: "API route not found" });
 });
 
-module.exports = router;
+export default router;
