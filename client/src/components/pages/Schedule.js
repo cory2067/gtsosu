@@ -25,6 +25,8 @@ import {
   Select,
   Radio,
 } from "antd";
+import { UserAuth } from "../../permissions/UserAuth";
+import { UserRoles } from "../../permissions/UserRoles";
 
 const { Content } = Layout;
 const { Panel } = Collapse;
@@ -113,23 +115,9 @@ class Schedule extends Component {
     // Players can't edit if the match is in less than 1 hour
     if (new Date(match.time) - Date.now() < 3600000) return false;
 
-    if (this.state.teams) {
-      // Team tourney, check if user is the captain
-      const team = this.state.lookup[match[`player${playerNo}`]] || {};
-
-      if (!team?.players) {
-        return false;
-      }
-
-      if (team.players[0]?.username === this.props.user.username) {
-        return true;
-      }
-    } else {
-      // Solo tourney, check if user is player
-      return this.props.user.username === match[`player${playerNo}`];
-    }
-
-    return false;
+    return new UserAuth(this.props.user)
+      .forMatch(match, playerNo, this.state.teams ? this.state.lookup : undefined)
+      .hasAnyRole([UserRoles.Captain]);
   };
 
   // janky way to nuke the timezone, forcing UTC time
@@ -320,7 +308,6 @@ class Schedule extends Component {
 
   renderWarmup = (url, match, playerNo) => {
     const canEdit = this.canSubmitWarmup(match, playerNo);
-
     if (url) {
       return (
         <>
