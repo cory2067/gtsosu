@@ -1,21 +1,25 @@
-const express = require("express");
-const logger = require("pino")();
-const osu = require("node-osu");
-const osuApi = new osu.Api(process.env.OSU_API_KEY);
+import express from "express";
+import pino from "pino";
+import osu from "node-osu";
+import fs from "fs";
 
-import ensure from "./ensure"; // todo finish converting imports to `import`
-const User = require("./models/user");
-const Team = require("./models/team");
-const TourneyMap = require("./models/map");
-const Tournament = require("./models/tournament");
-const Match = require("./models/match");
-const QualifiersLobby = require("./models/qualifiers-lobby");
-const StageStats = require("./models/stage-stats");
+import ensure from "./ensure";
+import Match from "./models/match";
+import QualifiersLobby from "./models/qualifiers-lobby";
+import StageStats from "./models/stage-stats";
+import Team, { PopulatedTeam } from "./models/team";
+import Tournament from "./models/tournament";
+import TourneyMap from "./models/tourney-map";
+import User from "./models/user";
 
 import { addAsync } from "@awaitjs/express";
 const router = addAsync(express.Router());
 
-const fs = require("fs");
+// Nuking the type definitions for osuApi by setting it to `any` for now
+// The types seem to be incorrectly defined for some things (e.g. MultiplayerScore)
+const osuApi: any = new osu.Api(process.env.OSU_API_KEY, {});
+
+const logger = pino();
 const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
 
 const round = (num) => Math.round(num * 100) / 100;
@@ -66,7 +70,9 @@ const cantPlay = (user, tourney) =>
 
 const canEditWarmup = async (user, playerNo, match) => {
   async function isCaptainOf(playerName, teamName, tourney) {
-    const team = await Team.findOne({ name: teamName, tourney: tourney }).populate("players");
+    const team = await Team.findOne({ name: teamName, tourney: tourney }).populate<PopulatedTeam>(
+      "players"
+    );
     if (!team || !team.players || !team.players[0]) return false;
     return team.players[0].username === playerName;
   }
@@ -535,7 +541,7 @@ router.getAsync("/tournament", async (req, res) => {
 
   if (tourney.stages.length === 0 && stages.length) {
     // always show at least one stage, but don't reveal the mappack
-    tourney.stages = [{ ...stages[0].toObject(), mappack: "" }];
+    tourney.stages = [{ ...stages[0], mappack: "" }];
   }
 
   res.send(tourney);
@@ -598,7 +604,7 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
   // (Only make this check when statsVisible is set in the request)
   if (
     req.body.stage.statsVisible !== undefined &&
-    (req.body.stage.statsVisible != (tourney.stages[req.body.index].statsVisible ?? false))
+    req.body.stage.statsVisible != (tourney.stages[req.body.index].statsVisible ?? false)
   ) {
     if (!isAdmin(req.user, req.body.tourney))
       return res
@@ -1028,7 +1034,7 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
   const mappool = await TourneyMap.find({ tourney, stage });
   const stageMapIds = mappool.map((map) => map.mapId);
   const useridToTeamMap = new Map();
-  (await Team.find({ tourney }).populate("players")).forEach((team) =>
+  (await Team.find({ tourney }).populate<PopulatedTeam>("players")).forEach((team) =>
     team.players.forEach((player) => useridToTeamMap.set(player.userid, team.name))
   );
   const tourneyPlayers = new Map();
@@ -1036,7 +1042,9 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
     tourneyPlayers.set(player.userid, player)
   );
   let stageStats = await StageStats.findOne({ tourney, stage });
-  if (!stageStats) stageStats = { tourney, stage, maps: [] };
+  if (!stageStats) {
+    stageStats = new StageStats({ tourney, stage, maps: [] });
+  }
 
   const mpData = await osuApi.getMatch({ mp: mpId });
   for (const game of mpData.games) {
@@ -1102,7 +1110,7 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
     }
   }
 
-  await StageStats.findOneAndUpdate({ tourney, stage }, stageStats, { upsert: true });
+  await stageStats.save();
 };
 
 /**

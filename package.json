@@ -29,7 +29,7 @@
     "google-auth-library": "^5.10.1",
     "heroku-ssl-redirect": "0.0.4",
     "moment": "^2.27.0",
-    "mongoose": "^5.10.0",
+    "mongoose": "^6.2.6",
     "node-fetch": "^2.6.7",
     "node-osu": "^2.2.0",
     "nodemon": "^2.0.15",
