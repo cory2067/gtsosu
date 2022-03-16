@@ -13,17 +13,11 @@ export default function Stats({ tourney, user }) {
   const fetchData = async () => {
     const [tourneyModel, currentSelectedStage] = await getStage(tourney);
 
-    const players = await get("/api/players", { tourney });
-
-    let stageMaps = [];
-    try {
-      stageMaps = await get("/api/maps", { tourney, stage: currentSelectedStage.name });
-    } catch {}
-
-    let stageStats = {};
-    try {
-      stageStats = await get("/api/stage-stats", { tourney, stage: currentSelectedStage.name });
-    } catch {}
+    const [players, stageMaps, stageStats] = await Promise.all([
+      get("/api/players", { tourney }),
+      get("/api/maps", { tourney, stage: currentSelectedStage.name }).catch((e) => []),
+      get("/api/stage-stats", { tourney, stage: currentSelectedStage.name }).catch((e) => ({})),
+    ]);
 
     let overallPlayerStats = new Map();
     let overallTeamStats = new Map();
@@ -124,13 +118,17 @@ export default function Stats({ tourney, user }) {
   const isAdmin = () => hasAccess(user, tourney, []);
 
   const toggleStatsVisibility = async (visible) => {
-    await post("/api/stage", {
+    const index = state.currentSelectedStage.index;
+    const tourneyModel = await post("/api/stage", {
       tourney,
       stage: { ...state.currentSelectedStage, statsVisible: visible },
-      index: state.currentSelectedStage.index,
+      index,
     });
-    const [tourneyModel, currentSelectedStage] = await getStage(tourney);
-    setState({ ...state, tourneyModel, currentSelectedStage });
+    setState({
+      ...state,
+      tourneyModel,
+      currentSelectedStage: { ...tourneyModel.stages[index], index },
+    });
     message.success("Updated stats visibility");
   };
 

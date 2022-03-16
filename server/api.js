@@ -595,9 +595,10 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
   tourney.stages[req.body.index].poolVisible = req.body.stage.poolVisible;
 
   // Only admin is allowed to toggle stats visibility (undefined is treated as false)
+  // (Only make this check when statsVisible is set in the request)
   if (
     req.body.stage.statsVisible !== undefined &&
-    (req.body.stage.statsVisible != tourney.stages[req.body.index].statsVisible ?? false)
+    (req.body.stage.statsVisible != (tourney.stages[req.body.index].statsVisible ?? false))
   ) {
     if (!isAdmin(req.user, req.body.tourney))
       return res
