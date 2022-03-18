@@ -1,14 +1,16 @@
-const express = require("express");
-const passport = require("passport");
-const logger = require("pino")();
-const fetch = require("node-fetch");
-const OAuth2Strategy = require("passport-oauth2").Strategy;
+import express from "express";
+import passport from "passport";
+import fetch from "node-fetch";
+import passportOAuth2 from "passport-oauth2";
+import User from "./models/user";
+import { UserDocument } from "./types";
+
+const OAuth2Strategy = passportOAuth2.Strategy;
 
 const router = express.Router();
-const User = require("./models/user");
 
 // Perform post-processing on the user object at login time, like overrides for dev
-const finalize = async (user) => {
+const finalize = async (user: UserDocument) => {
   if (process.env.NODE_ENV !== "production" && process.env.DEV_ADMIN) {
     user.admin = process.env.DEV_ADMIN === "true";
     await user.save();
@@ -16,7 +18,7 @@ const finalize = async (user) => {
   return user;
 };
 
-const makeAuthStrategy = (clientId, clientSecret) =>
+const makeAuthStrategy = (clientId: string, clientSecret: string) =>
   new OAuth2Strategy(
     {
       authorizationURL: "https://osu.ppy.sh/oauth/authorize",
@@ -65,7 +67,7 @@ if (process.env.TT_CLIENT_ID && process.env.TT_CLIENT_SECRET) {
   );
 }
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: UserDocument, done) => {
   done(null, user._id);
 });
 
@@ -92,4 +94,4 @@ router.get(
   }
 );
 
-module.exports = router;
+export default router;

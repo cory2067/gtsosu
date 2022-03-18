@@ -1,5 +1,6 @@
 // Ensure a user has a certain permission before allowing access
-const logger = require("pino")();
+import pino from "pino";
+const logger = pino();
 
 function loggedIn(req, res, next) {
   if (!req.user || !req.user.username) {
@@ -31,7 +32,7 @@ function ensure(userRoles, title) {
   };
 }
 
-module.exports = {
+export default {
   isAdmin: ensure([], "admin"),
   isPooler: ensure(["Mapsetter", "All-Star Mapsetter", "Head Pooler", "Mapper"], "pooler"),
   isRef: ensure(["Referee"], "ref"),
