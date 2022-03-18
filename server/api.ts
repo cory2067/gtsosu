@@ -1,16 +1,17 @@
-import express from "express";
+import express, { Response } from "express";
 import pino from "pino";
 import osu from "node-osu";
 import fs from "fs";
 
 import ensure from "./ensure";
-import Match from "./models/match";
+import Match, { IMatch } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
 import StageStats from "./models/stage-stats";
 import Team, { PopulatedTeam } from "./models/team";
 import Tournament from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
-import User from "./models/user";
+import User, { IUser } from "./models/user";
+import { Request } from "./types";
 
 import { addAsync } from "@awaitjs/express";
 const router = addAsync(express.Router());
@@ -22,13 +23,14 @@ const osuApi: any = new osu.Api(process.env.OSU_API_KEY, {});
 const logger = pino();
 const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
 
-const round = (num) => Math.round(num * 100) / 100;
-const formatTime = (time) =>
+const round = (num: number) => Math.round(num * 100) / 100;
+const formatTime = (time: number) =>
   Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + Math.floor(time % 60);
-const scaleTime = (time, mod) =>
+const scaleTime = (time: number, mod: string) =>
   mod === "DT" ? (time * 2) / 3 : mod === "HT" ? (time * 3) / 2 : time;
-const scaleBPM = (bpm, mod) => (mod === "DT" ? (bpm * 3) / 2 : mod === "HT" ? (bpm * 2) / 3 : bpm);
-const scaleDiff = (diff, mod) => {
+const scaleBPM = (bpm: number, mod: string) =>
+  mod === "DT" ? (bpm * 3) / 2 : mod === "HT" ? (bpm * 2) / 3 : bpm;
+const scaleDiff = (diff: number, mod: string) => {
   if (mod === "HR" || mod === "HDHR") {
     return Math.min(10, round(diff * 1.4));
   }
@@ -38,7 +40,7 @@ const scaleDiff = (diff, mod) => {
   return diff;
 };
 
-const checkPermissions = (user, tourney, roles) => {
+const checkPermissions = (user: IUser, tourney: string, roles: string[]) => {
   return (
     user &&
     user.username &&
@@ -49,8 +51,8 @@ const checkPermissions = (user, tourney, roles) => {
   );
 };
 
-const isAdmin = (user, tourney) => checkPermissions(user, tourney, []);
-const canViewHiddenPools = (user, tourney) =>
+const isAdmin = (user: IUser, tourney: string) => checkPermissions(user, tourney, []);
+const canViewHiddenPools = (user: IUser, tourney: string) =>
   checkPermissions(user, tourney, [
     "Mapsetter",
     "Showcase",
@@ -59,7 +61,7 @@ const canViewHiddenPools = (user, tourney) =>
     "Mapper",
   ]);
 
-const cantPlay = (user, tourney) =>
+const cantPlay = (user: IUser, tourney: string) =>
   checkPermissions(user, tourney, [
     "Mapsetter",
     "Referee",
@@ -68,8 +70,8 @@ const cantPlay = (user, tourney) =>
     "Mapper",
   ]);
 
-const canEditWarmup = async (user, playerNo, match) => {
-  async function isCaptainOf(playerName, teamName, tourney) {
+const canEditWarmup = async (user: IUser, playerNo: number, match: IMatch) => {
+  async function isCaptainOf(playerName: string, teamName: string, tourney: string) {
     const team = await Team.findOne({ name: teamName, tourney: tourney }).populate<PopulatedTeam>(
       "players"
     );
@@ -99,7 +101,7 @@ const canEditWarmup = async (user, playerNo, match) => {
   return false;
 };
 
-const parseWarmup = async (warmup) => {
+const parseWarmup = async (warmup: string) => {
   if (!warmup) {
     throw new Error("No warmup submitted");
   }
@@ -144,7 +146,7 @@ const parseWarmup = async (warmup) => {
  *   - stage: which pool, e.g. qf, sf, f, gf
  * Returns the newly-created Map document
  */
-router.postAsync("/map", ensure.isPooler, async (req, res) => {
+router.postAsync("/map", ensure.isPooler, async (req: Request, res: Response) => {
   logger.info(`${req.user.username} added ${req.body.id} to ${req.body.stage} mappool`);
 
   const mod = req.body.mod;
