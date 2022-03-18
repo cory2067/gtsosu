@@ -7,7 +7,8 @@
     "hotloader": "webpack-dev-server --config ./webpack.config.js --mode development --port 5000",
     "start": "nodemon -q --ignore client/ | tee logs.txt | pino-pretty",
     "build": "webpack",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -36,6 +37,7 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-oauth2": "^1.6.1",
+    "patch-package": "^6.4.7",
     "pg": "^7.18.2",
     "pino": "^7.8.1",
     "pino-pretty": "^3.6.1",

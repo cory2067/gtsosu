@@ -18,7 +18,7 @@ const router = addAsync(express.Router());
 
 // Nuking the type definitions for osuApi by setting it to `any` for now
 // The types seem to be incorrectly defined for some things (e.g. MultiplayerScore)
-const osuApi: any = new osu.Api(process.env.OSU_API_KEY, {});
+const osuApi = new osu.Api(process.env.OSU_API_KEY, { parseNumeric: true });
 
 const logger = pino();
 const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
@@ -111,7 +111,7 @@ const parseWarmup = async (warmup: string) => {
     warmupMapId = warmupMapId.split("/").pop();
   }
 
-  let mapData = null;
+  let mapData: osu.Beatmap = null;
   try {
     mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
   } catch (e) {
@@ -161,11 +161,11 @@ router.postAsync("/map", ensure.isPooler, async (req: Request, res: Response) =>
     artist: mapData.artist,
     creator: mapData.creator,
     diff: mapData.version,
-    bpm: round(scaleBPM(parseFloat(mapData.bpm), mod)),
-    sr: round(parseFloat(mapData.difficulty.rating)),
-    od: scaleDiff(parseFloat(mapData.difficulty.overall), mod),
-    hp: scaleDiff(parseFloat(mapData.difficulty.drain), mod),
-    length: formatTime(scaleTime(parseInt(mapData.length.total), mod)),
+    bpm: round(scaleBPM(mapData.bpm, mod)),
+    sr: round(mapData.difficulty.rating),
+    od: scaleDiff(mapData.difficulty.overall, mod),
+    hp: scaleDiff(mapData.difficulty.drain, mod),
+    length: formatTime(scaleTime(mapData.length.total, mod)),
     image: `https://assets.ppy.sh/beatmaps/${mapData.beatmapSetId}/covers/cover.jpg`,
     pooler: req.user.username,
   });
@@ -1361,7 +1361,7 @@ router.getAsync("/map-history", async (req, res) => {
   const mapData = (await osuApi.getBeatmaps({ b: req.query.id, m: 1, a: 1 }))[0];
 
   const mapId = parseInt(mapData.id);
-  const { title, artist, diff, creator } = mapData;
+  const { title, artist, creator } = mapData;
   const [sameDiff, sameSet, sameSong] = await Promise.all([
     TourneyMap.find({ mapId }),
     TourneyMap.find({ mapId: { $ne: mapId }, title, artist, creator }),
