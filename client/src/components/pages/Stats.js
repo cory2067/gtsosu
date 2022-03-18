@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../utilities.css";
 import "./Stats.css";
 import { get, post, prettifyTourney, hasAccess, getStage } from "../../utilities";
-import { Layout, Table, Menu, Form, Switch, message } from "antd";
+import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber } from "antd";
 const { Content } = Layout;
 const { Column, ColumnGroup } = Table;
 import StageSelector from "../modules/StageSelector";
@@ -107,6 +107,8 @@ export default function Stats({ tourney, user }) {
       overallTeamStats: overallTeamStatsWithRank,
       currentSelectedMapId: "0",
       currentSelectedStage,
+      inEditMode: false,
+      stageStatsEdit: undefined,
     });
   };
 
@@ -131,6 +133,28 @@ export default function Stats({ tourney, user }) {
     });
     message.success("Updated stats visibility");
   };
+  
+  const toggleEditMode = () => {
+    const stageStatsCopy = JSON.parse(JSON.stringify(state.stageStats));
+    setState({ ...state, inEditMode: !state.inEditMode, stageStatsEdit: stageStatsCopy });
+  }
+  
+  const submitEditedStageStats = async () => {
+    const updatedStats = await post("/api/stage-stats", { stats: state.stageStatsEdit });
+    fetchData();
+  }
+  
+  const editTeamScore = async (teamName, newScore) => {
+    const updated = { ...state.stageStatsEdit };
+    updated.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId).teamScores.find(teamScore => teamScore.teamName === teamName).score = newScore;
+    setState({ ...state, stageStatsEdit: updated });
+  }
+  
+  const editPlayerScore = async (userId, newScore) => {
+    const updated = { ...state.stageStatsEdit };
+    updated.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId).playerScores.find(playerScore => playerScore.userId === userId).score = newScore;
+    setState({ ...state, stageStatsEdit: updated });
+  }
 
   return (
     <Content className="content">
@@ -150,14 +174,29 @@ export default function Stats({ tourney, user }) {
         <div>
           {state.currentSelectedStage && isAdmin() && (
             <div className="stats-settings">
-              <Form layout="inline">
-                <Form.Item label="Stats Visible" valuePropName="checked">
-                  <Switch
-                    checked={state.currentSelectedStage.statsVisible || false}
-                    onClick={toggleStatsVisibility}
-                  />
-                </Form.Item>
-              </Form>
+              {!state.inEditMode && (
+                <Form layout="inline">
+                  <Form.Item label="Stats Visible" valuePropName="checked">
+                    <Switch
+                      checked={state.currentSelectedStage.statsVisible || false}
+                      onClick={toggleStatsVisibility}
+                    />
+                  </Form.Item>
+                  <Button className="settings-button" type="primary" onClick={toggleEditMode}>
+                    Edit
+                  </Button>
+                </Form>
+              )}
+              {state.inEditMode && (
+                <Form layout="inline">
+                  <Button className="settings-button" type="primary" onClick={submitEditedStageStats}>
+                    Save
+                  </Button>
+                  <Button className="settings-button" type="primary" onClick={() => setState({ ...state, inEditMode: !state.inEditMode })}>
+                    Cancel
+                  </Button>
+                </Form>
+              )}
             </div>
           )}
 
@@ -255,7 +294,7 @@ export default function Stats({ tourney, user }) {
                   <Table
                     dataSource={
                       (isAdmin() || state.currentSelectedStage.statsVisible) &&
-                      state.processedStats.get(state.currentSelectedMapId).teamScores
+                      (state.inEditMode ? state.stageStatsEdit.maps.find(stageStats => String(stageStats.mapId) === state.currentSelectedMapId).teamScores : state.processedStats.get(state.currentSelectedMapId).teamScores)
                     }
                     pagination={false}
                     className="map-stats-table"
@@ -273,7 +312,7 @@ export default function Stats({ tourney, user }) {
                         title="Score"
                         dataIndex="score"
                         key="score"
-                        render={(score) => score}
+                        render={(score, teamScore) => state.inEditMode ? (<InputNumber value={score} onChange={(value) => editTeamScore(teamScore.teamName, value)} />) : (score)}
                       />
                     </ColumnGroup>
                   </Table>
@@ -281,7 +320,7 @@ export default function Stats({ tourney, user }) {
                 <Table
                   dataSource={
                     (isAdmin() || state.currentSelectedStage.statsVisible) &&
-                    state.processedStats.get(state.currentSelectedMapId).playerScores
+                    (state.inEditMode ? state.stageStatsEdit.maps.find(stageStats => String(stageStats.mapId) === state.currentSelectedMapId).playerScores : state.processedStats.get(state.currentSelectedMapId).playerScores)
                   }
                   pagination={false}
                   className="map-stats-table"
@@ -299,7 +338,7 @@ export default function Stats({ tourney, user }) {
                           : userId
                       }
                     />
-                    <Column title="Score" dataIndex="score" key="score" render={(score) => score} />
+                    <Column title="Score" dataIndex="score" key="score" render={(score, playerScore) => state.inEditMode ? (<InputNumber value={score} onChange={(value) => editPlayerScore(playerScore.userId, value)} />) : (score)} />
                   </ColumnGroup>
                 </Table>
               </div>

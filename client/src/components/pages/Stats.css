@@ -16,3 +16,8 @@
 .stats-settings {
   margin-bottom: var(--m);
 }
+
+.settings-button {
+  margin-right: var(--m);
+}
+
