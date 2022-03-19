@@ -78,7 +78,7 @@ passport.deserializeUser(async (id, done) => {
 
 router.get("/login", (req, res) => passport.authenticate(getStrategy(req))(req, res));
 
-router.get("/logout", (req, res) => {
+router.get("/logout", (req: any, res) => {
   req.logout();
   res.redirect("/");
 });
