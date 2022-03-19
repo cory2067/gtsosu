@@ -78,9 +78,6 @@ function RootNavbar(props) {
           <Menu.Item key="1">
             <Link to="/">{UI.home}</Link>
           </Menu.Item>
-          {/*<Menu.Item key="2">
-            <Link to="/staff">{UI.staff}</Link>*
-    </Menu.Item>*/}
           <Menu.Item key="2">
             <Link to="/archives">{UI.archives}</Link>
           </Menu.Item>
