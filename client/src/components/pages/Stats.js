@@ -138,7 +138,7 @@ export default function Stats({ tourney, user }) {
     message.success("Updated stats visibility");
   };
 
-  const toggleEditMode = () => {
+  const toggleEditMode = async () => {
     const stageStatsCopy = JSON.parse(JSON.stringify(state.stageStats));
     setState({ ...state, inEditMode: !state.inEditMode, stageStatsEdit: stageStatsCopy });
   };
@@ -274,7 +274,7 @@ export default function Stats({ tourney, user }) {
                   >
                     Cancel
                   </Button>
-                  {state.currentSelectedMapId !== "0" && (
+                  {state.tourneyModel.teams && state.currentSelectedMapId !== "0" && (
                     <Button
                       className="settings-button"
                       type="primary"
@@ -318,7 +318,7 @@ export default function Stats({ tourney, user }) {
           <div>
             {state.currentSelectedMapId === "0" && (
               <div className="tables-container">
-                {state.overallTeamStats.length > 0 && (
+                {state.tourneyModel.teams && (
                   <Table
                     dataSource={
                       (isAdmin() || state.currentSelectedStage.statsVisible) &&
@@ -391,7 +391,7 @@ export default function Stats({ tourney, user }) {
 
             {state.processedStats && state.processedStats.has(state.currentSelectedMapId) && (
               <div className="tables-container">
-                {state.processedStats.get(state.currentSelectedMapId).teamScores.length > 0 && (
+                {state.tourneyModel.teams && (
                   <Table
                     dataSource={
                       (isAdmin() || state.currentSelectedStage.statsVisible) &&
