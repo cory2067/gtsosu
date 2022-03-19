@@ -10,7 +10,7 @@ import api from "./api";
 import auth from "./auth";
 import db from "./db";
 import session from "express-session";
-import connectMongo from "connect-mongo";
+import MongoStore from "connect-mongo";
 
 const app = express();
 const logger = pino();
@@ -20,11 +20,10 @@ app.set("trust proxy", true);
 app.use(sslRedirect());
 app.use(express.json());
 
-const MongoStore = connectMongo(session);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    store: new MongoStore({ mongooseConnection: db.getConnection() }),
+    store: MongoStore.create({ client: db.getClient() }),
     resave: false,
     saveUninitialized: true,
   })

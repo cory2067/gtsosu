@@ -14,5 +14,5 @@ export default {
       logger.error("Error connecting to MongoDB", err);
     }
   },
-  getConnection: () => mongoose.connection,
+  getClient: () => mongoose.connection.getClient(),
 };
