@@ -3,7 +3,6 @@ import { navigate, Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import Home from "./pages/Home.js";
 import Archives from "./pages/Archives.js";
-import Staff from "./pages/Staff.js";
 import TourneyHome from "./pages/TourneyHome";
 import TourneyStaff from "./pages/TourneyStaff";
 import Rules from "./pages/Rules";
@@ -47,7 +46,6 @@ export default function App() {
         <Router primary={false}>
           <Home path="/" />
           <Archives path="/archives" />
-          <Staff path="/staff" />
           <PoolHelper path="/pool-helper" />
 
           <TourneyRouteWrapper
