@@ -10,9 +10,10 @@ export default {
     try {
       await mongoose.connect(srv);
       logger.info("Server connected to MongoDB");
+      return mongoose.connection.getClient();
     } catch (err) {
       logger.error("Error connecting to MongoDB", err);
+      throw err;
     }
   },
-  getClient: () => mongoose.connection.getClient(),
 };
