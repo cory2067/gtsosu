@@ -6,6 +6,8 @@ import { tokenizeTourney } from "./utilities";
 const _data = {};
 
 export default {
+  getLanguage: () => localStorage.getItem("lang") || "en",
+
   setLanguage: (lang) => {
     localStorage.setItem("lang", lang);
     location.reload(); // eh this is tolerable

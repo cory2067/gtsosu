@@ -1,7 +1,3 @@
-.Navbar-avatar {
-  float: right;
-}
-
 .Navbar-avatar img {
   height: 50px;
   width: 50px;
@@ -9,9 +5,30 @@
   filter: drop-shadow(1px 1px 1px black);
 }
 
+.Navbar-avatar img:hover {
+  box-shadow: 0 0 12px rgba(209, 211, 221, 0.4);
+}
+
 .Navbar-Logo {
   width: 48px;
   height: 48px;
   margin: 8px 16px 8px -12px;
-  float: left;
+}
+
+header.Navbar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+
+#Navbar-LeftNavbar {
+  display: flex;
+}
+
+#Navbar-RightNavbar .ant-menu-submenu {
+  padding: 0 16px;
+}
+
+#Navbar-RightNavbar .Navbar-lang-icon {
+  margin-right: 6px;
 }
