@@ -78,6 +78,7 @@ passport.deserializeUser(async (id, done) => {
 
 router.get("/login", (req, res) => passport.authenticate(getStrategy(req))(req, res));
 
+// TODO: for some reason ts explodes in prod here, overriding to `any` for now
 router.get("/logout", (req: any, res) => {
   req.logout();
   res.redirect("/");
