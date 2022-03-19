@@ -598,7 +598,7 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
   // (Only make this check when statsVisible is set in the request)
   if (
     req.body.stage.statsVisible !== undefined &&
-    (req.body.stage.statsVisible != (tourney.stages[req.body.index].statsVisible ?? false))
+    req.body.stage.statsVisible != (tourney.stages[req.body.index].statsVisible ?? false)
   ) {
     if (!isAdmin(req.user, req.body.tourney))
       return res
@@ -1165,7 +1165,10 @@ router.getAsync("/stage-stats", async (req, res) => {
  *   - stats: updated StageStats object
  */
 router.postAsync("/stage-stats", ensure.isAdmin, async (req, res) => {
-  const updatedStageStats = await StageStats.findOneAndUpdate({ tourney: req.body.stats.tourney, stage: req.body.stats.stage }, req.body.stats);
+  const updatedStageStats = await StageStats.findOneAndUpdate(
+    { tourney: req.body.stats.tourney, stage: req.body.stats.stage },
+    req.body.stats
+  );
   res.send(updatedStageStats);
 });
 

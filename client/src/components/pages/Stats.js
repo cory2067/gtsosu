@@ -137,68 +137,95 @@ export default function Stats({ tourney, user }) {
     });
     message.success("Updated stats visibility");
   };
-  
+
   const toggleEditMode = () => {
     const stageStatsCopy = JSON.parse(JSON.stringify(state.stageStats));
     setState({ ...state, inEditMode: !state.inEditMode, stageStatsEdit: stageStatsCopy });
-  }
-  
+  };
+
   const submitEditedStageStats = async () => {
     const updatedStats = await post("/api/stage-stats", { stats: state.stageStatsEdit });
     fetchData();
-  }
-  
+  };
+
   const editTeamScore = async (teamName, newScore) => {
     const updated = { ...state.stageStatsEdit };
-    updated.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId).teamScores.find(teamScore => teamScore.teamName === teamName).score = newScore;
+    updated.maps
+      .find((mapStats) => String(mapStats.mapId) === state.currentSelectedMapId)
+      .teamScores.find((teamScore) => teamScore.teamName === teamName).score = newScore;
     setState({ ...state, stageStatsEdit: updated });
-  }
-  
+  };
+
   const removeTeamScore = async (teamName) => {
     const updated = { ...state.stageStatsEdit };
-    const mapStats = updated.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId);
-    mapStats.teamScores = mapStats.teamScores.filter(teamScore => teamScore.teamName !== teamName);
+    const mapStats = updated.maps.find(
+      (mapStats) => String(mapStats.mapId) === state.currentSelectedMapId
+    );
+    mapStats.teamScores = mapStats.teamScores.filter(
+      (teamScore) => teamScore.teamName !== teamName
+    );
     setState({ ...state, stageStatsEdit: updated });
-  }
-  
+  };
+
   const addTeamScore = async () => {
-    const theTeam = Array.from(state.teams.values()).find(team => team.name === state.addPlayerData);
+    const theTeam = Array.from(state.teams.values()).find(
+      (team) => team.name === state.addPlayerData
+    );
     if (!theTeam) return message.error("Team not found");
-    
-    const exists = state.stageStatsEdit.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId).teamScores.find(teamScore => teamScore.teamName === theTeam.name);
+
+    const exists = state.stageStatsEdit.maps
+      .find((mapStats) => String(mapStats.mapId) === state.currentSelectedMapId)
+      .teamScores.find((teamScore) => teamScore.teamName === theTeam.name);
     if (exists) return message.error("Team score already exists");
-    
+
     const updated = { ...state.stageStatsEdit };
-    const mapStats = updated.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId);
+    const mapStats = updated.maps.find(
+      (mapStats) => String(mapStats.mapId) === state.currentSelectedMapId
+    );
     mapStats.teamScores = [...mapStats.teamScores, { teamName: theTeam.name, score: 0 }];
     setState({ ...state, stageStatsEdit: updated, addPlayerModalVisible: false });
-  }
-  
+  };
+
   const editPlayerScore = async (userId, newScore) => {
     const updated = { ...state.stageStatsEdit };
-    updated.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId).playerScores.find(playerScore => playerScore.userId === userId).score = newScore;
+    updated.maps
+      .find((mapStats) => String(mapStats.mapId) === state.currentSelectedMapId)
+      .playerScores.find((playerScore) => playerScore.userId === userId).score = newScore;
     setState({ ...state, stageStatsEdit: updated });
-  }
-  
+  };
+
   const removePlayerScore = async (userId) => {
     const updated = { ...state.stageStatsEdit };
-    const mapStats = updated.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId);
-    mapStats.playerScores = mapStats.playerScores.filter(playerScore => playerScore.userId !== userId);
+    const mapStats = updated.maps.find(
+      (mapStats) => String(mapStats.mapId) === state.currentSelectedMapId
+    );
+    mapStats.playerScores = mapStats.playerScores.filter(
+      (playerScore) => playerScore.userId !== userId
+    );
     setState({ ...state, stageStatsEdit: updated });
-  }
-  
+  };
+
   const addPlayerScore = async () => {
-    const thePlayer = Array.from(state.players.values()).find(player => player.username === state.addPlayerData);
+    const thePlayer = Array.from(state.players.values()).find(
+      (player) => player.username === state.addPlayerData
+    );
     if (!thePlayer) return message.error("Player not found or not registered");
-    
-    const exists = state.stageStatsEdit.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId).playerScores.find(playerScore => String(playerScore.userId) === thePlayer.userid);
+
+    const exists = state.stageStatsEdit.maps
+      .find((mapStats) => String(mapStats.mapId) === state.currentSelectedMapId)
+      .playerScores.find((playerScore) => String(playerScore.userId) === thePlayer.userid);
     if (exists) return message.error("Player score already exists");
-    
+
     const updated = { ...state.stageStatsEdit };
-    const mapStats = updated.maps.find(mapStats => String(mapStats.mapId) === state.currentSelectedMapId);
-    mapStats.playerScores = [...mapStats.playerScores, { userId: Number(thePlayer.userid), score: 0 }];
+    const mapStats = updated.maps.find(
+      (mapStats) => String(mapStats.mapId) === state.currentSelectedMapId
+    );
+    mapStats.playerScores = [
+      ...mapStats.playerScores,
+      { userId: Number(thePlayer.userid), score: 0 },
+    ];
     setState({ ...state, stageStatsEdit: updated, addPlayerModalVisible: false });
-  }
+  };
 
   return (
     <Content className="content">
@@ -233,17 +260,41 @@ export default function Stats({ tourney, user }) {
               )}
               {state.inEditMode && (
                 <Form layout="inline">
-                  <Button className="settings-button" type="primary" onClick={submitEditedStageStats}>
+                  <Button
+                    className="settings-button"
+                    type="primary"
+                    onClick={submitEditedStageStats}
+                  >
                     Save
                   </Button>
-                  <Button className="settings-button" type="primary" onClick={() => setState({ ...state, inEditMode: !state.inEditMode })}>
+                  <Button
+                    className="settings-button"
+                    type="primary"
+                    onClick={() => setState({ ...state, inEditMode: !state.inEditMode })}
+                  >
                     Cancel
                   </Button>
                   {state.currentSelectedMapId !== "0" && (
-                    <Button className="settings-button" type="primary" onClick={() => setState({ ...state, addTeamScore: true, addPlayerModalVisible: true })}>Add team score</Button>
+                    <Button
+                      className="settings-button"
+                      type="primary"
+                      onClick={() =>
+                        setState({ ...state, addTeamScore: true, addPlayerModalVisible: true })
+                      }
+                    >
+                      Add team score
+                    </Button>
                   )}
                   {state.currentSelectedMapId !== "0" && (
-                    <Button className="settings-button" type="primary"  onClick={() => setState({ ...state, addTeamScore: false, addPlayerModalVisible: true })}>Add player score</Button>
+                    <Button
+                      className="settings-button"
+                      type="primary"
+                      onClick={() =>
+                        setState({ ...state, addTeamScore: false, addPlayerModalVisible: true })
+                      }
+                    >
+                      Add player score
+                    </Button>
                   )}
                 </Form>
               )}
@@ -344,14 +395,20 @@ export default function Stats({ tourney, user }) {
                   <Table
                     dataSource={
                       (isAdmin() || state.currentSelectedStage.statsVisible) &&
-                      (state.inEditMode ? state.stageStatsEdit.maps.find(stageStats => String(stageStats.mapId) === state.currentSelectedMapId).teamScores : state.processedStats.get(state.currentSelectedMapId).teamScores)
+                      (state.inEditMode
+                        ? state.stageStatsEdit.maps.find(
+                            (stageStats) => String(stageStats.mapId) === state.currentSelectedMapId
+                          ).teamScores
+                        : state.processedStats.get(state.currentSelectedMapId).teamScores)
                     }
                     pagination={false}
                     className="map-stats-table"
                     bordered
                   >
                     <ColumnGroup title="Team Rankings">
-                      {!state.inEditMode && (<Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />)}
+                      {!state.inEditMode && (
+                        <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
+                      )}
                       <Column
                         title="Team"
                         dataIndex="teamName"
@@ -362,23 +419,51 @@ export default function Stats({ tourney, user }) {
                         title="Score"
                         dataIndex="score"
                         key="score"
-                        render={(score, teamScore) => state.inEditMode ? (<InputNumber value={score} onChange={(value) => editTeamScore(teamScore.teamName, value)} />) : (score)}
+                        render={(score, teamScore) =>
+                          state.inEditMode ? (
+                            <InputNumber
+                              value={score}
+                              onChange={(value) => editTeamScore(teamScore.teamName, value)}
+                            />
+                          ) : (
+                            score
+                          )
+                        }
                       />
-                      {state.inEditMode && (<Column title="Remove" render={(score, teamScore) => (<Button type="primary" shape="circle" icon={<MinusOutlined />} size="middle" onClick={() => removeTeamScore(teamScore.teamName)} />)} />)}
+                      {state.inEditMode && (
+                        <Column
+                          title="Remove"
+                          render={(score, teamScore) => (
+                            <Button
+                              type="primary"
+                              shape="circle"
+                              icon={<MinusOutlined />}
+                              size="middle"
+                              onClick={() => removeTeamScore(teamScore.teamName)}
+                            />
+                          )}
+                        />
+                      )}
                     </ColumnGroup>
                   </Table>
                 )}
                 <Table
                   dataSource={
                     (isAdmin() || state.currentSelectedStage.statsVisible) &&
-                    (state.inEditMode ? state.stageStatsEdit.maps.find(stageStats => String(stageStats.mapId) === state.currentSelectedMapId).playerScores : state.processedStats.get(state.currentSelectedMapId).playerScores)
+                    (state.inEditMode
+                      ? state.stageStatsEdit.maps.find(
+                          (stageStats) => String(stageStats.mapId) === state.currentSelectedMapId
+                        ).playerScores
+                      : state.processedStats.get(state.currentSelectedMapId).playerScores)
                   }
                   pagination={false}
                   className="map-stats-table"
                   bordered
                 >
                   <ColumnGroup title="Player Rankings">
-                    {!state.inEditMode && (<Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />)}
+                    {!state.inEditMode && (
+                      <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
+                    )}
                     <Column
                       title="Player"
                       dataIndex="userId"
@@ -389,8 +474,35 @@ export default function Stats({ tourney, user }) {
                           : userId
                       }
                     />
-                    <Column title="Score" dataIndex="score" key="score" render={(score, playerScore) => state.inEditMode && playerScore.userId ? (<InputNumber value={score} onChange={(value) => editPlayerScore(playerScore.userId, value)} />) : (score)} />
-                    {state.inEditMode && (<Column title="Add/Remove" render={(score, playerScore) => <Button type="primary" shape="circle" icon={<MinusOutlined />} size="middle" onClick={() => removePlayerScore(playerScore.userId)} />} />)}
+                    <Column
+                      title="Score"
+                      dataIndex="score"
+                      key="score"
+                      render={(score, playerScore) =>
+                        state.inEditMode && playerScore.userId ? (
+                          <InputNumber
+                            value={score}
+                            onChange={(value) => editPlayerScore(playerScore.userId, value)}
+                          />
+                        ) : (
+                          score
+                        )
+                      }
+                    />
+                    {state.inEditMode && (
+                      <Column
+                        title="Remove"
+                        render={(score, playerScore) => (
+                          <Button
+                            type="primary"
+                            shape="circle"
+                            icon={<MinusOutlined />}
+                            size="middle"
+                            onClick={() => removePlayerScore(playerScore.userId)}
+                          />
+                        )}
+                      />
+                    )}
                   </ColumnGroup>
                 </Table>
               </div>
@@ -404,7 +516,13 @@ export default function Stats({ tourney, user }) {
             handleOk={state.addTeamScore ? addTeamScore : addPlayerScore}
             handleCancel={() => setState({ ...state, addPlayerModalVisible: false })}
             onValuesChange={(changed, data) => setState({ ...state, addPlayerData: data.username })}
-            options={state.addTeamScore ? Object.fromEntries(Array.from(state.teams.values()).map(team => [team.name, team.name])) : undefined}
+            options={
+              state.addTeamScore
+                ? Object.fromEntries(
+                    Array.from(state.teams.values()).map((team) => [team.name, team.name])
+                  )
+                : undefined
+            }
           />
         </div>
       </div>
