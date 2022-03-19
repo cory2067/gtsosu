@@ -84,7 +84,7 @@ function RootNavbar(props) {
           <Menu.Item key="2">
             <Link to="/archives">{UI.archives}</Link>
           </Menu.Item>
-          <SubMenu title={UI.merch.title} className="Navbar-language">
+          <SubMenu title={UI.merch.title}>
             <Menu.Item key="3.0">
               <a href={MERCH_LINK}>{UI.merch.mainStore}</a>
             </Menu.Item>
