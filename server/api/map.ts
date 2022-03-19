@@ -51,6 +51,7 @@ type GetMapBody = {
   index: number; // e.g. 3 for NM3, HD3, HR3
   tourney: string; // identifier for the tourney
   stage: string; // which pool, e.g. qf, sf, f, gf
+  pooler?: string; // who selected this map (default current user)
 };
 type GetMapResponse = ITourneyMap;
 
@@ -78,7 +79,7 @@ mapRouter.postAsync(
       hp: scaleDiff(mapData.difficulty.drain, mod),
       length: formatTime(scaleTime(mapData.length.total, mod)),
       image: `https://assets.ppy.sh/beatmaps/${mapData.beatmapSetId}/covers/cover.jpg`,
-      pooler: req.user.username,
+      pooler: req.body.pooler ?? req.user.username,
     });
     await newMap.save();
     res.send(newMap);

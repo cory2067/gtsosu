@@ -179,6 +179,7 @@ class Mappools extends Component {
           )}
 
           <AddMapModal
+            user={this.props.user}
             visible={this.state.modal}
             loading={this.state.loading}
             handleOk={this.handleOk}
