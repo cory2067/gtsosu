@@ -12,7 +12,7 @@ const db = require("../db");
 
 const User = require("../models/user");
 const Team = require("../models/team");
-const Map = require("../models/map");
+const Map = require("../models/tourney-map");
 const Tournament = require("../models/tournament");
 const Match = require("../models/match");
 const QualifiersLobby = require("../models/qualifiers-lobby");

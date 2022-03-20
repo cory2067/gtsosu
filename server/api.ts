@@ -1,52 +1,34 @@
-const express = require("express");
-const logger = require("pino")();
-const osu = require("node-osu");
-const osuApi = new osu.Api(process.env.OSU_API_KEY);
+import express, { Response } from "express";
+import pino from "pino";
+import osu from "node-osu";
+import fs from "fs";
 
-const ensure = require("./ensure");
-const User = require("./models/user");
-const Team = require("./models/team");
-const TourneyMap = require("./models/map");
-const Tournament = require("./models/tournament");
-const Match = require("./models/match");
-const QualifiersLobby = require("./models/qualifiers-lobby");
-const StageStats = require("./models/stage-stats");
+import ensure from "./ensure";
+import Match, { IMatch } from "./models/match";
+import QualifiersLobby from "./models/qualifiers-lobby";
+import StageStats from "./models/stage-stats";
+import Team, { PopulatedTeam } from "./models/team";
+import Tournament from "./models/tournament";
+import TourneyMap from "./models/tourney-map";
+import User, { IUser } from "./models/user";
+import { getOsuApi, checkPermissions } from "./util";
 
-const { addAsync } = require("@awaitjs/express");
+import mapRouter from "./api/map";
+
+import { addAsync } from "@awaitjs/express";
 const router = addAsync(express.Router());
 
-const fs = require("fs");
+const logger = pino();
+const osuApi = getOsuApi();
 const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
 
-const round = (num) => Math.round(num * 100) / 100;
-const formatTime = (time) =>
-  Math.floor(time / 60) + ":" + (time % 60 < 10 ? "0" : "") + Math.floor(time % 60);
-const scaleTime = (time, mod) =>
-  mod === "DT" ? (time * 2) / 3 : mod === "HT" ? (time * 3) / 2 : time;
-const scaleBPM = (bpm, mod) => (mod === "DT" ? (bpm * 3) / 2 : mod === "HT" ? (bpm * 2) / 3 : bpm);
-const scaleDiff = (diff, mod) => {
-  if (mod === "HR" || mod === "HDHR") {
-    return Math.min(10, round(diff * 1.4));
-  }
-  if (mod == "EZ") {
-    return Math.min(10, round(diff / 2));
-  }
-  return diff;
-};
+// Parts of the API are gradually being split out into separate files
+// These are the sub-routers that have been migrated/refactored
+router.use(mapRouter);
+// ----------------------
 
-const checkPermissions = (user, tourney, roles) => {
-  return (
-    user &&
-    user.username &&
-    (user.admin ||
-      user.roles.some(
-        (r) => ["Host", "Developer", ...roles].includes(r.role) && r.tourney == tourney
-      ))
-  );
-};
-
-const isAdmin = (user, tourney) => checkPermissions(user, tourney, []);
-const canViewHiddenPools = (user, tourney) =>
+const isAdmin = (user: IUser, tourney: string) => checkPermissions(user, tourney, []);
+const canViewHiddenPools = (user: IUser, tourney: string) =>
   checkPermissions(user, tourney, [
     "Mapsetter",
     "Showcase",
@@ -55,7 +37,7 @@ const canViewHiddenPools = (user, tourney) =>
     "Mapper",
   ]);
 
-const cantPlay = (user, tourney) =>
+const cantPlay = (user: IUser, tourney: string) =>
   checkPermissions(user, tourney, [
     "Mapsetter",
     "Referee",
@@ -64,9 +46,11 @@ const cantPlay = (user, tourney) =>
     "Mapper",
   ]);
 
-const canEditWarmup = async (user, playerNo, match) => {
-  async function isCaptainOf(playerName, teamName, tourney) {
-    const team = await Team.findOne({ name: teamName, tourney: tourney }).populate("players");
+const canEditWarmup = async (user: IUser, playerNo: number, match: IMatch) => {
+  async function isCaptainOf(playerName: string, teamName: string, tourney: string) {
+    const team = await Team.findOne({ name: teamName, tourney: tourney }).populate<PopulatedTeam>(
+      "players"
+    );
     if (!team || !team.players || !team.players[0]) return false;
     return team.players[0].username === playerName;
   }
@@ -93,7 +77,7 @@ const canEditWarmup = async (user, playerNo, match) => {
   return false;
 };
 
-const parseWarmup = async (warmup) => {
+const parseWarmup = async (warmup: string) => {
   if (!warmup) {
     throw new Error("No warmup submitted");
   }
@@ -103,7 +87,7 @@ const parseWarmup = async (warmup) => {
     warmupMapId = warmupMapId.split("/").pop();
   }
 
-  let mapData = null;
+  let mapData: osu.Beatmap = null;
   try {
     mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
   } catch (e) {
@@ -126,91 +110,6 @@ const parseWarmup = async (warmup) => {
 
   return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#taiko/${warmupMapId}`;
 };
-
-/**
- * POST /api/map
- * Registers a new map into a mappool
- * Params:
- *   - id: ID of the map
- *   - mod: mod of the map
- *   - index: e.g. 3 for NM3, HD3, HR3
- *   - tourney: identifier for the tourney
- *   - stage: which pool, e.g. qf, sf, f, gf
- * Returns the newly-created Map document
- */
-router.postAsync("/map", ensure.isPooler, async (req, res) => {
-  logger.info(`${req.user.username} added ${req.body.id} to ${req.body.stage} mappool`);
-
-  const mod = req.body.mod;
-  const modId = { EZ: 2, HR: 16, HDHR: 16, DT: 64, HT: 256 }[mod] || 0; // mod enum used by osu api
-  const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId, m: 1, a: 1 }))[0];
-
-  // all map metadata cached in our db, so we don't need to spam calls to the osu api
-  const newMap = new TourneyMap({
-    ...req.body,
-    mapId: parseInt(mapData.id),
-    title: mapData.title,
-    artist: mapData.artist,
-    creator: mapData.creator,
-    diff: mapData.version,
-    bpm: round(scaleBPM(parseFloat(mapData.bpm), mod)),
-    sr: round(parseFloat(mapData.difficulty.rating)),
-    od: scaleDiff(parseFloat(mapData.difficulty.overall), mod),
-    hp: scaleDiff(parseFloat(mapData.difficulty.drain), mod),
-    length: formatTime(scaleTime(parseInt(mapData.length.total), mod)),
-    image: `https://assets.ppy.sh/beatmaps/${mapData.beatmapSetId}/covers/cover.jpg`,
-    pooler: req.user.username,
-  });
-  await newMap.save();
-  res.send(newMap);
-});
-
-/**
- * GET /api/maps
- * Get all the maps for a given mappool (if the user has access)
- * Params:
- *   - tourney: identifier for the tourney
- *   - stage: which pool, e.g. qf, sf, f, gf
- */
-router.getAsync("/maps", async (req, res) => {
-  const [tourney, maps] = await Promise.all([
-    Tournament.findOne({ code: req.query.tourney }),
-    TourneyMap.find({ tourney: req.query.tourney, stage: req.query.stage }),
-  ]);
-
-  // if super hacker kiddo tries to view a pool before it's released
-  const stageData = tourney.stages.filter((s) => s.name === req.query.stage)[0];
-  if (!stageData.poolVisible && !canViewHiddenPools(req.user, req.query.tourney)) {
-    return res.status(403).send({ error: "This pool hasn't been released yet!" });
-  }
-
-  const mods = { NM: 0, HD: 1, HR: 2, DT: 3, FM: 4, HT: 5, HDHR: 6, EZ: 7, CV: 8, EX: 9, TB: 10 };
-  maps.sort((a, b) => {
-    if (mods[a.mod] - mods[b.mod] != 0) {
-      return mods[a.mod] - mods[b.mod];
-    }
-    return a.index - b.index;
-  });
-  res.send(maps);
-});
-
-/**
- * DELETE /api/maps
- * Delete a map from the pool
- * Params:
- *   - id: _id of the map to delete
- *   - tourney: identifier for the tourney
- *   - stage: which pool, e.g. qf, sf, f, gf
- */
-router.deleteAsync("/map", ensure.isPooler, async (req, res) => {
-  logger.info(`${req.user.username} deleted ${req.body.id} from ${req.body.stage} pool`);
-  await TourneyMap.deleteOne({
-    tourney: req.body.tourney,
-    stage: req.body.stage,
-    _id: req.body.id,
-  });
-  res.send({});
-});
 
 /**
  * GET /api/whoami
@@ -535,7 +434,7 @@ router.getAsync("/tournament", async (req, res) => {
 
   if (tourney.stages.length === 0 && stages.length) {
     // always show at least one stage, but don't reveal the mappack
-    tourney.stages = [{ ...stages[0].toObject(), mappack: "" }];
+    tourney.stages = [{ ...stages[0], mappack: "" }];
   }
 
   res.send(tourney);
@@ -1028,7 +927,7 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
   const mappool = await TourneyMap.find({ tourney, stage });
   const stageMapIds = mappool.map((map) => map.mapId);
   const useridToTeamMap = new Map();
-  (await Team.find({ tourney }).populate("players")).forEach((team) =>
+  (await Team.find({ tourney }).populate<PopulatedTeam>("players")).forEach((team) =>
     team.players.forEach((player) => useridToTeamMap.set(player.userid, team.name))
   );
   const tourneyPlayers = new Map();
@@ -1036,7 +935,9 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
     tourneyPlayers.set(player.userid, player)
   );
   let stageStats = await StageStats.findOne({ tourney, stage });
-  if (!stageStats) stageStats = { tourney, stage, maps: [] };
+  if (!stageStats) {
+    stageStats = new StageStats({ tourney, stage, maps: [] });
+  }
 
   const mpData = await osuApi.getMatch({ mp: mpId });
   for (const game of mpData.games) {
@@ -1102,7 +1003,7 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
     }
   }
 
-  await StageStats.findOneAndUpdate({ tourney, stage }, stageStats, { upsert: true });
+  await stageStats.save();
 };
 
 /**
@@ -1365,7 +1266,7 @@ router.getAsync("/map-history", async (req, res) => {
   const mapData = (await osuApi.getBeatmaps({ b: req.query.id, m: 1, a: 1 }))[0];
 
   const mapId = parseInt(mapData.id);
-  const { title, artist, diff, creator } = mapData;
+  const { title, artist, creator } = mapData;
   const [sameDiff, sameSet, sameSong] = await Promise.all([
     TourneyMap.find({ mapId }),
     TourneyMap.find({ mapId: { $ne: mapId }, title, artist, creator }),
@@ -1406,4 +1307,4 @@ router.all("*", (req, res) => {
   res.status(404).send({ msg: "API route not found" });
 });
 
-module.exports = router;
+export default router;

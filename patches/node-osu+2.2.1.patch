@@ -1,0 +1,43 @@
+diff --git a/node_modules/node-osu/index.d.ts b/node_modules/node-osu/index.d.ts
+index 0c587eb..317386a 100644
+--- a/node_modules/node-osu/index.d.ts
++++ b/node_modules/node-osu/index.d.ts
+@@ -218,8 +218,23 @@ export class Game {
+ }
+ 
+ export class MultiplayerScore {
+-    constructor(...args: any[]);
+-
++    slot: number;
++    team: string;
++    userId: string;
++    score: number;
++    maxCombo: string;
++    counts: {
++        '300': number,
++        '100': number,
++        '50': number,
++        'geki': number,
++        'katu': number,
++        'miss': number
++    }
++    perfect: boolean;
++    pass: boolean;
++    raw_mods: number;
++    mods: string[];
+ }
+ 
+ export class Score {
+@@ -274,9 +289,9 @@ export class User {
+         total: number;
+     };
+     pp: {
+-        raw: Number,
+-        rank: Number,
+-        countryRank: Number
++        raw: number,
++        rank: number,
++        countryRank: number
+     };
+     country: string;
+     level: number;

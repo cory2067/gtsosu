@@ -1,29 +1,29 @@
 require("dotenv").config();
 
-const express = require("express");
-const path = require("path");
-const logger = require("pino")();
-const passport = require("passport");
-const sslRedirect = require("heroku-ssl-redirect");
+import express from "express";
+import path from "path";
+import pino from "pino";
+import passport from "passport";
+import sslRedirect from "heroku-ssl-redirect";
 
-const api = require("./api");
-const auth = require("./auth");
-
-const db = require("./db");
-db.init();
+import api from "./api";
+import auth from "./auth";
+import db from "./db";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 const app = express();
+const logger = pino();
+const clientPromise = db.init();
 
 app.set("trust proxy", true);
 app.use(sslRedirect());
 app.use(express.json());
 
-const session = require("express-session");
-const MongoStore = require("connect-mongo")(session);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    store: new MongoStore({ mongooseConnection: db.getConnection() }),
+    store: MongoStore.create({ clientPromise }),
     resave: false,
     saveUninitialized: true,
   })
