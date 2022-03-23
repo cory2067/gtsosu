@@ -28,8 +28,8 @@ router.use(mapRouter);
 // ----------------------
 
 const isAdmin = (user: IUser, tourney: string) => checkPermissions(user, tourney, []);
-const canViewHiddenPools = (user: IUser, tourney: string) =>
-  checkPermissions(user, tourney, [
+const canViewHiddenPools = async (user: IUser, tourney: string) =>
+  await checkPermissions(user, tourney, [
     "Mapsetter",
     "Showcase",
     "All-Star Mapsetter",
@@ -37,8 +37,8 @@ const canViewHiddenPools = (user: IUser, tourney: string) =>
     "Mapper",
   ]);
 
-const cantPlay = (user: IUser, tourney: string) =>
-  checkPermissions(user, tourney, [
+const cantPlay = async (user: IUser, tourney: string) =>
+  await checkPermissions(user, tourney, [
     "Mapsetter",
     "Referee",
     "All-Star Mapsetter",
@@ -126,7 +126,7 @@ router.getAsync("/whoami", async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
-  if (cantPlay(req.user, req.body.tourney)) {
+  if (await cantPlay(req.user, req.body.tourney)) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (staff)`);
     return res.status(400).send({ error: "You're a staff member." });
   }
@@ -225,7 +225,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     }
 
     const user = await User.findOne({ userid: userData.id });
-    if (user && cantPlay(user, req.body.tourney)) {
+    if (user && (await cantPlay(user, req.body.tourney))) {
       logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
       return res.status(400).send({ error: "Staff member on team." });
     }
@@ -428,7 +428,7 @@ router.getAsync("/tournament", async (req, res) => {
   if (!tourney) return res.send({});
 
   const stages = tourney.stages;
-  if (stages && !canViewHiddenPools(req.user, req.query.tourney)) {
+  if (stages && !(await canViewHiddenPools(req.user, req.query.tourney))) {
     tourney.stages = stages.filter((s) => s.poolVisible);
   }
 

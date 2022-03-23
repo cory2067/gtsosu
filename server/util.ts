@@ -1,18 +1,17 @@
 import osu from "node-osu";
 
 import { IUser } from "./models/user";
+import { UserAuth } from "./permissions/UserAuth";
+import { UserRole } from "./permissions/UserRole";
 
 // Shared utilities used across the backend
 
 export const getOsuApi = () => new osu.Api(process.env.OSU_API_KEY, { parseNumeric: true });
 
-export const checkPermissions = (user: IUser, tourney: string, roles: string[]) => {
-  return (
-    user &&
-    user.username &&
-    (user.admin ||
-      user.roles.some(
-        (r) => ["Host", "Developer", ...roles].includes(r.role) && r.tourney == tourney
-      ))
-  );
+/**
+ * @deprecated Use UserAuth directly instead
+ */
+export const checkPermissions = async (user: IUser, tourney: string, roles: string[]) => {
+  // Might wanna fix the cast, or not since this is deprecated
+  return await new UserAuth(user).forTourney(tourney).hasAnyRole(roles as UserRole[]);
 };
