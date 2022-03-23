@@ -2,20 +2,21 @@ import { PermissionContext } from "./context";
 import { IMatch } from "../../models/match";
 import Tournament, { ITournament } from "../../models/tournament";
 import { IUser } from "../../models/user";
-import Team, { ITeam } from "../../models/team";
+import Team, { ITeam, PopulatedTeam } from "../../models/team";
 import { UserRole } from "../UserRole";
 import { TourneyContext } from "./TourneyContext";
 import { TeamContext } from "./TeamContext";
+import { Populate } from "../../types";
 
-type MatchContextParams = {
+export type MatchContextParams = {
   tourney?: ITournament;
-  teams?: { [team: string]: ITeam };
+  teams?: { [team: string]: Populate<ITeam, PopulatedTeam> };
   playerNo?: 1 | 2;
 };
 
 export class MatchContext implements PermissionContext {
   private match: IMatch;
-  private teamCache: { [team: string]: ITeam } = {};
+  private teamCache: { [team: string]: Populate<ITeam, PopulatedTeam> } = {};
   private playerNo?: 1 | 2;
   /**
    * Do not use this directly, use getTourney instead.
@@ -54,7 +55,7 @@ export class MatchContext implements PermissionContext {
       case UserRole.Player:
       case UserRole.Captain:
         if (this.playerNo) {
-          const team = this.getTeam(this.playerNo);
+          const team = await this.getTeam(this.playerNo);
           if (!team) return false;
           return new TeamContext(team).hasRole(user, role);
         }
@@ -67,7 +68,9 @@ export class MatchContext implements PermissionContext {
     const team = this.match[`player1${playerNo}`];
 
     if (!this.teamCache[team]) {
-      this.teamCache[team] = await Team.findOne({ name: team });
+      this.teamCache[team] = await Team.findOne({ name: team }, null, {
+        populate: ["players"],
+      });
     }
     return this.teamCache[team];
   }
@@ -78,7 +81,7 @@ export class MatchContext implements PermissionContext {
   private async getTourney() {
     if (!this.tourneyCache) {
       this.tourneyCache = await Tournament.findOne({ code: this.match.tourney });
-      this.tourneyContext = new TourneyContext(this.tourneyCache);
+      this.tourneyContext = new TourneyContext(this.match.tourney);
     }
 
     return this.tourneyCache!;

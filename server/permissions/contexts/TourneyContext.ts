@@ -5,7 +5,7 @@ import { PermissionContext } from "./context";
 export class TourneyContext implements PermissionContext {
   private tourney: string;
 
-  constructor(tourney) {
+  constructor(tourney: string) {
     this.tourney = tourney;
   }
 

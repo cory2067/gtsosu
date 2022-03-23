@@ -1,12 +1,13 @@
 import { ITeam, PopulatedTeam } from "../../models/team";
 import user, { IUser } from "../../models/user";
+import { Populate } from "../../types";
 import { UserRole } from "../UserRole";
 import { PermissionContext } from "./context";
 
 export class TeamContext implements PermissionContext {
-  private team: Omit<ITeam, "players"> & PopulatedTeam;
+  private team: Populate<ITeam, PopulatedTeam>;
 
-  constructor(team) {
+  constructor(team: Populate<ITeam, PopulatedTeam>) {
     this.team = team;
   }
 
