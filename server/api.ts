@@ -1068,7 +1068,8 @@ router.getAsync("/stage-stats", async (req, res) => {
 router.postAsync("/stage-stats", ensure.isAdmin, async (req, res) => {
   const updatedStageStats = await StageStats.findOneAndUpdate(
     { tourney: req.body.stats.tourney, stage: req.body.stats.stage },
-    req.body.stats
+    req.body.stats,
+    { new: true },
   );
   res.send(updatedStageStats);
 });

@@ -10,23 +10,32 @@ const { Column, ColumnGroup } = Table;
 import StageSelector from "../modules/StageSelector";
 
 export default function Stats({ tourney, user }) {
-  const [state, setState] = useState({});
-
-  const fetchData = async () => {
-    const [tourneyModel, currentSelectedStage] = await getStage(tourney);
-
-    const [players, teams, stageMaps, stageStats] = await Promise.all([
-      get("/api/players", { tourney }),
-      get("/api/teams", { tourney }),
-      get("/api/maps", { tourney, stage: currentSelectedStage.name }).catch((e) => []),
-      get("/api/stage-stats", { tourney, stage: currentSelectedStage.name }).catch((e) => ({})),
-    ]);
-
+  const [state, setState] = useState({
+    tourneyModel: undefined,
+    players: new Map(),
+    teams: new Map(),
+    stageMaps: [],
+    stageStats: undefined,
+    processedStats: new Map(),
+    overallPlayerStats: [],
+    overallTeamStats: [],
+    currentSelectedMapId: "0",
+    currentSelectedStage: undefined,
+    inEditMode: false,
+    stageStatsEdit: undefined,
+    refetchData: false,
+    recalculateStats: false,
+    refetchDataInProgress: false,
+  });
+  
+  const calculateStats = () => {
+    if (!state.stageMaps || !state.stageStats) return;
+    
     let overallPlayerStats = new Map();
     let overallTeamStats = new Map();
     const processedStats = new Map();
     // Show empty tables instead of no tables at all if there is no data
-    stageMaps.map((stageMap) =>
+    state.stageMaps.map((stageMap) =>
       processedStats.set(String(stageMap.mapId), {
         mapId: stageMap.mapId,
         playerScores: [],
@@ -35,7 +44,7 @@ export default function Stats({ tourney, user }) {
     );
 
     // process, sort, and rank the stats for each map, while tracking overall stats
-    for (const mapStats of stageStats.maps || []) {
+    for (const mapStats of state.stageStats.maps || []) {
       const sortedPlayerScores = [...mapStats.playerScores].sort((a, b) => a.score < b.score);
       const sortedTeamScores = [...mapStats.teamScores].sort((a, b) => a.score < b.score);
       const processedPlayerScores = [];
@@ -99,27 +108,52 @@ export default function Stats({ tourney, user }) {
     for (let i = 0; i < overallTeamStats.length; i++) {
       overallTeamStatsWithRank.push({ ...overallTeamStats[i], rank: i + 1 });
     }
+    
+    setState({
+      ...state,
+      processedStats,
+      overallPlayerStats: overallPlayerStatsWithRank,
+      overallTeamStats: overallTeamStatsWithRank,
+      recalculateStats: false,
+    });
+  };
+
+  const fetchData = async () => {
+    if (state.refetchDataInProgress) return;
+    setState({ ...state, refetchDataInProgress: true });
+    
+    const [tourneyModel, currentSelectedStage] = await getStage(tourney);
+
+    const [players, teams, stageMaps, stageStats] = await Promise.all([
+      get("/api/players", { tourney }),
+      tourneyModel.teams ? get("/api/teams", { tourney }) : Promise.resolve([]),
+      get("/api/maps", { tourney, stage: currentSelectedStage.name }).catch((e) => []),
+      get("/api/stage-stats", { tourney, stage: currentSelectedStage.name }).catch((e) => ({})),
+    ]);
 
     setState({
+      ...state,
       tourneyModel,
       players: new Map(players.map((player) => [player.userid, player])),
       teams: new Map(teams.map((team) => [team.name, team])),
       stageMaps,
       stageStats,
-      processedStats,
-      overallPlayerStats: overallPlayerStatsWithRank,
-      overallTeamStats: overallTeamStatsWithRank,
-      currentSelectedMapId: "0",
       currentSelectedStage,
-      inEditMode: false,
-      stageStatsEdit: undefined,
+      refetchData: false,
+      recalculateStats: true,
+      refetchDataInProgress: false,
     });
   };
 
   useEffect(() => {
     document.title = `${prettifyTourney(tourney)}: Stats`;
-    fetchData();
-  }, []);
+    if (!state.tourneyModel || state.refetchData) {
+      fetchData();
+    }
+    if (state.recalculateStats) {
+      calculateStats();
+    }
+  }, [state]);
 
   const isAdmin = () => hasAccess(user, tourney, []);
 
@@ -145,7 +179,7 @@ export default function Stats({ tourney, user }) {
 
   const submitEditedStageStats = async () => {
     const updatedStats = await post("/api/stage-stats", { stats: state.stageStatsEdit });
-    fetchData();
+    setState({ ...state, stageStats: updatedStats, inEditMode: false, stageStatsEdit: undefined, recalculateStats: true });
   };
 
   const editTeamScore = async (teamName, newScore) => {
@@ -235,7 +269,7 @@ export default function Stats({ tourney, user }) {
             <StageSelector
               selected={state.currentSelectedStage.index}
               onClick={({ key }) =>
-                String(state.currentSelectedStage.index) !== key ? fetchData() : {}
+                String(state.currentSelectedStage.index) !== key ? setState({ ...state, refetchData: true }) : {}
               }
               stages={state.tourneyModel.stages}
             />
@@ -316,7 +350,7 @@ export default function Stats({ tourney, user }) {
           </div>
 
           <div>
-            {state.currentSelectedMapId === "0" && (
+            {state.currentSelectedStage && state.currentSelectedMapId === "0" && (
               <div className="tables-container">
                 {state.tourneyModel.teams && (
                   <Table
@@ -389,7 +423,7 @@ export default function Stats({ tourney, user }) {
               </div>
             )}
 
-            {state.processedStats && state.processedStats.has(state.currentSelectedMapId) && (
+            {state.currentSelectedStage && state.processedStats && state.processedStats.has(state.currentSelectedMapId) && (
               <div className="tables-container">
                 {state.tourneyModel.teams && (
                   <Table
