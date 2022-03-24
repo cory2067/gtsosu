@@ -12,5 +12,6 @@ interface Request<Q extends Query, B> extends express.Request {
   body: B;
   user: UserDocument;
 }
+type Populate<T, R> = Omit<T, keyof R> & R;
 
-export { Request, UserDocument };
+export { Request, UserDocument, Populate };

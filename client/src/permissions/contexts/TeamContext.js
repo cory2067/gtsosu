@@ -1,4 +1,4 @@
-import { UserRoles } from "../UserRoles";
+import { UserRole } from "../UserRole";
 
 export class TeamContext {
   /**
@@ -17,12 +17,12 @@ export class TeamContext {
    */
   hasRole(user, role) {
     switch (role) {
-      case UserRoles.Captain:
+      case UserRole.Captain:
         if (user.username === this._team.players[0].username) {
           return true;
         }
         break;
-      case UserRoles.Player:
+      case UserRole.Player:
         if (this._team.players.some((player) => player.username === user.username)) {
           return true;
         }

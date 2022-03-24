@@ -1,4 +1,4 @@
-export const UserRoles = Object.freeze({
+export const UserRole = Object.freeze({
   Admin: "Admin",
   Host: "Host",
   Developer: "Developer",
