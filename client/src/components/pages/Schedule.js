@@ -26,7 +26,7 @@ import {
   Radio,
 } from "antd";
 import { UserAuth } from "../../permissions/UserAuth";
-import { UserRoles } from "../../permissions/UserRoles";
+import { UserRole } from "../../permissions/UserRole";
 
 const { Content } = Layout;
 const { Panel } = Collapse;
@@ -117,7 +117,7 @@ class Schedule extends Component {
 
     return new UserAuth(this.props.user)
       .forMatch(match, playerNo, this.state.teams ? this.state.lookup : undefined)
-      .hasAnyRole([UserRoles.Captain]);
+      .hasAnyRole([UserRole.Captain]);
   };
 
   // janky way to nuke the timezone, forcing UTC time

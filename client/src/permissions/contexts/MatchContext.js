@@ -1,4 +1,4 @@
-import { UserRoles } from "../UserRoles";
+import { UserRole } from "../UserRole";
 import { TeamContext } from "./TeamContext";
 import { TourneyContext } from "./TourneyContext";
 
@@ -65,8 +65,8 @@ export class MatchContext {
   hasRoleIndividual(user, role) {
     switch (role) {
       // For individual tournies captain and player means the same thing
-      case UserRoles.Captain:
-      case UserRoles.Player:
+      case UserRole.Captain:
+      case UserRole.Player:
         if (this._playerNo) {
           if (this._match[`player${this._playerNo}`] === user.username) {
             return true;
@@ -91,8 +91,8 @@ export class MatchContext {
    */
   hasRoleTeam(user, role) {
     switch (role) {
-      case UserRoles.Player:
-      case UserRoles.Captain:
+      case UserRole.Player:
+      case UserRole.Captain:
         if (this._playerNo) {
           const team = this.getTeam(this._playerNo);
           if (!team) return false;

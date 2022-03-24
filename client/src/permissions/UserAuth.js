@@ -1,4 +1,4 @@
-import { UserRoles } from "./UserRoles";
+import { UserRole } from "./UserRole";
 import "./typedefs"
 import { GlobalContext } from "./contexts/GlobalContext";
 import { TourneyContext } from "./contexts/TourneyContext";
@@ -66,7 +66,7 @@ export class UserAuth {
 /**
  * Tournament roles that override checks and return true for all permissions
  */
-const SUPER_ROLES = [UserRoles.Host, UserRoles.Developer];
+const SUPER_ROLES = [UserRole.Host, UserRole.Developer];
 
 export class UserAuthWithContext extends UserAuth {
   /**
