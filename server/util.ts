@@ -12,6 +12,7 @@ export const getOsuApi = () => new osu.Api(process.env.OSU_API_KEY, { parseNumer
  * @deprecated Use UserAuth directly instead
  */
 export const checkPermissions = (user: IUser, tourney: string, roles: string[]) => {
+  if (!user) return false;
   // Might wanna fix the cast, or not since this is deprecated
   return new UserAuth(user).forTourney(tourney).hasAnyRole(roles as UserRole[]);
 };
