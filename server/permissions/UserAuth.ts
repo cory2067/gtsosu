@@ -39,6 +39,11 @@ export class UserAuth {
   }
 }
 
+/**
+ * Tournament roles that override checks and return true for all permissions
+ */
+const SUPER_ROLES = [UserRole.Host, UserRole.Developer];
+
 export class UserAuthWithContext extends UserAuth {
   private context: PermissionContext;
   private hasSuperRole: boolean = false;
@@ -46,7 +51,8 @@ export class UserAuthWithContext extends UserAuth {
   constructor(user: IUser, context: PermissionContext) {
     super(user);
     this.context = context;
-    this.hasSuperRole = this.user.admin;
+    this.hasSuperRole =
+      this.user.admin || SUPER_ROLES.some((role) => this.context.hasRole(this.user, role));
   }
 
   public async hasRole(role: UserRole) {
