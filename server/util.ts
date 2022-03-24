@@ -13,5 +13,5 @@ export const getOsuApi = () => new osu.Api(process.env.OSU_API_KEY, { parseNumer
  */
 export const checkPermissions = async (user: IUser, tourney: string, roles: string[]) => {
   // Might wanna fix the cast, or not since this is deprecated
-  return await new UserAuth(user).forTourney(tourney).hasAnyRole(roles as UserRole[]);
+  return new UserAuth(user).forTourney(tourney).hasAnyRole(roles as UserRole[]);
 };

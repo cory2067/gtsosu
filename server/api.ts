@@ -29,9 +29,9 @@ const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
 router.use(mapRouter);
 // ----------------------
 
-const isAdmin = async (user: IUser, tourney: string) => await checkPermissions(user, tourney, []);
-const canViewHiddenPools = async (user: IUser, tourney: string) =>
-  await checkPermissions(user, tourney, [
+const isAdmin = (user: IUser, tourney: string) => checkPermissions(user, tourney, []);
+const canViewHiddenPools = (user: IUser, tourney: string) =>
+  checkPermissions(user, tourney, [
     "Mapsetter",
     "Showcase",
     "All-Star Mapsetter",
@@ -39,8 +39,8 @@ const canViewHiddenPools = async (user: IUser, tourney: string) =>
     "Mapper",
   ]);
 
-const cantPlay = async (user: IUser, tourney: string) =>
-  await checkPermissions(user, tourney, [
+const cantPlay = (user: IUser, tourney: string) =>
+  checkPermissions(user, tourney, [
     "Mapsetter",
     "Referee",
     "All-Star Mapsetter",
@@ -55,7 +55,7 @@ const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   // Players can't edit if the match is in less than 1 hour
   if (match.time.getTime() - Date.now() < 3600000) return false;
 
-  return await new UserAuth(user).forMatch(match, { playerNo: playerNo }).hasRole(UserRole.Captain);
+  return new UserAuth(user).forMatch(match, { playerNo: playerNo }).hasRole(UserRole.Captain);
 };
 
 const parseWarmup = async (warmup: string) => {
