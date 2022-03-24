@@ -65,7 +65,7 @@ export class MatchContext implements PermissionContext {
   }
 
   private async getTeam(playerNo: 1 | 2) {
-    const team = this.match[`player1${playerNo}`];
+    const team = this.match[`player${playerNo}`];
 
     if (!this.teamCache[team]) {
       this.teamCache[team] = await Team.findOne({ name: team }, null, {
