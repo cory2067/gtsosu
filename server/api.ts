@@ -1060,6 +1060,21 @@ router.getAsync("/stage-stats", async (req, res) => {
 });
 
 /**
+ * POST /api/stage-stats
+ * Edit stats for a tournament stage
+ * Params:
+ *   - stats: updated StageStats object
+ */
+router.postAsync("/stage-stats", ensure.isAdmin, async (req, res) => {
+  const updatedStageStats = await StageStats.findOneAndUpdate(
+    { tourney: req.body.stats.tourney, stage: req.body.stats.stage },
+    req.body.stats,
+    { new: true },
+  );
+  res.send(updatedStageStats);
+});
+
+/**
  * POST /api/team
  * Create a new team
  * Params:
