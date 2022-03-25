@@ -1,9 +1,9 @@
-import { textChangeRangeIsUnchanged } from "typescript";
 import { IMatch } from "../models/match";
 import { ITeam, PopulatedTeam } from "../models/team";
 import { IUser } from "../models/user";
 import { Populate } from "../types";
 import { PermissionContext } from "./contexts/context";
+import { GlobalContext } from "./contexts/GlobalContext";
 import { MatchContext, MatchContextParams } from "./contexts/MatchContext";
 import { TeamContext } from "./contexts/TeamContext";
 import { TourneyContext } from "./contexts/TourneyContext";
@@ -34,6 +34,10 @@ export class UserAuth {
 
   public forTourney(tourney: string) {
     return this.withContext(new TourneyContext(tourney));
+  }
+
+  public forGlobal() {
+    return this.withContext(new GlobalContext());
   }
 }
 

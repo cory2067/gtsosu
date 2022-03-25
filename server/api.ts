@@ -12,6 +12,7 @@ import Tournament from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
 import User, { IUser } from "./models/user";
 import { getOsuApi, checkPermissions } from "./util";
+import { Request } from "./types";
 
 import mapRouter from "./api/map";
 
@@ -23,6 +24,17 @@ const router = addAsync(express.Router());
 const logger = pino();
 const osuApi = getOsuApi();
 const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
+
+// Populate each request with tourney-level user auth
+type BaseRequestArgs = {
+  tourney?: string;
+};
+router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
+  const auth = new UserAuth(req.user);
+  const tourney = req.body.tourney ?? req.query.tourney;
+  req.auth = tourney ? auth.forTourney(tourney) : auth.forGlobal();
+  next();
+});
 
 // Parts of the API are gradually being split out into separate files
 // These are the sub-routers that have been migrated/refactored
