@@ -5,8 +5,8 @@ import ensure from "../ensure";
 import Tournament from "../models/tournament";
 import TourneyMap, { ITourneyMap } from "../models/tourney-map";
 import { IUser } from "../models/user";
-import { Request } from "../types";
-import { getOsuApi, checkPermissions } from "../util";
+import { Request, UserDocument } from "../types";
+import { getOsuApi, checkPermissions, assertUser } from "../util";
 
 import { addAsync } from "@awaitjs/express";
 const mapRouter = addAsync(express.Router());
@@ -31,7 +31,7 @@ const scaleDiff = (diff: number, mod: string) => {
   return diff;
 };
 
-const canViewHiddenPools = async (user: IUser, tourney: string) =>
+const canViewHiddenPools = async (user: IUser | undefined, tourney: string) =>
   await checkPermissions(user, tourney, [
     "Mapsetter",
     "Showcase",
@@ -59,7 +59,8 @@ mapRouter.postAsync(
   "/map",
   ensure.isPooler,
   async (req: Request<{}, GetMapBody>, res: Response<GetMapResponse>) => {
-    logger.info(`${req.user.username} added ${req.body.id} to ${req.body.stage} mappool`);
+    const user = assertUser(req);
+    logger.info(`${user.username} added ${req.body.id} to ${req.body.stage} mappool`);
 
     const mod = req.body.mod;
     const modId = { EZ: 2, HR: 16, HDHR: 16, DT: 64, HT: 256 }[mod] || 0; // mod enum used by osu api
@@ -79,7 +80,7 @@ mapRouter.postAsync(
       hp: scaleDiff(mapData.difficulty.drain, mod),
       length: formatTime(scaleTime(mapData.length.total, mod)),
       image: `https://assets.ppy.sh/beatmaps/${mapData.beatmapSetId}/covers/cover.jpg`,
-      pooler: req.body.pooler ?? req.user.username,
+      pooler: req.body.pooler ?? user.username,
     });
     await newMap.save();
     res.send(newMap);
@@ -100,7 +101,7 @@ mapRouter.getAsync(
   "/maps",
   async (req: Request<GetMapsQuery, {}>, res: Response<GetMapsResponse>) => {
     const [tourney, maps] = await Promise.all([
-      Tournament.findOne({ code: req.query.tourney }),
+      Tournament.findOne({ code: req.query.tourney }).orFail(),
       TourneyMap.find({ tourney: req.query.tourney, stage: req.query.stage }),
     ]);
 
@@ -137,7 +138,8 @@ mapRouter.deleteAsync(
   "/map",
   ensure.isPooler,
   async (req: Request<{}, DeleteMapBody>, res: Response<DeleteMapResponse>) => {
-    logger.info(`${req.user.username} deleted ${req.body.id} from ${req.body.stage} pool`);
+    const user = assertUser(req);
+    logger.info(`${user.username} deleted ${req.body.id} from ${req.body.stage} pool`);
     await TourneyMap.deleteOne({
       tourney: req.body.tourney,
       stage: req.body.stage,
