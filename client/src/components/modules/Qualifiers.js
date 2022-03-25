@@ -284,7 +284,7 @@ class Qualifiers extends Component {
               />
             )}
 
-            {this.props.isRef() && (
+            {(this.props.isRef() || this.props.currentStage?.statsVisible) && (
               <Column
                 title="MP Link"
                 dataIndex="link"

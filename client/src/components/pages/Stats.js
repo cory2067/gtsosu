@@ -29,10 +29,10 @@ export default function Stats({ tourney, user }) {
     recalculateStats: false,
     refetchDataInProgress: false,
   });
-  
+
   const calculateStats = () => {
     if (!state.stageMaps || !state.stageStats) return;
-    
+
     let overallPlayerStats = new Map();
     let overallTeamStats = new Map();
     let playerModStats = new Map();
@@ -49,7 +49,7 @@ export default function Stats({ tourney, user }) {
 
     // process, sort, and rank the stats for each map, while tracking overall stats
     for (const mapStats of state.stageStats.maps || []) {
-      const mod = state.stageMaps.find(stageMap => stageMap.mapId === mapStats.mapId).mod;
+      const mod = state.stageMaps.find((stageMap) => stageMap.mapId === mapStats.mapId).mod;
       const sortedPlayerScores = [...mapStats.playerScores].sort((a, b) => a.score < b.score);
       const sortedTeamScores = [...mapStats.teamScores].sort((a, b) => a.score < b.score);
       const processedPlayerScores = [];
@@ -143,7 +143,7 @@ export default function Stats({ tourney, user }) {
         );
       playerModStats.set(mod, sortedModRankings);
     }
-    
+
     for (let mod of teamModStats.keys()) {
       const sortedModRankings = Array.from(teamModStats.get(mod).entries())
         .map(([teamName, stats]) => ({ ...stats, teamName }))
@@ -152,7 +152,7 @@ export default function Stats({ tourney, user }) {
         );
       teamModStats.set(mod, sortedModRankings);
     }
-    
+
     setState({
       ...state,
       processedStats,
@@ -167,7 +167,7 @@ export default function Stats({ tourney, user }) {
   const fetchData = async () => {
     if (state.refetchDataInProgress) return;
     setState({ ...state, refetchDataInProgress: true });
-    
+
     const [tourneyModel, currentSelectedStage] = await getStage(tourney);
 
     const [players, teams, stageMaps, stageStats] = await Promise.all([
@@ -183,7 +183,7 @@ export default function Stats({ tourney, user }) {
       players: new Map(players.map((player) => [player.userid, player])),
       teams: new Map(teams.map((team) => [team.name, team])),
       stageMaps,
-      stageStats,
+      stageStats: stageStats || {},
       currentSelectedStage,
       refetchData: false,
       recalculateStats: true,
@@ -225,7 +225,13 @@ export default function Stats({ tourney, user }) {
 
   const submitEditedStageStats = async () => {
     const updatedStats = await post("/api/stage-stats", { stats: state.stageStatsEdit });
-    setState({ ...state, stageStats: updatedStats, inEditMode: false, stageStatsEdit: undefined, recalculateStats: true });
+    setState({
+      ...state,
+      stageStats: updatedStats,
+      inEditMode: false,
+      stageStatsEdit: undefined,
+      recalculateStats: true,
+    });
   };
 
   const editTeamScore = async (teamName, newScore) => {
@@ -306,14 +312,18 @@ export default function Stats({ tourney, user }) {
     ];
     setState({ ...state, stageStatsEdit: updated, addPlayerModalVisible: false });
   };
-  
+
   const exportToJson = () => {
     const teams = [];
-    for (let teamStats of state.overallTeamStats) {
+    for (let teamStats of state.tourneyModel.teams
+      ? state.overallTeamStats
+      : state.overallPlayerStats) {
       const seedingResults = [];
       // assuming this is in correct mod order
       for (let stageMap of state.stageMaps) {
-        const teamScore = state.processedStats.get(String(stageMap.mapId)).teamScores.find(teamScore => teamScore.teamName === teamStats.teamName);
+        const teamScore = state.processedStats
+          .get(String(stageMap.mapId))
+          .teamScores.find((teamScore) => teamScore.teamName === teamStats.teamName);
         if (!teamScore) continue;
         const beatmap = {
           BeatmapInfo: {
@@ -325,11 +335,16 @@ export default function Stats({ tourney, user }) {
           Score: teamScore.score,
           Seed: teamScore.rank,
         };
-        const theSeedingResultsMod = seedingResults.find(seedingResultsMod => seedingResultsMod.Mod === stageMap.mod);
+        const theSeedingResultsMod = seedingResults.find(
+          (seedingResultsMod) => seedingResultsMod.Mod === stageMap.mod
+        );
         if (!theSeedingResultsMod) {
           seedingResults.push({
             Mod: stageMap.mod,
-            Seed: state.teamModStats.get(stageMap.mod).findIndex(stats => stats.teamName === teamStats.teamName) + 1,
+            Seed:
+              state.teamModStats
+                .get(stageMap.mod)
+                .findIndex((stats) => stats.teamName === teamStats.teamName) + 1,
             Beatmaps: [beatmap],
           });
         } else {
@@ -344,16 +359,17 @@ export default function Stats({ tourney, user }) {
         SeedingResults: seedingResults,
         Seed: `#${teamStats.rank}`,
         LastYearPlacing: 1,
-        Players: theTeam.players.map(player => ({ id: player.userid })),
+        Players: theTeam.players.map((player) => ({ id: player.userid })),
       });
     }
 
     const dl = document.createElement("a");
-    dl.href = "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify({ Teams: teams }));
+    dl.href =
+      "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify({ Teams: teams }));
     dl.target = "_blank";
     dl.download = `bracket-${tourney}.json`;
     dl.click();
-  }
+  };
 
   return (
     <Content className="content">
@@ -363,7 +379,9 @@ export default function Stats({ tourney, user }) {
             <StageSelector
               selected={state.currentSelectedStage.index}
               onClick={({ key }) =>
-                String(state.currentSelectedStage.index) !== key ? setState({ ...state, refetchData: true }) : {}
+                String(state.currentSelectedStage.index) !== key
+                  ? setState({ ...state, refetchData: true })
+                  : {}
               }
               stages={state.tourneyModel.stages}
             />
@@ -384,11 +402,9 @@ export default function Stats({ tourney, user }) {
                   <Button className="settings-button" type="primary" onClick={toggleEditMode}>
                     Edit
                   </Button>
-                  {state.tourneyModel.teams && (
-                    <Button className="settings-button" type="primary" onClick={exportToJson}>
-                      Export to JSON
-                    </Button>
-                  )}
+                  <Button className="settings-button" type="primary" onClick={exportToJson}>
+                    Export to JSON
+                  </Button>
                 </Form>
               )}
               {state.inEditMode && (
@@ -522,41 +538,108 @@ export default function Stats({ tourney, user }) {
               </div>
             )}
 
-            {state.currentSelectedStage && state.processedStats && state.processedStats.has(state.currentSelectedMapId) && (
-              <div className="tables-container">
-                {state.tourneyModel.teams && (
+            {state.currentSelectedStage &&
+              state.processedStats &&
+              state.processedStats.has(state.currentSelectedMapId) && (
+                <div className="tables-container">
+                  {state.tourneyModel.teams && (
+                    <Table
+                      dataSource={
+                        (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                        (state.inEditMode
+                          ? state.stageStatsEdit.maps.find(
+                              (stageStats) =>
+                                String(stageStats.mapId) === state.currentSelectedMapId
+                            ).teamScores
+                          : state.processedStats.get(state.currentSelectedMapId).teamScores)
+                      }
+                      pagination={false}
+                      className="map-stats-table"
+                      bordered
+                    >
+                      <ColumnGroup title="Team Rankings">
+                        {!state.inEditMode && (
+                          <Column
+                            title="Rank"
+                            dataIndex="rank"
+                            key="rank"
+                            render={(rank) => rank}
+                          />
+                        )}
+                        <Column
+                          title="Team"
+                          dataIndex="teamName"
+                          key="teamName"
+                          render={(teamName) => teamName}
+                        />
+                        <Column
+                          title="Score"
+                          dataIndex="score"
+                          key="score"
+                          render={(score, teamScore) =>
+                            state.inEditMode ? (
+                              <InputNumber
+                                value={score}
+                                onChange={(value) => editTeamScore(teamScore.teamName, value)}
+                              />
+                            ) : (
+                              score
+                            )
+                          }
+                        />
+                        {state.inEditMode && (
+                          <Column
+                            title="Remove"
+                            render={(score, teamScore) => (
+                              <Button
+                                type="primary"
+                                shape="circle"
+                                icon={<MinusOutlined />}
+                                size="middle"
+                                onClick={() => removeTeamScore(teamScore.teamName)}
+                              />
+                            )}
+                          />
+                        )}
+                      </ColumnGroup>
+                    </Table>
+                  )}
                   <Table
                     dataSource={
                       (isAdmin() || state.currentSelectedStage.statsVisible) &&
                       (state.inEditMode
                         ? state.stageStatsEdit.maps.find(
                             (stageStats) => String(stageStats.mapId) === state.currentSelectedMapId
-                          ).teamScores
-                        : state.processedStats.get(state.currentSelectedMapId).teamScores)
+                          ).playerScores
+                        : state.processedStats.get(state.currentSelectedMapId).playerScores)
                     }
                     pagination={false}
                     className="map-stats-table"
                     bordered
                   >
-                    <ColumnGroup title="Team Rankings">
+                    <ColumnGroup title="Player Rankings">
                       {!state.inEditMode && (
                         <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
                       )}
                       <Column
-                        title="Team"
-                        dataIndex="teamName"
-                        key="teamName"
-                        render={(teamName) => teamName}
+                        title="Player"
+                        dataIndex="userId"
+                        key="userId"
+                        render={(userId) =>
+                          state.players.has(String(userId))
+                            ? state.players.get(String(userId)).username
+                            : userId
+                        }
                       />
                       <Column
                         title="Score"
                         dataIndex="score"
                         key="score"
-                        render={(score, teamScore) =>
-                          state.inEditMode ? (
+                        render={(score, playerScore) =>
+                          state.inEditMode && playerScore.userId ? (
                             <InputNumber
                               value={score}
-                              onChange={(value) => editTeamScore(teamScore.teamName, value)}
+                              onChange={(value) => editPlayerScore(playerScore.userId, value)}
                             />
                           ) : (
                             score
@@ -566,80 +649,21 @@ export default function Stats({ tourney, user }) {
                       {state.inEditMode && (
                         <Column
                           title="Remove"
-                          render={(score, teamScore) => (
+                          render={(score, playerScore) => (
                             <Button
                               type="primary"
                               shape="circle"
                               icon={<MinusOutlined />}
                               size="middle"
-                              onClick={() => removeTeamScore(teamScore.teamName)}
+                              onClick={() => removePlayerScore(playerScore.userId)}
                             />
                           )}
                         />
                       )}
                     </ColumnGroup>
                   </Table>
-                )}
-                <Table
-                  dataSource={
-                    (isAdmin() || state.currentSelectedStage.statsVisible) &&
-                    (state.inEditMode
-                      ? state.stageStatsEdit.maps.find(
-                          (stageStats) => String(stageStats.mapId) === state.currentSelectedMapId
-                        ).playerScores
-                      : state.processedStats.get(state.currentSelectedMapId).playerScores)
-                  }
-                  pagination={false}
-                  className="map-stats-table"
-                  bordered
-                >
-                  <ColumnGroup title="Player Rankings">
-                    {!state.inEditMode && (
-                      <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
-                    )}
-                    <Column
-                      title="Player"
-                      dataIndex="userId"
-                      key="userId"
-                      render={(userId) =>
-                        state.players.has(String(userId))
-                          ? state.players.get(String(userId)).username
-                          : userId
-                      }
-                    />
-                    <Column
-                      title="Score"
-                      dataIndex="score"
-                      key="score"
-                      render={(score, playerScore) =>
-                        state.inEditMode && playerScore.userId ? (
-                          <InputNumber
-                            value={score}
-                            onChange={(value) => editPlayerScore(playerScore.userId, value)}
-                          />
-                        ) : (
-                          score
-                        )
-                      }
-                    />
-                    {state.inEditMode && (
-                      <Column
-                        title="Remove"
-                        render={(score, playerScore) => (
-                          <Button
-                            type="primary"
-                            shape="circle"
-                            icon={<MinusOutlined />}
-                            size="middle"
-                            onClick={() => removePlayerScore(playerScore.userId)}
-                          />
-                        )}
-                      />
-                    )}
-                  </ColumnGroup>
-                </Table>
-              </div>
-            )}
+                </div>
+              )}
           </div>
 
           <AddPlayerModal

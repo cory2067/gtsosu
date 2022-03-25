@@ -454,6 +454,7 @@ class Schedule extends Component {
                 getInfo={this.getInfo}
                 timezone={this.state.timezone}
                 utcString={this.utcString}
+                currentStage={this.state.current}
               />
             ) : (
               <>
