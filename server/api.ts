@@ -525,7 +525,7 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
  *   - playerNo: 1 - player 1, 2 - player 2
  *   - warmup: the warmup map, could be beatmap link or ID
  */
-router.postAsync("/warmup", async (req, res) => {
+router.postAsync("/warmup", ensure.loggedIn, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match }).orFail();
   if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
     logger.warn(
@@ -551,7 +551,7 @@ router.postAsync("/warmup", async (req, res) => {
  *   - match: match ID
  *   - playerNo: 1 - player 1, 2 - player 2
  */
-router.deleteAsync("/warmup", async (req, res) => {
+router.deleteAsync("/warmup", ensure.loggedIn, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match }).orFail();
   if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
     logger.warn(
