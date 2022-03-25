@@ -9,12 +9,9 @@ import { TourneyContext } from "./contexts/TourneyContext";
 import { UserRole } from "./UserRole";
 
 export class UserAuth {
-  protected user: IUser;
+  protected user?: IUser;
 
-  constructor(user: IUser) {
-    if (!user) {
-      throw new Error("User is not defined");
-    }
+  constructor(user?: IUser) {
     this.user = user;
   }
 
@@ -52,10 +49,11 @@ export class UserAuthWithContext extends UserAuth {
     super(user);
     this.context = context;
     this.hasSuperRole =
-      this.user.admin || SUPER_ROLES.some((role) => this.context.hasRole(this.user, role));
+      this.user && this.user.admin || SUPER_ROLES.some((role) => this.context.hasRole(this.user, role));
   }
 
   public async hasRole(role: UserRole) {
+    if (!this.user) return false;
     return this.hasSuperRole || (await this.context.hasRole(this.user, role));
   }
 
