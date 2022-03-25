@@ -22,7 +22,7 @@ app.use(express.json());
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET!,
     store: MongoStore.create({ clientPromise }),
     resave: false,
     saveUninitialized: true,
@@ -34,8 +34,8 @@ app.use(passport.session());
 
 // Redirect to non-www url
 app.get("*", (req, res, next) => {
-  if (req.headers.host.slice(0, 4) === "www.") {
-    const newHost = req.headers.host.slice(4);
+  if (req.headers.host!.slice(0, 4) === "www.") {
+    const newHost = req.headers.host!.slice(4);
     return res.redirect(301, req.protocol + "://" + newHost + req.originalUrl);
   }
   next();

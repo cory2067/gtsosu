@@ -10,7 +10,7 @@ interface UserDocument extends IUser, HydratedDocument<IUser> {}
 interface Request<Q extends Query, B> extends express.Request {
   query: Q;
   body: B;
-  user: UserDocument;
+  user?: UserDocument;
 }
 type Populate<T, R> = Omit<T, keyof R> & R;
 

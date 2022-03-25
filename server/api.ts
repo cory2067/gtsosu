@@ -65,10 +65,13 @@ const parseWarmup = async (warmup: string) => {
 
   let warmupMapId = warmup;
   if (warmupMapId.startsWith("http")) {
-    warmupMapId = warmupMapId.split("/").pop();
+    warmupMapId = warmup.split("/").pop()!;
+  }
+  if (isNaN(parseInt(warmupMapId))) {
+    throw new Error("This isn't a link to a beatmap");
   }
 
-  let mapData: osu.Beatmap = null;
+  let mapData: osu.Beatmap;
   try {
     mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
   } catch (e) {
@@ -86,7 +89,7 @@ const parseWarmup = async (warmup: string) => {
 
   // Map longer than 3 minutes
   if (mapData.length.total > 180) {
-    throw new Error("Warmup map too long");
+    throw new Error("Warmup map too long (max 3 minutes)");
   }
 
   return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#taiko/${warmupMapId}`;
@@ -114,7 +117,7 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
 
   const [userData, tourney] = await Promise.all([
     osuApi.getUser({ u: req.user.userid, m: 1, type: "id" }),
-    Tournament.findOne({ code: req.body.tourney }),
+    Tournament.findOne({ code: req.body.tourney }).orFail(),
   ]);
 
   const username = userData.name;
@@ -193,9 +196,9 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "Team can't have duplicate players" });
   }
 
-  const tourney = await Tournament.findOne({ code: req.body.tourney });
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
 
-  const updates = [];
+  const updates: Array<Array<Object>> = [];
   for (const username of req.body.players) {
     let userData;
     try {
@@ -245,7 +248,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
   }
 
   const players = await Promise.all(
-    updates.map((updateArgs) => User.findOneAndUpdate(...updateArgs))
+    updates.map((updateArgs) => User.findOneAndUpdate(...updateArgs).orFail())
   );
 
   const team = new Team({
@@ -435,13 +438,11 @@ router.getAsync("/tournament", async (req, res) => {
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
-  let tourney = await Tournament.findOne({ code: req.body.tourney });
-
-  if (!tourney) {
-    tourney = new Tournament({
+  let tourney =
+    (await Tournament.findOne({ code: req.body.tourney })) ??
+    new Tournament({
       code: req.body.tourney,
     });
-  }
 
   tourney.registrationOpen = req.body.registrationOpen;
   tourney.teams = req.body.teams;
@@ -470,7 +471,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
  */
 router.postAsync("/stage", ensure.isPooler, async (req, res) => {
   logger.info(`${req.user.username} updated stage ${req.body.index} of ${req.body.tourney}`);
-  const tourney = await Tournament.findOne({ code: req.body.tourney });
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
   tourney.stages[req.body.index].mappack = req.body.stage.mappack;
   tourney.stages[req.body.index].poolVisible = req.body.stage.poolVisible;
 
@@ -525,7 +526,7 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
  *   - warmup: the warmup map, could be beatmap link or ID
  */
 router.postAsync("/warmup", async (req, res) => {
-  const match = await Match.findOne({ _id: req.body.match });
+  const match = await Match.findOne({ _id: req.body.match }).orFail();
   if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
     logger.warn(
       `${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
@@ -538,7 +539,7 @@ router.postAsync("/warmup", async (req, res) => {
     res.status(400).send(e.message);
     return;
   }
-  logger.info("User", req.user.username, "submitted warmup", req.body.warmup);
+  logger.info(`${req.user.username} submitted warmup ${req.body.warmup}`);
   await match.save();
   res.send(match);
 });
@@ -551,7 +552,7 @@ router.postAsync("/warmup", async (req, res) => {
  *   - playerNo: 1 - player 1, 2 - player 2
  */
 router.deleteAsync("/warmup", async (req, res) => {
-  const match = await Match.findOne({ _id: req.body.match });
+  const match = await Match.findOne({ _id: req.body.match }).orFail();
   if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
     logger.warn(
       `${req.user.username} tried to delete player ${req.body.playerNo} warmup for ${req.body.match}`
@@ -589,7 +590,7 @@ router.postAsync("/reschedule", ensure.isAdmin, async (req, res) => {
     { _id: req.body.match },
     { $set: { time: new Date(req.body.time) } },
     { new: true }
-  );
+  ).orFail();
 
   logger.info(
     `${req.user.username} rescheduled ${req.body.tourney} match ${newMatch.code} to ${req.body.time}`
@@ -627,7 +628,7 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
       $set: { score1: req.body.score1 || 0, score2: req.body.score2 || 0, link: req.body.link },
     },
     { new: true }
-  );
+  ).orFail();
 
   logger.info(`${req.user.username} submitted results for match ${newMatch.code}`);
   res.send(newMatch);
@@ -642,7 +643,8 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/referee", ensure.isRef, async (req, res) => {
-  const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
+  const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney }).orFail();
+
   if (match.referee) return res.status(400).send({ error: "already exists" });
   match.referee = req.body.user;
   await match.save();
@@ -663,7 +665,7 @@ router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
     { _id: req.body.match, tourney: req.body.tourney },
     { $unset: { referee: 1 } },
     { new: true }
-  );
+  ).orFail();
 
   logger.info(`${req.user.username} deleted the ref of ${match.code}`);
   res.send(match);
@@ -678,7 +680,8 @@ router.deleteAsync("/referee", ensure.isRef, async (req, res) => {
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/streamer", ensure.isStreamer, async (req, res) => {
-  const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney });
+  const match = await Match.findOne({ _id: req.body.match, tourney: req.body.tourney }).orFail();
+
   if (match.streamer) return res.status(400).send({ error: "already exists" });
   match.streamer = req.body.user;
   await match.save();
@@ -699,7 +702,7 @@ router.deleteAsync("/streamer", ensure.isStreamer, async (req, res) => {
     { _id: req.body.match, tourney: req.body.tourney },
     { $unset: { streamer: 1 } },
     { new: true }
-  );
+  ).orFail();
 
   logger.info(`${req.user.username} deleted the streamer of ${match.code}`);
   res.send(match);
@@ -718,7 +721,7 @@ router.postAsync("/commentator", ensure.isCommentator, async (req, res) => {
     { _id: req.body.match, tourney: req.body.tourney },
     { $push: { commentators: req.body.user } },
     { new: true }
-  );
+  ).orFail();
 
   logger.info(`${req.body.user} signed up to commentate ${match.code}`);
   res.send(match);
@@ -737,7 +740,7 @@ router.deleteAsync("/commentator", ensure.isCommentator, async (req, res) => {
     { _id: req.body.match, tourney: req.body.tourney },
     { $pull: { commentators: req.body.user } },
     { new: true }
-  );
+  ).orFail();
 
   logger.info(`${req.user.username} removed ${req.body.user} from commentating ${match.code}`);
   res.send(match);
@@ -793,7 +796,11 @@ router.deleteAsync("/lobby", ensure.isAdmin, async (req, res) => {
  *  - tourney: identifier for the tournament
  */
 router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
-  const lobby = await QualifiersLobby.findOne({ _id: req.body.lobby, tourney: req.body.tourney });
+  const lobby = await QualifiersLobby.findOne({
+    _id: req.body.lobby,
+    tourney: req.body.tourney,
+  }).orFail();
+
   if (lobby.referee) return res.status(400).send({ error: "already exists" });
   lobby.referee = req.body.user ?? req.user.username;
   await lobby.save();
@@ -846,7 +853,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   const toAdd =
     req.body.user ??
     (req.body.teams
-      ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney })).name
+      ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney }).orFail()).name
       : req.user.username);
 
   const lobby = await QualifiersLobby.findOneAndUpdate(
@@ -1032,6 +1039,11 @@ router.getAsync("/stage-stats", async (req, res) => {
   const tourney = await Tournament.findOne({ code: req.query.tourney });
   if (!tourney) return res.send({});
   const theStage = tourney.stages.find((stage) => stage.name === req.query.stage);
+  if (!theStage) {
+    res.status(404).send({ error: "Stage doesn't exist" });
+    return;
+  }
+
   if (!(await isAdmin(req.user, req.query.tourney)) && !theStage.statsVisible)
     return res.status(403).send({ error: "This stage's stats aren't released yet!" });
   const stageStats = await StageStats.findOne({
@@ -1051,7 +1063,7 @@ router.postAsync("/stage-stats", ensure.isAdmin, async (req, res) => {
   const updatedStageStats = await StageStats.findOneAndUpdate(
     { tourney: req.body.stats.tourney, stage: req.body.stats.stage },
     req.body.stats,
-    { new: true },
+    { new: true }
   );
   res.send(updatedStageStats);
 });
@@ -1105,7 +1117,9 @@ router.postAsync("/edit-team", ensure.isAdmin, async (req, res) => {
       },
     },
     { new: true }
-  ).populate("players");
+  )
+    .orFail()
+    .populate<PopulatedTeam>("players");
 
   res.send({ ...team.toObject() });
 });
@@ -1157,7 +1171,9 @@ router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
       },
     },
     { new: true }
-  ).populate("players");
+  )
+    .orFail()
+    .populate<PopulatedTeam>("players");
 
   logger.info(`${req.user.username} set stats for ${team.name} in ${req.body.tourney}`);
   res.send(team);
@@ -1194,7 +1210,7 @@ router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
       },
     },
     { new: true }
-  );
+  ).orFail();
 
   logger.info(`${req.user.username} set stats for ${user.username} in ${req.body.tourney}`);
   res.send(user);
@@ -1279,7 +1295,7 @@ router.getAsync("/languages", async (req, res) => {
       // sort English to the top
       if (a === "en") return -1;
       if (b === "en") return 1;
-      return a.localeCompare(b);
+      return a!.localeCompare(b!);
     });
 
   res.send({ languages });

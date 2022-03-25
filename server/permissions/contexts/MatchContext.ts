@@ -68,9 +68,9 @@ export class MatchContext implements PermissionContext {
     const team = this.match[`player${playerNo}`];
 
     if (!this.teamCache[team]) {
-      this.teamCache[team] = await Team.findOne({ name: team }, null, {
-        populate: ["players"],
-      });
+      this.teamCache[team] = await Team.findOne({ name: team })
+        .orFail()
+        .populate<PopulatedTeam>("players");
     }
     return this.teamCache[team];
   }
@@ -80,7 +80,7 @@ export class MatchContext implements PermissionContext {
    */
   private async getTourney() {
     if (!this.tourneyCache) {
-      this.tourneyCache = await Tournament.findOne({ code: this.match.tourney });
+      this.tourneyCache = await Tournament.findOne({ code: this.match.tourney }).orFail();
       this.tourneyContext = new TourneyContext(this.match.tourney);
     }
 

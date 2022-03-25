@@ -57,7 +57,7 @@ const makeAuthStrategy = (clientId: string, clientSecret: string) =>
 
 const getStrategy = (req) => (req.hostname === "taikotourney.com" ? "taikotourney" : "default");
 
-passport.use("default", makeAuthStrategy(process.env.CLIENT_ID, process.env.CLIENT_SECRET));
+passport.use("default", makeAuthStrategy(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!));
 
 // Need separate oauth id/secret for taikotourney.com domain
 if (process.env.TT_CLIENT_ID && process.env.TT_CLIENT_SECRET) {

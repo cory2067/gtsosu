@@ -1,3 +1,4 @@
+import { textChangeRangeIsUnchanged } from "typescript";
 import { IMatch } from "../models/match";
 import { ITeam, PopulatedTeam } from "../models/team";
 import { IUser } from "../models/user";
@@ -9,9 +10,9 @@ import { TourneyContext } from "./contexts/TourneyContext";
 import { UserRole } from "./UserRole";
 
 export class UserAuth {
-  protected user?: IUser;
+  protected user: IUser | undefined;
 
-  constructor(user?: IUser) {
+  constructor(user: IUser | undefined) {
     this.user = user;
   }
 
@@ -43,34 +44,41 @@ const SUPER_ROLES = [UserRole.Host, UserRole.Developer];
 
 export class UserAuthWithContext extends UserAuth {
   private context: PermissionContext;
-  private superRoleLoaded: boolean = false;
-  private userHasSuperRole: boolean = false;
 
-  constructor(user: IUser, context: PermissionContext) {
+  // Do not access these directly -- use hasSuperRole()
+  private _superRoleLoaded: boolean = false;
+  private _hasSuperRole: boolean = false;
+
+  constructor(user: IUser | undefined, context: PermissionContext) {
     super(user);
     this.context = context;
   }
 
   private async hasSuperRole() {
-    if (this.superRoleLoaded && this.userHasSuperRole) return true;
-    if (this.user?.admin) {
-      this.userHasSuperRole = true;
-    } else {
-      this.userHasSuperRole = await Promise.all(
-        SUPER_ROLES.map((role) => this.context.hasRole(this.user, role))
-      ).then((results) => results.some((result) => result));
-    }
-    this.superRoleLoaded = true;
-    return this.userHasSuperRole;
+    const user = this.user;
+    if (!user) return false;
+    if (user.admin) return true;
+    if (this._superRoleLoaded) return this._hasSuperRole;
+
+    this._hasSuperRole = await Promise.all(
+      SUPER_ROLES.map((role) => this.context.hasRole(user, role))
+    ).then((results) => results.some((result) => result));
+
+    this._superRoleLoaded = true;
+    return this._hasSuperRole;
   }
 
   public async hasRole(role: UserRole) {
     if (!this.user) return false;
-    return (await this.hasSuperRole()) || (await this.context.hasRole(this.user, role));
+    if (await this.hasSuperRole()) return true;
+
+    return this.context.hasRole(this.user, role);
   }
 
   public async hasAllRoles(roles: UserRole[]) {
+    if (!this.user) return false;
     if (await this.hasSuperRole()) return true;
+
     for (const role of roles) {
       if (!(await this.context.hasRole(this.user, role))) return false;
     }
@@ -78,7 +86,9 @@ export class UserAuthWithContext extends UserAuth {
   }
 
   public async hasAnyRole(roles: UserRole[]) {
+    if (!this.user) return false;
     if (await this.hasSuperRole()) return true;
+
     for (const role of roles) {
       if (await this.context.hasRole(this.user, role)) return true;
     }
