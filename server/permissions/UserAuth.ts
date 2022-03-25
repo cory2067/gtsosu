@@ -60,6 +60,7 @@ export class UserAuthWithContext extends UserAuth {
         SUPER_ROLES.map((role) => this.context.hasRole(this.user, role))
       ).then((results) => results.some((result) => result));
     }
+    this.superRoleLoaded = true;
     return this.userHasSuperRole;
   }
 
