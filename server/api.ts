@@ -63,7 +63,7 @@ const parseWarmup = async (warmup: string) => {
     throw new Error("No warmup submitted");
   }
 
-  let warmupMapId: string = warmup;
+  let warmupMapId = warmup;
   if (warmupMapId.startsWith("http")) {
     warmupMapId = warmup.split("/").pop()!;
   }
