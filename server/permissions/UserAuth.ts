@@ -9,12 +9,9 @@ import { TourneyContext } from "./contexts/TourneyContext";
 import { UserRole } from "./UserRole";
 
 export class UserAuth {
-  protected user: IUser;
+  protected user?: IUser;
 
-  constructor(user: IUser) {
-    if (!user) {
-      throw new Error("User is not defined");
-    }
+  constructor(user?: IUser) {
     this.user = user;
   }
 
@@ -46,21 +43,34 @@ const SUPER_ROLES = [UserRole.Host, UserRole.Developer];
 
 export class UserAuthWithContext extends UserAuth {
   private context: PermissionContext;
-  private hasSuperRole: boolean = false;
+  private superRoleLoaded: boolean = false;
+  private userHasSuperRole: boolean = false;
 
   constructor(user: IUser, context: PermissionContext) {
     super(user);
     this.context = context;
-    this.hasSuperRole =
-      this.user.admin || SUPER_ROLES.some((role) => this.context.hasRole(this.user, role));
+  }
+
+  private async hasSuperRole() {
+    if (this.superRoleLoaded && this.userHasSuperRole) return true;
+    if (this.user?.admin) {
+      this.userHasSuperRole = true;
+    } else {
+      this.userHasSuperRole = await Promise.all(
+        SUPER_ROLES.map((role) => this.context.hasRole(this.user, role))
+      ).then((results) => results.some((result) => result));
+    }
+    this.superRoleLoaded = true;
+    return this.userHasSuperRole;
   }
 
   public async hasRole(role: UserRole) {
-    return this.hasSuperRole || (await this.context.hasRole(this.user, role));
+    if (!this.user) return false;
+    return (await this.hasSuperRole()) || (await this.context.hasRole(this.user, role));
   }
 
   public async hasAllRoles(roles: UserRole[]) {
-    if (this.hasSuperRole) return true;
+    if (await this.hasSuperRole()) return true;
     for (const role of roles) {
       if (!(await this.context.hasRole(this.user, role))) return false;
     }
@@ -68,7 +78,7 @@ export class UserAuthWithContext extends UserAuth {
   }
 
   public async hasAnyRole(roles: UserRole[]) {
-    if (this.hasSuperRole) return true;
+    if (await this.hasSuperRole()) return true;
     for (const role of roles) {
       if (await this.context.hasRole(this.user, role)) return true;
     }
