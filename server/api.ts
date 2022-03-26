@@ -540,7 +540,7 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
  */
 router.postAsync("/warmup", ensure.loggedIn, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match }).orFail();
-  if (!(await canEditWarmup(req.auth, req.body.playerNo, match))) {
+  if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
     logger.warn(
       `${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
     );
