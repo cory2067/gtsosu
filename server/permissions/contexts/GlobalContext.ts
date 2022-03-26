@@ -5,7 +5,7 @@ import { PermissionContext } from "./context";
 export class GlobalContext implements PermissionContext {
   constructor() {}
 
-  public async hasRole(user: IUser, role: UserRole) {
+  public hasRole(user: IUser, role: UserRole) {
     // Admin is already handled in UserAuth.ts
     return false;
   }

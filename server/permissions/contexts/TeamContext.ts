@@ -11,7 +11,7 @@ export class TeamContext implements PermissionContext {
     this.team = team;
   }
 
-  public async hasRole(user: IUser, role: UserRole) {
+  public hasRole(user: IUser, role: UserRole) {
     switch (role) {
       case UserRole.Captain:
         return this.team.players[0].username === user.username;

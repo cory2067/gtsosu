@@ -23,7 +23,7 @@ export class MatchContext {
 
   /**
    * @type {TourneyContext}
-   * 
+   *
    * For forwarding non player/captain roles to tourney context
    */
   _tourneyContext;
@@ -31,7 +31,7 @@ export class MatchContext {
   hasRole = undefined;
 
   /**
-   * @param {Match} match 
+   * @param {Match} match
    * @param {number | undefined} playerNo If undefined, this will check for both teams/players, and vice versa
    * @param {Map<string, Team> | Team[]} teams Teams data, leave undefined in the case of individual tournies
    */
@@ -57,8 +57,8 @@ export class MatchContext {
 
   /**
    * hasRole for individual tournies
-   * 
-   * @param {User} user 
+   *
+   * @param {User} user
    * @param {string} role
    * @returns {boolean}
    */
@@ -68,14 +68,9 @@ export class MatchContext {
       case UserRole.Captain:
       case UserRole.Player:
         if (this._playerNo) {
-          if (this._match[`player${this._playerNo}`] === user.username) {
-            return true;
-          }
+          return this._match[`player${this._playerNo}`] === user.username;
         } else {
-          if (this._match.player1 === user.username || this._match.player2 === user.username) {
-            return true;
-          }
-
+          return this._match.player1 === user.username || this._match.player2 === user.username;
         }
       default:
         return this._tourneyContext.hasRole(user, role);
@@ -84,8 +79,8 @@ export class MatchContext {
 
   /**
    * hasRole for team tournies
-   * 
-   * @param {User} user 
+   *
+   * @param {User} user
    * @param {string} role
    * @returns {boolean}
    */
@@ -104,7 +99,6 @@ export class MatchContext {
       default:
         return this._tourneyContext.hasRole(user, role);
     }
-
   }
 
   getTeam(playerNo) {

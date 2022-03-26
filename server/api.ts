@@ -8,10 +8,10 @@ import Match, { IMatch } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
 import StageStats from "./models/stage-stats";
 import Team, { PopulatedTeam } from "./models/team";
-import Tournament from "./models/tournament";
+import Tournament, { ITournament } from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
 import User, { IUser } from "./models/user";
-import { getOsuApi, checkPermissions } from "./util";
+import { getOsuApi, checkPermissions, getTeamMapForMatch } from "./util";
 import { Request } from "./types";
 
 import mapRouter from "./api/map";
@@ -62,12 +62,13 @@ const cantPlay = (user: IUser, tourney: string) =>
 
 const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   // Admin can always edit warmup
-  if (await isAdmin(user, match.tourney)) return true;
+  if (isAdmin(user, match.tourney)) return true;
 
   // Players can't edit if the match is in less than 1 hour
   if (match.time.getTime() - Date.now() < 3600000) return false;
 
-  return new UserAuth(user).forMatch(match, { playerNo: playerNo }).hasRole(UserRole.Captain);
+  const teams = getTeamMapForMatch(match, playerNo);
+  return new UserAuth(user).forMatch(match, playerNo).hasRole(UserRole.Captain);
 };
 
 const parseWarmup = async (warmup: string) => {
@@ -539,7 +540,7 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
  */
 router.postAsync("/warmup", ensure.loggedIn, async (req, res) => {
   const match = await Match.findOne({ _id: req.body.match }).orFail();
-  if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
+  if (!(await canEditWarmup(req.auth, req.body.playerNo, match))) {
     logger.warn(
       `${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
     );
