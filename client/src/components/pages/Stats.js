@@ -329,6 +329,7 @@ export default function Stats({ tourney, user }) {
           .teamScores.find((teamScore) => teamScore.teamName === teamStats.teamName);
         if (!teamScore) continue;
         const beatmap = {
+          ID: stageMap.mapId,
           BeatmapInfo: {
             Metadata: {
               Title: stageMap.title,
