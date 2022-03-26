@@ -24,6 +24,7 @@ export default function Stats({ tourney, user }) {
     teamModStats: [],
     currentSelectedMapId: "0",
     currentSelectedStage: undefined,
+    currentSelectedTable: "player",
     inEditMode: false,
     stageStatsEdit: undefined,
     refetchData: false,
@@ -186,6 +187,7 @@ export default function Stats({ tourney, user }) {
       stageMaps,
       stageStats: stageStats || {},
       currentSelectedStage,
+      currentSelectedTable: tourneyModel.teams ? "team" : "player",
       refetchData: false,
       recalculateStats: true,
       refetchDataInProgress: false,
@@ -403,16 +405,26 @@ export default function Stats({ tourney, user }) {
   };
 
   const getAverageTeamScore = () => {
-    const teamScores = (state.processedStats.get(state.currentSelectedMapId)?.teamScores || []).map(
-      (e) => e.score
-    );
+    let teamScores = [];
+    if (state.currentSelectedMapId === "0") {
+      teamScores = state.overallTeamStats.map((teamScore) => teamScore.scoreTotal);
+    } else {
+      teamScores = (state.processedStats.get(state.currentSelectedMapId)?.teamScores || []).map(
+        (teamScore) => teamScore.score
+      );
+    }
     return Math.round(teamScores.reduce((a, b) => a + b, 0) / teamScores.length) || 0;
   };
 
   const getAveragePlayerScore = () => {
-    const playerScores = (
-      state.processedStats.get(state.currentSelectedMapId)?.playerScores || []
-    ).map((e) => e.score);
+    let playerScores = [];
+    if (state.currentSelectedMapId === "0") {
+      playerScores = state.overallPlayerStats.map((playerScore) => playerScore.scoreTotal);
+    } else {
+      playerScores = (state.processedStats.get(state.currentSelectedMapId)?.playerScores || []).map(
+        (playerScore) => playerScore.score
+      );
+    }
     return Math.round(playerScores.reduce((a, b) => a + b, 0) / playerScores.length) || 0;
   };
 
@@ -505,6 +517,19 @@ export default function Stats({ tourney, user }) {
             </div>
           )}
 
+          {state.tourneyModel?.teams && (
+            <div className="topbar">
+              <Menu
+                mode="horizontal"
+                onClick={(e) => setState({ ...state, currentSelectedTable: e.key })}
+                selectedKeys={[state.currentSelectedTable]}
+              >
+                <Menu.Item key="team">Team Rankings</Menu.Item>
+                <Menu.Item key="player">Player Rankings</Menu.Item>
+              </Menu>
+            </div>
+          )}
+
           <div className="topbar">
             <Menu
               mode="horizontal"
@@ -522,7 +547,7 @@ export default function Stats({ tourney, user }) {
           <div>
             {state.currentSelectedStage && state.currentSelectedMapId === "0" && (
               <div className="tables-container">
-                {state.tourneyModel.teams && (
+                {state.currentSelectedTable === "team" && (
                   <Table
                     dataSource={
                       (isAdmin() || state.currentSelectedStage.statsVisible) &&
@@ -537,7 +562,7 @@ export default function Stats({ tourney, user }) {
                         : ""
                     }
                   >
-                    <ColumnGroup title="Team Rankings">
+                    <ColumnGroup title={"Average Score Total: " + getAverageTeamScore()}>
                       <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
                       <Column
                         title="Team"
@@ -566,48 +591,50 @@ export default function Stats({ tourney, user }) {
                     </ColumnGroup>
                   </Table>
                 )}
-                <Table
-                  dataSource={
-                    (isAdmin() || state.currentSelectedStage.statsVisible) &&
-                    state.overallPlayerStats
-                  }
-                  pagination={false}
-                  className="map-stats-table"
-                  bordered
-                  rowClassName={(playerScore) =>
-                    state.currentSelectedStage.name === "Qualifiers"
-                      ? `seed-${getPlayerSeed(playerScore.rank)}`
-                      : ""
-                  }
-                >
-                  <ColumnGroup title="Player Rankings">
-                    <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
-                    <Column
-                      title="Player"
-                      dataIndex="userId"
-                      key="userId"
-                      render={(userId) => getPlayerLabel(userId)}
-                    />
-                    <Column
-                      title="Rank Total"
-                      dataIndex="rankTotal"
-                      key="rankTotal"
-                      render={(rankTotal) => rankTotal}
-                    />
-                    <Column
-                      title="Rank Average"
-                      dataIndex="rankTotal"
-                      key="rankTotal"
-                      render={(rankTotal) => rankTotal / state.stageMaps.length}
-                    />
-                    <Column
-                      title="Score Total"
-                      dataIndex="scoreTotal"
-                      key="scoreTotal"
-                      render={(scoreTotal) => scoreTotal}
-                    />
-                  </ColumnGroup>
-                </Table>
+                {state.currentSelectedTable === "player" && (
+                  <Table
+                    dataSource={
+                      (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                      state.overallPlayerStats
+                    }
+                    pagination={false}
+                    className="map-stats-table"
+                    bordered
+                    rowClassName={(playerScore) =>
+                      state.currentSelectedStage.name === "Qualifiers"
+                        ? `seed-${getPlayerSeed(playerScore.rank)}`
+                        : ""
+                    }
+                  >
+                    <ColumnGroup title={"Average Score Total: " + getAveragePlayerScore()}>
+                      <Column title="Rank" dataIndex="rank" key="rank" render={(rank) => rank} />
+                      <Column
+                        title="Player"
+                        dataIndex="userId"
+                        key="userId"
+                        render={(userId) => getPlayerLabel(userId)}
+                      />
+                      <Column
+                        title="Rank Total"
+                        dataIndex="rankTotal"
+                        key="rankTotal"
+                        render={(rankTotal) => rankTotal}
+                      />
+                      <Column
+                        title="Rank Average"
+                        dataIndex="rankTotal"
+                        key="rankTotal"
+                        render={(rankTotal) => rankTotal / state.stageMaps.length}
+                      />
+                      <Column
+                        title="Score Total"
+                        dataIndex="scoreTotal"
+                        key="scoreTotal"
+                        render={(scoreTotal) => scoreTotal}
+                      />
+                    </ColumnGroup>
+                  </Table>
+                )}
               </div>
             )}
 
@@ -615,7 +642,7 @@ export default function Stats({ tourney, user }) {
               state.processedStats &&
               state.processedStats.has(state.currentSelectedMapId) && (
                 <div className="tables-container">
-                  {state.tourneyModel.teams && (
+                  {state.currentSelectedTable === "team" && (
                     <Table
                       dataSource={
                         (isAdmin() || state.currentSelectedStage.statsVisible) &&
@@ -626,65 +653,63 @@ export default function Stats({ tourney, user }) {
                       bordered
                     >
                       <ColumnGroup title={"Average Score: " + getAverageTeamScore()}>
-                        <ColumnGroup title="Team Rankings">
-                          {!state.inEditMode && (
-                            <Column
-                              title="Rank"
-                              dataIndex="rank"
-                              key="rank"
-                              render={(rank) => rank}
-                            />
-                          )}
+                        {!state.inEditMode && (
                           <Column
-                            title="Team"
-                            dataIndex="teamName"
-                            key="teamName"
-                            render={(teamName) => getTeamLabel(teamName)}
+                            title="Rank"
+                            dataIndex="rank"
+                            key="rank"
+                            render={(rank) => rank}
                           />
+                        )}
+                        <Column
+                          title="Team"
+                          dataIndex="teamName"
+                          key="teamName"
+                          render={(teamName) => getTeamLabel(teamName)}
+                        />
+                        <Column
+                          title="Score"
+                          dataIndex="score"
+                          key="score"
+                          render={(score, teamScore) =>
+                            state.inEditMode ? (
+                              <InputNumber
+                                value={score}
+                                onChange={(value) => editTeamScore(teamScore.teamName, value)}
+                              />
+                            ) : (
+                              score
+                            )
+                          }
+                        />
+                        {state.inEditMode && (
                           <Column
-                            title="Score"
-                            dataIndex="score"
-                            key="score"
-                            render={(score, teamScore) =>
-                              state.inEditMode ? (
-                                <InputNumber
-                                  value={score}
-                                  onChange={(value) => editTeamScore(teamScore.teamName, value)}
-                                />
-                              ) : (
-                                score
-                              )
-                            }
+                            title="Remove"
+                            render={(score, teamScore) => (
+                              <Button
+                                type="primary"
+                                shape="circle"
+                                icon={<MinusOutlined />}
+                                size="middle"
+                                onClick={() => removeTeamScore(teamScore.teamName)}
+                              />
+                            )}
                           />
-                          {state.inEditMode && (
-                            <Column
-                              title="Remove"
-                              render={(score, teamScore) => (
-                                <Button
-                                  type="primary"
-                                  shape="circle"
-                                  icon={<MinusOutlined />}
-                                  size="middle"
-                                  onClick={() => removeTeamScore(teamScore.teamName)}
-                                />
-                              )}
-                            />
-                          )}
-                        </ColumnGroup>
+                        )}
                       </ColumnGroup>
                     </Table>
                   )}
-                  <Table
-                    dataSource={
-                      (isAdmin() || state.currentSelectedStage.statsVisible) &&
-                      (getMapStats()?.playerScores || [])
-                    }
-                    pagination={false}
-                    className="map-stats-table"
-                    bordered
-                  >
-                    <ColumnGroup title={"Average Score: " + getAveragePlayerScore()}>
-                      <ColumnGroup title="Player Rankings">
+                  {state.currentSelectedTable === "player" && (
+                    <Table
+                      dataSource={
+                        (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                        (getMapStats()?.playerScores || [])
+                      }
+                      pagination={false}
+                      className="map-stats-table"
+                      bordered
+                    >
+                      <ColumnGroup title={"Average Score: " + getAveragePlayerScore()}>
                         {!state.inEditMode && (
                           <Column
                             title="Rank"
@@ -729,8 +754,8 @@ export default function Stats({ tourney, user }) {
                           />
                         )}
                       </ColumnGroup>
-                    </ColumnGroup>
-                  </Table>
+                    </Table>
+                  )}
                 </div>
               )}
           </div>
