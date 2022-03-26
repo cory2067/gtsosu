@@ -429,12 +429,12 @@ export default function Stats({ tourney, user }) {
   };
 
   const getTeamSeed = (rank) => {
-    const rangeSize = Math.floor(state.overallTeamStats.length / 4);
+    const rangeSize = Math.pow(2, Math.floor(Math.sqrt(state.overallTeamStats.length))) / 4;
     return Math.ceil(rank / rangeSize);
   };
 
   const getPlayerSeed = (rank) => {
-    const rangeSize = Math.floor(state.overallPlayerStats.length / 4);
+    const rangeSize = Math.pow(2, Math.floor(Math.sqrt(state.overallPlayerStats.length))) / 4;
     return Math.ceil(rank / rangeSize);
   };
 
@@ -580,7 +580,7 @@ export default function Stats({ tourney, user }) {
                         title="Rank Average"
                         dataIndex="rankTotal"
                         key="rankTotal"
-                        render={(rankTotal) => rankTotal / state.stageMaps.length}
+                        render={(rankTotal) => (rankTotal / state.stageMaps.length).toFixed(2)}
                       />
                       <Column
                         title="Score Total"
@@ -624,7 +624,7 @@ export default function Stats({ tourney, user }) {
                         title="Rank Average"
                         dataIndex="rankTotal"
                         key="rankTotal"
-                        render={(rankTotal) => rankTotal / state.stageMaps.length}
+                        render={(rankTotal) => (rankTotal / state.stageMaps.length).toFixed(2)}
                       />
                       <Column
                         title="Score Total"
