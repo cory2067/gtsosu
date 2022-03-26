@@ -67,8 +67,8 @@ const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   // Players can't edit if the match is in less than 1 hour
   if (match.time.getTime() - Date.now() < 3600000) return false;
 
-  const teams = getTeamMapForMatch(match, playerNo);
-  return new UserAuth(user).forMatch(match, playerNo).hasRole(UserRole.Captain);
+  const teams = await getTeamMapForMatch(match, playerNo);
+  return new UserAuth(user).forMatch(match, playerNo, teams).hasRole(UserRole.Captain);
 };
 
 const parseWarmup = async (warmup: string) => {
