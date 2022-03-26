@@ -37,7 +37,7 @@ April 23rd until April 24th.
 ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
 April 30th until May 1st.
 ### Grand Finals + All-Stars
-April 7th until May 8th.`,
+May 7th until May 8th.`,
     },
     {
       title: "Prizes",
