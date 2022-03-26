@@ -227,7 +227,7 @@ export default function Stats({ tourney, user }) {
   };
 
   const submitEditedStageStats = async () => {
-    const updatedStats = await post("/api/stage-stats", { stats: state.stageStatsEdit });
+    const updatedStats = await post("/api/stage-stats", { tourney, stats: state.stageStatsEdit });
     setState({
       ...state,
       stageStats: updatedStats,
@@ -429,12 +429,12 @@ export default function Stats({ tourney, user }) {
   };
 
   const getTeamSeed = (rank) => {
-    const rangeSize = Math.pow(2, Math.floor(Math.sqrt(state.overallTeamStats.length))) / 4;
+    const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallTeamStats.length))) / 4;
     return Math.ceil(rank / rangeSize);
   };
 
   const getPlayerSeed = (rank) => {
-    const rangeSize = Math.pow(2, Math.floor(Math.sqrt(state.overallPlayerStats.length))) / 4;
+    const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallPlayerStats.length))) / 4;
     return Math.ceil(rank / rangeSize);
   };
 
