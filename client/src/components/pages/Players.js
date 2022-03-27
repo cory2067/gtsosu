@@ -80,40 +80,40 @@ export default function Players({ tourney, user }) {
     return -1;
   };
 
-  const sortPlayers = (sortType) => {
-    const playersData = [...players];
+  const sortPlayers = (sortMethod, unsortedPlayers) => {
+    let playersData;
 
     const getRank = (p) => p.rank || Infinity;
 
-    switch (sortType) {
+    switch (sortMethod) {
       case "rank":
-        setPlayers(playersData.sort((x, y) => getRank(x) - getRank(y)));
+        playersData = unsortedPlayers.sort((x, y) => getRank(x) - getRank(y));
         break;
       case "seed":
-        setPlayers(playersData.sort(
+        playersData = unsortedPlayers.sort(
           (x, y) =>
             (getStats(x).seedNum || getRank(x)) - (getStats(y).seedNum || getRank(y)))
-        );
+        ;
         break;
       case "group":
-        setPlayers(playersData.sort((x, y) =>
+        playersData = unsortedPlayers.sort((x, y) =>
           (getStats(x).group || "_") < (getStats(y).group || "_") ? -1 : 1
-        ));
+        );
         break;
       case "alpha":
-        setPlayers(playersData.sort((x, y) => (x.username.toLowerCase() < y.username.toLowerCase() ? -1 : 1)));
+        playersData = unsortedPlayers.sort((x, y) => (x.username.toLowerCase() < y.username.toLowerCase() ? -1 : 1));
         break;
       case "country":
-        setPlayers(playersData.sort((x, y) => (x.country < y.country ? -1 : 1)));
+        playersData = unsortedPlayers.sort((x, y) => (x.country < y.country ? -1 : 1));
         break;
       case "reg":
-        setPlayers(playersData.sort((x, y) => getRegTime(x) - getRegTime(y)));
+        playersData = unsortedPlayers.sort((x, y) => getRegTime(x) - getRegTime(y));
         break;
       default:
         message.error("Failed to sort players");
     }
 
-    return { playersData };
+    return playersData;
   }
 
   const sortTeams = (sort) => {
@@ -168,7 +168,7 @@ export default function Players({ tourney, user }) {
     if (e.key === "players") {
       setMode("players");
       setSort("rank");
-      sortPlayers("rank");
+      sortPlayers("rank", players);
     } else {
       setMode("teams");
       setSort("alpha");
@@ -262,7 +262,7 @@ export default function Players({ tourney, user }) {
   const handleSortChange = (e) => {
     const sort = e.target.value;
     if (mode === "players") {
-      sortPlayers(sort);
+      sortPlayers(sort, players);
     } else {
       sortTeams(sort);
     }
@@ -279,7 +279,7 @@ export default function Players({ tourney, user }) {
         tourney: tourney,
       });
 
-      setPlayers([...players, playerData]),
+      setPlayers(sortPlayers(sort, [...players, playerData]));
       setModalLoading(false);
       setModalVisible(false);
 
@@ -289,7 +289,6 @@ export default function Players({ tourney, user }) {
       message.error('Player not found');
     }
 
-    sortPlayers(sort);
   };
 
   const isAdmin = () => hasAccess(user, tourney, []);
@@ -308,7 +307,7 @@ export default function Players({ tourney, user }) {
         return newPlayer || p;
       }));
       setRefreshPercent(Math.min(100, Math.round((100 * offset) / players.length)));
-      sortPlayers(sort);
+      sortPlayers(sort, players);
     }
   };
 
