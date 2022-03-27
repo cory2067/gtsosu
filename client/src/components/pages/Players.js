@@ -131,21 +131,23 @@ export default function Players({ tourney, user }) {
     return playersData;
   };
 
-  const sortTeams = (sort) => {
-    const teamsData = [...teams];
+  const sortTeams = (sortMethod, unsortedTeams) => {
+    let teamsData;
 
-    switch (sort) {
+    switch (sortMethod) {
       case "alpha":
-        setTeams(teamsData.sort((x, y) => (x.name.toLowerCase() < y.name.toLowerCase() ? -1 : 1)));
+        teamsData = unsortedTeams.sort((x, y) =>
+          x.name.toLowerCase() < y.name.toLowerCase() ? -1 : 1
+        );
         break;
       case "seed":
-        setTeams(teamsData.sort((x, y) => (x.seedNum || 0) - (y.seedNum || 0)));
+        teamsData = unsortedTeams.sort((x, y) => (x.seedNum || 0) - (y.seedNum || 0));
         break;
       case "group":
-        setTeams(teamsData.sort((x, y) => ((x.group || "_") < (y.group || "_") ? -1 : 1)));
+        teamsData = unsortedTeams.sort((x, y) => ((x.group || "_") < (y.group || "_") ? -1 : 1));
         break;
       case "rank":
-        teamsData.sort(
+        teamsData = unsortedTeams.sort(
           (x, y) =>
             x.players.reduce((sum, p) => sum + p.rank, 0) / x.players.length -
             y.players.reduce((sum, p) => sum + p.rank, 0) / y.players.length
@@ -155,7 +157,7 @@ export default function Players({ tourney, user }) {
         return message.error("Failed to sort teams");
     }
 
-    return { teamsData };
+    return teamsData;
   };
 
   const handleDelete = async (username) => {
@@ -187,7 +189,7 @@ export default function Players({ tourney, user }) {
     } else {
       setMode("teams");
       setSort("alpha");
-      sortTeams("alpha");
+      sortTeams("alpha", teams);
     }
   };
 
@@ -202,7 +204,7 @@ export default function Players({ tourney, user }) {
         icon: formData.icon,
       });
 
-      setTeams([...teams, teamData]);
+      setTeams(sortTeams(sort, [...teams, teamData]));
       setLoading(false);
       message.success(`Added team ${formData.name}`);
     } catch (e) {
@@ -281,7 +283,7 @@ export default function Players({ tourney, user }) {
     if (mode === "players") {
       sortPlayers(sort, players);
     } else {
-      sortTeams(sort);
+      sortTeams(sort, teams);
     }
 
     setSort(sort);
@@ -416,11 +418,11 @@ export default function Players({ tourney, user }) {
             Type all player names separated by commas, with the captain's name first.
             <Form name="basic" onFinish={onFinish}>
               <Form.Item label="Players" name="players">
-                <Select mode="multiple" allowClear placeholder="Select players">
-                  {players.map((playerItem, playerIndex) => (
-                    <Option value={playerItem.username} key={playerIndex}>
+                <Select mode="multiple" showSearch allowClear placeholder="Select players">
+                  {sortPlayers("alpha", players).map((playerItem, playerIndex) => (
+                    <Select.Option value={playerItem.username} key={playerIndex}>
                       {playerItem.username}
-                    </Option>
+                    </Select.Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -526,6 +528,7 @@ export default function Players({ tourney, user }) {
       {editingTeam != -1 && (
         <CreateTeamModal
           initialTeam={teams.filter((t) => t._id == editingTeam)[0]}
+          availablePlayers={sortPlayers("alpha", players)}
           shouldEdit={true}
           visible={true}
           user={user}
