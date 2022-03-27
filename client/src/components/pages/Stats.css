@@ -1,0 +1,38 @@
+.tables-container {
+  display: flex;
+}
+
+.map-stats-table {
+  margin-right: var(--m);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--m);
+}
+
+.stats-settings {
+  margin-bottom: var(--m);
+}
+
+.settings-button {
+  margin-right: var(--m);
+}
+
+.seed-1 {
+  background-color: #f4cccc;
+}
+
+.seed-2 {
+  background-color: #fff2cc;
+}
+
+.seed-3 {
+  background-color: #d9ead3;
+}
+
+.seed-4 {
+  background-color: #cfe2f3;
+}

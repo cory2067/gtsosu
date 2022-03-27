@@ -1,3 +1,5 @@
+import { UserAuth } from "./permissions/UserAuth";
+
 function formatParams(params) {
   return Object.keys(params)
     .map((key) => key + "=" + encodeURIComponent(params[key]))
@@ -45,12 +47,11 @@ export function delet(endpoint, params = {}) {
   }).then(processResponse);
 }
 
+/**
+ * @deprecated Use UserAuth directly instead
+ */
 export function hasAccess(user, tourney, userRoles) {
-  const roles = ["Host", "Developer", ...userRoles];
-  return (
-    user.username &&
-    (user.admin || user.roles.some((r) => r.tourney === tourney && roles.includes(r.role)))
-  );
+  return new UserAuth(user).forTourney(tourney).hasAnyRole(userRoles);
 }
 
 // returns the tournament and the current stage indicated bythe page URL
@@ -60,7 +61,7 @@ export async function getStage(tourneyId) {
 
   let curIndex;
   if (!location.hash.substring(1)) {
-    curIndex = tourney.stages.filter((s) => s.poolVisible).length - 1;
+    curIndex = Math.max(0, tourney.stages.filter((s) => s.poolVisible).length - 1);
   } else {
     curIndex = parseInt(location.hash.substring(1)) || 0;
   }

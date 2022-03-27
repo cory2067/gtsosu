@@ -12,7 +12,18 @@ const layout = {
   },
 };
 
-export default function AddMapModal({ handleCancel, handleOk, loading, onValuesChange, visible }) {
+export default function AddMapModal({
+  user,
+  handleCancel,
+  handleOk,
+  loading,
+  onValuesChange,
+  visible,
+}) {
+  const initialValues = {
+    pooler: user.username,
+  };
+
   return (
     <Modal
       title="Add a map"
@@ -21,7 +32,7 @@ export default function AddMapModal({ handleCancel, handleOk, loading, onValuesC
       onOk={handleOk}
       onCancel={handleCancel}
     >
-      <Form {...layout} onValuesChange={onValuesChange}>
+      <Form {...layout} onValuesChange={onValuesChange} initialValues={initialValues}>
         <Form.Item name="id" label="Map ID">
           <Input />
         </Form.Item>
@@ -42,6 +53,9 @@ export default function AddMapModal({ handleCancel, handleOk, loading, onValuesC
         </Form.Item>
         <Form.Item name="index" label="Index">
           <InputNumber min={1} max={64} />
+        </Form.Item>
+        <Form.Item name="pooler" label="Selected by">
+          <Input />
         </Form.Item>
         <Form.Item name="customMap" label="Custom map" valuePropName="checked">
           <Switch />

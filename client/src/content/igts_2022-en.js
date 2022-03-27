@@ -23,21 +23,21 @@ export default {
 ### Registration Phase
 February 19th until March 6th.
 ### Screening and teams creation
-March 6th until March 13th.
+March 6th until March 19th.
 ### Qualifiers
-March 19th until March 20th.
+March 26th until March 27th.
 ### Group Stage
-March 26th until March 27th. 
-### Round of 16
 April 2nd until April 3rd.
-### Quarterfinals + Loser's Bracket Round 1 and 2
+### Round of 16
 April 9th until April 10th.
-### Semifinals + Loser's Bracket Round 3 and 4
+### Quarterfinals + Loser's Bracket Round 1 and 2
 April 16th until April 17th.
-### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
+### Semifinals + Loser's Bracket Round 3 and 4
 April 23rd until April 24th.
+### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
+April 30th until May 1st.
 ### Grand Finals + All-Stars
-April 30th until May 1st.`,
+May 7th until May 8th.`,
     },
     {
       title: "Prizes",

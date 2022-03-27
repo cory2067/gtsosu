@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "../../utilities.css";
 import { get, post, hasAccess, delet, prettifyTourney } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
-import { Layout, Collapse, Form, Input, Select, Button } from "antd";
+import { Layout, Collapse, Form, Input, Select, Button, message } from "antd";
 const { Content } = Layout;
 const { Panel } = Collapse;
 
@@ -30,23 +30,12 @@ const roles = [
 
 const roleScores = Object.fromEntries(roles.map((role, i) => [role, roles.length - i]));
 
-class TourneyStaff extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { staff: [] };
-  }
+export default function TourneyStaff({ tourney, user }) {
+  const [staff, setStaff] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  async componentDidMount() {
-    document.title = `${prettifyTourney(this.props.tourney)}: Staff`;
-    const staff = await get("/api/staff", { tourney: this.props.tourney });
-    this.setState({ staff: this.sort(staff) });
-  }
-
-  getRoles = (user) =>
-    user.roles.filter((r) => r.tourney === this.props.tourney).map((r) => r.role);
-
-  getImportance = (user) => {
-    const myRoles = this.getRoles(user);
+  const getImportance = (user) => {
+    const myRoles = getRoles(user);
     const scores = myRoles.map((r) => roleScores[r]).sort((a, b) => b - a);
 
     let total = 0;
@@ -54,37 +43,66 @@ class TourneyStaff extends Component {
     return total;
   };
 
-  sort = (staff) => {
+  const sortImportance = (staff) => {
     return staff.sort((x, y) => {
-      const imp = this.getImportance(y) - this.getImportance(x);
+      const imp = getImportance(y) - getImportance(x);
       if (imp) return imp;
       return x.username.toLowerCase() > y.username.toLowerCase() ? 1 : -1;
     });
   };
 
-  isAdmin = () => hasAccess(this.props.user, this.props.tourney, []);
+  const fetchStaff = async () => {
+    try {
+      const staff = await get("/api/staff", { tourney: tourney });
 
-  onFinish = async (form) => {
-    const newStaff = await post("/api/staff", { tourney: this.props.tourney, ...form });
-    this.setState((state) => ({
-      staff: this.sort([...state.staff.filter((s) => s._id !== newStaff._id), newStaff]),
-    }));
+      setStaff(sortImportance(staff));
+    } catch (e) {
+      message.error("Something went wrong, failed to fetch tourney staff data.");
+    }
+  }
+
+  useEffect(() => {
+    document.title = `${prettifyTourney(tourney)}: Staff`;
+
+    fetchStaff();
+  }, []);
+
+  const getRoles = (user) =>
+    user.roles.filter((r) => r.tourney === tourney).map((r) => r.role);
+
+  const isAdmin = () => hasAccess(user, tourney, []);
+
+  const onFinish = async (form) => {
+    try {
+      setIsLoading(true);
+      const newStaff = await post("/api/staff", { tourney: tourney, ...form });
+
+      setIsLoading(false);
+      setStaff(sortImportance([...staff.filter((s) => s._id !== newStaff._id), newStaff]));
+      message.success("New tourney staff added!");
+    } catch (e) {
+      message.error("Something went wrong, failed to add new tourney staff.");
+    }
+
   };
 
-  handleDelete = async (username) => {
-    await delet("/api/staff", { tourney: this.props.tourney, username });
-    this.setState((state) => ({
-      staff: state.staff.filter((s) => s.username !== username),
-    }));
+  const handleDelete = async (username) => {
+    try {
+      await delet("/api/staff", { tourney: tourney, username });
+
+      setStaff(staff.filter((s) => s.username !== username));
+      message.success("Tourney staff deleted!");
+    } catch (e) {
+      message.error("Something went wrong, failed to delete staff.");
+    }
   };
 
-  render() {
     return (
       <Content className="content">
-        {this.isAdmin() && (
+        {isAdmin() && (
           <Collapse>
             <Panel header="Add new staff" key="1">
-              <Form name="basic" onFinish={this.onFinish}>
+              <Form name="basic" onFinish={onFinish}>
                 <Form.Item label="Username" name="username">
                   <Input />
                 </Form.Item>
@@ -98,7 +116,7 @@ class TourneyStaff extends Component {
                   </Select>
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" htmlType="submit">
+                  <Button type="primary" htmlType="submit" loading={isLoading}>
                     Add
                   </Button>
                 </Form.Item>
@@ -107,20 +125,17 @@ class TourneyStaff extends Component {
           </Collapse>
         )}
         <div className="TourneyStaff-container">
-          {this.state.staff.map((user) => (
+          {staff.map((user) => (
             <UserCard
-              canDelete={this.isAdmin()}
-              onDelete={this.handleDelete}
+              canDelete={isAdmin()}
+              onDelete={handleDelete}
               key={user.userid}
               user={user}
-              extra={this.getRoles(user).join(", ")}
+              extra={getRoles(user).join(", ")}
               hideRank
             />
           ))}
         </div>
       </Content>
     );
-  }
 }
-
-export default TourneyStaff;
