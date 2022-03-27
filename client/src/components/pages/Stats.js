@@ -52,8 +52,8 @@ export default function Stats({ tourney, user }) {
     // process, sort, and rank the stats for each map, while tracking overall stats
     for (const mapStats of state.stageStats.maps || []) {
       const mod = state.stageMaps.find((stageMap) => stageMap.mapId === mapStats.mapId).mod;
-      const sortedPlayerScores = [...mapStats.playerScores].sort((a, b) => a.score < b.score);
-      const sortedTeamScores = [...mapStats.teamScores].sort((a, b) => a.score < b.score);
+      const sortedPlayerScores = [...mapStats.playerScores].sort((a, b) => b.score - a.score);
+      const sortedTeamScores = [...mapStats.teamScores].sort((a, b) => b.score - a.score);
       const processedPlayerScores = [];
       const processedTeamScores = [];
 
@@ -116,12 +116,13 @@ export default function Stats({ tourney, user }) {
       });
     }
 
+    const compareStatsFn = (a, b) =>
+      a.rankTotal === b.rankTotal ? b.scoreTotal - a.scoreTotal : a.rankTotal - b.rankTotal;
+
     // sort and rank overall stats
     overallPlayerStats = Array.from(overallPlayerStats.entries())
       .map(([userId, stats]) => ({ ...stats, userId }))
-      .sort((a, b) =>
-        a.rankTotal === b.rankTotal ? a.scoreTotal < b.scoreTotal : a.rankTotal > b.rankTotal
-      );
+      .sort(compareStatsFn);
     const overallPlayerStatsWithRank = [];
     for (let i = 0; i < overallPlayerStats.length; i++) {
       overallPlayerStatsWithRank.push({ ...overallPlayerStats[i], rank: i + 1 });
@@ -129,9 +130,7 @@ export default function Stats({ tourney, user }) {
 
     overallTeamStats = Array.from(overallTeamStats.entries())
       .map(([teamName, stats]) => ({ ...stats, teamName }))
-      .sort((a, b) =>
-        a.rankTotal === b.rankTotal ? a.scoreTotal < b.scoreTotal : a.rankTotal > b.rankTotal
-      );
+      .sort(compareStatsFn);
     const overallTeamStatsWithRank = [];
     for (let i = 0; i < overallTeamStats.length; i++) {
       overallTeamStatsWithRank.push({ ...overallTeamStats[i], rank: i + 1 });
@@ -140,18 +139,14 @@ export default function Stats({ tourney, user }) {
     for (let mod of playerModStats.keys()) {
       const sortedModRankings = Array.from(playerModStats.get(mod).entries())
         .map(([userId, stats]) => ({ ...stats, userId }))
-        .sort((a, b) =>
-          a.rankTotal === b.rankTotal ? a.scoreTotal < b.scoreTotal : a.rankTotal > b.rankTotal
-        );
+        .sort(compareStatsFn);
       playerModStats.set(mod, sortedModRankings);
     }
 
     for (let mod of teamModStats.keys()) {
       const sortedModRankings = Array.from(teamModStats.get(mod).entries())
         .map(([teamName, stats]) => ({ ...stats, teamName }))
-        .sort((a, b) =>
-          a.rankTotal === b.rankTotal ? a.scoreTotal < b.scoreTotal : a.rankTotal > b.rankTotal
-        );
+        .sort(compareStatsFn);
       teamModStats.set(mod, sortedModRankings);
     }
 
