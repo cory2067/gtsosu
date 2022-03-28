@@ -78,4 +78,8 @@ function CreateTeamModal({
   );
 }
 
+CreateTeamModal.defaultProps = {
+  availablePlayers: [],
+};
+
 export default CreateTeamModal;
