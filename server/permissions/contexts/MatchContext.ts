@@ -7,41 +7,41 @@ import { UserRole } from "../UserRole";
 import { TourneyContext } from "./TourneyContext";
 import { TeamContext } from "./TeamContext";
 import { Populate } from "../../types";
+import { getPlayerName } from "../../util";
+import assert from "assert";
 
 export type MatchContextParams = {
-  tourney?: ITournament;
-  teams?: { [team: string]: Populate<ITeam, PopulatedTeam> };
+  match: IMatch;
+  /** If undefined, this will check for both teams/players */
   playerNo?: 1 | 2;
+  /** Teams data, leave undefined in the case of individual tourneys */
+  teams?: { [team: string]: Populate<ITeam, PopulatedTeam> };
 };
 
 export class MatchContext implements PermissionContext {
   private match: IMatch;
-  private teamCache: { [team: string]: Populate<ITeam, PopulatedTeam> } = {};
+  private teams?: { [team: string]: Populate<ITeam, PopulatedTeam> };
   private playerNo?: 1 | 2;
-  /**
-   * Do not use this directly, use getTourney instead.
-   */
-  private tourneyCache?: ITournament;
   private tourneyContext: TourneyContext;
 
-  constructor(match: IMatch, params: MatchContextParams) {
+  constructor({ match, playerNo, teams }: MatchContextParams) {
     this.match = match;
-    this.tourneyCache = params.tourney;
-    this.teamCache = params.teams || {};
-    this.playerNo = params.playerNo;
+    this.teams = teams;
+    this.playerNo = playerNo;
+    this.tourneyContext = new TourneyContext(match.tourney);
   }
 
-  public async hasRole(user: IUser, role: UserRole) {
-    const tourney = await this.getTourney();
-    return tourney.teams ? this.hasRoleTeam(user, role) : this.hasRoleIndividual(user, role);
+  public hasRole(user: IUser, role: UserRole) {
+    return !!this.teams ? this.hasRoleTeam(user, role) : this.hasRoleIndividual(user, role);
   }
 
-  private async hasRoleIndividual(user: IUser, role: UserRole) {
+  private hasRoleIndividual(user: IUser, role: UserRole) {
+    assert(!this.teams);
     switch (role) {
       case UserRole.Captain:
       case UserRole.Player:
         if (this.playerNo) {
-          return this.match[`player${this.playerNo}`] === user.username;
+          return getPlayerName(this.match, this.playerNo) === user.username;
         } else {
           return this.match.player1 === user.username || this.match.player2 === user.username;
         }
@@ -50,40 +50,28 @@ export class MatchContext implements PermissionContext {
     }
   }
 
-  private async hasRoleTeam(user: IUser, role: UserRole) {
+  private hasRoleTeam(user: IUser, role: UserRole) {
+    assert(this.teams);
     switch (role) {
       case UserRole.Player:
       case UserRole.Captain:
         if (this.playerNo) {
-          const team = await this.getTeam(this.playerNo);
+          const team = this.getTeam(this.playerNo);
           if (!team) return false;
           return new TeamContext(team).hasRole(user, role);
+        } else {
+          const allTeams = [this.getTeam(1), this.getTeam(2)];
+          return allTeams.some((team) => team && new TeamContext(team).hasRole(user, role));
         }
       default:
         return this.tourneyContext.hasRole(user, role);
     }
   }
 
-  private async getTeam(playerNo: 1 | 2) {
-    const team = this.match[`player${playerNo}`];
-
-    if (!this.teamCache[team]) {
-      this.teamCache[team] = await Team.findOne({ name: team })
-        .orFail()
-        .populate<PopulatedTeam>("players");
+  private getTeam(playerNo: 1 | 2) {
+    if (this.teams) {
+      return this.teams[getPlayerName(this.match, playerNo)];
     }
-    return this.teamCache[team];
-  }
-
-  /**
-   * Returns the tourney for this match, fetching it if necessary.
-   */
-  private async getTourney() {
-    if (!this.tourneyCache) {
-      this.tourneyCache = await Tournament.findOne({ code: this.match.tourney }).orFail();
-      this.tourneyContext = new TourneyContext(this.match.tourney);
-    }
-
-    return this.tourneyCache!;
+    return null;
   }
 }

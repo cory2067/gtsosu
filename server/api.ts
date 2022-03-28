@@ -8,10 +8,10 @@ import Match, { IMatch } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
 import StageStats from "./models/stage-stats";
 import Team, { PopulatedTeam } from "./models/team";
-import Tournament from "./models/tournament";
+import Tournament, { ITournament } from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
 import User, { IUser } from "./models/user";
-import { getOsuApi, checkPermissions } from "./util";
+import { getOsuApi, checkPermissions, getTeamMapForMatch } from "./util";
 import { Request } from "./types";
 
 import mapRouter from "./api/map";
@@ -62,12 +62,13 @@ const cantPlay = (user: IUser, tourney: string) =>
 
 const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   // Admin can always edit warmup
-  if (await isAdmin(user, match.tourney)) return true;
+  if (isAdmin(user, match.tourney)) return true;
 
   // Players can't edit if the match is in less than 1 hour
   if (match.time.getTime() - Date.now() < 3600000) return false;
 
-  return new UserAuth(user).forMatch(match, { playerNo: playerNo }).hasRole(UserRole.Captain);
+  const teams = await getTeamMapForMatch(match, playerNo);
+  return new UserAuth(user).forMatch({ match, playerNo, teams }).hasRole(UserRole.Captain);
 };
 
 const parseWarmup = async (warmup: string) => {
@@ -122,7 +123,7 @@ router.getAsync("/whoami", async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/register", ensure.loggedIn, async (req, res) => {
-  if (await cantPlay(req.user, req.body.tourney)) {
+  if (cantPlay(req.user, req.body.tourney)) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (staff)`);
     return res.status(400).send({ error: "You're a staff member." });
   }
@@ -221,7 +222,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     }
 
     const user = await User.findOne({ userid: userData.id });
-    if (user && (await cantPlay(user, req.body.tourney))) {
+    if (user && cantPlay(user, req.body.tourney)) {
       logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
       return res.status(400).send({ error: "Staff member on team." });
     }
@@ -424,7 +425,7 @@ router.getAsync("/tournament", async (req, res) => {
   if (!tourney) return res.send({});
 
   const stages = tourney.stages;
-  if (stages && !(await canViewHiddenPools(req.user, req.query.tourney))) {
+  if (stages && !canViewHiddenPools(req.user, req.query.tourney)) {
     tourney.stages = stages.filter((s) => s.poolVisible);
   }
 
@@ -493,7 +494,7 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
     req.body.stage.statsVisible !== undefined &&
     req.body.stage.statsVisible != (tourney.stages[req.body.index].statsVisible ?? false)
   ) {
-    if (!(await isAdmin(req.user, req.body.tourney)))
+    if (!isAdmin(req.user, req.body.tourney))
       return res
         .status(403)
         .send({ error: "You don't have permission to toggle stage stats visibility" });
@@ -852,8 +853,7 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  *  - tourney: identifier of the tournament
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  if (req.body.user && !(await isAdmin(req.user, req.body.tourney)))
-    return res.status(403).send({});
+  if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
   if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
     return res.status(403).send({});
   logger.info(
@@ -889,7 +889,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
  *  - tourney: code for this tourney
  */
 router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  if (!(await isAdmin(req.user, req.body.tourney))) {
+  if (!isAdmin(req.user, req.body.tourney)) {
     // makes sure the player has permission to do this
 
     if (req.body.teams) {
@@ -1056,7 +1056,7 @@ router.getAsync("/stage-stats", async (req, res) => {
     return;
   }
 
-  if (!(await isAdmin(req.user, req.query.tourney)) && !theStage.statsVisible)
+  if (!isAdmin(req.user, req.query.tourney) && !theStage.statsVisible)
     return res.status(403).send({ error: "This stage's stats aren't released yet!" });
   const stageStats = await StageStats.findOne({
     tourney: req.query.tourney,

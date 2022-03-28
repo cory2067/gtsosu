@@ -9,7 +9,7 @@ export class TourneyContext implements PermissionContext {
     this.tourney = tourney;
   }
 
-  public async hasRole(user: IUser, role: UserRole) {
+  public hasRole(user: IUser, role: UserRole) {
     return user.roles.some((r) => r.tourney === this.tourney && r.role === role.toString());
   }
 }
