@@ -211,6 +211,7 @@ class Schedule extends Component {
 
     try {
       const newMatch = await post("/api/warmup", {
+        tourney: this.props.tourney,
         match: match,
         playerNo,
         warmup: warmupMap,
@@ -235,6 +236,7 @@ class Schedule extends Component {
 
   handleDeleteWarmup = async (match, playerNo) => {
     const newMatch = await delet("/api/warmup", {
+      tourney: this.props.tourney,
       match: match,
       playerNo,
     });
