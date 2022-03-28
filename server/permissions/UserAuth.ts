@@ -4,7 +4,7 @@ import { IUser } from "../models/user";
 import { Populate } from "../types";
 import { PermissionContext } from "./contexts/context";
 import { GlobalContext } from "./contexts/GlobalContext";
-import { MatchContext, TeamMap } from "./contexts/MatchContext";
+import { MatchContext, MatchContextParams } from "./contexts/MatchContext";
 import { TeamContext } from "./contexts/TeamContext";
 import { TourneyContext } from "./contexts/TourneyContext";
 import { UserRole } from "./UserRole";
@@ -24,8 +24,8 @@ export class UserAuth {
     return new UserAuthWithContext(this.user, context);
   }
 
-  public forMatch(match: IMatch, playerNo?: 1 | 2, teams?: TeamMap) {
-    return this.withContext(new MatchContext(match, playerNo, teams));
+  public forMatch(params: MatchContextParams) {
+    return this.withContext(new MatchContext(params));
   }
 
   public forTeam(team: Populate<ITeam, PopulatedTeam>) {

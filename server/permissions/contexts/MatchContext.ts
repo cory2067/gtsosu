@@ -10,20 +10,21 @@ import { Populate } from "../../types";
 import { getPlayerName } from "../../util";
 import assert from "assert";
 
-export type TeamMap = { [team: string]: Populate<ITeam, PopulatedTeam> };
+export type MatchContextParams = {
+  match: IMatch;
+  /** If undefined, this will check for both teams/players */
+  playerNo?: 1 | 2;
+  /** Teams data, leave undefined in the case of individual tourneys */
+  teams?: { [team: string]: Populate<ITeam, PopulatedTeam> };
+};
 
 export class MatchContext implements PermissionContext {
   private match: IMatch;
-  private teams?: TeamMap;
+  private teams?: { [team: string]: Populate<ITeam, PopulatedTeam> };
   private playerNo?: 1 | 2;
   private tourneyContext: TourneyContext;
 
-  /**
-   * @param match Mongo object for the match
-   * @param playerNo If undefined, this will check for both teams/players, and vice versa
-   * @param teams Teams data, leave undefined in the case of individual tournies
-   */
-  constructor(match: IMatch, playerNo?: 1 | 2, teams?: TeamMap) {
+  constructor({ match, playerNo, teams }: MatchContextParams) {
     this.match = match;
     this.teams = teams;
     this.playerNo = playerNo;

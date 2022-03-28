@@ -68,7 +68,7 @@ const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   if (match.time.getTime() - Date.now() < 3600000) return false;
 
   const teams = await getTeamMapForMatch(match, playerNo);
-  return new UserAuth(user).forMatch(match, playerNo, teams).hasRole(UserRole.Captain);
+  return new UserAuth(user).forMatch({ match, playerNo, teams }).hasRole(UserRole.Captain);
 };
 
 const parseWarmup = async (warmup: string) => {
