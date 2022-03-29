@@ -8,6 +8,9 @@ import { MatchContext, MatchContextParams } from "./contexts/MatchContext";
 import { TeamContext } from "./contexts/TeamContext";
 import { TourneyContext } from "./contexts/TourneyContext";
 import { UserRole } from "./UserRole";
+import pino from "pino";
+
+const logger = pino();
 
 export class UserAuth {
   protected user: IUser | undefined;
@@ -21,6 +24,7 @@ export class UserAuth {
   }
 
   public withContext(context: PermissionContext) {
+    logger.info({ context: "UserAuth.withContext", permissionContext: context });
     return new UserAuthWithContext(this.user, context);
   }
 
