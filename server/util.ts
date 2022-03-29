@@ -37,7 +37,7 @@ export const getTeamMapForMatch = async (match: IMatch, playerNo?: 1 | 2) => {
   }
 
   const getTeam = (name: string) =>
-    Team.findOne({ name }).orFail().populate<PopulatedTeam>("players");
+    Team.findOne({ name, tourney: match.tourney }).orFail().populate<PopulatedTeam>("players");
 
   if (playerNo) {
     const name = getPlayerName(match, playerNo);
