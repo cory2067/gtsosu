@@ -69,10 +69,12 @@ export class UserAuthWithContext extends UserAuth {
   }
 
   public hasAllRoles(roles: UserRole[]) {
+    if (this.hasSuperRole) return true;
     return roles.every((role) => this.hasRole(role));
   }
 
   public hasAnyRole(roles: UserRole[]) {
+    if (this.hasSuperRole) return true;
     return roles.some((role) => this.hasRole(role));
   }
 }
