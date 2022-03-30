@@ -62,19 +62,16 @@ const cantPlay = (user: IUser, tourney: string) =>
 
 const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   const now = Date.now();
-  const childLogger = logger.child({ context: "api.ts/canEditWarmup", user, playerNo, match, now });
 
   // Admin can always edit warmup
   if (isAdmin(user, match.tourney)) return true;
 
   // Players can't edit if the match is in less than 1 hour
   if (match.time.getTime() - now < 3600000) {
-    childLogger.warn("Warmup submission past deadline");
     return false;
   }
 
   const teams = await getTeamMapForMatch(match, playerNo);
-  childLogger.info({ teams });
   return new UserAuth(user).forMatch({ match, playerNo, teams }).hasRole(UserRole.Captain);
 };
 
