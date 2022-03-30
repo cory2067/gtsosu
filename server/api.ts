@@ -652,6 +652,12 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
 
   logger.info(`${req.user.username} submitted results for match ${newMatch.code}`);
   res.send(newMatch);
+
+  const regex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
+  const regex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
+  const found = req.body.link.match(regex1) || req.body.link.match(regex2);
+  if (!found) logger.info("Invalid MP link");
+  else await fetchMatchAndUpdateStageStats(req.body.tourney, newMatch.stage, found[1]);
 });
 
 /**
