@@ -642,6 +642,17 @@ router.getAsync("/matches", async (req, res) => {
  *   - link: mp link
  */
 router.postAsync("/results", ensure.isRef, async (req, res) => {
+  logger.info(
+    `${req.user.username} submitted mp link ${req.body.link} for match ${req.body.match}`
+  );
+  const regex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
+  const regex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
+  const found = req.body.link.match(regex1) || req.body.link.match(regex2);
+  if (!found) {
+    logger.info("Invalid MP link");
+    return res.status(400).send({ message: "Invalid MP link" });
+  }
+  
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
     {
@@ -650,14 +661,9 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
     { new: true }
   ).orFail();
 
+  await fetchMatchAndUpdateStageStats(req.body.tourney, newMatch.stage, found[1]);
   logger.info(`${req.user.username} submitted results for match ${newMatch.code}`);
   res.send(newMatch);
-
-  const regex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
-  const regex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
-  const found = req.body.link.match(regex1) || req.body.link.match(regex2);
-  if (!found) logger.info("Invalid MP link");
-  else await fetchMatchAndUpdateStageStats(req.body.tourney, newMatch.stage, found[1]);
 });
 
 /**
