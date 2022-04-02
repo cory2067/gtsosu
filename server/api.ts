@@ -39,7 +39,7 @@ router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
 // Parts of the API are gradually being split out into separate files
 // These are the sub-routers that have been migrated/refactored
 router.use(mapRouter);
-// -----------------------
+// ------------------------
 
 const isAdmin = (user: IUser, tourney: string) => checkPermissions(user, tourney, []);
 const canViewHiddenPools = (user: IUser, tourney: string) =>
