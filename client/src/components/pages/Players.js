@@ -211,11 +211,13 @@ export default function Players({ tourney, user }) {
         tourney: tourney,
       });
 
-      setTeams((t) => {
-        if (t._id === _id) return newTeam;
+      setTeams(
+        teams.map((t) => {
+          if (t._id === _id) return newTeam;
 
-        return t;
-      });
+          return t;
+        })
+      );
     } catch {
       message.error(`Couldn't get team stats: ${e}`);
     }
@@ -283,15 +285,16 @@ export default function Players({ tourney, user }) {
       console.log(`Refreshing players at offset ${offset}`);
       const result = await post("/api/refresh", { tourney: tourney, offset });
       offset = result.offset;
-
       setPlayers(
-        players.map((p) => {
-          const newPlayer = result.players.filter((r) => r._id === p._id)[0];
-          return newPlayer || p;
-        })
+        sortedPlayers(
+          sort,
+          players.map((p) => {
+            const newPlayer = result.players.filter((r) => r._id === p._id)[0];
+            return newPlayer || p;
+          })
+        )
       );
       setRefreshPercent(Math.min(100, Math.round((100 * offset) / players.length)));
-      setPlayers(sortedPlayers(sort, players));
     }
   };
 
@@ -379,7 +382,7 @@ export default function Players({ tourney, user }) {
       {mode === "teams" && isAdmin() && (
         <Collapse>
           <Panel header={`Add new team`} key="1">
-            Type all player names separated by commas, with the captain's name first.
+            Add all player names, with the captain's name first.
             <Form name="basic" onFinish={onFinish}>
               <Form.Item label="Players" name="players">
                 <Select mode="multiple" showSearch allowClear placeholder="Select players">
