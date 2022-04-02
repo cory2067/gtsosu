@@ -39,7 +39,7 @@ router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
 // Parts of the API are gradually being split out into separate files
 // These are the sub-routers that have been migrated/refactored
 router.use(mapRouter);
-// ----------------------
+// ---------------------
 
 const isAdmin = (user: IUser, tourney: string) => checkPermissions(user, tourney, []);
 const canViewHiddenPools = (user: IUser, tourney: string) =>
@@ -649,7 +649,7 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
     logger.info("Invalid MP link");
     return res.status(400).send({ message: "Invalid MP link" });
   }
-  
+
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
     {
