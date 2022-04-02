@@ -72,7 +72,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  logger.info(`Server running on port: ${port}`);
-});
+// don't run the webserver in tests
+if (process.env.NODE_ENV !== "test") {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    logger.info(`Server running on port: ${port}`);
+  });
+}
+
+export { app };
