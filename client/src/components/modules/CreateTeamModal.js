@@ -28,6 +28,7 @@ function CreateTeamModal({
   loading,
   initialTeam,
   shouldEdit,
+  availablePlayers,
 }) {
   const initialFormData = initialTeam ? teamToFormData(initialTeam) : { player0: user.username };
   const [formData, setFormData] = useState(initialFormData);
@@ -51,7 +52,18 @@ function CreateTeamModal({
       <Form name="basic" onValuesChange={onValuesChange} initialValues={initialFormData}>
         {range(NUM_PLAYERS).map((i) => (
           <Form.Item key={i} label={`Player ${i + 1}`} name={`player${i}`}>
-            {<Input disabled={i === 0 && !shouldEdit} />}
+            <Select
+              allowClear
+              showSearch
+              placeholder="Select players"
+              disabled={i === 0 && !shouldEdit}
+            >
+              {availablePlayers.map((playerItem, playerIndex) => (
+                <Select.Option value={playerItem.username} key={playerIndex}>
+                  {playerItem.username}
+                </Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         ))}
         <Form.Item label="Team Name" name="name">
@@ -65,5 +77,9 @@ function CreateTeamModal({
     </Modal>
   );
 }
+
+CreateTeamModal.defaultProps = {
+  availablePlayers: [],
+};
 
 export default CreateTeamModal;
