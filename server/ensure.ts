@@ -23,8 +23,7 @@ function loggedIn(req, res, next) {
 function ensure(userRoles: UserRole[], title?: string) {
   return async (req: Request<any, any>, res: Response, next: NextFunction): Promise<void> => {
     if (!req.user || !req.user.username) {
-      res.status(401).send({ error: "Not logged in, refusing access." });
-      return;
+      return res.status(401).send({ error: "Not logged in, refusing access." });
     }
 
     const auth =
