@@ -75,7 +75,7 @@ const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   return new UserAuth(user).forMatch({ match, playerNo, teams }).hasRole(UserRole.Captain);
 };
 
-const parseWarmup = async (warmup: string) => {
+const parseWarmup = async (warmup: string, tourney: string) => {
   if (!warmup) {
     throw new Error("No warmup submitted");
   }
@@ -86,6 +86,14 @@ const parseWarmup = async (warmup: string) => {
   }
   if (isNaN(parseInt(warmupMapId))) {
     throw new Error("This isn't a link to a beatmap");
+  }
+
+  const map = await TourneyMap.findOne({
+    mapId: parseInt(warmupMapId),
+    tourney,
+  });
+  if (!!map) {
+    throw new Error("This beatmap is part of the map pool");
   }
 
   let mapData: osu.Beatmap;
@@ -551,7 +559,7 @@ router.postAsync("/warmup", ensure.loggedIn, async (req, res) => {
     return res.status(403).send("You don't have permission to do that");
   }
   try {
-    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup);
+    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup, match.tourney);
   } catch (e) {
     res.status(400).send(e.message);
     return;
@@ -649,7 +657,7 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
     logger.info("Invalid MP link");
     return res.status(400).send({ message: "Invalid MP link" });
   }
-  
+
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match, tourney: req.body.tourney },
     {
