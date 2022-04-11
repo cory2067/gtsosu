@@ -49,7 +49,7 @@ There are no other prizes being considered for BTT7
 - This tournament is a **1v1 double-elimination tournament.**
 - The Score System used will be Score V2.
 - Any player who meets the requirements stated in the rank restrictions part is allowed to sign up.
-- Any members of staff apart from **Organizers, Mappoolers and Referees** are allowed to play.
+- Any members of staff apart from **Organizers, Mappoolers, Mappers and Referees** are allowed to play.
 - Players and staff members must have read this ruleset entirely (and we will assume you did so throughout the tournament).
 - All participants must stay respectful and keep a proper attitude. Not following this rule can result in a ban/blacklist from the tournament. This rule concerns all the staff as well.
 - Any rules changes or unexpected occurrences will be announced on the discord server.
