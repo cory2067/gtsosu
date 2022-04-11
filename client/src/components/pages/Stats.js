@@ -13,6 +13,7 @@ import StageSelector from "../modules/StageSelector";
 export default function Stats({ tourney, user }) {
   const [state, setState] = useState({
     tourneyModel: undefined,
+    isQualifiers: false,
     players: new Map(),
     teams: new Map(),
     stageMaps: [],
@@ -182,6 +183,7 @@ export default function Stats({ tourney, user }) {
     setState({
       ...state,
       tourneyModel,
+      isQualifiers: currentSelectedStage.name === "Qualifiers",
       players: new Map(players.map((player) => [player.userid, player])),
       teams: new Map(teams.map((team) => [team.name, team])),
       stageMaps,
@@ -583,7 +585,7 @@ export default function Stats({ tourney, user }) {
                     className="map-stats-table"
                     bordered
                     rowClassName={(teamScore) =>
-                      state.currentSelectedStage.name === "Qualifiers"
+                      state.isQualifiers
                         ? `seed-${getTeamSeed(teamScore.rank)}`
                         : ""
                     }
@@ -602,6 +604,14 @@ export default function Stats({ tourney, user }) {
                         key="rankTotal"
                         render={(rankTotal) => rankTotal}
                       />
+                      {!state.isQualifiers && (
+                        <Column
+                          title="Maps Played"
+                          dataIndex="mapsPlayed"
+                          key="mapsPlayed"
+                          render={(mapsPlayed) => mapsPlayed}
+                        />
+                      )}
                       <Column
                         title="Rank Average"
                         dataIndex="rankAverage"
@@ -627,7 +637,7 @@ export default function Stats({ tourney, user }) {
                     className="map-stats-table"
                     bordered
                     rowClassName={(playerScore) =>
-                      state.currentSelectedStage.name === "Qualifiers"
+                      state.isQualifiers
                         ? `seed-${getPlayerSeed(playerScore.rank)}`
                         : ""
                     }
@@ -646,6 +656,14 @@ export default function Stats({ tourney, user }) {
                         key="rankTotal"
                         render={(rankTotal) => rankTotal}
                       />
+                      {!state.isQualifiers && (
+                        <Column
+                          title="Maps Played"
+                          dataIndex="mapsPlayed"
+                          key="mapsPlayed"
+                          render={(mapsPlayed) => mapsPlayed}
+                        />
+                      )}
                       <Column
                         title="Rank Average"
                         dataIndex="rankAverage"
