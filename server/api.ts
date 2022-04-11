@@ -24,6 +24,8 @@ const router = addAsync(express.Router());
 const logger = pino();
 const osuApi = getOsuApi();
 const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
+const mpRegex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
+const mpRegex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
 
 // Populate each request with tourney-level user auth
 type BaseRequestArgs = {
@@ -297,14 +299,11 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
-  const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
-
-  const rank = userData.pp.rank;
-  const username = userData.name;
   logger.info(
     `${req.body.username} registered for ${req.body.tourney} (forced by ${req.user.username})`
   );
 
+  const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
   const user = await User.findOneAndUpdate(
     { userid: userData.id },
     {
@@ -312,9 +311,14 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
         tournies: req.body.tourney,
         stats: { regTime: new Date(), tourney: req.body.tourney },
       },
-      $set: { rank, username },
+      $set: {
+        rank: userData.pp.rank,
+        username: userData.name,
+        country: userData.country,
+        avatar: `https://a.ppy.sh/${userData.id}`,
+      },
     },
-    { new: true }
+    { new: true, upsert: true }
   );
   res.send(user);
 });
@@ -650,9 +654,7 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
   logger.info(
     `${req.user.username} submitted mp link ${req.body.link} for match ${req.body.match}`
   );
-  const regex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
-  const regex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
-  const found = req.body.link.match(regex1) || req.body.link.match(regex2);
+  const found = req.body.link.match(mpRegex1) || req.body.link.match(mpRegex2);
   if (!found) {
     logger.info("Invalid MP link");
     return res.status(400).send({ message: "Invalid MP link" });
@@ -964,7 +966,14 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
     stageStats = new StageStats({ tourney, stage, maps: [] });
   }
 
-  const mpData = await osuApi.getMatch({ mp: mpId });
+  let mpData: any;
+  try {
+    mpData = await osuApi.getMatch({ mp: mpId });
+  } catch (e) {
+    logger.warn(`Failed to fetch mp data for mp ${mpId}`);
+    return;
+  }
+  
   for (const game of mpData.games) {
     const mapId = Number(game.beatmapId);
     if (stageMapIds.includes(mapId)) {
@@ -1043,9 +1052,7 @@ router.postAsync("/lobby-results", ensure.isRef, async (req, res) => {
   logger.info(
     `${req.user.username} submitted mp link ${req.body.link} for qualifiers lobby ${req.body.lobby}`
   );
-  const regex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
-  const regex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
-  const found = req.body.link.match(regex1) || req.body.link.match(regex2);
+  const found = req.body.link.match(mpRegex1) || req.body.link.match(mpRegex2);
   if (!found) {
     logger.info("Invalid MP link");
     return res.status(400).send({ message: "Invalid MP link" });
@@ -1102,6 +1109,33 @@ router.postAsync("/stage-stats", ensure.isAdmin, async (req, res) => {
     { new: true }
   );
   res.send(updatedStageStats);
+});
+
+/**
+ * POST /api/refetch-stats
+ * Refretches the stats of a batch of mp links in a stage
+ * Params:
+ *   - tourney: identifier for the tourney
+ *   - stage: identifier for the stage
+ * Returns:
+ *   - stats: the updated stage stats
+ */
+router.postAsync("/refetch-stats", ensure.isAdmin, async (req, res) => {
+  logger.info(`${req.user.username} initiated a refresh of ${req.body.tourney}/${req.body.stage} stats`);
+  let mpLinks: string[] = [];
+  if (req.body.stage === "Qualifiers") mpLinks = (await QualifiersLobby.find({ tourney: req.query.tourney })).map(lobby => lobby.link);
+  else mpLinks = (await Match.find({ tourney: req.body.tourney, stage: req.body.stage })).map(match => match.link);
+  for (const mpLink of mpLinks) {
+    if (mpLink) {
+      const found = mpLink.match(mpRegex1) || mpLink.match(mpRegex2);
+      if (found) await fetchMatchAndUpdateStageStats(req.body.tourney, req.body.stage, found[1]);
+    }
+  }
+  const stageStats = await StageStats.findOne({
+    tourney: req.body.tourney,
+    stage: req.body.stage,
+  });
+  res.send(stageStats);
 });
 
 /**
