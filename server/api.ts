@@ -966,14 +966,8 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
     stageStats = new StageStats({ tourney, stage, maps: [] });
   }
 
-  let mpData: any;
-  try {
-    mpData = await osuApi.getMatch({ mp: mpId });
-  } catch (e) {
-    logger.warn(`Failed to fetch mp data for mp ${mpId}`);
-    return;
-  }
-  
+  const mpData = await osuApi.getMatch({ mp: mpId });
+  logger.info(mpData);
   for (const game of mpData.games) {
     const mapId = Number(game.beatmapId);
     if (stageMapIds.includes(mapId)) {
