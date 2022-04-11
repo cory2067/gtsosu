@@ -34,7 +34,7 @@ June 4th until June 5th
 ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
 June 11th until June 12th
 ### Grand Finals
-February 26th until February 27th.`,
+June 18th until June 19th.`,
     },
     {
       title: "Prizes",
