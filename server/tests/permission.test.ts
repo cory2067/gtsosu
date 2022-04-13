@@ -83,6 +83,15 @@ function createUserRoleSet() {
   return set;
 }
 
+test("Admin in global context", () => {
+  const userRoles = createUserRoleSet();
+  const admin = createTestUser({ admin: true });
+  const auth = new UserAuth(admin).forGlobal();
+  userRoles.forEach(role => {
+    expect(auth.hasRole(role)).toBe(true);
+  })
+});
+
 test("Player in a tourney", () => {
   const user = createTestUser({ tournies: ["testTourney"] });
   let auth = new UserAuth(user).forTourney("testTourney");
