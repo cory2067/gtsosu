@@ -6,12 +6,12 @@ import fs from "fs";
 import ensure from "./ensure";
 import Match, { IMatch } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
-import StageStats from "./models/stage-stats";
+import StageStats, { IStageStats } from "./models/stage-stats";
 import Team, { PopulatedTeam } from "./models/team";
 import Tournament, { ITournament } from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
 import User, { IUser } from "./models/user";
-import { getOsuApi, checkPermissions, getTeamMapForMatch } from "./util";
+import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
 import { Request } from "./types";
 
 import mapRouter from "./api/map";
@@ -24,6 +24,8 @@ const router = addAsync(express.Router());
 const logger = pino();
 const osuApi = getOsuApi();
 const CONTENT_DIR = fs.readdirSync(`${__dirname}/../client/src/content`);
+const mpRegex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
+const mpRegex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
 
 // Populate each request with tourney-level user auth
 type BaseRequestArgs = {
@@ -59,6 +61,11 @@ const cantPlay = (user: IUser, tourney: string) =>
     "Head Pooler",
     "Mapper",
   ]);
+
+const parseMatchId = (mpLink) => {
+  const found = mpLink.match(mpRegex1) || mpLink.match(mpRegex2);
+  return found ? found[1] : undefined;
+};
 
 const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   const now = Date.now();
@@ -297,14 +304,11 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
  *   - tourney: identifier for the tourney to register for
  */
 router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
-  const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
-
-  const rank = userData.pp.rank;
-  const username = userData.name;
   logger.info(
     `${req.body.username} registered for ${req.body.tourney} (forced by ${req.user.username})`
   );
 
+  const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
   const user = await User.findOneAndUpdate(
     { userid: userData.id },
     {
@@ -312,9 +316,14 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
         tournies: req.body.tourney,
         stats: { regTime: new Date(), tourney: req.body.tourney },
       },
-      $set: { rank, username },
+      $set: {
+        rank: userData.pp.rank,
+        username: userData.name,
+        country: userData.country,
+        avatar: `https://a.ppy.sh/${userData.id}`,
+      },
     },
-    { new: true }
+    { new: true, upsert: true }
   );
   res.send(user);
 });
@@ -650,10 +659,8 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
   logger.info(
     `${req.user.username} submitted mp link ${req.body.link} for match ${req.body.match}`
   );
-  const regex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
-  const regex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
-  const found = req.body.link.match(regex1) || req.body.link.match(regex2);
-  if (!found) {
+  const matchId = parseMatchId(req.body.link);
+  if (!matchId) {
     logger.info("Invalid MP link");
     return res.status(400).send({ message: "Invalid MP link" });
   }
@@ -666,7 +673,7 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
     { new: true }
   ).orFail();
 
-  await fetchMatchAndUpdateStageStats(req.body.tourney, newMatch.stage, found[1]);
+  await fetchMatchesAndUpdateStageStats(req.body.tourney, newMatch.stage, [matchId]);
   logger.info(`${req.user.username} submitted results for match ${newMatch.code}`);
   res.send(newMatch);
 });
@@ -948,7 +955,7 @@ router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   res.send(lobby);
 });
 
-const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
+const fetchMatchesAndUpdateStageStats = async (tourney, stage, mpIds) => {
   const mappool = await TourneyMap.find({ tourney, stage });
   const stageMapIds = mappool.map((map) => map.mapId);
   const useridToTeamMap = new Map();
@@ -964,71 +971,75 @@ const fetchMatchAndUpdateStageStats = async (tourney, stage, mpId) => {
     stageStats = new StageStats({ tourney, stage, maps: [] });
   }
 
-  const mpData = await osuApi.getMatch({ mp: mpId });
-  for (const game of mpData.games) {
-    const mapId = Number(game.beatmapId);
-    if (stageMapIds.includes(mapId)) {
-      let mapStats = stageStats.maps.find((map) => map.mapId === mapId);
-      if (!mapStats) {
-        mapStats = { mapId: mapId, playerScores: [], teamScores: [] };
-        stageStats.maps.push(mapStats);
-      }
-      const newTeamScores = new Map();
-
-      for (const score of game.scores) {
-        // Skip tracking players that aren't registered in the tourney
-        if (!tourneyPlayers.has(score.userId)) continue;
-
-        const playerId = Number(score.userId);
-        const newPlayerScore = { userId: playerId, score: Number(score.score) };
-
-        // Update player high score
-        const previousPlayerScore = mapStats.playerScores.find(
-          (playerScore) => playerScore.userId === playerId
-        );
-        if (!previousPlayerScore) {
-          mapStats.playerScores.push(newPlayerScore);
-        } else if (previousPlayerScore.score < newPlayerScore.score) {
-          mapStats.playerScores = mapStats.playerScores.map((playerScore) => {
-            if (playerScore.userId === playerId) {
-              return newPlayerScore;
-            }
-            return playerScore;
-          });
+  for (const mpId of mpIds) {
+    const mpData = await osuApi.getMatch({ mp: mpId });
+    logger.info(mpData);
+    for (const game of mpData.games) {
+      const mapId = Number(game.beatmapId);
+      if (stageMapIds.includes(mapId)) {
+        let mapStats = stageStats.maps.find((map) => map.mapId === mapId);
+        if (!mapStats) {
+          mapStats = { mapId: mapId, playerScores: [], teamScores: [] };
+          stageStats.maps.push(mapStats);
         }
+        const newTeamScores = new Map();
 
-        // Add to player's team's score
-        const playerTeamName = useridToTeamMap.get(String(playerId));
-        if (playerTeamName) {
-          if (!newTeamScores.has(playerTeamName)) newTeamScores.set(playerTeamName, 0);
-          newTeamScores.set(
-            playerTeamName,
-            newTeamScores.get(playerTeamName) + newPlayerScore.score
+        for (const score of game.scores) {
+          // Skip tracking players that aren't registered in the tourney
+          if (!tourneyPlayers.has(score.userId)) continue;
+
+          const playerId = Number(score.userId);
+          const newPlayerScore = { userId: playerId, score: Number(score.score) };
+
+          // Update player high score
+          const previousPlayerScore = mapStats.playerScores.find(
+            (playerScore) => playerScore.userId === playerId
           );
-        }
-      }
+          if (!previousPlayerScore) {
+            mapStats.playerScores.push(newPlayerScore);
+          } else if (previousPlayerScore.score < newPlayerScore.score) {
+            mapStats.playerScores = mapStats.playerScores.map((playerScore) => {
+              if (playerScore.userId === playerId) {
+                return newPlayerScore;
+              }
+              return playerScore;
+            });
+          }
 
-      // Update team high scores
-      for (let [teamName, teamScore] of newTeamScores.entries()) {
-        const previousTeamScore = mapStats.teamScores.find(
-          (teamScore) => teamScore.teamName === teamName
-        );
-        const newTeamScore = { teamName, score: teamScore };
-        if (!previousTeamScore) {
-          mapStats.teamScores.push(newTeamScore);
-        } else if (previousTeamScore.score < newTeamScore.score) {
-          mapStats.teamScores = mapStats.teamScores.map((teamScore) => {
-            if (teamScore.teamName === teamName) {
-              return newTeamScore;
-            }
-            return teamScore;
-          });
+          // Add to player's team's score
+          const playerTeamName = useridToTeamMap.get(String(playerId));
+          if (playerTeamName) {
+            if (!newTeamScores.has(playerTeamName)) newTeamScores.set(playerTeamName, 0);
+            newTeamScores.set(
+              playerTeamName,
+              newTeamScores.get(playerTeamName) + newPlayerScore.score
+            );
+          }
+        }
+
+        // Update team high scores
+        for (let [teamName, teamScore] of newTeamScores.entries()) {
+          const previousTeamScore = mapStats.teamScores.find(
+            (teamScore) => teamScore.teamName === teamName
+          );
+          const newTeamScore = { teamName, score: teamScore };
+          if (!previousTeamScore) {
+            mapStats.teamScores.push(newTeamScore);
+          } else if (previousTeamScore.score < newTeamScore.score) {
+            mapStats.teamScores = mapStats.teamScores.map((teamScore) => {
+              if (teamScore.teamName === teamName) {
+                return newTeamScore;
+              }
+              return teamScore;
+            });
+          }
         }
       }
     }
   }
 
   await stageStats.save();
+  return stageStats;
 };
 
 /**
@@ -1043,15 +1054,13 @@ router.postAsync("/lobby-results", ensure.isRef, async (req, res) => {
   logger.info(
     `${req.user.username} submitted mp link ${req.body.link} for qualifiers lobby ${req.body.lobby}`
   );
-  const regex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+)$`);
-  const regex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
-  const found = req.body.link.match(regex1) || req.body.link.match(regex2);
-  if (!found) {
+  const matchId = parseMatchId(req.body.link);
+  if (!matchId) {
     logger.info("Invalid MP link");
     return res.status(400).send({ message: "Invalid MP link" });
   }
 
-  await fetchMatchAndUpdateStageStats(req.body.tourney, "Qualifiers", found[1]);
+  await fetchMatchesAndUpdateStageStats(req.body.tourney, "Qualifiers", [matchId]);
 
   const newLobby = await QualifiersLobby.findOneAndUpdate(
     { _id: req.body.lobby, tourney: req.body.tourney },
@@ -1103,6 +1112,43 @@ router.postAsync("/stage-stats", ensure.isAdmin, async (req, res) => {
   );
   res.send(updatedStageStats);
 });
+
+/**
+ * POST /api/refetch-stats
+ * Refretches the stats of a batch of mp links in a stage
+ */
+type RefetchStatsBody = {
+  tourney: string; // identifier for the tourney
+  stage: string; // which pool, e.g. qf, sf, f, gf
+};
+type RefetchStatsResponse = IStageStats;
+
+router.postAsync(
+  "/refetch-stats",
+  ensure.isAdmin,
+  async (req: Request<{}, RefetchStatsBody>, res: Response<RefetchStatsResponse>) => {
+    const user = assertUser(req);
+    logger.info(
+      `${user.username} initiated a refresh of ${req.body.tourney}/${req.body.stage} stats`
+    );
+
+    let matchIds: string[] = [];
+    if (req.body.stage === "Qualifiers") {
+      const lobbies = await QualifiersLobby.find({ tourney: req.body.tourney });
+      matchIds = lobbies.map((lobby) => parseMatchId(lobby.link)).filter((matchId) => !!matchId);
+    } else {
+      const match = await Match.find({ tourney: req.body.tourney, stage: req.body.stage });
+      matchIds = match.map((match) => parseMatchId(match.link)).filter((matchId) => !!matchId);
+    }
+
+    const updatedStageStats = await fetchMatchesAndUpdateStageStats(
+      req.body.tourney,
+      req.body.stage,
+      matchIds
+    );
+    res.send(updatedStageStats);
+  }
+);
 
 /**
  * POST /api/team

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../../utilities.css";
 import "./Stats.css";
 import { get, post, prettifyTourney, hasAccess, getStage } from "../../utilities";
-import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber } from "antd";
+import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 const { Content } = Layout;
 const { Column, ColumnGroup } = Table;
@@ -13,6 +13,7 @@ import StageSelector from "../modules/StageSelector";
 export default function Stats({ tourney, user }) {
   const [state, setState] = useState({
     tourneyModel: undefined,
+    isQualifiers: false,
     players: new Map(),
     teams: new Map(),
     stageMaps: [],
@@ -30,6 +31,7 @@ export default function Stats({ tourney, user }) {
     refetchData: false,
     recalculateStats: false,
     refetchDataInProgress: false,
+    refetchScoresInProgress: false,
   });
 
   const calculateStats = () => {
@@ -68,19 +70,27 @@ export default function Stats({ tourney, user }) {
         processedPlayerScores.push({ ...playerScore, rank: currentRank });
 
         if (!overallPlayerStats.has(playerScore.userId)) {
-          overallPlayerStats.set(playerScore.userId, { rankTotal: 0, scoreTotal: 0 });
+          overallPlayerStats.set(playerScore.userId, {
+            rankTotal: 0,
+            scoreTotal: 0,
+            mapsPlayed: 0,
+          });
         }
         overallPlayerStats.get(playerScore.userId).rankTotal += currentRank;
         overallPlayerStats.get(playerScore.userId).scoreTotal += currentScore;
+        overallPlayerStats.get(playerScore.userId).mapsPlayed += 1;
 
         if (!playerModStats.has(mod)) {
           playerModStats.set(mod, new Map());
         }
         if (!playerModStats.get(mod).has(playerScore.userId)) {
-          playerModStats.get(mod).set(playerScore.userId, { rankTotal: 0, scoreTotal: 0 });
+          playerModStats
+            .get(mod)
+            .set(playerScore.userId, { rankTotal: 0, scoreTotal: 0, mapsPlayed: 0 });
         }
         playerModStats.get(mod).get(playerScore.userId).rankTotal += currentRank;
         playerModStats.get(mod).get(playerScore.userId).scoreTotal += currentScore;
+        playerModStats.get(mod).get(playerScore.userId).mapsPlayed += 1;
       }
 
       currentRank = 1;
@@ -94,19 +104,23 @@ export default function Stats({ tourney, user }) {
         processedTeamScores.push({ ...teamScore, rank: currentRank });
 
         if (!overallTeamStats.has(teamScore.teamName)) {
-          overallTeamStats.set(teamScore.teamName, { rankTotal: 0, scoreTotal: 0 });
+          overallTeamStats.set(teamScore.teamName, { rankTotal: 0, scoreTotal: 0, mapsPlayed: 0 });
         }
         overallTeamStats.get(teamScore.teamName).rankTotal += currentRank;
         overallTeamStats.get(teamScore.teamName).scoreTotal += currentScore;
+        overallTeamStats.get(teamScore.teamName).mapsPlayed += 1;
 
         if (!teamModStats.has(mod)) {
           teamModStats.set(mod, new Map());
         }
         if (!teamModStats.get(mod).has(teamScore.teamName)) {
-          teamModStats.get(mod).set(teamScore.teamName, { rankTotal: 0, scoreTotal: 0 });
+          teamModStats
+            .get(mod)
+            .set(teamScore.teamName, { rankTotal: 0, scoreTotal: 0, mapsPlayed: 0 });
         }
         teamModStats.get(mod).get(teamScore.teamName).rankTotal += currentRank;
         teamModStats.get(mod).get(teamScore.teamName).scoreTotal += currentScore;
+        teamModStats.get(mod).get(teamScore.teamName).mapsPlayed += 1;
       }
 
       processedStats.set(String(mapStats.mapId), {
@@ -117,11 +131,15 @@ export default function Stats({ tourney, user }) {
     }
 
     const compareStatsFn = (a, b) =>
-      a.rankTotal === b.rankTotal ? b.scoreTotal - a.scoreTotal : a.rankTotal - b.rankTotal;
+      a.rankAverage === b.rankAverage ? b.scoreTotal - a.scoreTotal : a.rankAverage - b.rankAverage;
 
     // sort and rank overall stats
     overallPlayerStats = Array.from(overallPlayerStats.entries())
-      .map(([userId, stats]) => ({ ...stats, userId }))
+      .map(([userId, stats]) => ({
+        ...stats,
+        userId,
+        rankAverage: stats.rankTotal / stats.mapsPlayed,
+      }))
       .sort(compareStatsFn);
     const overallPlayerStatsWithRank = [];
     for (let i = 0; i < overallPlayerStats.length; i++) {
@@ -129,7 +147,11 @@ export default function Stats({ tourney, user }) {
     }
 
     overallTeamStats = Array.from(overallTeamStats.entries())
-      .map(([teamName, stats]) => ({ ...stats, teamName }))
+      .map(([teamName, stats]) => ({
+        ...stats,
+        teamName,
+        rankAverage: stats.rankTotal / stats.mapsPlayed,
+      }))
       .sort(compareStatsFn);
     const overallTeamStatsWithRank = [];
     for (let i = 0; i < overallTeamStats.length; i++) {
@@ -138,14 +160,22 @@ export default function Stats({ tourney, user }) {
 
     for (let mod of playerModStats.keys()) {
       const sortedModRankings = Array.from(playerModStats.get(mod).entries())
-        .map(([userId, stats]) => ({ ...stats, userId }))
+        .map(([userId, stats]) => ({
+          ...stats,
+          userId,
+          rankAverage: stats.rankTotal / stats.mapsPlayed,
+        }))
         .sort(compareStatsFn);
       playerModStats.set(mod, sortedModRankings);
     }
 
     for (let mod of teamModStats.keys()) {
       const sortedModRankings = Array.from(teamModStats.get(mod).entries())
-        .map(([teamName, stats]) => ({ ...stats, teamName }))
+        .map(([teamName, stats]) => ({
+          ...stats,
+          teamName,
+          rankAverage: stats.rankTotal / stats.mapsPlayed,
+        }))
         .sort(compareStatsFn);
       teamModStats.set(mod, sortedModRankings);
     }
@@ -177,6 +207,7 @@ export default function Stats({ tourney, user }) {
     setState({
       ...state,
       tourneyModel,
+      isQualifiers: currentSelectedStage.name === "Qualifiers",
       players: new Map(players.map((player) => [player.userid, player])),
       teams: new Map(teams.map((team) => [team.name, team])),
       stageMaps,
@@ -434,6 +465,29 @@ export default function Stats({ tourney, user }) {
     return Math.ceil(rank / rangeSize);
   };
 
+  const refetchAllScores = async () => {
+    if (
+      confirm(
+        "This will resubmit all MP links for this stage and may overwrite edits that were made to the stats (if any)."
+      )
+    ) {
+      setState({
+        ...state,
+        refetchScoresInProgress: true,
+      });
+      const updatedStats = await post("/api/refetch-stats", {
+        tourney,
+        stage: state.currentSelectedStage.name,
+      });
+      setState({
+        ...state,
+        stageStats: updatedStats,
+        recalculateStats: true,
+        refetchScoresInProgress: false,
+      });
+    }
+  };
+
   return (
     <Content className="content">
       <div className="u-flex">
@@ -468,6 +522,12 @@ export default function Stats({ tourney, user }) {
                   <Button className="settings-button" type="primary" onClick={exportToJson}>
                     Export to JSON
                   </Button>
+                  {!state.refetchScoresInProgress && (
+                    <Button className="settings-button" type="primary" onClick={refetchAllScores}>
+                      Refetch all scores
+                    </Button>
+                  )}
+                  {state.refetchScoresInProgress && <Spin />}
                 </Form>
               )}
               {state.inEditMode && (
@@ -553,9 +613,7 @@ export default function Stats({ tourney, user }) {
                     className="map-stats-table"
                     bordered
                     rowClassName={(teamScore) =>
-                      state.currentSelectedStage.name === "Qualifiers"
-                        ? `seed-${getTeamSeed(teamScore.rank)}`
-                        : ""
+                      state.isQualifiers ? `seed-${getTeamSeed(teamScore.rank)}` : ""
                     }
                   >
                     <ColumnGroup title={"Average Score Total: " + getAverageTeamScore()}>
@@ -572,11 +630,19 @@ export default function Stats({ tourney, user }) {
                         key="rankTotal"
                         render={(rankTotal) => rankTotal}
                       />
+                      {!state.isQualifiers && (
+                        <Column
+                          title="Maps Played"
+                          dataIndex="mapsPlayed"
+                          key="mapsPlayed"
+                          render={(mapsPlayed) => mapsPlayed}
+                        />
+                      )}
                       <Column
                         title="Rank Average"
-                        dataIndex="rankTotal"
-                        key="rankTotal"
-                        render={(rankTotal) => (rankTotal / state.stageMaps.length).toFixed(2)}
+                        dataIndex="rankAverage"
+                        key="rankAverage"
+                        render={(rankAverage) => rankAverage.toFixed(2)}
                       />
                       <Column
                         title="Score Total"
@@ -597,9 +663,7 @@ export default function Stats({ tourney, user }) {
                     className="map-stats-table"
                     bordered
                     rowClassName={(playerScore) =>
-                      state.currentSelectedStage.name === "Qualifiers"
-                        ? `seed-${getPlayerSeed(playerScore.rank)}`
-                        : ""
+                      state.isQualifiers ? `seed-${getPlayerSeed(playerScore.rank)}` : ""
                     }
                   >
                     <ColumnGroup title={"Average Score Total: " + getAveragePlayerScore()}>
@@ -616,11 +680,19 @@ export default function Stats({ tourney, user }) {
                         key="rankTotal"
                         render={(rankTotal) => rankTotal}
                       />
+                      {!state.isQualifiers && (
+                        <Column
+                          title="Maps Played"
+                          dataIndex="mapsPlayed"
+                          key="mapsPlayed"
+                          render={(mapsPlayed) => mapsPlayed}
+                        />
+                      )}
                       <Column
                         title="Rank Average"
-                        dataIndex="rankTotal"
-                        key="rankTotal"
-                        render={(rankTotal) => (rankTotal / state.stageMaps.length).toFixed(2)}
+                        dataIndex="rankAverage"
+                        key="rankAverage"
+                        render={(rankAverage) => rankAverage.toFixed(2)}
                       />
                       <Column
                         title="Score Total"
