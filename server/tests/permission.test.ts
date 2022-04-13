@@ -2,16 +2,19 @@ import { setup, teardown } from "./test-util";
 import { IUser } from "../models/user";
 import { UserAuth } from "../permissions/UserAuth";
 import { UserRole } from "../permissions/UserRole";
+import { ITeam, PopulatedTeam } from "../models/team";
+import { Populate } from "../types";
+import match, { IMatch } from "../models/match";
 
 beforeAll(setup);
 afterAll(teardown);
 
 type createTestUserParams = {
+  username?: string,
   tournies?: string[],
   roles?: { tourney: string, role: string }[],
   admin?: boolean
 }
-
 function createTestUser(params: createTestUserParams): IUser {
   const roles: { tourney: string, role: string }[] = params.roles || [];
   const tournies = params.tournies || [];
@@ -24,7 +27,7 @@ function createTestUser(params: createTestUserParams): IUser {
   });
 
   return {
-    username: "testUser",
+    username: params.username || "testUser",
     admin: params.admin || false,
     avatar: "",
     country: "",
@@ -37,6 +40,40 @@ function createTestUser(params: createTestUserParams): IUser {
     userid: "testUser"
   }
 };
+
+function createTestMatch(params: Partial<IMatch>): IMatch {
+  return {
+    code: "A",
+    commentators: [],
+    link: "",
+    player1: "player1",
+    player2: "player2",
+    referee: "",
+    score1: 0,
+    score2: 0,
+    stage: "",
+    streamer: "",
+    time: new Date(),
+    tourney: "testTourney",
+    warmup1: "",
+    warmup2: "",
+    ...params
+  }
+}
+
+function createTestTeam(params: Partial<Populate<ITeam, PopulatedTeam>>) {
+  return {
+    country: "",
+    group: "",
+    icon: "",
+    name: "team1",
+    players: [],
+    seedName: "",
+    seedNum: 1,
+    tourney: "testTourney",
+    ...params
+  }
+}
 
 function createUserRoleSet() {
   const set: Set<UserRole> = new Set();
@@ -65,6 +102,26 @@ test("hasAnyRole in a tourney", () => {
   expect(auth.hasAnyRole([])).toBe(false);
 });
 
+test("hasAllRoles in a tourney", () => {
+  const user = createTestUser({
+    roles: [{
+      tourney: "testTourney",
+      role: UserRole.Commentator
+    }, {
+      tourney: "testTourney",
+      role: UserRole.Mapper
+    }, {
+      tourney: "testTourney",
+      role: UserRole.Referee
+    }]
+  });
+  const auth = new UserAuth(user).forTourney("testTourney");
+  expect(auth.hasAllRoles([UserRole.Commentator, UserRole.Mapper, UserRole.Referee])).toBe(false);
+  expect(auth.hasAllRoles([UserRole.Commentator, UserRole.Referee])).toBe(true);
+  expect(auth.hasAllRoles([UserRole.Commentator, UserRole.Streamer])).toBe(false);
+  expect(auth.hasAllRoles([])).toBe(true);
+});
+
 test("Super role in a tourney", () => {
   const userRoleSet = Array.from(createUserRoleSet());
   function testUser(user: IUser, tourney: string) {
@@ -89,4 +146,109 @@ test("Super role in a tourney", () => {
   });
   testUser(host, "testTourney");
   // Not testing dev since it's the same logic for host
+});
+
+test("Player/Captain in a team match", () => {
+  // Tests both the correct and wrong team
+  function testInTeam(user: IUser, match: IMatch, teamMap: { [k: string]: any }, playerNo: 1 | 2, role: UserRole, expectTrue: boolean = true) {
+    const auth1 = new UserAuth(user).forMatch({
+      match, teams: teamMap, playerNo
+    });
+    expect(auth1.hasRole(role)).toBe(expectTrue);
+    const auth2 = new UserAuth(user).forMatch({
+      match, teams: teamMap, playerNo: playerNo == 1 ? 2 : 1
+    })
+    expect(auth2.hasRole(role)).toBe(false);
+  }
+
+  function testInMatch(user: IUser, match: IMatch, teamMap: { [k: string]: any }, role: UserRole, expectTrue: boolean = true) {
+    const auth = new UserAuth(user).forMatch({
+      match, teams: teamMap
+    });
+    expect(auth.hasRole(role)).toBe(expectTrue);
+  }
+
+  const testUsers1 = [createTestUser({ username: "testUser1" }), createTestUser({ username: "testUser2" })];
+  const testUsers2 = [createTestUser({ username: "testUser3" }), createTestUser({ username: "testUser4" })];
+  const testTeam1 = createTestTeam({
+    name: "testTeam1",
+    players: testUsers1
+  });
+  const testTeam2 = createTestTeam({
+    name: "testTeam2",
+    players: testUsers2
+  });
+  const teamMap = { testTeam1, testTeam2 }
+  const testMatch = createTestMatch({
+    player1: testTeam1.name,
+    player2: testTeam2.name
+  });
+
+  // Test users
+  testUsers1.forEach(user => {
+    testInTeam(user, testMatch, teamMap, 1, UserRole.Player);
+    testInMatch(user, testMatch, teamMap, UserRole.Player);
+  })
+  testUsers2.forEach(user => {
+    testInTeam(user, testMatch, teamMap, 2, UserRole.Player);
+    testInMatch(user, testMatch, teamMap, UserRole.Player);
+  });
+
+  // Test captains
+  testInTeam(testUsers1[0], testMatch, teamMap, 1, UserRole.Captain);
+  testInMatch(testUsers1[0], testMatch, teamMap, UserRole.Captain);
+  testInTeam(testUsers2[0], testMatch, teamMap, 2, UserRole.Captain);
+  testInMatch(testUsers2[0], testMatch, teamMap, UserRole.Captain);
+
+  // Test user not in match
+  const notPlayer = createTestUser({
+    username: "notPlayer"
+  });
+  testInTeam(notPlayer, testMatch, teamMap, 1, UserRole.Player, false);
+  testInTeam(notPlayer, testMatch, teamMap, 2, UserRole.Player, false);
+  testInTeam(notPlayer, testMatch, teamMap, 1, UserRole.Captain, false);
+  testInTeam(notPlayer, testMatch, teamMap, 2, UserRole.Captain, false);
+  testInMatch(notPlayer, testMatch, teamMap, UserRole.Player, false);
+  testInMatch(notPlayer, testMatch, teamMap, UserRole.Captain, false);
+});
+
+test("Player in an individual match", () => {
+  // Should we test for captain and expect users to be their own captain too?
+
+  /** Tests both the correct and wrong player no. */
+  function testPlayerNo(user: IUser, match: IMatch, playerNo: 1 | 2, expectTrue: boolean = true) {
+    const auth1 = new UserAuth(user).forMatch({ match, playerNo });
+    expect(auth1.hasRole(UserRole.Player)).toBe(expectTrue);
+    const auth2 = new UserAuth(user).forMatch({ match, playerNo: playerNo == 1 ? 2 : 1 });
+    expect(auth2.hasRole(UserRole.Player)).toBe(false);
+  }
+
+  function testInMatch(user: IUser, match: IMatch, expectTrue: boolean = true) {
+    const auth = new UserAuth(user).forMatch({ match });
+    expect(auth.hasRole(UserRole.Player)).toBe(expectTrue);
+  }
+
+  const testUser1 = createTestUser({
+    username: "testUser1"
+  });
+  const testUser2 = createTestUser({
+    username: "testUser2"
+  });
+  const testMatch = createTestMatch({
+    player1: testUser1.username,
+    player2: testUser2.username
+  });
+
+  testPlayerNo(testUser1, testMatch, 1, true);
+  testPlayerNo(testUser2, testMatch, 2, true);
+  testInMatch(testUser1, testMatch, true);
+  testInMatch(testUser2, testMatch, true);
+
+  // Test user not in match
+  const notPlayer = createTestUser({
+    username: "notPlayer"
+  });
+  testPlayerNo(notPlayer, testMatch, 1, false);
+  testPlayerNo(notPlayer, testMatch, 2, false);
+  testInMatch(notPlayer, testMatch, false);
 });
