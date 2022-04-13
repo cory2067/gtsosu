@@ -6,9 +6,6 @@ import { ITeam, PopulatedTeam } from "../models/team";
 import { Populate } from "../types";
 import match, { IMatch } from "../models/match";
 
-beforeAll(setup);
-afterAll(teardown);
-
 type createTestUserParams = {
   username?: string,
   tournies?: string[],
@@ -125,7 +122,7 @@ test("hasAllRoles in a tourney", () => {
     }]
   });
   const auth = new UserAuth(user).forTourney("testTourney");
-  expect(auth.hasAllRoles([UserRole.Commentator, UserRole.Mapper, UserRole.Referee])).toBe(false);
+  expect(auth.hasAllRoles([UserRole.Commentator, UserRole.Mapper, UserRole.Referee])).toBe(true);
   expect(auth.hasAllRoles([UserRole.Commentator, UserRole.Referee])).toBe(true);
   expect(auth.hasAllRoles([UserRole.Commentator, UserRole.Streamer])).toBe(false);
   expect(auth.hasAllRoles([])).toBe(true);
