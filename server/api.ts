@@ -973,15 +973,13 @@ const fetchMatchesAndUpdateStageStats = async (tourney, stage, mpIds) => {
 
   for (const mpId of mpIds) {
     const mpData = await osuApi.getMatch({ mp: mpId });
-    logger.info(mpData);
     for (const game of mpData.games) {
       const mapId = Number(game.beatmapId);
       if (stageMapIds.includes(mapId)) {
-        let mapStats = stageStats.maps.find((map) => map.mapId === mapId);
-        if (!mapStats) {
-          mapStats = { mapId: mapId, playerScores: [], teamScores: [] };
-          stageStats.maps.push(mapStats);
+        if (!stageStats.maps.find((map) => map.mapId === mapId)) {
+          stageStats.maps.push({ mapId: mapId, playerScores: [], teamScores: [] });
         }
+        const mapStats = stageStats.maps.find((map) => map.mapId === mapId)!;
         const newTeamScores = new Map();
 
         for (const score of game.scores) {
