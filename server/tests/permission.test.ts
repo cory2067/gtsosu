@@ -100,6 +100,18 @@ test("Player in a tourney", () => {
   });
 });
 
+test("hasRole in a wrong tourney", () => {
+  const user = createTestUser({
+    roles: [{
+      tourney: "testTourney",
+      role: UserRole.Commentator
+    }]
+  });
+  let auth = new UserAuth(user);
+  expect(auth.forTourney("testTourney").hasRole(UserRole.Commentator)).toBe(true);
+  expect(auth.forTourney("anotherTourney").hasRole(UserRole.Commentator)).toBe(false);
+});
+
 test("hasAnyRole in a tourney", () => {
   const user = createTestUser({ tournies: ["testTourney"] });
   let auth = new UserAuth(user).forTourney("testTourney");
