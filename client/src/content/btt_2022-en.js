@@ -1,12 +1,12 @@
 export default {
   name: "Beginner's Taiko Tournament Season 7",
   description:
-    "Beginner's Taiko Tournament is a rank-restricted tournament for newcomers to the taiko scene up to #10,000 rank. The players will first play in a qualifiers. The top 32 players will then play in a double-elimination bracket.",
+    "Beginner's Taiko Tournament is a rank-restricted tournament for newcomers to the taiko scene from infinity up to #10,000 rank. The players will first play in a qualifiers. The top 32 players will then play in a double-elimination bracket.",
   discord: "https://discord.gg/9FKYDe74un",
   homepage: [
     {
       title: "Restrictions",
-      body: `1. You must be below #10000 in osu!taiko during the entirety of the registration phase. A slight accidental trespass can be overlooked as long as you remain below #9900 AND you stop trying to gain pp the moment you pass #10,000.
+      body: `1. You must be below #10000 in osu!taiko and you must stay on or below this line during the rest of the signup phase. A slight accidental trespass can be overlooked as long as you remain below #9900 AND you stop trying to gain pp the moment you pass #10,000.
 2. You are not allowed to rank up further than #9000 during the tournament (After registrations are closed). If you pass this limit at any moment, you will be disqualified. 
 3. You must join the Discord server of the tournament. 
 4. Though there will be no official screening, if the tournament staff determines that you are too skilled for this tournament, we reserve the right to remove your during the tournament at any moment.`,
