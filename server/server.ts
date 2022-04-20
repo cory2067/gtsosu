@@ -5,12 +5,13 @@ import path from "path";
 import pino from "pino";
 import passport from "passport";
 import sslRedirect from "heroku-ssl-redirect";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 import api from "./api";
 import auth from "./auth";
 import db from "./db";
-import session from "express-session";
-import MongoStore from "connect-mongo";
+import { getMockUser } from "./tests/test-util";
 
 const app = express();
 const logger = pino();
@@ -31,6 +32,13 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+if (process.env.NODE_ENV === "test") {
+  app.use((req, res, next) => {
+    req.user = getMockUser();
+    next();
+  });
+}
 
 // Redirect to non-www url
 app.get("*", (req, res, next) => {

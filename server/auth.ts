@@ -57,42 +57,44 @@ const makeAuthStrategy = (clientId: string, clientSecret: string) =>
 
 const getStrategy = (req) => (req.hostname === "taikotourney.com" ? "taikotourney" : "default");
 
-passport.use("default", makeAuthStrategy(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!));
+if (process.env.NODE_ENV !== "test") {
+  passport.use("default", makeAuthStrategy(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!));
 
-// Need separate oauth id/secret for taikotourney.com domain
-if (process.env.TT_CLIENT_ID && process.env.TT_CLIENT_SECRET) {
-  passport.use(
-    "taikotourney",
-    makeAuthStrategy(process.env.TT_CLIENT_ID, process.env.TT_CLIENT_SECRET)
+  // Need separate oauth id/secret for taikotourney.com domain
+  if (process.env.TT_CLIENT_ID && process.env.TT_CLIENT_SECRET) {
+    passport.use(
+      "taikotourney",
+      makeAuthStrategy(process.env.TT_CLIENT_ID, process.env.TT_CLIENT_SECRET)
+    );
+  }
+
+  passport.serializeUser((user: UserDocument, done) => {
+    done(null, user._id);
+  });
+
+  passport.deserializeUser(async (id, done) => {
+    const user = await User.findById(id);
+    done(null, user);
+  });
+
+  router.get("/login", (req, res) => passport.authenticate(getStrategy(req))(req, res));
+
+  // TODO: for some reason ts explodes in prod here, overriding to `any` for now
+  router.get("/logout", (req: any, res) => {
+    req.logout();
+    res.redirect("/");
+  });
+
+  router.get(
+    "/osu/callback",
+    (req, res, next) =>
+      passport.authenticate(getStrategy(req), { failureRedirect: "/login" })(req, res, next),
+    (req, res) => {
+      // Successful authentication!
+      // janky thing to close the login popup window
+      res.send("<script>setInterval(window.close)</script>");
+    }
   );
 }
-
-passport.serializeUser((user: UserDocument, done) => {
-  done(null, user._id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
-  done(null, user);
-});
-
-router.get("/login", (req, res) => passport.authenticate(getStrategy(req))(req, res));
-
-// TODO: for some reason ts explodes in prod here, overriding to `any` for now
-router.get("/logout", (req: any, res) => {
-  req.logout();
-  res.redirect("/");
-});
-
-router.get(
-  "/osu/callback",
-  (req, res, next) =>
-    passport.authenticate(getStrategy(req), { failureRedirect: "/login" })(req, res, next),
-  (req, res) => {
-    // Successful authentication!
-    // janky thing to close the login popup window
-    res.send("<script>setInterval(window.close)</script>");
-  }
-);
 
 export default router;

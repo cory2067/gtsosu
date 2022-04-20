@@ -9,19 +9,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: gtsosu
     env:
-      CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      DEV_MONGO_SRV: ${{ secrets.DEV_MONGO_SRV }}
-      OSU_API_KEY: ${{ secrets.OSU_API_KEY }}
-      SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+      DEV_MONGO_SRV: mongodb://localhost:27017/test
+      SESSION_SECRET: secret
 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.7.0
+        with:
+          mongodb-version: 4.4
       - run: npm ci
       - run: npm run build
       - run: npm test
