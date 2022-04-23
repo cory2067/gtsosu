@@ -23,18 +23,20 @@ export default {
 April 10th until May 1st.
 ### Qualifiers
 May 7th until May 8th.
-### Round of 32
+### Round of 64
 May 14th until May 15th.
-### Round of 16 + Loser's Bracket Round 1
-May 21st until May 22nd
-### Quarterfinals + Loser's Bracket Round 2 and 3
-May 28th until May 29th
-### Semifinals + Loser's Bracket Round 4 and 5
-June 4th until June 5th
+### Round of 32 + Loser's Bracket Round 1
+May 21st until May 22nd.
+### Round of 16 + Loser's Bracket Round 2 and 3
+May 28th until May 29th.
+### Quarterfinals + Loser's Bracket Round 4 and 5
+June 4th until June 5th.
+### Semifinals + Loser's Bracket Round 6 and 7
+June 11th until June 12th.
 ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
-June 11th until June 12th
+June 18th until June 19th.
 ### Grand Finals
-June 18th until June 19th.`,
+June 25th until June 26th.`,
     },
     {
       title: "Prizes",
@@ -55,10 +57,10 @@ There are no other prizes being considered for BTT7
 - Any rules changes or unexpected occurrences will be announced on the discord server.
 
 # Stage Regulations
-- There are seven stages to this tournament: Qualifiers, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals and Grand Finals.
+- There are eight stages to this tournament: Qualifiers, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals and Grand Finals.
 - Participating players will be seeded based on the average of their ranks on each map during the Qualifiers round.
 - The winning conditions for each state are as follows:
-  - Round of 32: Best-Of-7 (First to 4 points)
+  - Round of 64, Round of 32: Best-Of-7 (First to 4 points)
   - Round of 16, Quarterfinals: Best-Of-9 (First to 5 points)
   - Semifinals: Best-Of-11 (First to 6 points)
   - Finals, Grand Finals: Best-Of-13 (First to 7 points)
@@ -73,13 +75,13 @@ There are no other prizes being considered for BTT7
 - Only the 32 best players will continue on to the bracket stage. 
 
 # Mappool Instructions
-- There will be 1 mappool for each of the following: Qualifiers, Group Stage, RO16, Quarterfinals, Semifinals, Finals and Grand Finals.
+- There will be 1 mappool for each of the following: Qualifiers, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals and Grand Finals.
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
 - The mappools will consist of the following brackets: NoMod, Hidden, Hardrock, DoubleTime, HiddenHardrock and TieBreaker.
 - The qualifiers pool will be different from all the other rounds, as it will have 4 NoMod maps, 2 Hidden maps, 2 HardRock map, and 2 DoubleTime maps.
-- The NoMod bracket will have 4 maps in Round of 32, Round of 16 and Quarterfinals, 5 maps in Semifinals, and 6 maps in Finals and Grand Finals
-- The Hidden and Hardrock brackets will have 2 maps each in Round of 32, and 3 maps each in all following rounds.
-- The DoubleTime bracket will have 2 maps in Round of 32 and Round of 16, and 3 maps in all following rounds.
+- The NoMod bracket will have 4 maps in Round of 64 till Quarterfinals, 5 maps in Semifinals, and 6 maps in Finals and Grand Finals
+- The Hidden and Hardrock brackets will have 2 maps each in Round of 64 and Round of 32, and 3 maps each in all following rounds.
+- The DoubleTime bracket will have 2 maps in Round of 64 till Round of 16, and 3 maps in all following rounds.
 - The HiddenHardrock bracket will have 1 map in both the Finals and Grand Finals. There will be none in earlier rounds.
 - The TiebBeaker is played with FreeMod, meaning it can be played with NoMod, Hidden, HardRock, or Hidden + Hardrock. You do not have to play with a mod, but it does give a significant score boost if you wish to try and practice it.
 - The mappool for each stage will be showcased a week beforehand, on sunday.
