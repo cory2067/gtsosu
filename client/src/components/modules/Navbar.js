@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Router } from "@reach/router";
 
-import { Layout, Menu, message } from "antd";
+import { Modal, Layout, Menu, message, Typography, Switch, Checkbox } from "antd";
 import LoginButton from "./LoginButton";
 import UserModal from "./UserModal";
 import "./Navbar.css";
@@ -152,14 +152,63 @@ function TourneyNavbar(props) {
   );
 }
 
+let suppressedTimezoneUpdate = localStorage.getItem("suppressedTimezoneUpdate");
+function TimezoneModal(props) {
+  const { onOk, onCancel, visible, user, timezone, loading } = props;
+  const [dontShowChecked, setDontShowChecked] = useState(false);
+  function displayTimezoneOffset(offset) {
+    return offset < 0 ? `UTC${offset}` : `UTC+${offset}`;
+  }
+
+  return <Modal
+    okText="Yes"
+    cancelText="No"
+    onOk={onOk}
+    onCancel={() => {
+      if (dontShowChecked) {
+        localStorage.setItem("suppressedTimezoneUpdate", timezone);
+      }
+      onCancel();
+    }}
+    visible={visible && suppressedTimezoneUpdate != timezone}
+    confirmLoading={loading}
+    title="Timezone Differs">
+    <div style={{ flexDirection: "row" }}>
+      <Typography.Text>
+        Your browser time zone ({displayTimezoneOffset(timezone)}) differs from the previously stored time zone ({displayTimezoneOffset(user.timezone)}).
+        Would you like to update your time zone to {displayTimezoneOffset(timezone)}?
+      </Typography.Text>
+      <div style={{ flexDirection: "column", marginTop: 16 }}>
+        <Checkbox
+          checked={dontShowChecked}
+          onChange={(e) => {
+            setDontShowChecked(e.target.checked);
+          }}
+          style={{ marginRight: 8 }} />
+        <Typography.Text>Do not show again for {displayTimezoneOffset(timezone)}</Typography.Text>
+      </div>
+    </div>
+  </Modal>
+}
+
 // Navbar + login stuff
 function Navbar(props) {
   const { user, setUser } = props;
   const [formData, setFormData] = useState({});
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [timezoneDiffers, setTimezoneDiffers] = useState(false);
+  const [showTimezoneModal, setShowTimezoneModal] = useState(true);
+  const [timezoneModalLoading, setTimezoneModalLoading] = useState(false);
 
   const isIncomplete = () => user._id && (!user.discord || user.timezone === undefined);
+  const browserTimezone = -(new Date().getTimezoneOffset() / 60);
+  if (
+    user.timezone !== undefined &&
+    browserTimezone != user.timezone &&
+    !timezoneDiffers) {
+    setTimezoneDiffers(true);
+  }
 
   useEffect(() => {
     setVisible(isIncomplete());
@@ -200,17 +249,47 @@ function Navbar(props) {
     }
   };
 
+  const handleTimezoneModalOk = async () => {
+    setTimezoneModalLoading(true);
+
+    try {
+      await post("/api/settings", {
+        timezone: browserTimezone
+      });
+    } catch (e) {
+      message.error("Failed to update time zone");
+    }
+
+
+    setShowTimezoneModal(false);
+    setTimezoneModalLoading(false);
+  }
+
+  const handleTimezoneModalCancel = () => {
+    setShowTimezoneModal(false);
+  }
+
   return (
     <>
       {user._id && (
-        <UserModal
-          visible={visible}
-          loading={loading}
-          user={user}
-          handleOk={handleOk}
-          handleCancel={handleCancel}
-          onValuesChange={handleFormChange}
-        />
+        <>
+          <UserModal
+            visible={visible}
+            loading={loading}
+            user={user}
+            handleOk={handleOk}
+            handleCancel={handleCancel}
+            onValuesChange={handleFormChange}
+          />
+          <TimezoneModal
+            visible={timezoneDiffers && showTimezoneModal}
+            user={user}
+            timezone={browserTimezone}
+            onOk={handleTimezoneModalOk}
+            onCancel={handleTimezoneModalCancel}
+            loading={timezoneModalLoading}
+          />
+        </>
       )}
       <Router>
         <RootNavbar {...props} openSettings={openSettings} path="/" />
