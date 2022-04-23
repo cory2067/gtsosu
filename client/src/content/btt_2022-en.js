@@ -1,7 +1,7 @@
 export default {
   name: "Beginner's Taiko Tournament Season 7",
   description:
-    "Beginner's Taiko Tournament is a rank-restricted tournament for newcomers to the taiko scene from infinity up to #10,000 rank. The players will first play in a qualifiers. The top 32 players will then play in a double-elimination bracket.",
+    "Beginner's Taiko Tournament is a rank-restricted tournament for newcomers to the taiko scene from infinity up to #10,000 rank. The players will first play in a qualifiers. The top 64 players will then play in a double-elimination bracket.",
   discord: "https://discord.gg/9FKYDe74un",
   homepage: [
     {
@@ -72,7 +72,7 @@ There are no other prizes being considered for BTT7
 - Failed scores will count.
 - Seedings will be done with the average rank of each player on each map. 
 - Maps will be played once in a row during the lobby. 
-- Only the 32 best players will continue on to the bracket stage. 
+- Only the 64 best players will continue on to the bracket stage. 
 
 # Mappool Instructions
 - There will be 1 mappool for each of the following: Qualifiers, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals and Grand Finals.
