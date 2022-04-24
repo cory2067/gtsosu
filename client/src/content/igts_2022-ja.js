@@ -92,8 +92,8 @@ export default {
   - グループステージでは相手のチームが来なかった場合,　試合は5:0, +1.0 スコアの勝利となります。
   - 試合に勝つ条件: 
     - グループステージ : BO9（5点勝利） 
-    - RO16, 準々決勝, 準決勝, 準決勝 : BO11（6点勝利） 
-    - 最終決戦: BO13（7点勝利）
+    - RO16, 準々決勝, 準決勝 : BO11（6点勝利） 
+    - 準決勝, 最終決戦: BO13（7点勝利）
 
 # 予選説明
   - このラウンド中は、様々な時間帯にロビーが利用できます。 
@@ -134,8 +134,9 @@ export default {
   - 予選は他ラウンドと違いNomod２つ、Hidden１つ、Hard Rock１つ、Double Time１つとFree Mod１つのMappoolを使います。 
   - ルーザーズ・ブラケットはウィナーズがその週に使うMappoolと同じものを使います。 
   - それぞれのMappoolはNoMod, Hidden, HardRock, DoubleTime, FreeModとTiebreakerの６つのブラケットに分けられます。 
-  - Group Stageは１４譜面、RO16、Quarterfinals、SemifinalsとFinalsは１５譜面、Grand Finalsは１６譜面とそれぞれMappoolの譜面の数が決まってます。 
-  - Hidden, HardRock と DoubleTime のブラケットは二譜面、 FreeModブラケットは三譜面。 
+  - Group Stageは１４譜面、RO16、QuarterfinalsとSemifinalsは１５譜面、FinalsとGrand Finalsは１６譜面とそれぞれMappoolの譜面の数が決まってます。 
+  - Hidden, HardRock と DoubleTime のブラケットは２譜面、 FreeModブラケットは3譜面。 
+  - NoModブラケットはGroup Stage4譜面; RO16、QuarterfinalsとSemifinals５譜面;FinalsとGrand Finals６譜面。
   - FreeModはFreeModがオンになった状態でプレイします。プレイヤーはそれぞれ **HiddenかHardRock 、もしくは両方同時に選べます**。**それぞれのチームはプレイヤー最低一人が最低一つModを付ける必要があります**。  
   - TiebreakerはFreeModオンでプレイされますがプレイヤー最低一人が最低一つModを付ける必要はありません。 
   - それぞれのステージのMappoolは一週間前にショーケースされます。 
