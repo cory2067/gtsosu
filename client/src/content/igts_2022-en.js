@@ -91,8 +91,8 @@ May 7th until May 8th.`,
 - In Group stage, 'Win by default' will be considered as win by 5:0, +1.0 score difference ratio.
 - The winning condition for each stage is:
   - Group Stage: BO9 (win 5 maps)
-  - RO16, Quarterfinals, Semifinals, Finals and Loser's bracket round 1, 2, 3 and 4: BO11 (win 6 maps)
-  - Grand Finals: BO13 (win 7 maps)
+  - RO16, Quarterfinals, Semifinals and Loser's bracket round 1, 2, 3 and 4: BO11 (win 6 maps)
+  - Finals, Loser's bracket Finals and Grand Finals: BO13 (win 7 maps)
 
 # Qualifiers Regulations
 - During this round there will be multiple lobbies available at various hours. 
@@ -134,9 +134,9 @@ May 7th until May 8th.`,
 - The Qualifiers pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 HardRock map, 1 DoubleTime map and 1 FreeMod map. 
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend. 
 - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker. 
-- The Group Stage mappool will consist of 14 maps; the Round of 16, Quarterfinals, SemiFinals and Finals mappool will consist of 15 maps; the Grand Finals mappool will consist of 16 maps. 
+- The Group Stage mappool will consist of 14 maps, Round of 16, Quarterfinals and SemiFinals mappool will consist of 15 maps, Finals and Grand Finals mappool will consist of 16 maps. 
 - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages as well. 
-- The size of the NoMod bracket will be 4 in Group Stage; 5 in Round of 16, Quarterfinals, Semifinals and Finals; 6 for the Grand Finals.
+- The size of the NoMod bracket will be 4 in Group Stage; 5 in Round of 16, Quarterfinals and Semifinals; 6 for Finals and Grand Finals.
 - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least one player of each team must have at least one mod activated**. 
 - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated. 
 - The mappool for each stage will be showcased a week beforehand. 
