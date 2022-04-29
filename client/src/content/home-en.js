@@ -18,10 +18,10 @@ It's our 2v2 tournament for intermediate level players being restricted for rank
 The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.`,
     },
     {
-      title: "AGTS 2021",
+      title: "AGTS 2022",
       code: "agts",
       description: `
-The Advanced Global Taiko Showdown, our 2v2 tournament for advanced-level players, being restricted for ranks #500 to #3,500. 
+The Advanced Global Taiko Showdown, our 2v2 tournament for advanced-level players, being restricted for ranks #500 to #1,500. 
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
     },
     {
