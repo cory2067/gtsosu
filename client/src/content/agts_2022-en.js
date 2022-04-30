@@ -50,7 +50,8 @@ July 9th until July 10th.`,
  - Any rule changes or unexpected occurrences will be announced in the Discord server.
 
 # Tournament Registration and Teams Creation
- - In order to participate you need to be in the rank range of #1000 to #1500.
+ - In order to participate you need to be in the rank range of #500 to #1500.
+ - You are not allowed to rank up further than #400 during the tournament. If you pass this limit you'll be disqualified. 
  - Players sign up individually. When their registration is accepted, they will get a country role.
  - The staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
  - This year we are allowing 2 teams for a country under certain conditions:
