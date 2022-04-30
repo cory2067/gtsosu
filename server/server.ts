@@ -11,6 +11,7 @@ import MongoStore from "connect-mongo";
 import api from "./api";
 import auth from "./auth";
 import db from "./db";
+import { Request } from "./types";
 import { getMockUser } from "./tests/test-util";
 
 const app = express();
@@ -34,7 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 if (process.env.NODE_ENV === "test") {
-  app.use((req, res, next) => {
+  app.use((req: Request<{}, {}>, res, next) => {
     req.user = getMockUser();
     next();
   });

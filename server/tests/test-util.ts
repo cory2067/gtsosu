@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { IUser } from "../models/user";
+import { UserDocument } from "../types";
 
 export const setup = () => {
   // wait for mongodb to connect before running test suite
@@ -17,7 +17,7 @@ export const teardown = () => {
   mongoose.disconnect();
 };
 
-const _mockData: { user: IUser | undefined } = {
+const _mockData: { user: UserDocument | undefined } = {
   user: undefined,
 };
 
@@ -25,7 +25,7 @@ export const logoutMockUser = () => {
   _mockData.user = undefined;
 };
 
-export const loginMockUser = (user: IUser) => {
+export const loginMockUser = (user: UserDocument) => {
   _mockData.user = user;
 };
 
