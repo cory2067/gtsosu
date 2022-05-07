@@ -344,15 +344,18 @@ export default function Stats({ tourney, user }) {
 
   const exportToJson = () => {
     const teams = [];
-    for (let teamStats of state.tourneyModel.teams
-      ? state.overallTeamStats
-      : state.overallPlayerStats) {
+    const isTeamTourney = state.tourneyModel.teams;
+    for (let teamStats of isTeamTourney ? state.overallTeamStats : state.overallPlayerStats) {
       const seedingResults = [];
       // assuming this is in correct mod order
       for (let stageMap of state.stageMaps) {
-        const teamScore = state.processedStats
-          .get(String(stageMap.mapId))
-          .teamScores.find((teamScore) => teamScore.teamName === teamStats.teamName);
+        const teamScore = isTeamTourney
+          ? state.processedStats
+              .get(String(stageMap.mapId))
+              .teamScores.find((teamScore) => teamScore.teamName === teamStats.teamName)
+          : state.processedStats
+              .get(String(stageMap.mapId))
+              .playerScores.find((playerScore) => playerScore.userId === teamStats.userId);
         if (!teamScore) continue;
         const beatmap = {
           ID: stageMap.mapId,
@@ -369,27 +372,42 @@ export default function Stats({ tourney, user }) {
           (seedingResultsMod) => seedingResultsMod.Mod === stageMap.mod
         );
         if (!theSeedingResultsMod) {
-          seedingResults.push({
-            Mod: stageMap.mod,
-            Seed:
-              state.teamModStats
-                .get(stageMap.mod)
-                .findIndex((stats) => stats.teamName === teamStats.teamName) + 1,
-            Beatmaps: [beatmap],
-          });
+          isTeamTourney
+            ? seedingResults.push({
+                Mod: stageMap.mod,
+                Seed:
+                  state.teamModStats
+                    .get(stageMap.mod)
+                    .findIndex((stats) => stats.teamName === teamStats.teamName) + 1,
+                Beatmaps: [beatmap],
+              })
+            : seedingResults.push({
+                Mod: stageMap.mod,
+                Seed:
+                  state.playerModStats
+                    .get(stageMap.mod)
+                    .findIndex((stats) => stats.userId === teamStats.userId) + 1,
+                Beatmaps: [beatmap],
+              });
         } else {
           theSeedingResultsMod.Beatmaps.push(beatmap);
         }
       }
-      const theTeam = state.teams.get(teamStats.teamName);
+      const theTeam = isTeamTourney
+        ? state.teams.get(teamStats.teamName)
+        : state.players.get(String(teamStats.userId));
       teams.push({
-        FullName: teamStats.teamName,
-        Acronym: teamStats.teamName.substring(0, 3),
-        FlagName: theTeam.players[0].country,
+        FullName: isTeamTourney ? theTeam.teamName : theTeam.username,
+        Acronym: isTeamTourney
+          ? theTeam.teamName.substring(0, 3)
+          : theTeam.username.substring(0, 3),
+        FlagName: isTeamTourney ? theTeam.players[0].country : theTeam.country,
         SeedingResults: seedingResults,
         Seed: `#${teamStats.rank}`,
         LastYearPlacing: 1,
-        Players: theTeam.players.map((player) => ({ id: player.userid })),
+        Players: isTeamTourney
+          ? theTeam.players.map((player) => ({ id: player.userid }))
+          : [teamStats.userId],
       });
     }
 
