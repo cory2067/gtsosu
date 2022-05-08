@@ -75,7 +75,8 @@ There are no other prizes being considered for BTT7
 - Failed scores will count. NoFail will be enforced.
 - Seedings will be done with the average rank of each player on each map. 
 - Maps will be played once in a row during the lobby. 
-- Only the 64 best players will continue on to the bracket stage. 
+- Only the 64 best players will continue on to the bracket stage.
+- Qualifier scores are to remain private as much as possible until the results are released by the staff. So don't go posting or streaming your qualifiers!
 
 # Mappool Instructions
 - There will be 1 mappool for each of the following: Qualifiers, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals and Grand Finals.
