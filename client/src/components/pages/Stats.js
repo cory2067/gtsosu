@@ -407,7 +407,7 @@ export default function Stats({ tourney, user }) {
         LastYearPlacing: 1,
         Players: isTeamTourney
           ? theTeam.players.map((player) => ({ id: player.userid }))
-          : [teamStats.userId],
+          : { id: teamStats.userId },
       });
     }
 
