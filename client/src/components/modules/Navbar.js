@@ -175,7 +175,7 @@ function TimezoneModal(props) {
       <div style={{ flexDirection: "row" }}>
         <Typography.Text>
           Your browser's time zone ({displayTimezoneOffset(timezone)}) differs from the time zone
-          shown on your profile ({displayTimezoneOffset(user.timezone)}). Would you like to update
+          stored in your profile ({displayTimezoneOffset(user.timezone)}). Would you like to update
           your time zone to {displayTimezoneOffset(timezone)}?
         </Typography.Text>
       </div>
