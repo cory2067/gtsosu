@@ -155,40 +155,32 @@ function TourneyNavbar(props) {
 let suppressedTimezoneUpdate = localStorage.getItem("suppressedTimezoneUpdate");
 function TimezoneModal(props) {
   const { onOk, onCancel, visible, user, timezone, loading } = props;
-  const [dontShowChecked, setDontShowChecked] = useState(false);
   function displayTimezoneOffset(offset) {
     return offset < 0 ? `UTC${offset}` : `UTC+${offset}`;
   }
 
-  return <Modal
-    okText="Yes"
-    cancelText="No"
-    onOk={onOk}
-    onCancel={() => {
-      if (dontShowChecked) {
+  return (
+    <Modal
+      okText="Yes"
+      cancelText="No"
+      onOk={onOk}
+      onCancel={() => {
         localStorage.setItem("suppressedTimezoneUpdate", timezone);
-      }
-      onCancel();
-    }}
-    visible={visible && suppressedTimezoneUpdate != timezone}
-    confirmLoading={loading}
-    title="Timezone Differs">
-    <div style={{ flexDirection: "row" }}>
-      <Typography.Text>
-        Your browser time zone ({displayTimezoneOffset(timezone)}) differs from the previously stored time zone ({displayTimezoneOffset(user.timezone)}).
-        Would you like to update your time zone to {displayTimezoneOffset(timezone)}?
-      </Typography.Text>
-      <div style={{ flexDirection: "column", marginTop: 16 }}>
-        <Checkbox
-          checked={dontShowChecked}
-          onChange={(e) => {
-            setDontShowChecked(e.target.checked);
-          }}
-          style={{ marginRight: 8 }} />
-        <Typography.Text>Do not show again for {displayTimezoneOffset(timezone)}</Typography.Text>
+        onCancel();
+      }}
+      visible={visible && suppressedTimezoneUpdate != timezone}
+      confirmLoading={loading}
+      title="Timezone Differs"
+    >
+      <div style={{ flexDirection: "row" }}>
+        <Typography.Text>
+          Your browser's time zone ({displayTimezoneOffset(timezone)}) differs from the time zone
+          shown on your profile ({displayTimezoneOffset(user.timezone)}). Would you like to update
+          your time zone to {displayTimezoneOffset(timezone)}?
+        </Typography.Text>
       </div>
-    </div>
-  </Modal>
+    </Modal>
+  );
 }
 
 // Navbar + login stuff
@@ -203,10 +195,7 @@ function Navbar(props) {
 
   const isIncomplete = () => user._id && (!user.discord || user.timezone === undefined);
   const browserTimezone = -(new Date().getTimezoneOffset() / 60);
-  if (
-    user.timezone !== undefined &&
-    browserTimezone != user.timezone &&
-    !timezoneDiffers) {
+  if (user.timezone !== undefined && browserTimezone != user.timezone && !timezoneDiffers) {
     setTimezoneDiffers(true);
   }
 
@@ -254,20 +243,19 @@ function Navbar(props) {
 
     try {
       await post("/api/settings", {
-        timezone: browserTimezone
+        timezone: browserTimezone,
       });
     } catch (e) {
       message.error("Failed to update time zone");
     }
 
-
     setShowTimezoneModal(false);
     setTimezoneModalLoading(false);
-  }
+  };
 
   const handleTimezoneModalCancel = () => {
     setShowTimezoneModal(false);
-  }
+  };
 
   return (
     <>
