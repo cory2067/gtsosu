@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { get, post, hasAccess, delet, getStage, prettifyTourney } from "../../utilities";
-import "../../utilities.css";
 import StageSelector from "../modules/StageSelector";
 import SubmitResultsModal from "../modules/SubmitResultsModal";
 import FlagIcon from "../modules/FlagIcon";

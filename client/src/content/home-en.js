@@ -1,6 +1,6 @@
 export default {
   title: "Global Taiko Showdown",
-  description: "Welcome to the website of one of the biggest osu!taiko tournament series!",
+  description: "The biggest osu!taiko tournament series!",
   tournies: [
     {
       title: "EGTS 2021",
@@ -37,12 +37,6 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 16 
       description: `
 The Squad Global Taiko Showdown, our open-rank 3v3 tournament, where you can make your own team with 3-6 players.
 The top 32 teams after qualifiers will then face off in a double-elimination bracket.`,
-    },
-    {
-      title: "YGTS 2022",
-      code: "ygts",
-      description: `
-You're still very weird if you play in this, you know.`,
     },
   ],
 };

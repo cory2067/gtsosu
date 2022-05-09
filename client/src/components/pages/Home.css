@@ -1,6 +1,13 @@
+body .Home-content {
+  padding: 0;
+}
+
 .Home-title {
-  font-size: 32pt;
+  font-size: 62pt;
   text-align: center;
+  line-height: 1;
+  margin-bottom: 0;
+  text-transform: uppercase;
 }
 
 .Home-about-container {
@@ -9,10 +16,18 @@
 }
 
 .Home-about {
-  font-size: 14pt;
-  padding: var(--s);
-  border: 1px solid var(--darkgrey);
+  font-size: 22pt;
+  padding: var(--xs);
   max-width: 800px;
+  font-style: italic;
+}
+
+.Home-title-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 350px;
+  background: #E5E5E5;
 }
 
 .Home-about p {

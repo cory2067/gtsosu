@@ -3,7 +3,6 @@ import ReactMarkdown from "react-markdown";
 import { navigate } from "@reach/router";
 import { Layout } from "antd";
 
-import "../../utilities.css";
 import { prettifyTourney } from "../../utilities";
 import ContentManager from "../../ContentManager";
 const { Content } = Layout;

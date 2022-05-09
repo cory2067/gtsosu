@@ -3,7 +3,6 @@ import AddMapModal from "../modules/AddMapModal";
 import StageSelector from "../modules/StageSelector";
 import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
-import "../../utilities.css";
 import { get, post, delet, hasAccess, getStage, prettifyTourney } from "../../utilities";
 import { navigate } from "@reach/router";
 import "./Mappools.css";

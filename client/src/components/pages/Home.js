@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import TourneyCard from "../modules/TourneyCard";
-import "../../utilities.css";
 import "./Home.css";
 
 import data from "../../content/home-en";
 import { Layout } from "antd";
-const { Content } = Layout;
+const { Header, Content } = Layout;
 
 export default function Home() {
   useEffect(() => {
@@ -14,11 +13,15 @@ export default function Home() {
   });
 
   return (
-    <Content className="content">
-      <h1 className="Home-title">{data.title}</h1>
-      <div className="Home-about-container">
-        <div className="Home-about">
-          <ReactMarkdown source={data.description} />
+    <Content className="content Home-content">
+      <div className="Home-title-section">
+        <div className="Home-title-section-inner">
+          <h1 className="Home-title u-xbold">{data.title}</h1>
+          <div className="Home-about-container">
+            <div className="Home-about">
+              <ReactMarkdown source={data.description} />
+            </div>
+          </div>
         </div>
       </div>
 

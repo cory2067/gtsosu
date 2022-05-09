@@ -32,3 +32,11 @@ header.Navbar-wrapper {
 #Navbar-RightNavbar .Navbar-lang-icon {
   margin-right: 6px;
 }
+
+.ant-menu-item {
+  font-size: 15px;
+}
+
+.ant-menu-submenu-title {
+  font-size: 15px;
+}

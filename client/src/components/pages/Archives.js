@@ -3,7 +3,6 @@ import { Link } from "@reach/router";
 import ReactMarkdown from "react-markdown";
 import TourneyCard from "../modules/TourneyCard";
 import { get, hasAccess, delet, post, prettifyTourney, tokenizeTourney } from "../../utilities";
-import "../../utilities.css";
 import "./Archives.css";
 
 import data from "../../content/home-en";

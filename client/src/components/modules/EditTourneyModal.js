@@ -1,6 +1,5 @@
 import React from "react";
 import countries from "../../content/countries";
-import "../../utilities.css";
 
 import { Form, Modal, InputNumber, Select, Switch } from "antd";
 
