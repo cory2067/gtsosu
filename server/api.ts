@@ -62,7 +62,8 @@ const cantPlay = (user: IUser, tourney: string) =>
     "Mapper",
   ]);
 
-const parseMatchId = (mpLink) => {
+const parseMatchId = (mpLink: string | undefined) => {
+  if (!mpLink) return undefined;
   const found = mpLink.match(mpRegex1) || mpLink.match(mpRegex2);
   return found ? found[1] : undefined;
 };
@@ -656,9 +657,22 @@ router.getAsync("/matches", async (req, res) => {
  *   - link: mp link
  */
 router.postAsync("/results", ensure.isRef, async (req, res) => {
-  logger.info(
-    `${req.user.username} submitted mp link ${req.body.link} for match ${req.body.match}`
-  );
+  logger.info(`${req.user.username} submitted results for match ${req.body.match}`);
+
+  // If ref didn't submit an mp link (e.g. forfeit), only update the scores and exit
+  if (!req.body.link) {
+    const newMatch = await Match.findOneAndUpdate(
+      { _id: req.body.match, tourney: req.body.tourney },
+      {
+        $set: { score1: req.body.score1 || 0, score2: req.body.score2 || 0, link: "" },
+      },
+      { new: true }
+    ).orFail();
+    res.send(newMatch);
+    return;
+  }
+
+  // Parse the mp link and update stats
   const matchId = parseMatchId(req.body.link);
   if (!matchId) {
     logger.info("Invalid MP link");
@@ -674,7 +688,6 @@ router.postAsync("/results", ensure.isRef, async (req, res) => {
   ).orFail();
 
   await fetchMatchesAndUpdateStageStats(req.body.tourney, newMatch.stage, [matchId]);
-  logger.info(`${req.user.username} submitted results for match ${newMatch.code}`);
   res.send(newMatch);
 });
 
@@ -1130,13 +1143,15 @@ router.postAsync(
       `${user.username} initiated a refresh of ${req.body.tourney}/${req.body.stage} stats`
     );
 
+    const matchIdExists = (id: string | undefined): id is string => !!id;
     let matchIds: string[] = [];
+
     if (req.body.stage === "Qualifiers") {
       const lobbies = await QualifiersLobby.find({ tourney: req.body.tourney });
-      matchIds = lobbies.map((lobby) => parseMatchId(lobby.link)).filter((matchId) => !!matchId);
+      matchIds = lobbies.map((lobby) => parseMatchId(lobby.link)).filter(matchIdExists);
     } else {
       const match = await Match.find({ tourney: req.body.tourney, stage: req.body.stage });
-      matchIds = match.map((match) => parseMatchId(match.link)).filter((matchId) => !!matchId);
+      matchIds = match.map((match) => parseMatchId(match.link)).filter(matchIdExists);
     }
 
     const updatedStageStats = await fetchMatchesAndUpdateStageStats(
