@@ -116,7 +116,7 @@ There are no other prizes being considered for BTT7
 - If a player disconnects between the beatmaps, the match can be delayed 10 minutes at maximum. This delay can only be applied once.
 - If a player disconnects after 30 seconds, they get treated as if they lost the map.
 - Disconnects within 30 seconds after beatmap begin can be rematched. This is only allowed once per player.
-- If a player disconnects late in the map, but can show a screenshot of his results screen or proof of the local score with a fitting time stamp, and it's higher than the opponent's score, they still win the point. It is up to the referee to allow this or not.
+- If a player disconnects late in the map, but can show a screenshot of his results screen or proof of the local score with a fitting time stamp, and it's higher than the opponent's score, they still win the point. It is up to the referee to decide if its legit.
 - Failed players' scores do count.
 - If the beatmap ends in a draw the game will be nullified and the map will be replayed. If it does end in a tie again, the map will be nullified again, and the player who picked it will have to pick another map.
 - If both players reach match point (1 more point needed to win), the TieBreaker will be played.
