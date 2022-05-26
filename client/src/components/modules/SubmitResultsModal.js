@@ -1,5 +1,4 @@
 import React from "react";
-import "../../utilities.css";
 
 import { Form, Input, Modal, InputNumber } from "antd";
 

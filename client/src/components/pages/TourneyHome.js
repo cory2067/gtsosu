@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
-import "../../utilities.css";
 import "./TourneyHome.css";
 
 import { Layout, Card, Button, Modal, notification, message } from "antd";

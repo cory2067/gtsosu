@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "../../utilities.css";
 import { get, post, hasAccess, delet, prettifyTourney } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
@@ -59,7 +58,7 @@ export default function TourneyStaff({ tourney, user }) {
     } catch (e) {
       message.error("Something went wrong, failed to fetch tourney staff data.");
     }
-  }
+  };
 
   useEffect(() => {
     document.title = `${prettifyTourney(tourney)}: Staff`;
@@ -67,8 +66,7 @@ export default function TourneyStaff({ tourney, user }) {
     fetchStaff();
   }, []);
 
-  const getRoles = (user) =>
-    user.roles.filter((r) => r.tourney === tourney).map((r) => r.role);
+  const getRoles = (user) => user.roles.filter((r) => r.tourney === tourney).map((r) => r.role);
 
   const isAdmin = () => hasAccess(user, tourney, []);
 
@@ -83,7 +81,6 @@ export default function TourneyStaff({ tourney, user }) {
     } catch (e) {
       message.error("Something went wrong, failed to add new tourney staff.");
     }
-
   };
 
   const handleDelete = async (username) => {
@@ -97,45 +94,45 @@ export default function TourneyStaff({ tourney, user }) {
     }
   };
 
-    return (
-      <Content className="content">
-        {isAdmin() && (
-          <Collapse>
-            <Panel header="Add new staff" key="1">
-              <Form name="basic" onFinish={onFinish}>
-                <Form.Item label="Username" name="username">
-                  <Input />
-                </Form.Item>
-                <Form.Item label="Role" name="role">
-                  <Select showSearch>
-                    {roles.map((role, i) => (
-                      <Select.Option key={i} value={role}>
-                        {role}
-                      </Select.Option>
-                    ))}
-                  </Select>
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" loading={isLoading}>
-                    Add
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Panel>
-          </Collapse>
-        )}
-        <div className="TourneyStaff-container">
-          {staff.map((user) => (
-            <UserCard
-              canDelete={isAdmin()}
-              onDelete={handleDelete}
-              key={user.userid}
-              user={user}
-              extra={getRoles(user).join(", ")}
-              hideRank
-            />
-          ))}
-        </div>
-      </Content>
-    );
+  return (
+    <Content className="content">
+      {isAdmin() && (
+        <Collapse>
+          <Panel header="Add new staff" key="1">
+            <Form name="basic" onFinish={onFinish}>
+              <Form.Item label="Username" name="username">
+                <Input />
+              </Form.Item>
+              <Form.Item label="Role" name="role">
+                <Select showSearch>
+                  {roles.map((role, i) => (
+                    <Select.Option key={i} value={role}>
+                      {role}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" loading={isLoading}>
+                  Add
+                </Button>
+              </Form.Item>
+            </Form>
+          </Panel>
+        </Collapse>
+      )}
+      <div className="TourneyStaff-container">
+        {staff.map((user) => (
+          <UserCard
+            canDelete={isAdmin()}
+            onDelete={handleDelete}
+            key={user.userid}
+            user={user}
+            extra={getRoles(user).join(", ")}
+            hideRank
+          />
+        ))}
+      </div>
+    </Content>
+  );
 }

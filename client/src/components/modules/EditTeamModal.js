@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../../utilities.css";
 
 import { Form, Input, Modal, Select, Button } from "antd";
 

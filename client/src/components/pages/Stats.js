@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../../utilities.css";
 import "./Stats.css";
 import { get, post, prettifyTourney, hasAccess, getStage } from "../../utilities";
 import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin } from "antd";

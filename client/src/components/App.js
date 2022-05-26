@@ -14,7 +14,7 @@ import PoolHelper from "./pages/PoolHelper";
 import Navbar from "./modules/Navbar";
 import { get } from "../utilities";
 
-import "../utilities.css";
+import "../global.css";
 import YearConfig from "../content/year-config";
 
 import { Layout } from "antd";

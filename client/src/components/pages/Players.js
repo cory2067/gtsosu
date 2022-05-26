@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "../../utilities.css";
 import "./Players.css";
 import { get, hasAccess, delet, post, prettifyTourney } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";

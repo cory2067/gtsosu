@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
 :root {
-  --darkgrey: #d4d4d4;
-  --medgrey: #e0e0e0;
-  --grey: #f7f7f7;
+  --gts-orange: #f75c03;
+  --greyts: #b5c8d6;
+  --onyx: #31373f;
+  --night: #2e3135;
   --white: #fff;
   --bg: #f0f2f5;
 
@@ -14,6 +17,7 @@
 
 html body {
   background-color: var(--bg);
+  font-family: 'Red Hat Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 }
 
 form {
@@ -56,6 +60,10 @@ form {
   font-weight: 600;
 }
 
+.u-xbold {
+  font-weight: 700;
+}
+
 .u-textCenter {
   text-align: center;
 }
@@ -80,4 +88,29 @@ form {
 
 .u-bottom-pad {
   padding-bottom: var(--s);
+}
+
+.u-no-pad {
+  padding: 0;
+}
+
+/* Ant default overrides */
+body {
+  font-variant: normal!important;
+  font-feature-settings: normal!important;
+}
+
+body .ant-card {
+  font-variant: normal;
+  font-feature-settings: normal;
+}
+
+body .ant-list {
+  font-variant: normal;
+  font-feature-settings: normal;
+}
+
+body .ant-table {
+  font-variant: normal;
+  font-feature-settings: normal;
 }

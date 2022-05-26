@@ -25,13 +25,13 @@ April 10th until May 1st.
 May 7th until May 8th.
 ### Round of 64
 May 14th until May 15th.
-### Round of 32 + Loser's Bracket Round 1
+### Round of 32 + Loser's Bracket Round 1 and 2
 May 21st until May 22nd.
-### Round of 16 + Loser's Bracket Round 2 and 3
+### Round of 16 + Loser's Bracket Round 3 and 4
 May 28th until May 29th.
-### Quarterfinals + Loser's Bracket Round 4 and 5
+### Quarterfinals + Loser's Bracket Round 5 and 6
 June 4th until June 5th.
-### Semifinals + Loser's Bracket Round 6 and 7
+### Semifinals + Loser's Bracket Round 7 and 8
 June 11th until June 12th.
 ### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
 June 18th until June 19th.
@@ -67,12 +67,16 @@ There are no other prizes being considered for BTT7
 
 # Qualifiers Regulations
 - During this round there will be multiple lobbies available at various hours. 
-- A private match will be created and players will be invited into the lobby when it's their time. Make certain you're online at this time. 
+- A private match will be created and players will be invited into the lobby when it's their time. Make certain you're online at this time.
+- If a player who signed up to a lobby is late for that lobby, the lobby will be postponed up to 5 minutes before it starts.
+- Late players are allowed to join their lobby until 15 minutes after the lobby time (so they have 10 minutes after the lobby starts). They join the others wherever they are in the quals pool and play the maps they missed after everyone else is done.
+- Players who still haven't shown up will need to reschedule to a later time.
 - There are no warmups.
-- Failed scores will count.
+- Failed scores will count. NoFail will be enforced.
 - Seedings will be done with the average rank of each player on each map. 
 - Maps will be played once in a row during the lobby. 
-- Only the 64 best players will continue on to the bracket stage. 
+- Only the 64 best players will continue on to the bracket stage.
+- Qualifier scores are to remain private as much as possible until the results are released by the staff. So don't go posting or streaming your qualifiers!
 
 # Mappool Instructions
 - There will be 1 mappool for each of the following: Qualifiers, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals and Grand Finals.
@@ -101,10 +105,10 @@ There are no other prizes being considered for BTT7
 - If neither of the players are in the lobby after 15 minutes, the highest seeded player will advance.
 - Each player is allowed one warm-up. It must be below 3:00 in drain time. **No exceptions.**
 - After both warm-ups have been played, the referee will ask the players to roll. This is done by typing '!roll' in the chat. The player with the highest number wins the roll.
-- Each player has to ban **two beatmaps**. These maps cannot be picked by either player for the entire match.
-- The roll loser bans first. Then the roll winner will give their first ban, then the roll loser gives their second ban, then the roll winner gives their second ban.
+- Each player has to ban **one beatmaps**. These maps cannot be picked by either player for the entire match.
+- The roll loser bans first. The roll winner bans second.
 - Players have 2 minutes to announce their ban. If they did not announce their ban in time, their ban will be made with a roll by the referee.
-- The TieBreaker cannot be banned. A player can't ban a map from the same mod bracket twice, but his opponent can ban a map from the same bracket as him.
+- The TieBreaker cannot be banned. A player and their opponent can both ban a map from the same modpool. If a player bans a DT, their opponent can ban another DT if they want.
 - After the bans, the roll winner will pick the first map to be played. After the map, the roll loser will pick the second map. Picks will then alternate between the players.
 - Like with the bans, players have 2 minutes to announce their pick to the referee. If they did not announce their pick in time, their pick will be made with a roll by the referee.
 - Any map that was **NOT** banned, already played, or the TieBreaker can be picked.
@@ -112,6 +116,8 @@ There are no other prizes being considered for BTT7
 - If a player disconnects between the beatmaps, the match can be delayed 10 minutes at maximum. This delay can only be applied once.
 - If a player disconnects after 30 seconds, they get treated as if they lost the map.
 - Disconnects within 30 seconds after beatmap begin can be rematched. This is only allowed once per player.
+- If a player disconnects after 30 seconds, but can show a screenshot the local score with a **fitting time stamp**, and it's higher than the opponent's score, they still win the point. It is up to the referee to decide if its legit.
+- If someone tries to abuse the rule above and we see you're trying to pass a different score, you will instantly lose the match.
 - Failed players' scores do count.
 - If the beatmap ends in a draw the game will be nullified and the map will be replayed. If it does end in a tie again, the map will be nullified again, and the player who picked it will have to pick another map.
 - If both players reach match point (1 more point needed to win), the TieBreaker will be played.

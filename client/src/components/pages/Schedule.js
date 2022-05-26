@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { get, post, hasAccess, delet, getStage, prettifyTourney } from "../../utilities";
-import "../../utilities.css";
 import StageSelector from "../modules/StageSelector";
 import SubmitResultsModal from "../modules/SubmitResultsModal";
 import FlagIcon from "../modules/FlagIcon";
@@ -188,22 +187,27 @@ class Schedule extends Component {
 
   handleOk = async () => {
     this.setState({ loading: true });
-    const newMatch = await post("/api/results", {
-      ...this.state.formData,
-      match: this.state.match._id,
-      tourney: this.props.tourney,
-    });
+    try {
+      const newMatch = await post("/api/results", {
+        ...this.state.formData,
+        match: this.state.match._id,
+        tourney: this.props.tourney,
+      });
 
-    this.setState((state) => ({
-      loading: false,
-      visible: false,
-      matches: state.matches.map((m) => {
-        if (m.key === state.match.key) {
-          return { ...newMatch, key: newMatch._id };
-        }
-        return m;
-      }),
-    }));
+      this.setState((state) => ({
+        loading: false,
+        visible: false,
+        matches: state.matches.map((m) => {
+          if (m.key === state.match.key) {
+            return { ...newMatch, key: newMatch._id };
+          }
+          return m;
+        }),
+      }));
+    } catch (e) {
+      message.error(e.message || e);
+      this.setState({ loading: false });
+    }
   };
 
   handleSubmitWarmup = async (match, playerNo, warmupMap) => {
