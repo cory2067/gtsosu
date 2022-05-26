@@ -55,6 +55,7 @@ class Schedule extends Component {
       },
       submitWarmupVisible: false,
       submitWarmupLoading: false,
+      beatmaps: [],
     };
   }
 
@@ -73,6 +74,9 @@ class Schedule extends Component {
       : get("/api/players", { tourney: this.props.tourney }));
     const lookup = Object.fromEntries(participants.map((p) => [p.name || p.username, p]));
     this.setState({ lookup });
+    
+    const beatmaps = await get("/api/maps", { tourney: this.props.tourney, stage: current.name });
+    this.setState({ beatmaps });
   }
 
   async componentDidUpdate(prevProps) {
@@ -93,6 +97,9 @@ class Schedule extends Component {
       stage: stage,
     });
     this.setState({ matches: matches.map((m) => ({ ...m, key: m._id })) });
+    
+    const beatmaps = await get("/api/maps", { tourney: this.props.tourney, stage });
+    this.setState({ beatmaps });
   }
 
   handleMenuClick = ({ key }) => {
@@ -348,6 +355,14 @@ class Schedule extends Component {
       );
     }
   };
+  
+  renderBeatmaps = (mapIds) => {
+    const picks = mapIds.map(mapId => {
+      const theBeatmap = this.state.beatmaps.find(beatmap => beatmap.mapId === mapId);
+      return theBeatmap ? `${theBeatmap.mod}${theBeatmap.index}` : "??";
+    });
+    return picks.join(", ");
+  };
 
   handleTimezone = (e) => {
     if (this.state.editing > -1) return;
@@ -547,6 +562,13 @@ class Schedule extends Component {
                       }}
                     />
                     <Column
+                      title="Bans 1"
+                      dataIndex="bans1"
+                      key="bans1"
+                      className="u-textCenter"
+                      render={this.renderBeatmaps}
+                    />
+                    <Column
                       title={this.state.teams ? "Team 2" : "Player 2"}
                       dataIndex="player2"
                       key="player2"
@@ -561,7 +583,13 @@ class Schedule extends Component {
                         return this.renderWarmup(url, match, 2);
                       }}
                     />
-
+                    <Column
+                      title="Bans 2"
+                      dataIndex="bans2"
+                      key="bans2"
+                      className="u-textCenter"
+                      render={this.renderBeatmaps}
+                    />
                     <Column
                       title="Score"
                       dataIndex="score2"
@@ -760,6 +788,7 @@ class Schedule extends Component {
           handleCancel={() => this.setState({ visible: false })}
           handleOk={this.handleOk}
           onValuesChange={this.handleValuesChange}
+          beatmaps={this.state.beatmaps}
         />
       </Content>
     );

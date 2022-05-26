@@ -650,46 +650,70 @@ router.getAsync("/matches", async (req, res) => {
 /**
  * POST /api/results
  * Submit the outcome of a match
- * Params:
- *   - tourney: identifier for the tournament
- *   - match: the _id of the match
- *   - score1, score2: scores of player1 and player2
- *   - link: mp link
  */
-router.postAsync("/results", ensure.isRef, async (req, res) => {
-  logger.info(`${req.user.username} submitted results for match ${req.body.match}`);
+type SubmitResultsBody = {
+  tourney: string; // identifier for the tournament
+  match: string; // the _id of the match
+  score1: number; // score of player1
+  score2: number; //score of player2
+  bans1: number[]; // map ids banned by player1
+  bans2: number[]; // map ids banned by player2
+  link: string; // mp link of the match
+};
+type SubmitResultsResponse = IMatch | { message: string };
 
-  // If ref didn't submit an mp link (e.g. forfeit), only update the scores and exit
-  if (!req.body.link) {
+router.postAsync(
+  "/results",
+  ensure.isRef,
+  async (req: Request<{}, SubmitResultsBody>, res: Response<SubmitResultsResponse>) => {
+    const user = assertUser(req);
+    logger.info(`${user.username} submitted results for match ${req.body.match}`);
+
+    // If ref didn't submit an mp link (e.g. forfeit), only update the scores and exit
+    if (!req.body.link) {
+      const newMatch = await Match.findOneAndUpdate(
+        { _id: req.body.match, tourney: req.body.tourney },
+        {
+          $set: {
+            score1: req.body.score1 || 0,
+            score2: req.body.score2 || 0,
+            bans1: req.body.bans1 || [],
+            bans2: req.body.bans2 || [],
+            link: "",
+          },
+        },
+        { new: true }
+      ).orFail();
+      res.send(newMatch);
+      return;
+    }
+
+    // Parse the mp link and update stats
+    const matchId = parseMatchId(req.body.link);
+    if (!matchId) {
+      logger.info("Invalid MP link");
+      res.status(400).send({ message: "Invalid MP link" });
+      return;
+    }
+
     const newMatch = await Match.findOneAndUpdate(
       { _id: req.body.match, tourney: req.body.tourney },
       {
-        $set: { score1: req.body.score1 || 0, score2: req.body.score2 || 0, link: "" },
+        $set: {
+          score1: req.body.score1 || 0,
+          score2: req.body.score2 || 0,
+          bans1: req.body.bans1 || [],
+          bans2: req.body.bans2 || [],
+          link: req.body.link,
+        },
       },
       { new: true }
     ).orFail();
+
+    await fetchMatchesAndUpdateStageStats(req.body.tourney, newMatch.stage, [matchId]);
     res.send(newMatch);
-    return;
   }
-
-  // Parse the mp link and update stats
-  const matchId = parseMatchId(req.body.link);
-  if (!matchId) {
-    logger.info("Invalid MP link");
-    return res.status(400).send({ message: "Invalid MP link" });
-  }
-
-  const newMatch = await Match.findOneAndUpdate(
-    { _id: req.body.match, tourney: req.body.tourney },
-    {
-      $set: { score1: req.body.score1 || 0, score2: req.body.score2 || 0, link: req.body.link },
-    },
-    { new: true }
-  ).orFail();
-
-  await fetchMatchesAndUpdateStageStats(req.body.tourney, newMatch.stage, [matchId]);
-  res.send(newMatch);
-});
+);
 
 /**
  * POST /api/referee
