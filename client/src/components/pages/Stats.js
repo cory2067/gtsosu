@@ -396,7 +396,7 @@ export default function Stats({ tourney, user }) {
         ? state.teams.get(teamStats.teamName)
         : state.players.get(String(teamStats.userId));
       teams.push({
-        FullName: isTeamTourney ? theTeam.teamName : theTeam.username,
+        FullName: isTeamTourney ? theTeam.name : theTeam.username,
         Acronym: isTeamTourney
           ? theTeam.name.substring(0, 3)
           : theTeam.username.substring(0, 3),
