@@ -398,7 +398,7 @@ export default function Stats({ tourney, user }) {
       teams.push({
         FullName: isTeamTourney ? theTeam.teamName : theTeam.username,
         Acronym: isTeamTourney
-          ? theTeam.teamName.substring(0, 3)
+          ? theTeam.name.substring(0, 3)
           : theTeam.username.substring(0, 3),
         FlagName: isTeamTourney ? theTeam.players[0].country : theTeam.country,
         SeedingResults: seedingResults,
