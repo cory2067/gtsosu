@@ -355,13 +355,31 @@ class Schedule extends Component {
       );
     }
   };
-  
+
   renderBeatmaps = (mapIds) => {
     const picks = mapIds.map(mapId => {
       const theBeatmap = this.state.beatmaps.find(beatmap => beatmap.mapId === mapId);
       return theBeatmap ? `${theBeatmap.mod}${theBeatmap.index}` : "??";
     });
     return picks.join(", ");
+  };
+
+  renderScore1 = (s, match) => {
+    const tooltipTitle = `Bans: ${this.renderBeatmaps(match.bans1)}`;
+    return (
+      <Tooltip title={tooltipTitle}>
+        {this.displayScore(s, match.score2)}
+      </Tooltip>
+    );
+  };
+
+  renderScore2 = (s, match) => {
+    const tooltipTitle = `Bans: ${this.renderBeatmaps(match.bans2)}`;
+    return (
+      <Tooltip title={tooltipTitle}>
+        {this.displayScore(s, match.score1)}
+      </Tooltip>
+    );
   };
 
   handleTimezone = (e) => {
@@ -544,7 +562,7 @@ class Schedule extends Component {
                       title="Score"
                       dataIndex="score1"
                       key="score1"
-                      render={(s, match) => this.displayScore(s, match.score2)}
+                      render={this.renderScore1}
                     />
                     <Column
                       title={this.state.teams ? "Team 1" : "Player 1"}
@@ -562,13 +580,6 @@ class Schedule extends Component {
                       }}
                     />
                     <Column
-                      title="Bans 1"
-                      dataIndex="bans1"
-                      key="bans1"
-                      className="u-textCenter"
-                      render={this.renderBeatmaps}
-                    />
-                    <Column
                       title={this.state.teams ? "Team 2" : "Player 2"}
                       dataIndex="player2"
                       key="player2"
@@ -584,17 +595,10 @@ class Schedule extends Component {
                       }}
                     />
                     <Column
-                      title="Bans 2"
-                      dataIndex="bans2"
-                      key="bans2"
-                      className="u-textCenter"
-                      render={this.renderBeatmaps}
-                    />
-                    <Column
                       title="Score"
                       dataIndex="score2"
                       key="score2"
-                      render={(s, match) => this.displayScore(s, match.score1)}
+                      render={this.renderScore2}
                     />
                     <Column
                       title={
