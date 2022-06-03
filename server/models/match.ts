@@ -5,6 +5,8 @@ interface IMatch {
   player2: string;
   warmup1: string;
   warmup2: string;
+  bans1: number[];
+  bans2: number[];
   code: string;
   time: Date;
   score1: number;
@@ -24,6 +26,9 @@ const MatchSchema = new Schema<IMatch>({
   player2: String,
   warmup1: String,
   warmup2: String,
+  // lists of beatmap ids
+  bans1: [Number],
+  bans2: [Number],
   code: String,
   time: Date,
   score1: { type: Number, default: -2 },

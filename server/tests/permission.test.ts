@@ -54,6 +54,8 @@ function createTestMatch(params: Partial<IMatch>): IMatch {
     tourney: "testTourney",
     warmup1: "",
     warmup2: "",
+    bans1: [],
+    bans2: [],
     ...params
   }
 }
