@@ -365,7 +365,8 @@ class Schedule extends Component {
   };
 
   renderScore1 = (s, match) => {
-    const tooltipTitle = `Bans: ${this.renderBeatmaps(match.bans1)}`;
+    const bans = this.renderBeatmaps(match.bans1);
+    const tooltipTitle = bans ? `Bans: ${bans}` : "";
     return (
       <Tooltip title={tooltipTitle}>
         {this.displayScore(s, match.score2)}
@@ -374,7 +375,8 @@ class Schedule extends Component {
   };
 
   renderScore2 = (s, match) => {
-    const tooltipTitle = `Bans: ${this.renderBeatmaps(match.bans2)}`;
+    const bans = this.renderBeatmaps(match.bans2);
+    const tooltipTitle = bans ? `Bans: ${bans}` : "";
     return (
       <Tooltip title={tooltipTitle}>
         {this.displayScore(s, match.score1)}
