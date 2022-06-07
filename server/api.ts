@@ -121,7 +121,7 @@ const parseWarmup = async (warmup: string, tourney: string) => {
   }
 
   // Map longer than 3 minutes
-  if (mapData.length.total > 180) {
+  if (mapData.length.drain > 180) {
     throw new Error("Warmup map too long (max 3 minutes)");
   }
 
