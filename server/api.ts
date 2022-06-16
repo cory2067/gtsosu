@@ -4,7 +4,7 @@ import osu from "node-osu";
 import fs from "fs";
 
 import ensure from "./ensure";
-import Match, { IMatch } from "./models/match";
+import Match, { IMatch, ModLengthMultiplier, WarmupMod } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
 import StageStats, { IStageStats } from "./models/stage-stats";
 import Team, { PopulatedTeam } from "./models/team";
@@ -83,7 +83,7 @@ const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   return new UserAuth(user).forMatch({ match, playerNo, teams }).hasRole(UserRole.Captain);
 };
 
-const parseWarmup = async (warmup: string, tourney: string) => {
+const parseWarmup = async (warmup: string, mod: WarmupMod, tourney: string) => {
   if (!warmup) {
     throw new Error("No warmup submitted");
   }
@@ -121,7 +121,7 @@ const parseWarmup = async (warmup: string, tourney: string) => {
   }
 
   // Map longer than 3 minutes
-  if (mapData.length.drain > 180) {
+  if (mapData.length.drain * ModLengthMultiplier[mod] > 180) {
     throw new Error("Warmup map too long (max 3 minutes)");
   }
 
@@ -569,7 +569,10 @@ router.postAsync("/warmup", ensure.loggedIn, async (req, res) => {
     return res.status(403).send("You don't have permission to do that");
   }
   try {
-    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup, match.tourney);
+    // Make sure mod is valid, if it's not default to nm
+    if (req.body.mod != "DT") { req.body.mod = "NM" }
+    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup, req.body.mod || "NM", match.tourney);
+    match[`warmup${req.body.playerNo}Mod`] = req.body.mod;
   } catch (e) {
     res.status(400).send(e.message);
     return;
@@ -772,10 +775,7 @@ router.postAsync("/streamer", ensure.isStreamer, async (req, res) => {
 });
 
 /**
- * DELETE /api/streamer
- * Removes the current streamer
- * Params:
- *  - match: the _id of the match
+ * DELETE /api/streamer| "HT"
  *  - tourney: identifier for the tournament
  */
 router.deleteAsync("/streamer", ensure.isStreamer, async (req, res) => {
@@ -887,8 +887,7 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   await lobby.save();
 
   logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${
-      req.body.lobby
+    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${req.body.lobby
     } for ${req.body.tourney}`
   );
   res.send(lobby);
@@ -925,8 +924,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
     return res.status(403).send({});
   logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
-      req.body.lobby
+    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${req.body.lobby
     } in ${req.body.tourney}`
   );
 

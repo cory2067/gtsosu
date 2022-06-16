@@ -1,10 +1,18 @@
 import { Schema, model } from "mongoose";
 
+export type WarmupMod = "NM" | "DT";
+export const ModLengthMultiplier: { [k: string]: number } = {
+  NM: 1,
+  DT: 1 / 1.5,
+}
+
 interface IMatch {
   player1: string;
   player2: string;
   warmup1: string;
+  warmup1Mod: WarmupMod;
   warmup2: string;
+  warmup2Mod: WarmupMod;
   bans1: number[];
   bans2: number[];
   code: string;
@@ -25,7 +33,9 @@ const MatchSchema = new Schema<IMatch>({
   player1: String,
   player2: String,
   warmup1: String,
+  warmup1Mod: String,
   warmup2: String,
+  warmup2Mod: String,
   // lists of beatmap ids
   bans1: [Number],
   bans2: [Number],

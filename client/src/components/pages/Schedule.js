@@ -52,11 +52,17 @@ class Schedule extends Component {
         warmup: "",
         match: "",
         playerNo: 0,
+        mod: "",
       },
       submitWarmupVisible: false,
       submitWarmupLoading: false,
       beatmaps: [],
     };
+  }
+
+  warmupModColor = {
+    "NM": undefined, // Default color
+    "DT": "purple"
   }
 
   async componentDidMount() {
@@ -74,7 +80,7 @@ class Schedule extends Component {
       : get("/api/players", { tourney: this.props.tourney }));
     const lookup = Object.fromEntries(participants.map((p) => [p.name || p.username, p]));
     this.setState({ lookup });
-    
+
     const beatmaps = await get("/api/maps", { tourney: this.props.tourney, stage: current.name });
     this.setState({ beatmaps });
   }
@@ -97,7 +103,7 @@ class Schedule extends Component {
       stage: stage,
     });
     this.setState({ matches: matches.map((m) => ({ ...m, key: m._id })) });
-    
+
     const beatmaps = await get("/api/maps", { tourney: this.props.tourney, stage });
     this.setState({ beatmaps });
   }
@@ -217,7 +223,7 @@ class Schedule extends Component {
     }
   };
 
-  handleSubmitWarmup = async (match, playerNo, warmupMap) => {
+  handleSubmitWarmup = async (match, playerNo, warmupMap, mod) => {
     this.setState({ submitWarmupLoading: true });
 
     try {
@@ -225,6 +231,7 @@ class Schedule extends Component {
         match: match,
         playerNo,
         warmup: warmupMap,
+        mod
       });
 
       this.setState((state) => ({
@@ -318,12 +325,16 @@ class Schedule extends Component {
   };
 
   renderWarmup = (url, match, playerNo) => {
+    let mod = match[`warmup${playerNo}Mod`];
+    if (mod != "DT") mod = "NM";
     const canEdit = this.canSubmitWarmup(match, playerNo);
     if (url) {
       return (
         <>
           <a target="_blank" href={url}>
-            <LinkOutlined className="Schedule-link" />
+            <Tooltip title={mod}>
+              <LinkOutlined className="Schedule-link" style={{ color: this.warmupModColor[mod] }} />
+            </Tooltip>
           </a>
           {canEdit && (
             <DeleteOutlined
@@ -782,7 +793,8 @@ class Schedule extends Component {
             this.handleSubmitWarmup(
               this.state.warmupFormData.match,
               this.state.warmupFormData.playerNo,
-              this.state.warmupFormData.warmup
+              this.state.warmupFormData.warmup,
+              this.state.warmupFormData.mod
             )
           }
           loading={this.state.submitWarmupLoading}
