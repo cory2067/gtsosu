@@ -775,8 +775,10 @@ router.postAsync("/streamer", ensure.isStreamer, async (req, res) => {
 });
 
 /**
- * DELETE /api/streamer| "HT"
- *  - tourney: identifier for the tournament
+ * DELETE /api/streamer
+ * Removes the current streamer
+ * Params:
+ *  - match: the _id of the match
  */
 router.deleteAsync("/streamer", ensure.isStreamer, async (req, res) => {
   const match = await Match.findOneAndUpdate(
