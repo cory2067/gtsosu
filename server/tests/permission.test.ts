@@ -53,7 +53,9 @@ function createTestMatch(params: Partial<IMatch>): IMatch {
     time: new Date(),
     tourney: "testTourney",
     warmup1: "",
+    warmup1Mod: "NM",
     warmup2: "",
+    warmup2Mod: "NM",
     bans1: [],
     bans2: [],
     ...params
