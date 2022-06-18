@@ -565,9 +565,10 @@ type SubmitWarmupBody = {
  */
 router.postAsync("/warmup", ensure.loggedIn, async (req: Request<{}, SubmitWarmupBody>, res) => {
   const match = await Match.findOne({ _id: req.body.match }).orFail();
-  if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
+  const user = assertUser(req);
+  if (!(await canEditWarmup(user, req.body.playerNo, match))) {
     logger.warn(
-      `${req.user?.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
+      `${user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
     );
     return res.status(403).send("You don't have permission to do that");
   }
@@ -580,7 +581,7 @@ router.postAsync("/warmup", ensure.loggedIn, async (req: Request<{}, SubmitWarmu
     res.status(400).send(e.message);
     return;
   }
-  logger.info(`${req.user?.username} submitted warmup ${req.body.warmup}`);
+  logger.info(`${user.username} submitted warmup ${req.body.warmup}`);
   await match.save();
   res.send(match);
 });
