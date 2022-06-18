@@ -43,7 +43,7 @@ router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
 router.use(mapRouter);
 // ----------------------
 
-const isAdmin = (user: IUser, tourney: string) => checkPermissions(user, tourney, []);
+const isAdmin = (user: IUser | undefined, tourney: string) => checkPermissions(user, tourney, []);
 const canViewHiddenPools = (user: IUser, tourney: string) =>
   checkPermissions(user, tourney, [
     "Mapsetter",
@@ -68,7 +68,7 @@ const parseMatchId = (mpLink: string | undefined) => {
   return found ? found[1] : undefined;
 };
 
-const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
+const canEditWarmup = async (user: IUser | undefined, playerNo: 1 | 2, match: IMatch) => {
   const now = Date.now();
 
   // Admin can always edit warmup
@@ -552,19 +552,22 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
   res.send(match);
 });
 
+
+type SubmitWarmupBody = {
+  match: string; // Match ID
+  playerNo: 1 | 2; // Player number in match (1 or 2)
+  warmup: string; // Warmup map link or ID
+  mod: WarmupMod; // Mod used for warmup (only NM or DT is supported, defaults to NM)
+}
 /**
  * POST /api/warmup
  * Submit a warmup
- * Params:
- *   - match: match ID
- *   - playerNo: 1 - player 1, 2 - player 2
- *   - warmup: the warmup map, could be beatmap link or ID
  */
-router.postAsync("/warmup", ensure.loggedIn, async (req, res) => {
+router.postAsync("/warmup", ensure.loggedIn, async (req: Request<{}, SubmitWarmupBody>, res) => {
   const match = await Match.findOne({ _id: req.body.match }).orFail();
   if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
     logger.warn(
-      `${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
+      `${req.user?.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
     );
     return res.status(403).send("You don't have permission to do that");
   }
@@ -577,7 +580,7 @@ router.postAsync("/warmup", ensure.loggedIn, async (req, res) => {
     res.status(400).send(e.message);
     return;
   }
-  logger.info(`${req.user.username} submitted warmup ${req.body.warmup}`);
+  logger.info(`${req.user?.username} submitted warmup ${req.body.warmup}`);
   await match.save();
   res.send(match);
 });
