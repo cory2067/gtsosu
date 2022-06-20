@@ -4,7 +4,7 @@ import osu from "node-osu";
 import fs from "fs";
 
 import ensure from "./ensure";
-import Match, { IMatch } from "./models/match";
+import Match, { IMatch, ModLengthMultiplier, WarmupMod } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
 import StageStats, { IStageStats } from "./models/stage-stats";
 import Team, { PopulatedTeam } from "./models/team";
@@ -43,7 +43,7 @@ router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
 router.use(mapRouter);
 // ----------------------
 
-const isAdmin = (user: IUser, tourney: string) => checkPermissions(user, tourney, []);
+const isAdmin = (user: IUser | undefined, tourney: string) => checkPermissions(user, tourney, []);
 const canViewHiddenPools = (user: IUser, tourney: string) =>
   checkPermissions(user, tourney, [
     "Mapsetter",
@@ -68,7 +68,7 @@ const parseMatchId = (mpLink: string | undefined) => {
   return found ? found[1] : undefined;
 };
 
-const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
+const canEditWarmup = async (user: IUser | undefined, playerNo: 1 | 2, match: IMatch) => {
   const now = Date.now();
 
   // Admin can always edit warmup
@@ -83,7 +83,7 @@ const canEditWarmup = async (user: IUser, playerNo: 1 | 2, match: IMatch) => {
   return new UserAuth(user).forMatch({ match, playerNo, teams }).hasRole(UserRole.Captain);
 };
 
-const parseWarmup = async (warmup: string, tourney: string) => {
+const parseWarmup = async (warmup: string, mod: WarmupMod, tourney: string) => {
   if (!warmup) {
     throw new Error("No warmup submitted");
   }
@@ -121,7 +121,7 @@ const parseWarmup = async (warmup: string, tourney: string) => {
   }
 
   // Map longer than 3 minutes
-  if (mapData.length.drain > 180) {
+  if (mapData.length.drain * ModLengthMultiplier[mod] > 180) {
     throw new Error("Warmup map too long (max 3 minutes)");
   }
 
@@ -552,29 +552,36 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
   res.send(match);
 });
 
+
+type SubmitWarmupBody = {
+  match: string; // Match ID
+  playerNo: 1 | 2; // Player number in match (1 or 2)
+  warmup: string; // Warmup map link or ID
+  mod: WarmupMod; // Mod used for warmup (only NM or DT is supported, defaults to NM)
+}
 /**
  * POST /api/warmup
  * Submit a warmup
- * Params:
- *   - match: match ID
- *   - playerNo: 1 - player 1, 2 - player 2
- *   - warmup: the warmup map, could be beatmap link or ID
  */
-router.postAsync("/warmup", ensure.loggedIn, async (req, res) => {
+router.postAsync("/warmup", ensure.loggedIn, async (req: Request<{}, SubmitWarmupBody>, res) => {
   const match = await Match.findOne({ _id: req.body.match }).orFail();
-  if (!(await canEditWarmup(req.user, req.body.playerNo, match))) {
+  const user = assertUser(req);
+  if (!(await canEditWarmup(user, req.body.playerNo, match))) {
     logger.warn(
-      `${req.user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
+      `${user.username} tried to submit player ${req.body.playerNo} warmup for ${req.body.match}`
     );
     return res.status(403).send("You don't have permission to do that");
   }
   try {
-    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup, match.tourney);
+    // Make sure mod is valid, if it's not default to nm
+    if (req.body.mod != "DT") { req.body.mod = "NM" }
+    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup, req.body.mod || "NM", match.tourney);
+    match[`warmup${req.body.playerNo}Mod`] = req.body.mod;
   } catch (e) {
     res.status(400).send(e.message);
     return;
   }
-  logger.info(`${req.user.username} submitted warmup ${req.body.warmup}`);
+  logger.info(`${user.username} submitted warmup ${req.body.warmup}`);
   await match.save();
   res.send(match);
 });
@@ -887,8 +894,7 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   await lobby.save();
 
   logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${
-      req.body.lobby
+    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${req.body.lobby
     } for ${req.body.tourney}`
   );
   res.send(lobby);
@@ -925,8 +931,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
     return res.status(403).send({});
   logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
-      req.body.lobby
+    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${req.body.lobby
     } in ${req.body.tourney}`
   );
 
