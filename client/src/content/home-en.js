@@ -3,7 +3,7 @@ export default {
   description: "The biggest osu!taiko tournament series!",
   tournies: [
     {
-      title: "EGTS 2021",
+      title: "EGTS 2022",
       code: "egts",
       description: `
 The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
