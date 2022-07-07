@@ -15,6 +15,7 @@ export default function Stats({ tourney, user }) {
     isQualifiers: false,
     players: new Map(),
     teams: new Map(),
+    matches: [],
     stageMaps: [],
     stageStats: undefined,
     processedStats: new Map(),
@@ -196,11 +197,12 @@ export default function Stats({ tourney, user }) {
 
     const [tourneyModel, currentSelectedStage] = await getStage(tourney);
 
-    const [players, teams, stageMaps, stageStats] = await Promise.all([
+    const [players, teams, stageMaps, stageStats, matches] = await Promise.all([
       get("/api/players", { tourney }),
       tourneyModel.teams ? get("/api/teams", { tourney }) : Promise.resolve([]),
       get("/api/maps", { tourney, stage: currentSelectedStage.name }).catch((e) => []),
       get("/api/stage-stats", { tourney, stage: currentSelectedStage.name }).catch((e) => ({})),
+      get("/api/matches", { tourney, stage: currentSelectedStage.name }).catch((e) => ([])),
     ]);
 
     setState({
@@ -209,6 +211,7 @@ export default function Stats({ tourney, user }) {
       isQualifiers: currentSelectedStage.name === "Qualifiers",
       players: new Map(players.map((player) => [player.userid, player])),
       teams: new Map(teams.map((team) => [team.name, team])),
+      matches,
       stageMaps,
       stageStats: stageStats || {},
       currentSelectedStage,
@@ -446,6 +449,13 @@ export default function Stats({ tourney, user }) {
         </div>
       );
     } else return userId;
+  };
+  
+  const getBeatmapInfo = () => {
+    const mapId = Number(state.currentSelectedMapId);
+    const theBeatmap = state.stageMaps.find((stageMap) => stageMap.mapId === mapId);
+    const banCount = state.matches.filter((match) => match.bans1.includes(mapId) || match.bans2.includes(mapId)).length;
+    return theBeatmap ? `${theBeatmap.artist} - ${theBeatmap.title} [${theBeatmap.diff}]\nTimes banned: ${banCount}\n` : "";
   };
 
   const getAverageTeamScore = () => {
@@ -737,7 +747,7 @@ export default function Stats({ tourney, user }) {
                       className="map-stats-table"
                       bordered
                     >
-                      <ColumnGroup title={"Average Score: " + getAverageTeamScore()}>
+                      <ColumnGroup title={getBeatmapInfo() + "Average Score: " + getAverageTeamScore()} className="table-header">
                         {!state.inEditMode && (
                           <Column
                             title="Rank"
@@ -794,7 +804,7 @@ export default function Stats({ tourney, user }) {
                       className="map-stats-table"
                       bordered
                     >
-                      <ColumnGroup title={"Average Score: " + getAveragePlayerScore()}>
+                      <ColumnGroup title={getBeatmapInfo() + "Average Score: " + getAveragePlayerScore()} className="table-header">
                         {!state.inEditMode && (
                           <Column
                             title="Rank"
