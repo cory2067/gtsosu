@@ -6,6 +6,10 @@
   margin-right: var(--m);
 }
 
+.table-header {
+  white-space: pre;
+}
+
 .topbar {
   display: flex;
   align-items: center;
