@@ -4,6 +4,7 @@ import NotFound from "./pages/NotFound.js";
 import Home from "./pages/Home.js";
 import Archives from "./pages/Archives.js";
 import TourneyHome from "./pages/TourneyHome";
+import NewTourneyHome from "./pages/NewTourneyHome";
 import TourneyStaff from "./pages/TourneyStaff";
 import Rules from "./pages/Rules";
 import Mappools from "./pages/Mappools";
@@ -63,6 +64,14 @@ export default function App() {
             PageComponent={TourneyHome}
           />
 
+          <TourneyRouteWrapper
+            user={user}
+            setUser={setUser}
+            setLoginAttention={setLoginAttention}
+            path="/:tourney/home-new"
+            PageComponent={NewTourneyHome}
+          />
+
           <TourneyRouteWrapper user={user} path="/:tourney/staff" PageComponent={TourneyStaff} />
           <TourneyRouteWrapper
             user={user}
@@ -90,7 +99,6 @@ export default function App() {
 
           <NotFound default />
         </Router>
-        <Footer></Footer>
       </Layout>
     </>
   );

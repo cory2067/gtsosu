@@ -1,0 +1,103 @@
+.NewTourneyHome-button-box {
+  margin-top: var(--l);
+  display: flex;
+  width: 100%;
+}
+
+.NewTourneyHome-button-box div {
+  flex: 1 1 0;
+  padding-left: var(--m);
+  padding-right: var(--m);
+}
+
+.NewTourneyHome-button-box .ant-btn-block {
+ font-size: 13pt;
+}
+
+.NewTourneyHome-content {
+  padding: 0;
+}
+
+.NewTourneyHome-bg {
+  background-image: linear-gradient(rgba(220, 220, 220, 0.2), #0c0c0c), url("https://cdn.discordapp.com/attachments/582104595170459648/995780428453662790/egts22_banner.png");
+  height: calc(100vh - 64px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.NewTourneyHome-title {
+  font-size: 42pt;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: var(--s);
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.NewTourneyHome-header {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.NewTourneyHome-header-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #00000000;
+  padding-bottom: 80px;
+}
+
+.NewTourneyHome-header-inner {
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.NewTourneyHome-description {
+  max-width: 727px;
+  font-size: 12pt;
+  color: #fff;
+  margin-bottom: var(--xl);
+}
+
+.NewTourneyHome-information {
+  background-color: var(--night);
+  padding:  var(--l);
+}
+
+.NewTourneyHome-section {
+  color: var(--white);
+}
+
+.NewTourneyHome-section p {
+  font-size: 12pt;
+}
+
+.NewTourneyHome-section h3 {
+  color: var(--gold);
+  font-size: 14pt;
+}
+
+.NewTourneyHome-section-title {
+  color: var(--gts-orange);
+  text-transform: uppercase;
+  font-size: 36px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: var(--xl);
+}
+
+.NewTourneyHome-sidebar-container {
+  width: 400px;
+}
+
+.NewTourneyHome-sidebar {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+}
