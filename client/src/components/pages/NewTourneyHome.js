@@ -11,6 +11,7 @@ import EditTourneyModal from "../../components/modules/EditTourneyModal";
 import CreateTeamModal from "../modules/CreateTeamModal";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
+import { setConstantValue } from "typescript";
 
 const UI = ContentManager.getUI();
 
@@ -23,6 +24,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
   const [tourneyFlags, setTourneyFlags] = useState([]);
   const [settingsData, setSettingsData] = useState({});
   const [showSettings, setShowSettings] = useState(false);
+  const [showScroll, setShowScroll] = useState(false);
 
   const infoRef = React.createRef();
   const rulesRef = React.createRef();
@@ -53,6 +55,15 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
         flags: data.flags || [],
       });
     })();
+  }, []);
+
+  const handleScroll = () => {
+    const scrollThreshold = 200;
+    setShowScroll(window.scrollY > scrollThreshold);
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleRegHover = () => {
@@ -91,6 +102,13 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
       },
     });
   };
+
+  const scrollToTop = () =>
+    window.scrollTo({
+      left: 0,
+      top: 0,
+      behavior: "smooth",
+    });
 
   const scrollToRef = (ref) =>
     window.scrollTo({
@@ -207,6 +225,24 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
         onValuesChange={handleSettingsChange}
         initialValues={settingsData}
       />
+      <button
+        className={`NewTourneyHome-back ${showScroll ? "" : "NewTourneyHome-back-hidden"}`}
+        onClick={scrollToTop}
+      >
+        <svg
+          className="NewTourneyHome-back-icon"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M7 11l5-5m0 0l5 5m-5-5v12"
+          />
+        </svg>
+      </button>
     </Content>
   );
 }

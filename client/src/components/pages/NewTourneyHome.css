@@ -63,9 +63,18 @@
 }
 
 .NewTourneyHome-container {
-  background-color: var(--night);
+  background-color: var(--onyx);
   padding:  var(--l); /* reduce if adding sidebar */
   display: flex;
+  justify-content: center;
+}
+
+.NewTourneyHome-information {
+  background-color: var(--night);
+  max-width: 1200px;
+  padding-left: var(--l);
+  padding-right: var(--l);
+  border: 2px solid #222;
 }
 
 .NewTourneyHome-sidebar {
@@ -132,4 +141,40 @@
 
 .NewTourneyHome-edit {
   margin: var(--s);
+}
+
+.NewTourneyHome-back {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  opacity: 100%;
+  transition: linear 0.25s;
+  border-radius: 100%;
+  background: var(--gts-orange);
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  height: 64px;
+  width: 64px;
+}
+
+.NewTourneyHome-back:hover {
+  opacity: 90%;
+}
+
+.NewTourneyHome-back-hidden {
+  opacity: 0%;
+  transition: linear 0.25s;
+}
+
+.NewTourneyHome-back-icon {
+  height: 48px;
+  width: 48px;
+  color: var(--onyx);
+}
+
+@media (max-width: 1500px) {
+  .NewTourneyHome-back {
+    opacity: 0;
+  }
 }
