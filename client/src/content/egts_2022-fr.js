@@ -12,27 +12,27 @@ export default {
       title: "Dates",
       body: `
 ### Phase d'inscriptions
-9 juillet au 24 juillet.
+16 juillet au 31 juillet.
 ### Phase de screening
-24 juillet jusqu'au 31 juillet.
+31 juillet jusqu'au 7 août.
 ### Qualifications
-6 août jusqu'au 7 août.
-### 64èmes de finale
 13 août jusqu'au 14 août.
-### 32èmes de finale + Premier tour de Loser's Bracket
+### 64èmes de finale
 20 août jusqu'au 21 août.
-### 16èmes de finale + Deuxième et troisième tour de Loser's Bracket
+### 32èmes de finale + Premier tour de Loser's Bracket
 27 août jusqu'au 28 août.
-### 8èmes de finale + Quatrième et cinquième tour de Loser's Bracket
+### 16èmes de finale + Deuxième et troisième tour de Loser's Bracket
 3 septembre jusqu'au 4 septembre.
-### Quarts de finale + Sixième et septième tour de Loser's Bracket
+### 8èmes de finale + Quatrième et cinquième tour de Loser's Bracket
 10 septembre jusqu'au 11 septembre.
-### Demi-finales + Huitième et neuvième tour de Loser's Bracket
+### Quarts de finale + Sixième et septième tour de Loser's Bracket
 17 septembre jusqu'au 18 septembre.
-### Finale du Winner's Bracket + Dixième et finale du Loser's Bracket
+### Demi-finales + Huitième et neuvième tour de Loser's Bracket
 24 septembre jusqu'au 25 septembre.
+### Finale du Winner's Bracket + Dixième et finale du Loser's Bracket
+1er octobre jusqu'au 2 octobre.
 ### Grande Finale du Loser's Bracket + Grande Finale
-1er octobre jusqu'au 2 octobre.`,
+8 octobre jusqu'au 9 octobre.`,
     },
     {
       title: "S'inscrire",
