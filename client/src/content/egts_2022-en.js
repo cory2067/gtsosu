@@ -99,7 +99,7 @@ October 8th until October 9th.`,
 - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time.
 - If neither of the players are in the lobby after 10 minutes, the highest seeded player will advance.
 - The match will be played as Head to Head and ScoreV2 and the name of the room must be: "EGTS 2022: (Player Red) vs (Player Blue)".
-- Each player is allowed one warm-up but it must be below 3 minutes, and must be sent to the referee and streamer of the match one hour prior to the match's start time.
+- Each player is allowed one warm-up but it must be below 3 minutes, and must be put on the website one hour prior to the match's start time.
 - Warm-ups may not be offensive or NSFW (not safe for work).
 - If a player does not respect the time said in the rule above, they will not have any warm-up for their match.
 - Each player has to ban **one beatmap** to be selected from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any player in the entire match.
