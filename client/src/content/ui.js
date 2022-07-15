@@ -24,6 +24,7 @@ export default {
     },
     archives: "Archives",
     stats: "Stats",
+    information: "Information",
   },
 
   ja: {
@@ -50,6 +51,7 @@ export default {
       tournies: "登録している大会",
     },
     archives: "アーカイブ",
+    information: "参加に関して",
   },
 
   ko: {
@@ -76,6 +78,7 @@ export default {
       tournies: "참여한 토너먼트",
     },
     archives: "Archives",
+    information: "Information",
   },
 
   de: {
@@ -102,6 +105,7 @@ export default {
       tournies: "Meine Turniere",
     },
     archives: "Archives",
+    information: "Information",
   },
 
   ru: {
@@ -128,6 +132,7 @@ export default {
       tournies: "Мои Турниры",
     },
     archives: "Archives",
+    information: "Information",
   },
 
   "zh-sg": {
@@ -154,6 +159,7 @@ export default {
       tournies: "我的比赛",
     },
     archives: "Archives",
+    information: "Information",
   },
 
   fr: {
@@ -180,6 +186,7 @@ export default {
       tournies: "Mes tournois",
     },
     archives: "Archives",
+    information: "Information",
   },
 
   es: {
@@ -206,6 +213,7 @@ export default {
       tournies: "Mis Torneos",
     },
     archives: "Archives",
+    information: "Information",
   },
 
   pl: {
@@ -232,6 +240,7 @@ export default {
       tournies: "Moje Turnieje",
     },
     archives: "Archives",
+    information: "Information",
   },
 
   es_cl: {
@@ -258,6 +267,7 @@ export default {
       tournies: "Mis Torneos",
     },
     archives: "Archives",
+    information: "Information",
   },
 
   nl: {
@@ -284,5 +294,6 @@ export default {
       tournies: "Mijn Toernooien",
     },
     archives: "Archives",
+    information: "Information",
   },
 };

@@ -19,7 +19,6 @@
 }
 
 .NewTourneyHome-bg {
-  background-image: linear-gradient(rgba(220, 220, 220, 0.2), #0c0c0c), url("https://cdn.discordapp.com/attachments/582104595170459648/995780428453662790/egts22_banner.png");
   height: calc(100vh - 64px);
   background-position: center;
   background-repeat: no-repeat;
@@ -63,32 +62,57 @@
   margin-bottom: var(--xl);
 }
 
-.NewTourneyHome-information {
+.NewTourneyHome-container {
   background-color: var(--night);
-  padding:  var(--l);
+  padding:  var(--l); /* reduce if adding sidebar */
+  display: flex;
+}
+
+.NewTourneyHome-sidebar {
+  background-color: var(--onyx);
+  margin-right: var(--l);
+  flex: 0 0 300px;
+}
+
+.NewTourneyHome-sidebar-content {
+  position: sticky;
+  padding: var(--m);
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 13pt;
+}
+
+.NewTourneyHome-sidebar-header {
+  font-weight: 700;
+  font-size: 14pt;
+  margin-bottom: var(--s);
+}
+
+.NewTourneyHome-sidebar-content span {
+  line-height: 1.7;
 }
 
 .NewTourneyHome-section {
   color: var(--white);
-}
-
-.NewTourneyHome-section p {
   font-size: 12pt;
 }
 
 .NewTourneyHome-section h3 {
   color: var(--gold);
   font-size: 14pt;
+  margin-bottom: var(--xs);
 }
 
-.NewTourneyHome-section-title {
+.NewTourneyHome-section h1 {
   color: var(--gts-orange);
   text-transform: uppercase;
   font-size: 36px;
-  font-style: italic;
   font-weight: 700;
   line-height: 1;
   margin-top: var(--xl);
+  margin-bottom: var(--m);
 }
 
 .NewTourneyHome-sidebar-container {
@@ -100,4 +124,12 @@
   top: 20px;
   display: flex;
   flex-direction: column;
+}
+
+.NewTourneyHome-section strong {
+  color: var(--gold);
+}
+
+.NewTourneyHome-edit {
+  margin: var(--s);
 }

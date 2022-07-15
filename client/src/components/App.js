@@ -71,6 +71,13 @@ export default function App() {
             path="/:tourney/home-new"
             PageComponent={NewTourneyHome}
           />
+          <TourneyRouteWrapper
+            user={user}
+            setUser={setUser}
+            setLoginAttention={setLoginAttention}
+            path="/:year/:tourney/home-new"
+            PageComponent={NewTourneyHome}
+          />
 
           <TourneyRouteWrapper user={user} path="/:tourney/staff" PageComponent={TourneyStaff} />
           <TourneyRouteWrapper
