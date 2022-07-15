@@ -12,27 +12,27 @@ export default {
       title: "Dates",
       body: `
 ### Registration Phase
-July 9th until July 24th.
+July 16th until July 31st.
 ### Screening phase
-July 24th until July 31st.
+July 31st until August 7th.
 ### Qualifiers
-August 6th until August 7th.
-### Round of 128
 August 13th until August 14th.
-### Round of 64 + Loser's Bracket Round 1
+### Round of 128
 August 20th until August 21st.
-### Round of 32 + Loser's Bracket Round 2 and 3
+### Round of 64 + Loser's Bracket Round 1
 August 27th until August 28th.
-### Round of 16 + Loser's Bracket Round 4 and 5
+### Round of 32 + Loser's Bracket Round 2 and 3
 September 3rd until September 4th.
-### Quarterfinals + Loser's Bracket 6 and 7
+### Round of 16 + Loser's Bracket Round 4 and 5
 September 10th until September 11th.
-### Semifinals + Loser's Bracket Round 8 and 9
+### Quarterfinals + Loser's Bracket 6 and 7
 September 17th until September 18th.
-### Winner's Bracket Finals + Loser's Bracket Round 10 and Finals
+### Semifinals + Loser's Bracket Round 8 and 9
 September 24th until September 25th.
+### Winner's Bracket Finals + Loser's Bracket Round 10 and Finals
+October 1st until October 2nd.
 ### Loser's Bracket Grand Finals + Grand Finals
-October 1st until October 2nd.`,
+October 8th until October 9th.`,
     },
     {
       title: "Registration",
@@ -77,9 +77,9 @@ October 1st until October 2nd.`,
 # Mappool Instructions
 - There will be 1 mappool for each of the following: Qualifiers, Round of 128, Round of 64, Round of 32, Round of 16, Quarterfinals, Semifinals, Finals, and Grand Finals. 
 - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
-- The Qualifiers pool will be different from all the other rounds, as it will have a format of 3 NoMod maps, 2 Hidden maps, 2 HardRock maps, 2 DoubleTime maps, and a Hidden + HardRock map.
+- The Qualifiers pool will be different from all the other rounds, as it will have a format of 3 NoMod maps, 2 Hidden maps, 2 HardRock maps, 2 DoubleTime maps, and a ForceMod map.
 - Each mappool consists of 6 brackets: **NoMod, Hidden, HardRock, DoubleTime, ForceMod, and Tiebreaker**.
-- The mappools for Round of 128 and Round of 64 will have 14 maps each. The mappools from Round of 32 until Quarterfinals will have 15 maps each. The mappools from Semifinals until Grand Finals will have 19 maps each.
+- The mappools for Round of 128 and Round of 64 will have 14 maps each. The mappools from Round of 32 until Quarterfinals will have 15 maps each. The mappools from Semifinals until Grand Finals will have 16 maps each.
 - The size of the NoMod bracket will be of 4 in Round of 128 and Round of 64, it will be of 5 from Round of 32 until Quarterfinals, and it will be of 6 in Semifinals until Grand Finals.
 - The size of the Hidden, Hard Rock, and Double Time will be of 2 during the entire tournament.
 - The size of the ForceMod pool will be of 3 during the rest of the tournament.
@@ -98,7 +98,7 @@ October 1st until October 2nd.`,
 - If one of the players is late, the maximum time the match can be postponed is 10 minutes.
 - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time.
 - If neither of the players are in the lobby after 10 minutes, the highest seeded player will advance.
-- The match will be played as Head to Head and ScoreV2 and the name of the room must be: "EGTS 2021: (Player Red) vs (Player Blue)".
+- The match will be played as Head to Head and ScoreV2 and the name of the room must be: "EGTS 2022: (Player Red) vs (Player Blue)".
 - Each player is allowed one warm-up but it must be below 3 minutes, and must be sent to the referee and streamer of the match one hour prior to the match's start time.
 - Warm-ups may not be offensive or NSFW (not safe for work).
 - If a player does not respect the time said in the rule above, they will not have any warm-up for their match.
