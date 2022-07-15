@@ -127,9 +127,9 @@ function TourneyNavbar(props) {
           <Menu.Item key="1">
             <Link to={`${prefix}/home`}>{UI.home}</Link>
           </Menu.Item>
-          <Menu.Item key="2">
+          {/*<Menu.Item key="2">
             <Link to={`${prefix}/rules`}>{UI.rules}</Link>
-          </Menu.Item>
+          </Menu.Item>*/}
           <Menu.Item key="3">
             <Link to={`${prefix}/pools`}>{UI.mappools}</Link>
           </Menu.Item>
