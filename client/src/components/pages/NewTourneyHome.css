@@ -162,9 +162,9 @@
   opacity: 90%;
 }
 
-.NewTourneyHome-back-hidden {
+.NewTourneyHome-back-hidden, .NewTourneyHome-back-hidden:hover {
+  cursor: default;
   opacity: 0%;
-  transition: linear 0.25s;
 }
 
 .NewTourneyHome-back-icon {
