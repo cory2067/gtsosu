@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Typography } from "antd";
 import "./TourneyCard.css";
+import { Link } from "@reach/router";
 
 export default function TourneyCard({ divisions, code, title, description, banner, fullTitle }) {
   // No tournament has divisions for now
@@ -9,8 +10,12 @@ export default function TourneyCard({ divisions, code, title, description, banne
   const [hover, setHover] = useState(false);
   const [inTransition, setInTransision] = useState(false);
 
+  const overlayLightOpacity = hover ? 0.05 : 0.2;
+
   return (
-    <div
+
+    <Link
+      to={`/${code}/home`}
       onMouseEnter={() => {
         setHover(true);
         setInTransision(true);
@@ -19,10 +24,11 @@ export default function TourneyCard({ divisions, code, title, description, banne
       onMouseLeave={() => { setHover(false); setInTransision(false); }}
       className="TourneyCard-card"
       style={{
-        backgroundImage: `linear-gradient(rgba(220, 220, 220, 0.2), rgb(12, 12, 12)), url("${banner}")`,
+        backgroundImage: `linear-gradient(rgba(12, 12, 12, ${overlayLightOpacity}), rgb(12, 12, 12)), url("${banner}")`,
         backgroundPosition: "center",
         backgroundSize: "cover"
       }}>
+
       {
         !inTransition &&
         <Typography.Title className="TourneyCard-title">
@@ -30,6 +36,7 @@ export default function TourneyCard({ divisions, code, title, description, banne
         </Typography.Title>
       }
       {hover && !inTransition && <Typography.Paragraph className="TourneyCard-description">{description}</Typography.Paragraph>}
-    </div>
+
+    </Link>
   );
 }
