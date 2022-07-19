@@ -1,35 +1,35 @@
-import React from "react";
-import ReactMarkdown from "react-markdown";
-import { Link } from "@reach/router";
+import React, { useState } from "react";
 
-import { Card, List } from "antd";
+import { Typography } from "antd";
 import "./TourneyCard.css";
 
-export default function TourneyCard({ divisions, code, title, description }) {
+export default function TourneyCard({ divisions, code, title, description, banner, fullTitle }) {
+  // No tournament has divisions for now
   const hasDivisions = !!divisions;
+  const [hover, setHover] = useState(false);
+  const [inTransition, setInTransision] = useState(false);
 
   return (
-    <Card
-      title={title}
-      bordered={true}
-      extra={!hasDivisions && <Link to={`/${code}/home`}>Visit Tourney</Link>}
+    <div
+      onMouseEnter={() => {
+        setHover(true);
+        setInTransision(true);
+        setTimeout(() => { setInTransision(false) }, 500)
+      }}
+      onMouseLeave={() => { setHover(false); setInTransision(false); }}
       className="TourneyCard-card"
-    >
-      <ReactMarkdown source={description} />
-
-      {hasDivisions && (
-        <List
-          size="small"
-          header={<div>Divisions</div>}
-          bordered
-          dataSource={divisions}
-          renderItem={({ tourneyTitle, tourneyCode }) => (
-            <List.Item>
-              <Link to={`/${tourneyCode}-${code}/home`}>{tourneyTitle}</Link>
-            </List.Item>
-          )}
-        />
-      )}
-    </Card>
+      style={{
+        backgroundImage: `linear-gradient(rgba(220, 220, 220, 0.2), rgb(12, 12, 12)), url("${banner}")`,
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+      }}>
+      {
+        !inTransition &&
+        <Typography.Title className="TourneyCard-title">
+          {hover ? fullTitle : title}
+        </Typography.Title>
+      }
+      {hover && !inTransition && <Typography.Paragraph className="TourneyCard-description">{description}</Typography.Paragraph>}
+    </div>
   );
 }
