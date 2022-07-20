@@ -1,4 +1,43 @@
+.content .TourneyCard-card .TourneyCard-title {
+  transition-delay: 500ms;
+  font-size: 24px;
+  text-align: center;
+  align-self: center;
+  color: white;
+}
+
+.content .TourneyCard-card:hover .TourneyCard-title {
+  font-size: 24px;
+  text-align: left;
+  align-self: flex-start;
+}
+
+.content .TourneyCard-card .TourneyCard-description {
+  font-size: 14px;
+  color: white;
+}
+
 .content .TourneyCard-card {
+  padding: 12px;
+  transition: all 0.5s;
+  transition-timing-function: ease-out;
   margin: var(--m);
-  max-width: 400px;
+  flex: 1;
+  flex-shrink: 0;
+  min-width: 120px;
+  max-width: 600px;
+  width: 200px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.content .TourneyCard-card:hover {
+  transition: all 0.5s;
+  transition-timing-function: ease-out;
+  flex-grow: 5;
+  flex-shrink: 0;
 }

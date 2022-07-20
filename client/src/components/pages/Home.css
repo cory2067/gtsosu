@@ -35,8 +35,8 @@ body .Home-content {
 }
 
 .Home-container {
-  margin-top: var(--l);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  background-color: #2E3135;
 }
