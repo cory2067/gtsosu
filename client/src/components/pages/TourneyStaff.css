@@ -1,3 +1,13 @@
+.Staffs-admintool {
+  margin: var(--m) 0;
+  display: flex;
+}
+
+.Staffs-admintool > * {
+  margin: 0 var(--s);
+  display: flex;
+}
+
 .TourneyStaff-container {
   display: flex;
   flex-wrap: wrap;
