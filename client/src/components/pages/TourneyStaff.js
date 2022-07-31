@@ -27,13 +27,16 @@ const roles = [
   "Showcase",
 ];
 
-const staffRoles = [[
+const staffRoles = [
   "Mapsetter",
   "Showcase",
   "All-Star Mapsetter",
   "Head Pooler",
   "Mapper",
-]];
+  "Developer",
+  "Host",
+  "Referee",
+];
 
 const roleScores = Object.fromEntries(roles.map((role, i) => [role, roles.length - i]));
 
