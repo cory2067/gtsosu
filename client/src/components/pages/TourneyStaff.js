@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { get, post, hasAccess, delet, prettifyTourney, exportPlayersCSV } from "../../utilities";
+import { get, post, hasAccess, delet, prettifyTourney, exportTextFile } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
@@ -27,7 +27,8 @@ const roles = [
   "Showcase",
 ];
 
-const staffRoles = [
+// The managerial roles that osu! officially considers as "staff"
+const managementRoles = [
   "Mapsetter",
   "Showcase",
   "All-Star Mapsetter",
@@ -105,35 +106,53 @@ export default function TourneyStaff({ tourney, user }) {
     }
   };
 
+  const exportRolesCSV = ({ players, fileName }) => {
+    const header = "Username,User ID,Country,Roles";
+    const body = players
+      .map((p) => `${p.username},${p.userid},${p.country},"${getRoles(p).join(", ")}"`)
+      .join("\n");
+
+    if (!fileName.endsWith(".csv")) fileName = `${fileName}.csv`;
+
+    return exportTextFile({
+      content: `${header}\n${body}`,
+      contentType: "text/csv",
+      fileName,
+    });
+  };
+
   return (
     <Content className="content">
       {isAdmin() && (
         <>
-          <div className="Staffs-admintool">
-
-            <Button type="primary" onClick={() => {
-              const staffs = staff.filter((s) =>
-                s.roles.some((r) =>
-                  r.tourney === tourney &&
-                  staffRoles.some((sr) => sr.includes(r.role))));
-              exportPlayersCSV({
-                players: staffs,
-                fileName: `staffs-${tourney}.csv`,
-              });
-            }}>
-              Export Staffs to CSV
+          <div className="TourneyStaff-admintool">
+            <Button
+              type="primary"
+              onClick={() => {
+                const managementStaff = staff.filter((s) =>
+                  getRoles(s).some((r) => managementRoles.includes(r))
+                );
+                exportRolesCSV({
+                  players: managementStaff,
+                  fileName: `staff-${tourney}.csv`,
+                });
+              }}
+            >
+              Export Staff to CSV
             </Button>
 
-            <Button type="primary" onClick={() => {
-              const helpers = staff.filter((s) =>
-                s.roles.some((r) =>
-                  r.tourney === tourney &&
-                  !staffRoles.some((sr) => sr.includes(r.role))));
-              exportPlayersCSV({
-                players: helpers,
-                fileName: `helpers-${tourney}.csv`,
-              });
-            }}>
+            <Button
+              type="primary"
+              onClick={() => {
+                const helpers = staff.filter(
+                  (s) => !getRoles(s).some((r) => managementRoles.includes(r))
+                );
+                exportRolesCSV({
+                  players: helpers,
+                  fileName: `helpers-${tourney}.csv`,
+                });
+              }}
+            >
               Export Helpers to CSV
             </Button>
           </div>

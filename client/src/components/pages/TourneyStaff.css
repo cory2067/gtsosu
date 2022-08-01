@@ -1,9 +1,9 @@
-.Staffs-admintool {
+.TourneyStaff-admintool {
   margin: var(--m) 0;
   display: flex;
 }
 
-.Staffs-admintool > * {
+.TourneyStaff-admintool > * {
   margin: 0 var(--s);
   display: flex;
 }
