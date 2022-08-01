@@ -82,19 +82,13 @@ export function tokenizeTourney(tourney) {
   return { code, year: parseInt(year), division, codeAndDivision };
 }
 
-export function exportPlayersCSV({ players, fileName, charset = "utf-8" }) {
-  const header = "Username,User ID,Country,Rank,Discord Username,Timezone";
-  const body = players
-    .map((p) => `${p.username},${p.userid},${p.country},${p.rank},"${p.discord}",${p.timezone}`)
-    .join("\n");
-
+export function exportCSVFile({ header, body, fileName }) {
   if (!fileName.endsWith(".csv")) fileName = `${fileName}.csv`;
 
   return exportTextFile({
     content: `${header}\n${body}`,
     contentType: "text/csv",
     fileName,
-    charset,
   });
 }
 

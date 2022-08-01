@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Players.css";
-import { get, hasAccess, delet, post, prettifyTourney } from "../../utilities";
+import { get, hasAccess, delet, post, prettifyTourney, exportCSVFile } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";
 import CreateTeamModal from "../modules/CreateTeamModal";
 
@@ -302,14 +302,12 @@ export default function Players({ tourney, user }) {
     const body = players
       .map((p) => `${p.username},${p.userid},${p.country},${p.rank},"${p.discord}",${p.timezone}`)
       .join("\n");
-    console.log(body);
 
-    const dl = document.createElement("a");
-    dl.href = "data:text/csv;chartset=utf-8," + encodeURIComponent(`${header}\n${body}`);
-    console.log(dl.href);
-    dl.target = "_blank";
-    dl.download = `players-${tourney}.csv`;
-    dl.click();
+    exportCSVFile({
+      header,
+      body,
+      fileName: `players-${tourney}.csv`,
+    });
   };
 
   // suiji is special, since it's has seeds by both player and by team

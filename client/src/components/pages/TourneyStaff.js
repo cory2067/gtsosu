@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { get, post, hasAccess, delet, prettifyTourney, exportTextFile } from "../../utilities";
+import { get, post, hasAccess, delet, prettifyTourney, exportCSVFile } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
@@ -112,11 +112,9 @@ export default function TourneyStaff({ tourney, user }) {
       .map((p) => `${p.username},${p.userid},${p.country},"${getRoles(p).join(", ")}"`)
       .join("\n");
 
-    if (!fileName.endsWith(".csv")) fileName = `${fileName}.csv`;
-
-    return exportTextFile({
-      content: `${header}\n${body}`,
-      contentType: "text/csv",
+    return exportCSVFile({
+      header,
+      body,
       fileName,
     });
   };
