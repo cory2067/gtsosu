@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { get, post, hasAccess, delet, prettifyTourney } from "../../utilities";
+import { get, post, hasAccess, delet, prettifyTourney, exportPlayersCSV } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
@@ -25,6 +25,17 @@ const roles = [
   "Statistician",
   "Recruiter",
   "Showcase",
+];
+
+const staffRoles = [
+  "Mapsetter",
+  "Showcase",
+  "All-Star Mapsetter",
+  "Head Pooler",
+  "Mapper",
+  "Developer",
+  "Host",
+  "Referee",
 ];
 
 const roleScores = Object.fromEntries(roles.map((role, i) => [role, roles.length - i]));
@@ -97,29 +108,59 @@ export default function TourneyStaff({ tourney, user }) {
   return (
     <Content className="content">
       {isAdmin() && (
-        <Collapse>
-          <Panel header="Add new staff" key="1">
-            <Form name="basic" onFinish={onFinish}>
-              <Form.Item label="Username" name="username">
-                <Input />
-              </Form.Item>
-              <Form.Item label="Role" name="role">
-                <Select showSearch>
-                  {roles.map((role, i) => (
-                    <Select.Option key={i} value={role}>
-                      {role}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit" loading={isLoading}>
-                  Add
-                </Button>
-              </Form.Item>
-            </Form>
-          </Panel>
-        </Collapse>
+        <>
+          <div className="Staffs-admintool">
+
+            <Button type="primary" onClick={() => {
+              const staffs = staff.filter((s) =>
+                s.roles.some((r) =>
+                  r.tourney === tourney &&
+                  staffRoles.some((sr) => sr.includes(r.role))));
+              exportPlayersCSV({
+                players: staffs,
+                fileName: `staffs-${tourney}.csv`,
+              });
+            }}>
+              Export Staffs to CSV
+            </Button>
+
+            <Button type="primary" onClick={() => {
+              const helpers = staff.filter((s) =>
+                s.roles.some((r) =>
+                  r.tourney === tourney &&
+                  !staffRoles.some((sr) => sr.includes(r.role))));
+              exportPlayersCSV({
+                players: helpers,
+                fileName: `helpers-${tourney}.csv`,
+              });
+            }}>
+              Export Helpers to CSV
+            </Button>
+          </div>
+          <Collapse>
+            <Panel header="Add new staff" key="1">
+              <Form name="basic" onFinish={onFinish}>
+                <Form.Item label="Username" name="username">
+                  <Input />
+                </Form.Item>
+                <Form.Item label="Role" name="role">
+                  <Select showSearch>
+                    {roles.map((role, i) => (
+                      <Select.Option key={i} value={role}>
+                        {role}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" loading={isLoading}>
+                    Add
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Panel>
+          </Collapse>
+        </>
       )}
       <div className="TourneyStaff-container">
         {staff.map((user) => (
