@@ -67,6 +67,9 @@ export default function EditTourneyModal({
           <InputNumber min={-1} />
         </Form.Item>
         <span>(Use -1 for no rank limit)</span>
+        <Form.Item name="lobbyMaxSignups" label="Maximum number of lobby signups">
+          <InputNumber min={0} />
+        </Form.Item>
       </Form>
     </Modal>
   );

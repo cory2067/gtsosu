@@ -53,6 +53,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
         rankMax: data.rankMax || -1,
         countries: data.countries || [],
         flags: data.flags || [],
+        lobbyMaxSignups: data.lobbyMaxSignups || 8,
       });
     })();
   }, []);
