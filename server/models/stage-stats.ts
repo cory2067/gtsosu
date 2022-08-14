@@ -10,6 +10,7 @@ interface IStageStats {
   tourney: string;
   stage: string;
   maps: MapScores[];
+  seedSize: number;
 }
 
 const StageStatsSchema = new Schema<IStageStats>({
@@ -22,6 +23,7 @@ const StageStatsSchema = new Schema<IStageStats>({
       teamScores: [{ teamName: String, score: Number }],
     },
   ],
+  seedSize: Number,
 });
 
 export { MapScores, IStageStats };

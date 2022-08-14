@@ -343,6 +343,12 @@ export default function Stats({ tourney, user }) {
     ];
     setState({ ...state, stageStatsEdit: updated, addPlayerModalVisible: false });
   };
+  
+  const editSeedSize = async (value) => {
+    const updated = { ...state.stageStatsEdit };
+    updated.seedSize = value;
+    setState({ ...state, stageStatsEdit: updated});
+  };
 
   const exportToJson = () => {
     const teams = [];
@@ -483,13 +489,21 @@ export default function Stats({ tourney, user }) {
   };
 
   const getTeamSeed = (rank) => {
-    const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallTeamStats.length))) / 4;
-    return Math.ceil(rank / rangeSize);
+    if (!state.stageStats.seedSize || state.stageStats.seedSize === -1) {
+      const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallTeamStats.length))) / 4;
+      return Math.ceil(rank / rangeSize);
+    } else {
+      return Math.ceil(rank / state.stageStats.seedSize);
+    }
   };
 
   const getPlayerSeed = (rank) => {
-    const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallPlayerStats.length))) / 4;
-    return Math.ceil(rank / rangeSize);
+    if (!state.stageStats.seedSize || state.stageStats.seedSize === -1) {
+      const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallPlayerStats.length))) / 4;
+      return Math.ceil(rank / rangeSize);
+    } else {
+      return Math.ceil(rank / state.stageStats.seedSize);
+    }
   };
 
   const refetchAllScores = async () => {
@@ -559,6 +573,9 @@ export default function Stats({ tourney, user }) {
               )}
               {state.inEditMode && (
                 <Form layout="inline">
+                  <Form.Item name="seedSize" label="Seed Size">
+	            <InputNumber value={state.stageStatsEdit.seedSize} min={-1} onChange={(value) => editSeedSize(value)} />
+	          </Form.Item>
                   <Button
                     className="settings-button"
                     type="primary"
