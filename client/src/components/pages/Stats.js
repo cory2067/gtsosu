@@ -32,6 +32,7 @@ export default function Stats({ tourney, user }) {
     recalculateStats: false,
     refetchDataInProgress: false,
     refetchScoresInProgress: false,
+    assignSeedsInProgress: false,
   });
 
   const calculateStats = () => {
@@ -213,7 +214,7 @@ export default function Stats({ tourney, user }) {
       teams: new Map(teams.map((team) => [team.name, team])),
       matches,
       stageMaps,
-      stageStats: stageStats || {},
+      stageStats: stageStats || { tourney, stage: currentSelectedStage.name, maps: [] },
       currentSelectedStage,
       currentSelectedTable: tourneyModel.teams ? "team" : "player",
       refetchData: false,
@@ -328,15 +329,22 @@ export default function Stats({ tourney, user }) {
     );
     if (!thePlayer) return message.error("Player not found or not registered");
 
-    const exists = state.stageStatsEdit.maps
-      .find((mapStats) => String(mapStats.mapId) === state.currentSelectedMapId)
-      .playerScores.find((playerScore) => String(playerScore.userId) === thePlayer.userid);
-    if (exists) return message.error("Player score already exists");
-
     const updated = { ...state.stageStatsEdit };
-    const mapStats = updated.maps.find(
+    let mapStats = updated.maps.find(
       (mapStats) => String(mapStats.mapId) === state.currentSelectedMapId
     );
+
+    const exists = mapStats && mapStats.playerScores.find((playerScore) => String(playerScore.userId) === thePlayer.userid);
+    if (exists) return message.error("Player score already exists");
+
+    if (!mapStats) {
+      mapStats = {
+        mapId: Number(state.currentSelectedMapId),
+        playerScores: [],
+        teamScores: [],
+      };
+      updated.maps.push(mapStats);
+    }
     mapStats.playerScores = [
       ...mapStats.playerScores,
       { userId: Number(thePlayer.userid), score: 0 },
@@ -499,7 +507,7 @@ export default function Stats({ tourney, user }) {
 
   const getPlayerSeed = (rank) => {
     if (!state.stageStats.seedSize || state.stageStats.seedSize === -1) {
-      const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallPlayerStats.length))) / 4;
+      const rangeSize = Math.ceil(Math.pow(2, Math.floor(Math.log2(state.overallPlayerStats.length))) / 4);
       return Math.ceil(rank / rangeSize);
     } else {
       return Math.ceil(rank / state.stageStats.seedSize);
@@ -525,6 +533,42 @@ export default function Stats({ tourney, user }) {
         stageStats: updatedStats,
         recalculateStats: true,
         refetchScoresInProgress: false,
+      });
+    }
+  };
+
+  const assignSeeds = async () => {
+    if (
+      confirm(
+        "Assign seeds to players based on the stats shown here?"
+      )
+    ) {
+      const playerSeedStats = state.overallPlayerStats.map(playerScoreStats => {
+        const user = state.players.get(String(playerScoreStats.userId));
+        const seedName = ["Top", "High", "Mid", "Low"][getPlayerSeed(playerScoreStats.rank) - 1];
+        console.log(seedName);
+        console.log(getPlayerSeed(playerScoreStats.rank));
+        console.log(playerScoreStats);
+        return {
+          _id: user._id,
+          stats: {
+            seedName,
+            seedNum: playerScoreStats.rank,
+          },
+        };
+      }).filter(seedStats => seedStats.stats.seedName);
+      
+      setState({
+        ...state,
+        assignSeedsInProgress: true,
+      });
+      const updatedPlayers = await post("/api/player-stats", {
+        tourney,
+        playerStats: playerSeedStats,
+      });
+      setState({
+        ...state,
+        assignSeedsInProgress: false,
       });
     }
   };
@@ -569,6 +613,12 @@ export default function Stats({ tourney, user }) {
                     </Button>
                   )}
                   {state.refetchScoresInProgress && <Spin />}
+                  {!state.assignSeedsInProgress && state.isQualifiers && !state.tourneyModel?.teams && (
+                    <Button className="settings-button" type="primary" onClick={assignSeeds}>
+                      Assign Seeds
+                    </Button>
+                  )}
+                  {state.assignSeedsInProgress && <Spin />}
                 </Form>
               )}
               {state.inEditMode && (
