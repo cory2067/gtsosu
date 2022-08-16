@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import express, { Response } from "express";
 import pino from "pino";
 import osu from "node-osu";
@@ -10,7 +11,7 @@ import StageStats, { IStageStats } from "./models/stage-stats";
 import Team, { PopulatedTeam } from "./models/team";
 import Tournament, { ITournament } from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
-import User, { IUser } from "./models/user";
+import User, { UserTourneyStats, IUser } from "./models/user";
 import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
 import { Request } from "./types";
 
@@ -1148,7 +1149,7 @@ router.postAsync("/stage-stats", ensure.isAdmin, async (req, res) => {
   const updatedStageStats = await StageStats.findOneAndUpdate(
     { tourney: req.body.stats.tourney, stage: req.body.stats.stage },
     req.body.stats,
-    { new: true }
+    { new: true, upsert: true }
   );
   res.send(updatedStageStats);
 });
@@ -1307,38 +1308,63 @@ router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
  * POST /api/player-stats
  * Set stats/details about an existing player
  * Params:
- *   - _id: the _id of the player
- *   - seedName: i.e. Top, High, Mid, or Low
- *   - seedNum: the player's rank in the seeding
- *   - group: one character capitalized group name
- *   - regTime: the date/time the player registered
  *   - tourney: the code of the tourney
+ *   - playerStats: Array of:
+ *     - _id: the _id of the player
+ *     - stats: object with properties:
+ *       - seedName: i.e. Top, High, Mid, or Low
+ *       - seedNum: the player's rank in the seeding
+ *       - group: one character capitalized group name
+ *       - regTime: the date/time the player registered
  */
-router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
-  await User.findOneAndUpdate(
-    { _id: req.body._id },
-    { $pull: { stats: { tourney: req.body.tourney } } }
-  );
+type PlayerStatsBody = {
+  tourney: string; // identifier for the tourney
+  playerStats: Array<{
+    _id: Types.ObjectId;
+    stats: UserTourneyStats;
+  }>;
+};
+type PlayerStatsResponse = Array<IUser>;
 
-  const user = await User.findOneAndUpdate(
-    { _id: req.body._id },
-    {
-      $push: {
-        stats: {
-          tourney: req.body.tourney,
-          seedName: req.body.seedName,
-          seedNum: req.body.seedNum,
-          group: req.body.group,
-          regTime: req.body.regTime,
-        },
-      },
-    },
-    { new: true }
-  ).orFail();
-
-  logger.info(`${req.user.username} set stats for ${user.username} in ${req.body.tourney}`);
-  res.send(user);
-});
+router.postAsync(
+  "/player-stats",
+  ensure.isAdmin,
+  async (req: Request<{}, PlayerStatsBody>, res: Response<PlayerStatsResponse>) => {
+    await Promise.all(
+      req.body.playerStats.map(playerStats => {
+        return User.findOneAndUpdate(
+          { _id: playerStats._id },
+          { $pull: { stats: { tourney: req.body.tourney } } }
+        );
+      })
+    );
+    
+    const users = await Promise.all(
+      req.body.playerStats.map(playerStats => {
+        return User.findOneAndUpdate(
+          { _id: playerStats._id },
+          {
+            $push: {
+              stats: {
+                ...playerStats.stats,
+                tourney: req.body.tourney,
+              },
+            },
+          },
+          { new: true }
+        ).orFail();
+      })
+    );
+    
+    if (req.body.playerStats.length === 1) {
+      logger.info(`${req.user!.username} set stats for ${users[0].username} in ${req.body.tourney}`);
+    }
+    if (req.body.playerStats.length > 1) {
+      logger.info(`${req.user!.username} set stats multiple players in ${req.body.tourney}`);
+    }
+    res.send(users);
+  }
+);
 
 /**
  * POST /api/refresh

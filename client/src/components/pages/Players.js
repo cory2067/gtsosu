@@ -217,28 +217,32 @@ export default function Players({ tourney, user }) {
           return t;
         })
       );
-    } catch {
+    } catch (e) {
       message.error(`Couldn't get team stats: ${e}`);
     }
   };
 
   const handlePlayerEdit = async (formData, _id) => {
     try {
-      const newPlayer = await post("/api/player-stats", {
-        ...formData,
-        _id,
+      const newPlayers = await post("/api/player-stats", {
         tourney: tourney,
-        regTime: getStatsById(_id).regTime,
+        playerStats: [{
+          _id,
+          stats: {
+            ...formData,
+            regTime: getStatsById(_id).regTime,
+          },
+        }],
       });
 
       setPlayers(
         players.map((t) => {
-          if (t._id === _id) return newPlayer;
+          if (t._id === _id) return newPlayers[0];
 
           return t;
         })
       );
-    } catch {
+    } catch (e) {
       message.error(`Something went wrong: ${e}`);
     }
   };
