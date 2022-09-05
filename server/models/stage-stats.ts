@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 interface MapScores {
   mapId: number;
-  playerScores: { userId: number; score: number }[];
+  playerScores: { userId: number; score: number, mod: string }[];
   teamScores: { teamName: string; score: number }[];
 }
 
@@ -19,7 +19,7 @@ const StageStatsSchema = new Schema<IStageStats>({
   maps: [
     {
       mapId: Number,
-      playerScores: [{ userId: Number, score: Number }],
+      playerScores: [{ userId: Number, score: Number, mod: String }],
       teamScores: [{ teamName: String, score: Number }],
     },
   ],
