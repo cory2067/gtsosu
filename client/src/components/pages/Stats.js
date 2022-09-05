@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
 import { get, post, prettifyTourney, hasAccess, getStage } from "../../utilities";
-import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin } from "antd";
+import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 const { Content } = Layout;
 const { Column, ColumnGroup } = Table;
@@ -456,10 +456,18 @@ export default function Stats({ tourney, user }) {
 
   const getPlayerLabel = (userId) => {
     const thePlayer = state.players.get(String(userId));
+
     if (thePlayer) {
+      const playerTourneyStats = thePlayer.stats.find(stats => stats.tourney === tourney);
+      const seedName = playerTourneyStats?.seedName;
+      const seedNum = playerTourneyStats?.seedNum;
+      const tooltipString = seedName && seedNum ? `${seedName} Seed (#${seedNum})` : "";
+
       return (
         <div>
-          <FlagIcon size={16} code={thePlayer.country} /> {thePlayer.username}
+          <Tooltip title={tooltipString}>
+            <FlagIcon size={16} code={thePlayer.country} /> {thePlayer.username}
+          </Tooltip>
         </div>
       );
     } else return userId;
@@ -470,6 +478,12 @@ export default function Stats({ tourney, user }) {
     const theBeatmap = state.stageMaps.find((stageMap) => stageMap.mapId === mapId);
     const banCount = state.matches.filter((match) => match.bans1.includes(mapId) || match.bans2.includes(mapId)).length;
     return theBeatmap ? `${theBeatmap.artist} - ${theBeatmap.title} [${theBeatmap.diff}]\nTimes banned: ${banCount}\n` : "";
+  };
+
+  const isFreemod = () => {
+    const mapId = Number(state.currentSelectedMapId);
+    const theBeatmap = state.stageMaps.find((stageMap) => stageMap.mapId === mapId);
+    return theBeatmap?.mod === "FM";
   };
 
   const getAverageTeamScore = () => {
@@ -901,6 +915,14 @@ export default function Stats({ tourney, user }) {
                             )
                           }
                         />
+                        {isFreemod() && (
+                          <Column
+                            title="Mod"
+                            dataIndex="mod"
+                            key="mod"
+                            render={(mod) => mod}
+                          />
+                        )}
                         {state.inEditMode && (
                           <Column
                             title="Remove"

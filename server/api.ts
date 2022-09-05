@@ -1029,8 +1029,12 @@ const fetchMatchesAndUpdateStageStats = async (tourney, stage, mpIds) => {
           // Skip tracking players that aren't registered in the tourney
           if (!tourneyPlayers.has(score.userId)) continue;
 
+          let mod = "";
+          if (Number(score.raw_mods) & 8) mod += "HD";
+          if (Number(score.raw_mods) & 16) mod += "HR";
+
           const playerId = Number(score.userId);
-          const newPlayerScore = { userId: playerId, score: Number(score.score) };
+          const newPlayerScore = { userId: playerId, score: Number(score.score), mod };
 
           // Update player high score
           const previousPlayerScore = mapStats.playerScores.find(
