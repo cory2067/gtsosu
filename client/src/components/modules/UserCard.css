@@ -1,10 +1,9 @@
 .UserCard-outside {
-  border: 1px solid rgb(82, 82, 82);
+  border: 1px solid black;
   display: grid;
   grid-template-columns: 75px 350px;
   grid-template-rows: 75px;
-  background-color: white;
-  box-shadow: 2px 2px 8px;
+  box-shadow: 2px 2px 8px black;
   width: 428px;
   margin: var(--s);
 }

@@ -17,7 +17,6 @@
 }
 
 html body {
-  background-color: var(--bg);
   font-family: 'Red Hat Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 }
 
@@ -114,4 +113,17 @@ body .ant-list {
 body .ant-table {
   font-variant: normal;
   font-feature-settings: normal;
+}
+
+body .ant-card-bordered {
+  border: 1px solid black;
+}
+
+body .ant-card-bordered .ant-card-cover {
+  margin-left: unset;
+  margin-right: unset;
+}
+
+.u-add-tag {
+  background: var(--darknight) !important;
 }

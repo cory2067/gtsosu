@@ -12,6 +12,14 @@
 
 .NewTourneyHome-button-box .ant-btn-block {
  font-size: 13pt;
+ background: var(--white);
+ color: #4d358f;
+ text-transform: uppercase;
+}
+
+.NewTourneyHome-button-box .ant-btn-block[disabled] {
+ background: var(--white);
+ color: #4d358f;
 }
 
 .NewTourneyHome-content {
