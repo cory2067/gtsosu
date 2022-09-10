@@ -148,7 +148,8 @@
 }
 
 .NewTourneyHome-edit {
-  margin: var(--s);
+  margin: var(--xl);
+  text-align: middle;
 }
 
 .NewTourneyHome-back {

@@ -1,6 +1,7 @@
 .Navbar-avatar img {
-  height: 50px;
-  width: 50px;
+  margin-top: 16px;
+  height: 64px;
+  width: 64px;
   border-radius: 50%;
   filter: drop-shadow(1px 1px 1px black);
 }
@@ -10,15 +11,21 @@
 }
 
 .Navbar-Logo {
-  width: 48px;
-  height: 48px;
-  margin: 8px 16px 8px -12px;
+  width: 64px;
+  height: 64px;
+  margin: 16px 16px 8px -12px;
+  position: relative;
 }
 
 header.Navbar-wrapper {
   display: flex;
   justify-content: space-between;
   padding: 0 40px;
+  background: var(--white);
+  height: 48px;
+  position: fixed;
+  width: 100%;
+  z-index: 2;
 }
 
 #Navbar-LeftNavbar {
@@ -27,16 +34,44 @@ header.Navbar-wrapper {
 
 #Navbar-RightNavbar .ant-menu-submenu {
   padding: 0 16px;
+  vertical-align: top;
 }
 
 #Navbar-RightNavbar .Navbar-lang-icon {
   margin-right: 6px;
 }
 
-.ant-menu-item {
-  font-size: 15px;
+header.Navbar-wrapper .ant-menu {
+  background: var(--white);
+  color: var(--night);
+  line-height: 48px;
+  height: 48px;
+}
+
+header.Navbar-wrapper .ant-menu-item {
+  font-size: 16px;
+  background: var(--white);
+  color: var(--night);
+}
+
+header.Navbar-wrapper .ant-menu-item > a {
+  color: var(--night);
+  text-transform: uppercase;
+}
+
+header.Navbar-wrapper .ant-menu-dark.ant-menu-horizontal > .ant-menu-item {
+  padding: 0 40px;
 }
 
 .ant-menu-submenu-title {
   font-size: 15px;
+}
+
+header.Navbar-wrapper .ant-menu-submenu-horizontal.ant-menu-submenu:not(.Navbar-avatar):hover {
+  background: var(--gts-orange);
+  color: var(--white);
+}
+
+header.Navbar-wrapper .anticon {
+  color: var(--night);
 }
