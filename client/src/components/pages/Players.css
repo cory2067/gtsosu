@@ -23,7 +23,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: var(--l);
 }
 
 .Players-admintool {

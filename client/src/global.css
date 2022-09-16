@@ -127,11 +127,3 @@ body .ant-card-bordered .ant-card-cover {
 .u-add-tag {
   background: var(--darknight) !important;
 }
-
-body .ant-layout-content {
-  margin-top: 48px;
-}
-
-body .u-flex {
-  margin-top: var(--l);
-}
