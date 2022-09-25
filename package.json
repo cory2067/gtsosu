@@ -30,7 +30,7 @@
     "express-session": "^1.17.1",
     "google-auth-library": "^5.10.1",
     "heroku-ssl-redirect": "0.0.4",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "mongodb": "4.9.1",
     "mongoose": "^6.6.1",
     "node-fetch": "^2.6.7",
