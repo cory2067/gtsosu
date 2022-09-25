@@ -1,6 +1,6 @@
 .ant-menu-root.ant-menu.stage-selector {
   background-color: var(--night);
-  box-shadow: 0 0 12px black;
+  border: 1px solid black;
 }
 
 .ant-menu-item-selected.stage-name a {
