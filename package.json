@@ -28,7 +28,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "express-session": "^1.17.1",
-    "google-auth-library": "^5.10.1",
+    "google-auth-library": "^8.5.2",
     "heroku-ssl-redirect": "0.0.4",
     "moment": "^2.29.2",
     "mongodb": "4.9.1",
