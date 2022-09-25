@@ -76,17 +76,24 @@ module.exports = {
         ],
       },
     ],
+    // typescript issue - https://github.com/microsoft/TypeScript/issues/39436
+    noParse: [require.resolve("typescript/lib/typescript.js")],
   },
   resolve: {
     extensions: ["*", ".js", ".jsx"],
     fallback: {
-      "path": false,
+      path: false,
     },
   },
-  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.ProvidePlugin({process: 'process/browser'})],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.ProvidePlugin({ process: "process/browser" }),
+  ],
   devServer: {
     historyApiFallback: true,
-    contentBase: "./client/dist",
+    static: {
+      directory: "./client/dist",
+    },
     hot: true,
     proxy: {
       "/auth": "http://localhost:3000",
