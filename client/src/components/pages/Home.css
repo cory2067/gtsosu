@@ -2,6 +2,11 @@ body .Home-content {
   padding: 0;
 }
 
+.Home-content {
+  height: calc(100vh - 64px);
+  background-color: var(--night);
+}
+
 .Home-title {
   font-size: 62pt;
   text-align: center;
