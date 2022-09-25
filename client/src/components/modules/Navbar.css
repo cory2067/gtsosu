@@ -50,6 +50,10 @@ header.Navbar-wrapper .ant-menu-item > a {
   text-transform: uppercase;
 }
 
+header.Navbar-wrapper .ant-menu-submenu .ant-menu-submenu-title {
+  text-transform: uppercase;
+}
+
 header.Navbar-wrapper .ant-menu-dark.ant-menu-horizontal > .ant-menu-item {
   padding: 0 40px;
 }
