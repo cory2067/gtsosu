@@ -21,6 +21,7 @@ import YearConfig from "../content/year-config";
 import { Layout } from "antd";
 import "antd/dist/antd.css";
 const { Footer } = Layout;
+import './App.less';
 
 export default function App() {
   const [user, setUser] = useState({});

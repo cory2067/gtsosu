@@ -23,7 +23,7 @@ export default {
       tournies: "My Tournies",
     },
     archives: "Archives",
-    stats: "Stats",
+    stats: "Statistics",
     information: "Information",
   },
 
@@ -51,6 +51,7 @@ export default {
       tournies: "登録している大会",
     },
     archives: "アーカイブ",
+    stats: "スタッツ",
     information: "参加に関して",
   },
 

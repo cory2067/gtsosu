@@ -1,14 +1,14 @@
 .TeamCard-container {
-  border: 2px solid rgb(119, 119, 119);
+  border: 1px solid black;
   margin: var(--m);
-  box-shadow: 2px 2px 8px;
+  box-shadow: 2px 2px 8px black;
   display: flex;
 }
 
 .TeamCard-seed {
   margin: var(--xs);
   width: var(--xs);
-  box-shadow: 1px 1px 4px;
+  box-shadow: 1px 1px 4px black;
 }
 
 .TeamCard-head-wrapper {
