@@ -5,7 +5,7 @@
 
 .Mappools-pack {
   margin-top: var(--m);
-  border: 1px solid black;
+  border: 1px solid var(--darker-night);
   text-align: center;
   padding: var(--xs);
 }

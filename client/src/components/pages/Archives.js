@@ -42,9 +42,11 @@ function Archives(props) {
           loading={!tourneys.length}
           renderItem={(tourney) => (
             <List.Item key={tourney._id}>
-              <Link to={`/${tourney.year}/${tourney.codeAndDivision}/home`}>
-                <span className="Archives-entry">{tourney.displayName}</span>
-              </Link>
+              <div className="Archives-entry-wrapper">
+                <Link to={`/${tourney.year}/${tourney.codeAndDivision}/home`}>
+                  <span className="Archives-entry">{tourney.displayName}</span>
+                </Link>
+              </div>
             </List.Item>
           )}
         />

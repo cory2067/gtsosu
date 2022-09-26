@@ -31,6 +31,7 @@ function RightNavbar(props) {
       <Menu theme="dark" mode="horizontal" selectable={false} onClick={handleClick}>
         {languages && (
           <SubMenu
+            className="submenu"
             title={
               <span>
                 <GlobalOutlined className="Navbar-lang-icon" />

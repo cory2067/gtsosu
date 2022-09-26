@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {
   DeleteOutlined,
-  StarTwoTone,
-  ClockCircleTwoTone,
-  DashboardTwoTone,
+  StarOutlined,
+  ClockCircleOutlined,
+  DashboardOutlined,
   DownloadOutlined,
 } from "@ant-design/icons";
 import CustomMapBadge from "../../public/custom-map-badge.svg";
@@ -86,13 +86,13 @@ export default function MapCard({
 
       <div className="MapCard-attr-row">
         <div className="MapCard-attr">
-          <StarTwoTone /> {sr}
+          <StarOutlined /> {sr}
         </div>
         <div className="MapCard-attr">
-          <ClockCircleTwoTone /> {length}
+          <ClockCircleOutlined /> {length}
         </div>
         <div className="MapCard-attr">
-          <DashboardTwoTone /> {bpm}bpm
+          <DashboardOutlined /> {bpm}bpm
         </div>
       </div>
 

@@ -2,7 +2,7 @@
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  filter: drop-shadow(1px 1px 1px black);
+  filter: drop-shadow(1px 1px 1px var(--darker-night));
 }
 
 .Navbar-avatar img:hover {
@@ -19,7 +19,7 @@ header.Navbar-wrapper {
   display: flex;
   justify-content: space-between;
   padding: 0 40px;
-  background: var(--white);
+  background: var(--darker-night);
 }
 
 #Navbar-LeftNavbar {
@@ -32,21 +32,23 @@ header.Navbar-wrapper {
 
 #Navbar-RightNavbar .Navbar-lang-icon {
   margin-right: 6px;
+  color: var(--greyts);
 }
 
 header.Navbar-wrapper .ant-menu {
-  background: var(--white);
-  color: var(--night);
+  background: var(--darker-night);
+  color: var(--greyts);
 }
 
 header.Navbar-wrapper .ant-menu-item {
-  font-size: 16px;
-  background: var(--white);
-  color: var(--night);
+  font-size: 15px;
+  font-weight: 500;
+  background: var(--darker-night);
+  color: var(--greyts);
 }
 
 header.Navbar-wrapper .ant-menu-item > a {
-  color: var(--night);
+  color: var(--greyts);
   text-transform: uppercase;
 }
 
@@ -56,13 +58,14 @@ header.Navbar-wrapper .ant-menu-submenu .ant-menu-submenu-title {
 
 @media (min-width: 1500px) {
   header.Navbar-wrapper .ant-menu-dark.ant-menu-horizontal > .ant-menu-item {
-    padding: 0 40px;
+    padding: 0 32px;
   }
 }
 
 
 .ant-menu-submenu-title {
   font-size: 15px;
+  font-weight: 500;
 }
 
 header.Navbar-wrapper .ant-menu-submenu-horizontal.ant-menu-submenu:not(.Navbar-avatar):hover {
@@ -71,5 +74,13 @@ header.Navbar-wrapper .ant-menu-submenu-horizontal.ant-menu-submenu:not(.Navbar-
 }
 
 header.Navbar-wrapper .anticon {
-  color: var(--night);
+  color: var(--darker-night);
+}
+
+header.Navbar-wrapper .ant-menu-submenu {
+  background-color: var(--darker-night);
+}
+
+.ant-menu-submenu-popup > .ant-menu {
+  background-color: var(--darker-night)!important;
 }
