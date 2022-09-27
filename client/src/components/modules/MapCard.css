@@ -2,7 +2,7 @@
   margin: var(--m);
   max-width: 600px;
   flex-basis: 400px;
-  box-shadow: 0 0 12px black;
+  box-shadow: 0 0 12px var(--darker-night);
 }
 
 .MapCard-card a img {
@@ -66,7 +66,11 @@
 
 .MapCard-small {
   font-size: 11pt;
-  color: rgb(125, 125, 125);
+  color: var(--greyts);
+}
+
+.MapCard-attr .anticon {
+  color: var(--white);
 }
 
 /* Colors for mod icons */

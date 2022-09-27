@@ -8,6 +8,7 @@
   --white: #fff;
   --bg: #f0f2f5;
   --gold: #ffc53b;
+  --darker-night: #131415;
 
   --xs: 4px;
   --s: 8px;
@@ -116,7 +117,7 @@ body .ant-table {
 }
 
 body .ant-card-bordered {
-  border: 1px solid black;
+  border: 1px solid var(--darker-night);
 }
 
 body .ant-card-bordered .ant-card-cover {
