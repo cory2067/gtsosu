@@ -49,7 +49,7 @@ The site is hosted on Heroku and is live at https://gtsosu.com. Currently, Herok
 
 ## Adding a new tournament
 
-Add a new file to `client/src/content` with the following name: `tourney_year-en.js`. (e.g. `igts_2020-en.js`). You can copy an existing tourney's js file as a template.
+Add a new file to `client/src/content` with the following name: `tourney_year-en.js`. (e.g. `igts_2020-en.js`). You can copy an existing tourney's js file as a template. You should also upload a background image for the tourney in the `client/src/public/backgrounds` folder with the name `tourney_year.png`. Make sure the file isn't too huge, or the page may be slow to load (e.g. consider downscaling to 1920x1080).
 
 Next, update the home page, which is `home-en.js`. Add a new entry for the new tourney. In the home page config, you can optionally specify `divisions` which behave as independent tournaments, except they share the same `tourney_year-en.js` file. (see cgts for an example)
 
