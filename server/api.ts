@@ -16,6 +16,7 @@ import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./u
 import { Request } from "./types";
 
 import mapRouter from "./api/map";
+import donationRouter from "./api/donation";
 
 import { addAsync } from "@awaitjs/express";
 import { UserAuth } from "./permissions/UserAuth";
@@ -42,6 +43,7 @@ router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
 // Parts of the API are gradually being split out into separate files
 // These are the sub-routers that have been migrated/refactored
 router.use(mapRouter);
+router.use(donationRouter);
 // ----------------------
 
 const isAdmin = (user: IUser | undefined, tourney: string) => checkPermissions(user, tourney, []);
@@ -553,13 +555,12 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
   res.send(match);
 });
 
-
 type SubmitWarmupBody = {
   match: string; // Match ID
   playerNo: 1 | 2; // Player number in match (1 or 2)
   warmup: string; // Warmup map link or ID
   mod: WarmupMod; // Mod used for warmup (only NM or DT is supported, defaults to NM)
-}
+};
 /**
  * POST /api/warmup
  * Submit a warmup
@@ -575,8 +576,14 @@ router.postAsync("/warmup", ensure.loggedIn, async (req: Request<{}, SubmitWarmu
   }
   try {
     // Make sure mod is valid, if it's not default to nm
-    if (req.body.mod != "DT") { req.body.mod = "NM" }
-    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup, req.body.mod || "NM", match.tourney);
+    if (req.body.mod != "DT") {
+      req.body.mod = "NM";
+    }
+    match[`warmup${req.body.playerNo}`] = await parseWarmup(
+      req.body.warmup,
+      req.body.mod || "NM",
+      match.tourney
+    );
     match[`warmup${req.body.playerNo}Mod`] = req.body.mod;
   } catch (e) {
     res.status(400).send(e.message);
@@ -895,7 +902,8 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   await lobby.save();
 
   logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${req.body.lobby
+    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${
+      req.body.lobby
     } for ${req.body.tourney}`
   );
   res.send(lobby);
@@ -932,7 +940,8 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
     return res.status(403).send({});
   logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${req.body.lobby
+    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
+      req.body.lobby
     } in ${req.body.tourney}`
   );
 
@@ -1335,16 +1344,16 @@ router.postAsync(
   ensure.isAdmin,
   async (req: Request<{}, PlayerStatsBody>, res: Response<PlayerStatsResponse>) => {
     await Promise.all(
-      req.body.playerStats.map(playerStats => {
+      req.body.playerStats.map((playerStats) => {
         return User.findOneAndUpdate(
           { _id: playerStats._id },
           { $pull: { stats: { tourney: req.body.tourney } } }
         );
       })
     );
-    
+
     const users = await Promise.all(
-      req.body.playerStats.map(playerStats => {
+      req.body.playerStats.map((playerStats) => {
         return User.findOneAndUpdate(
           { _id: playerStats._id },
           {
@@ -1359,9 +1368,11 @@ router.postAsync(
         ).orFail();
       })
     );
-    
+
     if (req.body.playerStats.length === 1) {
-      logger.info(`${req.user!.username} set stats for ${users[0].username} in ${req.body.tourney}`);
+      logger.info(
+        `${req.user!.username} set stats for ${users[0].username} in ${req.body.tourney}`
+      );
     }
     if (req.body.playerStats.length > 1) {
       logger.info(`${req.user!.username} set stats multiple players in ${req.body.tourney}`);

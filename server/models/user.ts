@@ -20,6 +20,7 @@ interface IUser {
   roles: { tourney: string; role: string }[];
   stats: UserTourneyStats[];
   tournies: string[];
+  donations: number;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -47,6 +48,7 @@ const UserSchema = new Schema<IUser>({
     },
   ],
   tournies: [String], // map from tourney code to list of roles
+  donations: Number,
 });
 
 export { UserTourneyStats, IUser };

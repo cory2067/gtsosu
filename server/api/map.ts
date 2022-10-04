@@ -45,7 +45,7 @@ const canViewHiddenPools = async (user: IUser | undefined, tourney: string) =>
  * Registers a new map into a mappool
  * Returns the newly-added map
  */
-type GetMapBody = {
+type PostMapBody = {
   id: string; // ID of the map
   mod: string; // mod of the map
   index: number; // e.g. 3 for NM3, HD3, HR3
@@ -53,12 +53,12 @@ type GetMapBody = {
   stage: string; // which pool, e.g. qf, sf, f, gf
   pooler?: string; // who selected this map (default current user)
 };
-type GetMapResponse = ITourneyMap;
+type PostMapResponse = ITourneyMap;
 
 mapRouter.postAsync(
   "/map",
   ensure.isPooler,
-  async (req: Request<{}, GetMapBody>, res: Response<GetMapResponse>) => {
+  async (req: Request<{}, PostMapBody>, res: Response<PostMapResponse>) => {
     const user = assertUser(req);
     logger.info(`${user.username} added ${req.body.id} to ${req.body.stage} mappool`);
 
