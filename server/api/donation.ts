@@ -14,6 +14,22 @@ const donationRouter = addAsync(express.Router());
 const logger = pino();
 const osuApi = getOsuApi();
 
+type KofiDonation = {
+  fromName: string;
+  message: string;
+  amount: number;
+  verificationToken: string;
+};
+const parseKofiDonation = (rawData: string): KofiDonation => {
+  const data = JSON.parse(rawData);
+  return {
+    fromName: data.from_name,
+    message: data.message,
+    amount: parseFloat(data.amount),
+    verificationToken: data.verification_token,
+  };
+};
+
 /**
  * GET /api/donors
  * Gets all users who have donated before
@@ -35,13 +51,21 @@ donationRouter.getAsync(
  * Registers a Ko-fi donation with the GTS website
  * To be called only as a webhook configured with the Ko-fi API
  */
-type PostKofiDonationBody = any; // TODO
+type PostKofiDonationBody = {
+  data: string; // json string that can be parsed into KofiDonationData
+};
 type PostKofiDonationResponse = {};
-
 donationRouter.postAsync(
   "/kofi-donation",
   async (req: Request<{}, PostKofiDonationBody>, res: Response<PostKofiDonationResponse>) => {
-    logger.info(req.body);
+    const donation = parseKofiDonation(req.body.data);
+    logger.warn(donation);
+    if (donation.verificationToken !== process.env.KOFI_TOKEN) {
+      logger.warn(`Received unverified donation from ${donation.fromName}!`);
+      res.send({});
+      return;
+    }
+
     res.send({});
   }
 );
