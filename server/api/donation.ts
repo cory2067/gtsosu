@@ -41,7 +41,7 @@ type PostKofiDonationResponse = {};
 donationRouter.postAsync(
   "/kofi-donation",
   async (req: Request<{}, PostKofiDonationBody>, res: Response<PostKofiDonationResponse>) => {
-    console.log(req.body);
+    logger.info(req.body);
     res.send({});
   }
 );
