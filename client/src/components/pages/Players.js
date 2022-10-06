@@ -26,6 +26,57 @@ const { Panel } = Collapse;
 const { Option } = Select;
 
 let prevPlayers = null;
+function potentialTeamCounter({ flags, hasTeams, players }) {
+  const [minPotentialTeams, setMinPotentialTeams] = useState(0);
+  const [maxPotentialTeams, setMaxPotentialTeams] = useState(0);
+
+  let isCountryBasedTeamTourney = false;
+  if (!flags.has("suiji") && !flags.has("registerAsTeam")) {
+    isCountryBasedTeamTourney = hasTeams;
+  }
+
+  if (!isCountryBasedTeamTourney) return <></>;
+
+  const countPotentialTeams = () => {
+    let countryPlayerCounts = {};
+    players.forEach(player => {
+      if (countryPlayerCounts[player.country]) {
+        countryPlayerCounts[player.country] += 1;
+      }
+      else {
+        countryPlayerCounts[player.country] = 1;
+      }
+    });
+
+    let minPotentialTeams = 0;
+    let maxPotentialTeams = 0;
+
+    Object.keys(countryPlayerCounts).forEach(k => {
+      if (countryPlayerCounts[k] >= 2) {
+        minPotentialTeams += 1;
+        maxPotentialTeams += 1;
+        if (countryPlayerCounts[k] >= 7)
+          maxPotentialTeams += 1;
+      }
+    });
+
+    return {
+      min: minPotentialTeams,
+      max: maxPotentialTeams
+    }
+  }
+  // Passing player as the dep to useEffect doesn't seem to work here, so it's done manually here
+  if (prevPlayers !== players) {
+    prevPlayers = players;
+    const potentialTeamCount = countPotentialTeams();
+    setMinPotentialTeams(potentialTeamCount.min);
+    setMaxPotentialTeams(potentialTeamCount.max);
+  }
+
+  return <div style={{ marginTop: "var(--s)" }}>
+    Potential teams: {minPotentialTeams} | Potential eligible countries: {maxPotentialTeams}
+  </div>
+}
 
 export default function Players({ tourney, user }) {
   const [players, setPlayers] = useState([]);
@@ -42,8 +93,6 @@ export default function Players({ tourney, user }) {
   const [flags, setFlags] = useState(new Set());
   const [editingTeam, setEditingTeam] = useState(-1);
   const [rankRange, setRankRange] = useState(0);
-  const [minPotentialTeams, setMinPotentialTeams] = useState(0);
-  const [maxPotentialTeams, setMaxPotentialTeams] = useState(0);
 
   const fetchPlayers = async () => {
     try {
@@ -347,46 +396,6 @@ export default function Players({ tourney, user }) {
     }
   };
 
-  let isCountryBasedTeamTourney = false;
-  if (!flags.has("suiji") && !flags.has("registerAsTeam")) {
-    isCountryBasedTeamTourney = hasTeams;
-  }
-
-  const countPotentialTeams = () => {
-    let countryPlayerCounts = {};
-    players.forEach(player => {
-      if (countryPlayerCounts[player.country]) {
-        countryPlayerCounts[player.country] += 1;
-      }
-      else {
-        countryPlayerCounts[player.country] = 1;
-      }
-    });
-
-    let minPotentialTeams = 0;
-    let maxPotentialTeams = 0;
-
-    Object.keys(countryPlayerCounts).forEach(k => {
-      if (countryPlayerCounts[k] >= 2) {
-        minPotentialTeams += 1;
-        maxPotentialTeams += Math.min(Math.floor(countryPlayerCounts[k] / 7), 1) + 1;
-      }
-    });
-
-    return {
-      min: minPotentialTeams,
-      max: maxPotentialTeams
-    }
-  }
-  useEffect(() => {
-    // Passing player as the dep to useEffect doesn't seem to work here, so it's done manually here
-    if (isCountryBasedTeamTourney && prevPlayers !== players) {
-      const potentialTeamCount = countPotentialTeams();
-      setMinPotentialTeams(potentialTeamCount.min);
-      setMaxPotentialTeams(potentialTeamCount.max);
-    }
-  });
-
   return (
     <Content className="content">
       <div className="Players-topbar">
@@ -423,12 +432,7 @@ export default function Players({ tourney, user }) {
               )}
             </Radio.Group>
           </div>
-          {
-            isCountryBasedTeamTourney &&
-            <div style={{ marginTop: "var(--s)" }}>
-              Potential teams: {minPotentialTeams} | Potential eligible countries: {maxPotentialTeams}
-            </div>
-          }
+          {potentialTeamCounter({ flags, hasTeams, players })}
         </div>
       </div>
 
