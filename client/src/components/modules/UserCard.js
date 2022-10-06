@@ -40,7 +40,7 @@ export default function UserCard({
             <div className={`UserCard-name ${user.username.length > 14 ? "UserCard-long" : ""}`}>
               {user.country && <FlagIcon code={user.country} />}
               <a href={`https://osu.ppy.sh/users/${user.userid}`}>{user.username}</a>
-              {user.donations > 5 && (
+              {user.donations >= 5 && (
                 <Tooltip title={`GTS Supporter - Donated $${user.donations.toFixed(2)}`}>
                   <HeartFilled className="UserCard-supporter" />
                 </Tooltip>
