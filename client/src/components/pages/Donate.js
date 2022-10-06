@@ -68,11 +68,17 @@ function Donate({ user }) {
           </p>
           <p>Thank you for supporting GTS!</p>
           <h2>Supporter Benefits</h2>
+          <p>Make sure to use your osu! username when donating to get these benefits.</p>
           <p>
-            <strong>$5</strong> - Supporter badge next to your name on the GTS website
-          </p>
-          <p>
-            <strong>Coming soon</strong> - Custom designs for your player card on the GTS website!
+            <ul>
+              <li>
+                <strong>$5</strong> - Supporter badge next to your name on the GTS website
+              </li>
+              <li>
+                <strong>Coming soon</strong> - Custom designs for your player card on the GTS
+                website!
+              </li>
+            </ul>
           </p>
         </div>
       </div>
