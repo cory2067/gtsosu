@@ -12,6 +12,7 @@ import Players from "./pages/Players";
 import Schedule from "./pages/Schedule";
 import Stats from "./pages/Stats";
 import PoolHelper from "./pages/PoolHelper";
+import Donate from "./pages/Donate";
 import Navbar from "./modules/Navbar";
 import { get } from "../utilities";
 
@@ -21,7 +22,7 @@ import YearConfig from "../content/year-config";
 import { Layout } from "antd";
 import "antd/dist/antd.css";
 const { Footer } = Layout;
-import './App.less';
+import "./App.less";
 
 export default function App() {
   const [user, setUser] = useState({});
@@ -49,6 +50,7 @@ export default function App() {
           <Home path="/" />
           <Archives path="/archives" />
           <PoolHelper path="/pool-helper" />
+          <Donate path="/donate" user={user} />
 
           <TourneyRouteWrapper
             user={user}

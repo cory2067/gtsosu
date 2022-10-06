@@ -63,6 +63,11 @@
   color: #ff8c00;
 }
 
+.UserCard-supporter svg {
+  margin-left: var(--s);
+  color: rgb(255, 102, 171);
+}
+
 div .UserCard-form {
   flex-wrap: unset;
   padding: var(--s);

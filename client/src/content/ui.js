@@ -25,6 +25,7 @@ export default {
     archives: "Archives",
     stats: "Statistics",
     information: "Information",
+    donate: "Donate",
   },
 
   ja: {
@@ -53,6 +54,7 @@ export default {
     archives: "アーカイブ",
     stats: "スタッツ",
     information: "参加に関して",
+    donate: "支援",
   },
 
   ko: {
@@ -80,6 +82,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   de: {
@@ -107,6 +110,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   ru: {
@@ -134,6 +138,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   "zh-sg": {
@@ -161,6 +166,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   fr: {
@@ -188,6 +194,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   es: {
@@ -215,6 +222,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   pl: {
@@ -242,6 +250,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   es_cl: {
@@ -269,6 +278,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   nl: {
@@ -296,5 +306,6 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 };

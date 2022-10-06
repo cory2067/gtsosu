@@ -1,5 +1,5 @@
 import React from "react";
-import { DeleteOutlined, CrownOutlined } from "@ant-design/icons";
+import { DeleteOutlined, CrownOutlined, HeartFilled } from "@ant-design/icons";
 import FlagIcon from "./FlagIcon";
 
 import { Popconfirm, Tooltip } from "antd";
@@ -40,6 +40,11 @@ export default function UserCard({
             <div className={`UserCard-name ${user.username.length > 14 ? "UserCard-long" : ""}`}>
               {user.country && <FlagIcon code={user.country} />}
               <a href={`https://osu.ppy.sh/users/${user.userid}`}>{user.username}</a>
+              {user.donations > 5 && (
+                <Tooltip title={`GTS Supporter - Donated $${user.donations.toFixed(2)}`}>
+                  <HeartFilled className="UserCard-supporter" />
+                </Tooltip>
+              )}
               {canDelete && (
                 <Popconfirm
                   title={`Are you sure you want to remove ${user.username}?`}
