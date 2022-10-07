@@ -51,7 +51,6 @@ function Donate({ user }) {
         <iframe
           className="Donate-iframe"
           src="https://ko-fi.com/globaltaikoshowdown/?hidefeed=true&widget=true&embed=true&preview=tru"
-          height="712"
         ></iframe>
         <div className="Donate-info">
           <h1>Support GTS!</h1>
