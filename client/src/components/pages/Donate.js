@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import UserCard from "../modules/UserCard";
-import { get, hasAccess, delet, post, prettifyTourney, tokenizeTourney } from "../../utilities";
+import { get, hasAccess, delet, post } from "../../utilities";
 import "./Donate.css";
 
-import { Layout, Form, Button, Collapse, Input } from "antd";
+import { Layout, Form, Button, Collapse, Input, Progress } from "antd";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
 const { Content } = Layout;
 const { Panel } = Collapse;
+
+const DONATION_GOAL = 1800;
 
 function Donate({ user }) {
   const [loading, setLoading] = useState(false);
@@ -31,6 +33,10 @@ function Donate({ user }) {
     );
   };
 
+  const total = useMemo(() => {
+    return donors.reduce((prev, cur) => prev + cur.donations, 0);
+  }, [donors]);
+
   return (
     <Content className="content">
       {auth.hasRole(UserRole.Admin) && (
@@ -52,6 +58,15 @@ function Donate({ user }) {
           </Panel>
         </Collapse>
       )}
+      <div className="Donate-progress">
+        Donation Goal: ${total} / ${DONATION_GOAL}
+        <Progress
+          strokeWidth={24}
+          strokeColor={"#f75c03"} // gts-orange
+          trailColor={"#131415"} // darker-night
+          percent={Math.round((total / DONATION_GOAL) * 100)}
+        />
+      </div>
       <div className="Donate-wrapper">
         <iframe
           className="Donate-iframe"
