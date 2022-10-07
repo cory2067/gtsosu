@@ -23,7 +23,12 @@ function Donate({ user }) {
 
   const submitDonation = async (form) => {
     const newUser = await post("/api/manual-donation", form);
-    setDonors(donors.map((donor) => (donor._id === newUser._id ? newUser : donor)));
+    setDonors(
+      donors
+        .filter((donor) => donor._id !== newUser._id)
+        .concat(newUser)
+        .sort((a, b) => b.donations - a.donations)
+    );
   };
 
   return (
