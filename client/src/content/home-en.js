@@ -31,13 +31,13 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 16 
       banner: "/public/backgrounds/agts_2022.png"
     },
     {
-      title: "RGTS 2021",
+      title: "RGTS 2022",
       fullTitle: "RISING GLOBAL TAIKO SHOWDOWN 2022",
       code: "rgts",
       description: `
-The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, being restricted for ranks #1,000 to #4,500.
+The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, being restricted for ranks #1,500 to #4,500.
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
-      banner: "/public/backgrounds/rgts_2021.png"
+      banner: "/public/backgrounds/rgts_2022.png"
     },
     {
       title: "SGTS 2021",
