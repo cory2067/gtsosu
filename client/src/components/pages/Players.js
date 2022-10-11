@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./Players.css";
 import { get, hasAccess, delet, post, prettifyTourney, exportCSVFile } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";
@@ -25,7 +25,6 @@ const { Content } = Layout;
 const { Panel } = Collapse;
 const { Option } = Select;
 
-let prevPlayers = null;
 function potentialTeamCounter({ flags, hasTeams, players }) {
   const [minPotentialTeams, setMinPotentialTeams] = useState(0);
   const [maxPotentialTeams, setMaxPotentialTeams] = useState(0);
@@ -34,8 +33,6 @@ function potentialTeamCounter({ flags, hasTeams, players }) {
   if (!flags.has("suiji") && !flags.has("registerAsTeam")) {
     isCountryBasedTeamTourney = hasTeams;
   }
-
-  if (!isCountryBasedTeamTourney) return <></>;
 
   const countPotentialTeams = () => {
     let countryPlayerCounts = {};
@@ -65,13 +62,14 @@ function potentialTeamCounter({ flags, hasTeams, players }) {
       max: maxPotentialTeams
     }
   }
-  // Passing player as the dep to useEffect doesn't seem to work here, so it's done manually here
-  if (prevPlayers !== players) {
-    prevPlayers = players;
+
+  useMemo(() => {
     const potentialTeamCount = countPotentialTeams();
     setMinPotentialTeams(potentialTeamCount.min);
     setMaxPotentialTeams(potentialTeamCount.max);
-  }
+  }, [players]);
+
+  if (!isCountryBasedTeamTourney) return <></>;
 
   return <div style={{ marginTop: "var(--s)" }}>
     Potential teams: {minPotentialTeams} | Potential eligible countries: {maxPotentialTeams}
