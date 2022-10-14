@@ -34,7 +34,7 @@ function Donate({ user }) {
   };
 
   const total = useMemo(() => {
-    return donors.reduce((prev, cur) => prev + cur.donations, 0);
+    return donors.reduce((prev, cur) => prev + cur.donations, 0).toFixed(2);
   }, [donors]);
 
   return (
