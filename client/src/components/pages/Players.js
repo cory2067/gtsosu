@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./Players.css";
 import { get, hasAccess, delet, post, prettifyTourney, exportCSVFile } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";
@@ -24,6 +24,57 @@ import moment from "moment";
 const { Content } = Layout;
 const { Panel } = Collapse;
 const { Option } = Select;
+
+function potentialTeamCounter({ flags, hasTeams, players }) {
+  const [minPotentialTeams, setMinPotentialTeams] = useState(0);
+  const [maxPotentialTeams, setMaxPotentialTeams] = useState(0);
+
+  let isCountryBasedTeamTourney = false;
+  if (!flags.has("suiji") && !flags.has("registerAsTeam")) {
+    isCountryBasedTeamTourney = hasTeams;
+  }
+
+  const countPotentialTeams = () => {
+    let countryPlayerCounts = {};
+    players.forEach(player => {
+      if (countryPlayerCounts[player.country]) {
+        countryPlayerCounts[player.country] += 1;
+      }
+      else {
+        countryPlayerCounts[player.country] = 1;
+      }
+    });
+
+    let minPotentialTeams = 0;
+    let maxPotentialTeams = 0;
+
+    Object.keys(countryPlayerCounts).forEach(k => {
+      if (countryPlayerCounts[k] >= 2) {
+        minPotentialTeams += 1;
+        maxPotentialTeams += 1;
+        if (countryPlayerCounts[k] >= 7)
+          maxPotentialTeams += 1;
+      }
+    });
+
+    return {
+      min: minPotentialTeams,
+      max: maxPotentialTeams
+    }
+  }
+
+  useMemo(() => {
+    const potentialTeamCount = countPotentialTeams();
+    setMinPotentialTeams(potentialTeamCount.min);
+    setMaxPotentialTeams(potentialTeamCount.max);
+  }, [players]);
+
+  if (!isCountryBasedTeamTourney) return <></>;
+
+  return <div style={{ marginTop: "var(--s)" }}>
+    Potential teams: {minPotentialTeams} | Potential eligible countries: {maxPotentialTeams}
+  </div>
+}
 
 export default function Players({ tourney, user }) {
   const [players, setPlayers] = useState([]);
@@ -356,27 +407,30 @@ export default function Players({ tourney, user }) {
           {hasTeams && <Menu.Item key="teams">Teams ({teams.length})</Menu.Item>}
         </Menu>
 
-        <div>
-          <span className="Players-sort">Sort by:</span>
-          <Radio.Group value={sort} onChange={handleSortChange}>
-            {mode === "players" ? (
-              <>
-                <Radio.Button value="rank">Rank</Radio.Button>
-                <Radio.Button value="alpha">Alphabetical</Radio.Button>
-                {!hasPlayerSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
-                {!hasTeams && hasGroups && <Radio.Button value="group">Group</Radio.Button>}
-                <Radio.Button value="country">Country</Radio.Button>
-                <Radio.Button value="reg">Reg Time</Radio.Button>
-              </>
-            ) : (
-              <>
-                <Radio.Button value="alpha">Alphabetical</Radio.Button>
-                {hasTeamSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
-                <Radio.Button value="group">Group</Radio.Button>
-                <Radio.Button value="rank">Avg Rank</Radio.Button>
-              </>
-            )}
-          </Radio.Group>
+        <div style={{ flexDirection: "column" }}>
+          <div style={{ flexDirection: "row" }}>
+            <span className="Players-sort">Sort by:</span>
+            <Radio.Group value={sort} onChange={handleSortChange}>
+              {mode === "players" ? (
+                <>
+                  <Radio.Button value="rank">Rank</Radio.Button>
+                  <Radio.Button value="alpha">Alphabetical</Radio.Button>
+                  {!hasPlayerSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
+                  {!hasTeams && hasGroups && <Radio.Button value="group">Group</Radio.Button>}
+                  <Radio.Button value="country">Country</Radio.Button>
+                  <Radio.Button value="reg">Reg Time</Radio.Button>
+                </>
+              ) : (
+                <>
+                  <Radio.Button value="alpha">Alphabetical</Radio.Button>
+                  {hasTeamSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
+                  <Radio.Button value="group">Group</Radio.Button>
+                  <Radio.Button value="rank">Avg Rank</Radio.Button>
+                </>
+              )}
+            </Radio.Group>
+          </div>
+          {potentialTeamCounter({ flags, hasTeams, players })}
         </div>
       </div>
 
@@ -456,42 +510,41 @@ export default function Players({ tourney, user }) {
       <div className="Players-container">
         {mode === "players"
           ? players.map((player) => {
-              const stats = player.stats.filter((t) => t.tourney == tourney)[0];
-              const extra =
-                stats && stats.seedName
-                  ? `${stats.seedName} Seed (#${stats.seedNum})${
-                      stats.group ? `, Group ${stats.group}` : ""
-                    }`
-                  : "";
+            const stats = player.stats.filter((t) => t.tourney == tourney)[0];
+            const extra =
+              stats && stats.seedName
+                ? `${stats.seedName} Seed (#${stats.seedNum})${stats.group ? `, Group ${stats.group}` : ""
+                }`
+                : "";
 
-              return (
-                <UserCard
-                  canDelete={isAdmin()}
-                  onDelete={handleDelete}
-                  key={player.userid}
-                  user={player}
-                  canEdit={isAdmin() && hasPlayerSeeds()}
-                  onEdit={handlePlayerEdit}
-                  stats={stats}
-                  rankRange={rankRange}
-                  showGroups={hasGroups}
-                  extra={extra}
-                  flags={flags}
-                />
-              );
-            })
-          : teams.map((team) => (
-              <TeamCard
-                key={team._id}
-                isAdmin={isAdmin()}
-                onDelete={handleTeamDelete}
-                onEditStats={handleTeamEditStats}
-                onEdit={(id) => setEditingTeam(id)}
+            return (
+              <UserCard
+                canDelete={isAdmin()}
+                onDelete={handleDelete}
+                key={player.userid}
+                user={player}
+                canEdit={isAdmin() && hasPlayerSeeds()}
+                onEdit={handlePlayerEdit}
+                stats={stats}
+                rankRange={rankRange}
                 showGroups={hasGroups}
+                extra={extra}
                 flags={flags}
-                {...team}
               />
-            ))}
+            );
+          })
+          : teams.map((team) => (
+            <TeamCard
+              key={team._id}
+              isAdmin={isAdmin()}
+              onDelete={handleTeamDelete}
+              onEditStats={handleTeamEditStats}
+              onEdit={(id) => setEditingTeam(id)}
+              showGroups={hasGroups}
+              flags={flags}
+              {...team}
+            />
+          ))}
       </div>
       {editingTeam != -1 && (
         <CreateTeamModal
