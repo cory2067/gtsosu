@@ -23,24 +23,19 @@ import moment from "moment";
 
 const { Content } = Layout;
 const { Panel } = Collapse;
-const { Option } = Select;
 
 function potentialTeamCounter({ flags, hasTeams, players }) {
-  const [minPotentialTeams, setMinPotentialTeams] = useState(0);
-  const [maxPotentialTeams, setMaxPotentialTeams] = useState(0);
-
   let isCountryBasedTeamTourney = false;
   if (!flags.has("suiji") && !flags.has("registerAsTeam")) {
     isCountryBasedTeamTourney = hasTeams;
   }
 
   const countPotentialTeams = () => {
-    let countryPlayerCounts = {};
-    players.forEach(player => {
+    const countryPlayerCounts = {};
+    players.forEach((player) => {
       if (countryPlayerCounts[player.country]) {
         countryPlayerCounts[player.country] += 1;
-      }
-      else {
+      } else {
         countryPlayerCounts[player.country] = 1;
       }
     });
@@ -48,32 +43,28 @@ function potentialTeamCounter({ flags, hasTeams, players }) {
     let minPotentialTeams = 0;
     let maxPotentialTeams = 0;
 
-    Object.keys(countryPlayerCounts).forEach(k => {
+    Object.keys(countryPlayerCounts).forEach((k) => {
       if (countryPlayerCounts[k] >= 2) {
         minPotentialTeams += 1;
         maxPotentialTeams += 1;
-        if (countryPlayerCounts[k] >= 7)
-          maxPotentialTeams += 1;
+        if (countryPlayerCounts[k] >= 7) maxPotentialTeams += 1;
       }
     });
 
     return {
-      min: minPotentialTeams,
-      max: maxPotentialTeams
-    }
-  }
+      minPotentialTeams,
+      maxPotentialTeams,
+    };
+  };
 
-  useMemo(() => {
-    const potentialTeamCount = countPotentialTeams();
-    setMinPotentialTeams(potentialTeamCount.min);
-    setMaxPotentialTeams(potentialTeamCount.max);
-  }, [players]);
-
+  const { minPotentialTeams, maxPotentialTeams } = useMemo(countPotentialTeams, [players]);
   if (!isCountryBasedTeamTourney) return <></>;
 
-  return <div style={{ marginTop: "var(--s)" }}>
-    Potential teams: {minPotentialTeams} | Potential eligible countries: {maxPotentialTeams}
-  </div>
+  return (
+    <div style={{ marginTop: "var(--s)" }}>
+      Potential teams: {maxPotentialTeams} | Potential eligible countries: {minPotentialTeams}
+    </div>
+  );
 }
 
 export default function Players({ tourney, user }) {
@@ -277,13 +268,15 @@ export default function Players({ tourney, user }) {
     try {
       const newPlayers = await post("/api/player-stats", {
         tourney: tourney,
-        playerStats: [{
-          _id,
-          stats: {
-            ...formData,
-            regTime: getStatsById(_id).regTime,
+        playerStats: [
+          {
+            _id,
+            stats: {
+              ...formData,
+              regTime: getStatsById(_id).regTime,
+            },
           },
-        }],
+        ],
       });
 
       setPlayers(
@@ -510,41 +503,42 @@ export default function Players({ tourney, user }) {
       <div className="Players-container">
         {mode === "players"
           ? players.map((player) => {
-            const stats = player.stats.filter((t) => t.tourney == tourney)[0];
-            const extra =
-              stats && stats.seedName
-                ? `${stats.seedName} Seed (#${stats.seedNum})${stats.group ? `, Group ${stats.group}` : ""
-                }`
-                : "";
+              const stats = player.stats.filter((t) => t.tourney == tourney)[0];
+              const extra =
+                stats && stats.seedName
+                  ? `${stats.seedName} Seed (#${stats.seedNum})${
+                      stats.group ? `, Group ${stats.group}` : ""
+                    }`
+                  : "";
 
-            return (
-              <UserCard
-                canDelete={isAdmin()}
-                onDelete={handleDelete}
-                key={player.userid}
-                user={player}
-                canEdit={isAdmin() && hasPlayerSeeds()}
-                onEdit={handlePlayerEdit}
-                stats={stats}
-                rankRange={rankRange}
-                showGroups={hasGroups}
-                extra={extra}
-                flags={flags}
-              />
-            );
-          })
+              return (
+                <UserCard
+                  canDelete={isAdmin()}
+                  onDelete={handleDelete}
+                  key={player.userid}
+                  user={player}
+                  canEdit={isAdmin() && hasPlayerSeeds()}
+                  onEdit={handlePlayerEdit}
+                  stats={stats}
+                  rankRange={rankRange}
+                  showGroups={hasGroups}
+                  extra={extra}
+                  flags={flags}
+                />
+              );
+            })
           : teams.map((team) => (
-            <TeamCard
-              key={team._id}
-              isAdmin={isAdmin()}
-              onDelete={handleTeamDelete}
-              onEditStats={handleTeamEditStats}
-              onEdit={(id) => setEditingTeam(id)}
-              showGroups={hasGroups}
-              flags={flags}
-              {...team}
-            />
-          ))}
+              <TeamCard
+                key={team._id}
+                isAdmin={isAdmin()}
+                onDelete={handleTeamDelete}
+                onEditStats={handleTeamEditStats}
+                onEdit={(id) => setEditingTeam(id)}
+                showGroups={hasGroups}
+                flags={flags}
+                {...team}
+              />
+            ))}
       </div>
       {editingTeam != -1 && (
         <CreateTeamModal
