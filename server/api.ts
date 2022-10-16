@@ -338,11 +338,12 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
  * Params:
  *   - discord: discord username
  *   - timezone: player's timezone
+ *   - cardImage: custom background image for user card
  */
 router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
   logger.info(`${req.user.username} updated user settings`);
   await User.findByIdAndUpdate(req.user._id, {
-    $set: { discord: req.body.discord, timezone: req.body.timezone },
+    $set: { discord: req.body.discord, timezone: req.body.timezone, cardImage: req.body.cardImage },
   });
   res.send({});
 });

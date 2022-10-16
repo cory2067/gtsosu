@@ -4,7 +4,7 @@
   grid-template-columns: 75px 350px;
   grid-template-rows: 75px;
   box-shadow: 2px 2px 8px var(--darker-night);
-  width: 428px;
+  width: 427px;
   margin: var(--s);
 }
 

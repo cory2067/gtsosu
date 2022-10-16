@@ -21,6 +21,10 @@ export default function UserCard({
 }) {
   const timezone = `UTC${user.timezone > 0 ? "+" : ""}${user.timezone}`;
   const badRank = rankRange && (user.rank < rankRange[0] || user.rank > rankRange[1]);
+  const cardStyle = {};
+  if (user.donations >= 10 && user.cardImage) {
+    cardStyle.backgroundImage = `linear-gradient(#13141577, #2e313577), url("/public/cards/${user.cardImage}")`;
+  }
 
   return (
     <div>
@@ -35,7 +39,7 @@ export default function UserCard({
         ) : (
           <div style={{ backgroundImage: `url(${user.avatar})` }} className="UserCard-avatar"></div>
         )}
-        <div className="UserCard-content">
+        <div className="UserCard-content" style={cardStyle}>
           <div className="UserCard-top">
             <div className={`UserCard-name ${user.username.length > 14 ? "UserCard-long" : ""}`}>
               {user.country && <FlagIcon code={user.country} />}

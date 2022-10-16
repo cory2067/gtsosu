@@ -36,6 +36,7 @@ function createTestUser(params: createTestUserParams): IUser {
     tournies,
     userid: "testUser",
     donations: 0,
+    cardImage: "",
   };
 }
 

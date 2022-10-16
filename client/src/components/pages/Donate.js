@@ -94,8 +94,7 @@ function Donate({ user }) {
                 <strong>$5</strong> - Supporter badge next to your name on the GTS website
               </li>
               <li>
-                <strong>Coming soon</strong> - Custom designs for your player card on the GTS
-                website!
+                <strong>$10</strong> - Custom background image for your player card
               </li>
             </ul>
           </p>

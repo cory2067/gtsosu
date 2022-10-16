@@ -269,6 +269,7 @@ function Navbar(props) {
             visible={visible}
             loading={loading}
             user={user}
+            formData={formData}
             handleOk={handleOk}
             handleCancel={handleCancel}
             onValuesChange={handleFormChange}
