@@ -31,7 +31,7 @@ const scaleDiff = (diff: number, mod: string) => {
   return diff;
 };
 
-const canViewHiddenPools = async (user: IUser | undefined, tourney: string) =>
+const canViewHiddenPools = (user: IUser | undefined, tourney: string) =>
   checkPermissions(user, tourney, [
     "Mapsetter",
     "Showcase",
@@ -107,6 +107,7 @@ mapRouter.getAsync(
 
     // if super hacker kiddo tries to view a pool before it's released
     const stageData = tourney.stages.filter((s) => s.name === req.query.stage)[0];
+
     if (!stageData.poolVisible && !canViewHiddenPools(req.user, req.query.tourney)) {
       res.status(403).send({ error: "This pool hasn't been released yet!" });
       return;
