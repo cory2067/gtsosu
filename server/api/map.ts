@@ -107,7 +107,7 @@ mapRouter.getAsync(
 
     // if super hacker kiddo tries to view a pool before it's released
     const stageData = tourney.stages.filter((s) => s.name === req.query.stage)[0];
-    if (!stageData.poolVisible && !canViewHiddenPools(req.user, req.query.tourney)) {
+    if (!stageData.poolVisible && !(await canViewHiddenPools(req.user, req.query.tourney))) {
       res.status(403).send({ error: "This pool hasn't been released yet!" });
       return;
     }
