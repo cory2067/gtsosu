@@ -57,6 +57,7 @@ class Schedule extends Component {
       submitWarmupVisible: false,
       submitWarmupLoading: false,
       beatmaps: [],
+      tournament: null,
     };
   }
 
@@ -67,15 +68,16 @@ class Schedule extends Component {
 
   async componentDidMount() {
     document.title = `${prettifyTourney(this.props.tourney)}: Schedule`;
-    const [tourney, current] = await getStage(this.props.tourney);
+    const [tournament, current] = await getStage(this.props.tourney);
     this.getMatches(current.name);
     this.setState({
-      stages: tourney.stages,
-      teams: tourney.teams,
+      stages: tournament.stages,
+      teams: tournament.teams,
       current,
+      tournament,
     });
 
-    const participants = await (tourney.teams
+    const participants = await (tournament.teams
       ? get("/api/teams", { tourney: this.props.tourney })
       : get("/api/players", { tourney: this.props.tourney }));
     const lookup = Object.fromEntries(participants.map((p) => [p.name || p.username, p]));
@@ -505,6 +507,7 @@ class Schedule extends Component {
                 timezone={this.state.timezone}
                 utcString={this.utcString}
                 currentStage={this.state.current}
+                tournament={this.state.tournament}
               />
             ) : (
               <>

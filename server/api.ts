@@ -474,6 +474,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - rankMin / rankMax: rank restriction
  *   - stages: what stages this tourney consists of
  *   - flags: list of special options for the tourney
+ *   - lobbyMaxSignups: number of players/teams that can sign up for a given qualifier lobby
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
@@ -489,6 +490,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.rankMax = req.body.rankMax;
   tourney.countries = req.body.countries;
   tourney.flags = req.body.flags;
+  tourney.lobbyMaxSignups = req.body.lobbyMaxSignups;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];
@@ -937,14 +939,29 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  *  - tourney: identifier of the tournament
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
-  if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
-    return res.status(403).send({});
   logger.info(
     `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
       req.body.lobby
     } in ${req.body.tourney}`
   );
+  
+  // Prevent non-admin signing up another player
+  if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
+  // Prevent non-registered player signing up self
+  if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
+    return res.status(403).send({});
+
+  const tourney = await Tournament.findOne({ code: req.body.tourney });
+  const lobby = await QualifiersLobby.findOne(
+    {
+      _id: req.body.lobby,
+      tourney: req.body.tourney,
+    },
+  );
+  // Prevent registered player signing up self for a full lobby
+  if (tourney!.lobbyMaxSignups && !req.body.user &&
+      lobby!.players.length >= tourney!.lobbyMaxSignups)
+    return res.status(403).send({message: "Lobby is full", updatedLobby: lobby});
 
   const toAdd =
     req.body.user ??
@@ -952,7 +969,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
       ? (await Team.findOne({ players: req.user._id, tourney: req.body.tourney }).orFail()).name
       : req.user.username);
 
-  const lobby = await QualifiersLobby.findOneAndUpdate(
+  const newLobby = await QualifiersLobby.findOneAndUpdate(
     {
       _id: req.body.lobby,
       tourney: req.body.tourney,
@@ -960,7 +977,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
     { $addToSet: { players: toAdd } },
     { new: true }
   );
-  res.send(lobby);
+  res.send(newLobby);
 });
 
 /**

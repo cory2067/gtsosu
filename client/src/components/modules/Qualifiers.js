@@ -47,19 +47,30 @@ class Qualifiers extends Component {
   canRegister(lobby) {
     if (!this.props.user._id) return false;
     if (this.isStaff()) return false;
-    if (lobby.length >= 8) return false; // indiv. limit
+
+    // Check if lobby is full
+    if (this.props.tournament.lobbyMaxSignups) {
+      if (lobby.length >= this.props.tournament.lobbyMaxSignups) return false;
+    } else {
+      if (!this.props.teams && lobby.length >= 8) return false; // individual limit
+      else if (this.props.teams && lobby.length >= 4) return false; // team limit
+    }
+
+    // Check if player is signed up to another lobby
     if (!this.props.teams) {
       return this.state.lobbies.every((lobby) => !lobby.players.includes(this.props.user.username));
     }
 
-    if (lobby.length >= 4) return false; // team limit
-    const myTeam = this.props.getTeam(this.props.user.username);
-    if (!myTeam) return false;
+    // Check if player doesn't have a team and if not captain and if signed up to another lobby
+    else {
+      const myTeam = this.props.getTeam(this.props.user.username);
+      if (!myTeam) return false;
 
-    const isCaptain = myTeam.players[0].username === this.props.user.username;
-    if (!isCaptain) return false;
+      const isCaptain = myTeam.players[0].username === this.props.user.username;
+      if (!isCaptain) return false;
 
-    return this.state.lobbies.every((lobby) => lobby.players.every((team) => team !== myTeam.name));
+      return this.state.lobbies.every((lobby) => lobby.players.every((team) => team !== myTeam.name));
+    }
   }
 
   onFinish = async (lobbyData) => {
@@ -75,13 +86,7 @@ class Qualifiers extends Component {
     }));
   };
 
-  add = async (role, key, user) => {
-    const newLobby = await post(`/api/lobby-${role}`, {
-      lobby: key,
-      user,
-      teams: this.props.teams,
-      tourney: this.props.tourney,
-    });
+  updateLobbyInState = (newLobby, key) => {
     this.setState((state) => ({
       lobbies: state.lobbies.map((m) => {
         if (m.key === key) {
@@ -92,6 +97,23 @@ class Qualifiers extends Component {
     }));
   };
 
+  add = async (role, key, user) => {
+    try {
+      const newLobby = await post(`/api/lobby-${role}`, {
+        lobby: key,
+        user,
+        teams: this.props.teams,
+        tourney: this.props.tourney,
+      });
+      this.updateLobbyInState(newLobby, key);
+    } catch (e) {
+      message.error(e.message || e);
+      if (e.updatedLobby) {
+        this.updateLobbyInState(e.updatedLobby, key);
+      }
+    }
+  };
+
   // user is optional (only used for commentator)
   remove = async (role, key, target) => {
     const newLobby = await delet(`/api/lobby-${role}`, {
@@ -100,14 +122,7 @@ class Qualifiers extends Component {
       teams: this.props.teams,
       tourney: this.props.tourney,
     });
-    this.setState((state) => ({
-      lobbies: state.lobbies.map((m) => {
-        if (m.key === key) {
-          return { ...newLobby, key: newLobby._id };
-        }
-        return m;
-      }),
-    }));
+    this.updateLobbyInState(newLobby, key);
   };
 
   addReferee = (key) => this.add("referee", key);
