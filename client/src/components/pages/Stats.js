@@ -552,38 +552,68 @@ export default function Stats({ tourney, user }) {
   };
 
   const assignSeeds = async () => {
-    if (
-      confirm(
-        "Assign seeds to players based on the stats shown here?"
-      )
-    ) {
-      const playerSeedStats = state.overallPlayerStats.map(playerScoreStats => {
-        const user = state.players.get(String(playerScoreStats.userId));
-        const seedName = ["Top", "High", "Mid", "Low"][getPlayerSeed(playerScoreStats.rank) - 1];
-        console.log(seedName);
-        console.log(getPlayerSeed(playerScoreStats.rank));
-        console.log(playerScoreStats);
-        return {
-          _id: user._id,
-          stats: {
+    const isTeamsTourney = !!state.tourneyModel?.teams;
+    if (isTeamsTourney) {
+      if (
+        confirm(
+          "Assign seeds to teams based on the stats shown here?"
+        )
+      ) {
+        const teamSeedStats = state.overallTeamStats.map(teamScoreStats => {
+          const team = state.teams.get(teamScoreStats.teamName);
+          const seedName = ["Top", "High", "Mid", "Low"][getTeamSeed(teamScoreStats.rank) - 1];
+          return {
+            _id: team._id,
             seedName,
-            seedNum: playerScoreStats.rank,
-          },
-        };
-      }).filter(seedStats => seedStats.stats.seedName);
-      
-      setState({
-        ...state,
-        assignSeedsInProgress: true,
-      });
-      const updatedPlayers = await post("/api/player-stats", {
-        tourney,
-        playerStats: playerSeedStats,
-      });
-      setState({
-        ...state,
-        assignSeedsInProgress: false,
-      });
+            seedNum: teamScoreStats.rank,
+          };
+        }).filter(seedStats => seedStats.seedName);
+
+        setState({
+          ...state,
+          assignSeedsInProgress: true,
+        });
+        const updatedTeams = await post("/api/team-stats", {
+          tourney,
+          teamStats: teamSeedStats,
+        });
+        setState({
+          ...state,
+          assignSeedsInProgress: false,
+        });
+      }
+    }
+    else {
+      if (
+        confirm(
+          "Assign seeds to players based on the stats shown here?"
+        )
+      ) {
+        const playerSeedStats = state.overallPlayerStats.map(playerScoreStats => {
+          const user = state.players.get(String(playerScoreStats.userId));
+          const seedName = ["Top", "High", "Mid", "Low"][getPlayerSeed(playerScoreStats.rank) - 1];
+          return {
+            _id: user._id,
+            stats: {
+              seedName,
+              seedNum: playerScoreStats.rank,
+            },
+          };
+        }).filter(seedStats => seedStats.stats.seedName);
+
+        setState({
+          ...state,
+          assignSeedsInProgress: true,
+        });
+        const updatedPlayers = await post("/api/player-stats", {
+          tourney,
+          playerStats: playerSeedStats,
+        });
+        setState({
+          ...state,
+          assignSeedsInProgress: false,
+        });
+      }
     }
   };
 
@@ -627,7 +657,7 @@ export default function Stats({ tourney, user }) {
                     </Button>
                   )}
                   {state.refetchScoresInProgress && <Spin />}
-                  {!state.assignSeedsInProgress && state.isQualifiers && !state.tourneyModel?.teams && (
+                  {!state.assignSeedsInProgress && state.isQualifiers && (
                     <Button className="settings-button" type="primary" onClick={assignSeeds}>
                       Assign Seeds
                     </Button>

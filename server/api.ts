@@ -8,7 +8,7 @@ import ensure from "./ensure";
 import Match, { IMatch, ModLengthMultiplier, WarmupMod } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
 import StageStats, { IStageStats } from "./models/stage-stats";
-import Team, { PopulatedTeam } from "./models/team";
+import Team, { PopulatedTeam, ITeam } from "./models/team";
 import Tournament, { ITournament } from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
@@ -1310,29 +1310,53 @@ router.deleteAsync("/team", ensure.isAdmin, async (req, res) => {
  * POST /api/team-stats
  * Set stats/details about an existing team
  * Params:
- *   - _id: the _id of the team
- *   - seedName: i.e. Top, High, Mid, or Low
- *   - seedNum: the team's rank in the seeding
- *   - group: one character capitalized group name
- *   - tourney: identifier of the tourney
+ *   - tourney: the identifier for the tourney
+ *   - teamStats: Array of:
+ *     - _id: the _id of the team
+ *     - seedName: i.e. Top, High, Mid, or Low
+ *     - seedNum: the team's rank in the seeding
+ *     - group: one character capitalized group name
  */
-router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
-  const team = await Team.findOneAndUpdate(
-    { _id: req.body._id },
-    {
-      $set: {
-        seedName: req.body.seedName,
-        seedNum: req.body.seedNum,
-        group: req.body.group,
-      },
-    },
-    { new: true }
-  )
-    .orFail()
-    .populate<PopulatedTeam>("players");
+type TeamStatsBody = {
+  tourney: string;
+  teamStats: Array<{
+    _id: Types.ObjectId;
+    seedName: string;
+    seedNum: number;
+    group: string;
+  }>;
+};
+type TeamStatsResponse = Array<ITeam>;
+ 
+router.postAsync(
+  "/team-stats",
+  ensure.isAdmin,
+  async (req: Request<{}, TeamStatsBody>, res: Response<TeamStatsResponse>) => {
+    const teams = await Promise.all(
+      req.body.teamStats.map((teamStats) => {
+        return Team.findOneAndUpdate(
+          { _id: teamStats._id },
+          {
+            $set: {
+              seedName: teamStats.seedName,
+              seedNum: teamStats.seedNum,
+              group: teamStats.group,
+            },
+          },
+          { new: true }
+        ).orFail().populate<ITeam>("players");
+      })
+    );
 
-  logger.info(`${req.user.username} set stats for ${team.name} in ${req.body.tourney}`);
-  res.send(team);
+    if (req.body.teamStats.length === 1) {
+      logger.info(
+        `${req.user!.username} set stats for ${teams[0].name} in ${req.body.tourney}`
+      );
+    }
+    if (req.body.teamStats.length > 1) {
+      logger.info(`${req.user!.username} set stats multiple teams in ${req.body.tourney}`);
+    }
+    res.send(teams);
 });
 
 /**
