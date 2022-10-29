@@ -1,0 +1,48 @@
+.Donate-iframe {
+  border: none;
+  min-width: 400px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  min-height: 620px;
+}
+
+.Donate-wrapper {
+  display: flex;
+}
+
+.Donate-info {
+  margin-left: 16px;
+  padding: var(--l);
+  border: 2px solid #222;
+  border-radius: var(--l);
+  background-color: var(--night);
+}
+
+.Donate-info h1{
+  font-size: 28pt;
+  color: var(--gts-orange);
+}
+
+.Donate-info h2 {
+  font-size: 18pt;
+  padding-top: var(--s);
+  color: var(--gts-orange);
+}
+
+.Donate-info p {
+  font-size: 13pt;
+}
+
+.Donate-leaderboard {
+  margin-top: 32px;
+}
+
+.Donate-leaderboard-inner {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.Donate-progress{
+  font-size: 14pt;
+  margin-bottom: var(--l);
+}

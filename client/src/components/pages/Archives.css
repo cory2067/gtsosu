@@ -1,7 +1,21 @@
 .Archives-container {
   max-width: 500px;
+  background-color: var(--night);
 }
 
 .Archives-entry {
-  color: rgb(17, 125, 226);
+  color: var(--greyts);
+  font-size: 15px;
+  font-weight: 500;
+  width: 100%;
+}
+
+.Archives-entry:hover {
+  color: var(--white);
+}
+
+.Archives-entry-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }

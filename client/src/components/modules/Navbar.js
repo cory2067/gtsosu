@@ -31,6 +31,7 @@ function RightNavbar(props) {
       <Menu theme="dark" mode="horizontal" selectable={false} onClick={handleClick}>
         {languages && (
           <SubMenu
+            className="submenu"
             title={
               <span>
                 <GlobalOutlined className="Navbar-lang-icon" />
@@ -89,6 +90,9 @@ function RootNavbar(props) {
               <a href={MOUSEPAD_LINK}>{UI.merch.mousepads}</a>
             </Menu.Item>
           </SubMenu>
+          <Menu.Item key="4">
+            <Link to="/donate">{UI.donate}</Link>
+          </Menu.Item>
         </Menu>
       </div>
       <RightNavbar {...props} />
@@ -265,6 +269,7 @@ function Navbar(props) {
             visible={visible}
             loading={loading}
             user={user}
+            formData={formData}
             handleOk={handleOk}
             handleCancel={handleCancel}
             onValuesChange={handleFormChange}
@@ -284,6 +289,7 @@ function Navbar(props) {
         <RootNavbar {...props} openSettings={openSettings} path="/archives" />
         <RootNavbar {...props} openSettings={openSettings} path="/staff" />
         <RootNavbar {...props} openSettings={openSettings} path="/pool-helper" />
+        <RootNavbar {...props} openSettings={openSettings} path="/donate" />
         <RootNavbar {...props} openSettings={openSettings} path="/404" />
         <TourneyNavbar
           {...props}

@@ -1,0 +1,12 @@
+.ant-menu-root.ant-menu.stage-selector {
+  background-color: var(--night);
+  border: 1px solid var(--darker-night);
+}
+
+.ant-menu-item-selected.stage-name a {
+  color: var(--white);
+}
+
+.ant-menu-item-selected.stage-name a:hover {
+  color: var(--white);
+}

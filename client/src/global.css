@@ -8,6 +8,7 @@
   --white: #fff;
   --bg: #f0f2f5;
   --gold: #ffc53b;
+  --darker-night: #131415;
 
   --xs: 4px;
   --s: 8px;
@@ -17,7 +18,6 @@
 }
 
 html body {
-  background-color: var(--bg);
   font-family: 'Red Hat Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 }
 
@@ -114,4 +114,26 @@ body .ant-list {
 body .ant-table {
   font-variant: normal;
   font-feature-settings: normal;
+}
+
+body .ant-card-bordered {
+  border: 1px solid var(--darker-night);
+}
+
+body .ant-card-bordered .ant-card-cover {
+  margin-left: unset;
+  margin-right: unset;
+}
+
+body .ant-menu-item.ant-menu-item-selected {
+  color: var(--white);
+}
+
+body .ant-menu-item.ant-menu-item-selected:hover {
+  color: var(--white);
+}
+
+
+.u-add-tag {
+  background: var(--night) !important;
 }

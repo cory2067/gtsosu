@@ -23,8 +23,9 @@ export default {
       tournies: "My Tournies",
     },
     archives: "Archives",
-    stats: "Stats",
+    stats: "Statistics",
     information: "Information",
+    donate: "Donate",
   },
 
   ja: {
@@ -51,7 +52,9 @@ export default {
       tournies: "登録している大会",
     },
     archives: "アーカイブ",
+    stats: "スタッツ",
     information: "参加に関して",
+    donate: "支援",
   },
 
   ko: {
@@ -79,6 +82,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   de: {
@@ -106,6 +110,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   ru: {
@@ -133,6 +138,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   "zh-sg": {
@@ -160,6 +166,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   fr: {
@@ -187,6 +194,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   es: {
@@ -214,6 +222,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   pl: {
@@ -241,6 +250,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   es_cl: {
@@ -268,6 +278,7 @@ export default {
     },
     archives: "Archives",
     information: "Information",
+    donate: "Donate",
   },
 
   nl: {
@@ -279,9 +290,9 @@ export default {
     staff: "Medewerkers",
     language: "Taal",
     merch: {
-      title: "Merch",
-      mainStore: "Main Store",
-      mousepads: "Mousepads",
+      title: "Koopwaar",
+      mainStore: "Hoofd winkel",
+      mousepads: "Muismatten",
     },
     login: "Inloggen",
     logout: "Uitloggen",
@@ -293,7 +304,8 @@ export default {
       timezone: "Tijdzone",
       tournies: "Mijn Toernooien",
     },
-    archives: "Archives",
-    information: "Information",
+    archives: "Archief",
+    information: "Informatie",
+    donate: "Doneren",
   },
 };

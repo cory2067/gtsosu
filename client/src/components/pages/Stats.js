@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
 import { get, post, prettifyTourney, hasAccess, getStage } from "../../utilities";
-import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin } from "antd";
+import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 const { Content } = Layout;
 const { Column, ColumnGroup } = Table;
@@ -32,6 +32,7 @@ export default function Stats({ tourney, user }) {
     recalculateStats: false,
     refetchDataInProgress: false,
     refetchScoresInProgress: false,
+    assignSeedsInProgress: false,
   });
 
   const calculateStats = () => {
@@ -213,7 +214,7 @@ export default function Stats({ tourney, user }) {
       teams: new Map(teams.map((team) => [team.name, team])),
       matches,
       stageMaps,
-      stageStats: stageStats || {},
+      stageStats: stageStats || { tourney, stage: currentSelectedStage.name, maps: [] },
       currentSelectedStage,
       currentSelectedTable: tourneyModel.teams ? "team" : "player",
       refetchData: false,
@@ -328,20 +329,33 @@ export default function Stats({ tourney, user }) {
     );
     if (!thePlayer) return message.error("Player not found or not registered");
 
-    const exists = state.stageStatsEdit.maps
-      .find((mapStats) => String(mapStats.mapId) === state.currentSelectedMapId)
-      .playerScores.find((playerScore) => String(playerScore.userId) === thePlayer.userid);
-    if (exists) return message.error("Player score already exists");
-
     const updated = { ...state.stageStatsEdit };
-    const mapStats = updated.maps.find(
+    let mapStats = updated.maps.find(
       (mapStats) => String(mapStats.mapId) === state.currentSelectedMapId
     );
+
+    const exists = mapStats && mapStats.playerScores.find((playerScore) => String(playerScore.userId) === thePlayer.userid);
+    if (exists) return message.error("Player score already exists");
+
+    if (!mapStats) {
+      mapStats = {
+        mapId: Number(state.currentSelectedMapId),
+        playerScores: [],
+        teamScores: [],
+      };
+      updated.maps.push(mapStats);
+    }
     mapStats.playerScores = [
       ...mapStats.playerScores,
       { userId: Number(thePlayer.userid), score: 0 },
     ];
     setState({ ...state, stageStatsEdit: updated, addPlayerModalVisible: false });
+  };
+  
+  const editSeedSize = async (value) => {
+    const updated = { ...state.stageStatsEdit };
+    updated.seedSize = value;
+    setState({ ...state, stageStatsEdit: updated});
   };
 
   const exportToJson = () => {
@@ -442,10 +456,18 @@ export default function Stats({ tourney, user }) {
 
   const getPlayerLabel = (userId) => {
     const thePlayer = state.players.get(String(userId));
+
     if (thePlayer) {
+      const playerTourneyStats = thePlayer.stats.find(stats => stats.tourney === tourney);
+      const seedName = playerTourneyStats?.seedName;
+      const seedNum = playerTourneyStats?.seedNum;
+      const tooltipString = seedName && seedNum ? `${seedName} Seed (#${seedNum})` : "";
+
       return (
         <div>
-          <FlagIcon size={16} code={thePlayer.country} /> {thePlayer.username}
+          <Tooltip title={tooltipString}>
+            <FlagIcon size={16} code={thePlayer.country} /> {thePlayer.username}
+          </Tooltip>
         </div>
       );
     } else return userId;
@@ -456,6 +478,12 @@ export default function Stats({ tourney, user }) {
     const theBeatmap = state.stageMaps.find((stageMap) => stageMap.mapId === mapId);
     const banCount = state.matches.filter((match) => match.bans1.includes(mapId) || match.bans2.includes(mapId)).length;
     return theBeatmap ? `${theBeatmap.artist} - ${theBeatmap.title} [${theBeatmap.diff}]\nTimes banned: ${banCount}\n` : "";
+  };
+
+  const isFreemod = () => {
+    const mapId = Number(state.currentSelectedMapId);
+    const theBeatmap = state.stageMaps.find((stageMap) => stageMap.mapId === mapId);
+    return theBeatmap?.mod === "FM";
   };
 
   const getAverageTeamScore = () => {
@@ -483,13 +511,21 @@ export default function Stats({ tourney, user }) {
   };
 
   const getTeamSeed = (rank) => {
-    const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallTeamStats.length))) / 4;
-    return Math.ceil(rank / rangeSize);
+    if (!state.stageStats.seedSize || state.stageStats.seedSize === -1) {
+      const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallTeamStats.length))) / 4;
+      return Math.ceil(rank / rangeSize);
+    } else {
+      return Math.ceil(rank / state.stageStats.seedSize);
+    }
   };
 
   const getPlayerSeed = (rank) => {
-    const rangeSize = Math.pow(2, Math.floor(Math.log2(state.overallPlayerStats.length))) / 4;
-    return Math.ceil(rank / rangeSize);
+    if (!state.stageStats.seedSize || state.stageStats.seedSize === -1) {
+      const rangeSize = Math.ceil(Math.pow(2, Math.floor(Math.log2(state.overallPlayerStats.length))) / 4);
+      return Math.ceil(rank / rangeSize);
+    } else {
+      return Math.ceil(rank / state.stageStats.seedSize);
+    }
   };
 
   const refetchAllScores = async () => {
@@ -511,6 +547,42 @@ export default function Stats({ tourney, user }) {
         stageStats: updatedStats,
         recalculateStats: true,
         refetchScoresInProgress: false,
+      });
+    }
+  };
+
+  const assignSeeds = async () => {
+    if (
+      confirm(
+        "Assign seeds to players based on the stats shown here?"
+      )
+    ) {
+      const playerSeedStats = state.overallPlayerStats.map(playerScoreStats => {
+        const user = state.players.get(String(playerScoreStats.userId));
+        const seedName = ["Top", "High", "Mid", "Low"][getPlayerSeed(playerScoreStats.rank) - 1];
+        console.log(seedName);
+        console.log(getPlayerSeed(playerScoreStats.rank));
+        console.log(playerScoreStats);
+        return {
+          _id: user._id,
+          stats: {
+            seedName,
+            seedNum: playerScoreStats.rank,
+          },
+        };
+      }).filter(seedStats => seedStats.stats.seedName);
+      
+      setState({
+        ...state,
+        assignSeedsInProgress: true,
+      });
+      const updatedPlayers = await post("/api/player-stats", {
+        tourney,
+        playerStats: playerSeedStats,
+      });
+      setState({
+        ...state,
+        assignSeedsInProgress: false,
       });
     }
   };
@@ -555,10 +627,19 @@ export default function Stats({ tourney, user }) {
                     </Button>
                   )}
                   {state.refetchScoresInProgress && <Spin />}
+                  {!state.assignSeedsInProgress && state.isQualifiers && !state.tourneyModel?.teams && (
+                    <Button className="settings-button" type="primary" onClick={assignSeeds}>
+                      Assign Seeds
+                    </Button>
+                  )}
+                  {state.assignSeedsInProgress && <Spin />}
                 </Form>
               )}
               {state.inEditMode && (
                 <Form layout="inline">
+                  <Form.Item name="seedSize" label="Seed Size">
+	            <InputNumber value={state.stageStatsEdit.seedSize} min={-1} onChange={(value) => editSeedSize(value)} />
+	          </Form.Item>
                   <Button
                     className="settings-button"
                     type="primary"
@@ -834,6 +915,14 @@ export default function Stats({ tourney, user }) {
                             )
                           }
                         />
+                        {isFreemod() && (
+                          <Column
+                            title="Mod"
+                            dataIndex="mod"
+                            key="mod"
+                            render={(mod) => mod}
+                          />
+                        )}
                         {state.inEditMode && (
                           <Column
                             title="Remove"

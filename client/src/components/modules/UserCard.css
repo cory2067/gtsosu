@@ -1,11 +1,10 @@
 .UserCard-outside {
-  border: 1px solid rgb(82, 82, 82);
+  border: 1px solid var(--darker-night);
   display: grid;
   grid-template-columns: 75px 350px;
   grid-template-rows: 75px;
-  background-color: white;
-  box-shadow: 2px 2px 8px;
-  width: 428px;
+  box-shadow: 2px 2px 8px var(--darker-night);
+  width: 427px;
   margin: var(--s);
 }
 
@@ -25,6 +24,7 @@
   flex-direction: column;
   display: flex;
   justify-content: center;
+  background-color: var(--night);
 }
 
 .UserCard-top {
@@ -61,6 +61,11 @@
 .UserCard-captain svg {
   margin-left: var(--s);
   color: #ff8c00;
+}
+
+.UserCard-supporter svg {
+  margin-left: var(--s);
+  color: rgb(255, 102, 171);
 }
 
 div .UserCard-form {

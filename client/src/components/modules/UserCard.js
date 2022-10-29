@@ -1,5 +1,5 @@
 import React from "react";
-import { DeleteOutlined, CrownOutlined } from "@ant-design/icons";
+import { DeleteOutlined, CrownOutlined, HeartFilled } from "@ant-design/icons";
 import FlagIcon from "./FlagIcon";
 
 import { Popconfirm, Tooltip } from "antd";
@@ -21,6 +21,10 @@ export default function UserCard({
 }) {
   const timezone = `UTC${user.timezone > 0 ? "+" : ""}${user.timezone}`;
   const badRank = rankRange && (user.rank < rankRange[0] || user.rank > rankRange[1]);
+  const cardStyle = {};
+  if (user.donations >= 10 && user.cardImage) {
+    cardStyle.backgroundImage = `linear-gradient(#13141577, #2e313577), url("/public/cards/${user.cardImage}")`;
+  }
 
   return (
     <div>
@@ -35,11 +39,16 @@ export default function UserCard({
         ) : (
           <div style={{ backgroundImage: `url(${user.avatar})` }} className="UserCard-avatar"></div>
         )}
-        <div className="UserCard-content">
+        <div className="UserCard-content" style={cardStyle}>
           <div className="UserCard-top">
             <div className={`UserCard-name ${user.username.length > 14 ? "UserCard-long" : ""}`}>
               {user.country && <FlagIcon code={user.country} />}
               <a href={`https://osu.ppy.sh/users/${user.userid}`}>{user.username}</a>
+              {user.donations >= 5 && (
+                <Tooltip title={`GTS Supporter - Donated $${user.donations.toFixed(2)}`}>
+                  <HeartFilled className="UserCard-supporter" />
+                </Tooltip>
+              )}
               {canDelete && (
                 <Popconfirm
                   title={`Are you sure you want to remove ${user.username}?`}

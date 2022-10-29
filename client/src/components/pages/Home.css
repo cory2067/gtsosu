@@ -2,12 +2,18 @@ body .Home-content {
   padding: 0;
 }
 
+.Home-content {
+  height: calc(100vh - 64px);
+  background-color: var(--night);
+}
+
 .Home-title {
   font-size: 62pt;
   text-align: center;
   line-height: 1;
   margin-bottom: 0;
   text-transform: uppercase;
+  color: var(--night);
 }
 
 .Home-about-container {
@@ -28,6 +34,7 @@ body .Home-content {
   align-items: center;
   height: 350px;
   background: #E5E5E5;
+  color: var(--onyx);
 }
 
 .Home-about p {
@@ -38,5 +45,5 @@ body .Home-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  background-color: #2E3135;
+  background-color: var(--night);
 }

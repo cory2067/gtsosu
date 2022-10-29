@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import express, { Response } from "express";
 import pino from "pino";
 import osu from "node-osu";
@@ -10,11 +11,12 @@ import StageStats, { IStageStats } from "./models/stage-stats";
 import Team, { PopulatedTeam } from "./models/team";
 import Tournament, { ITournament } from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
-import User, { IUser } from "./models/user";
+import User, { UserTourneyStats, IUser } from "./models/user";
 import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
 import { Request } from "./types";
 
 import mapRouter from "./api/map";
+import donationRouter from "./api/donation";
 
 import { addAsync } from "@awaitjs/express";
 import { UserAuth } from "./permissions/UserAuth";
@@ -41,6 +43,7 @@ router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
 // Parts of the API are gradually being split out into separate files
 // These are the sub-routers that have been migrated/refactored
 router.use(mapRouter);
+router.use(donationRouter);
 // ----------------------
 
 const isAdmin = (user: IUser | undefined, tourney: string) => checkPermissions(user, tourney, []);
@@ -335,11 +338,12 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
  * Params:
  *   - discord: discord username
  *   - timezone: player's timezone
+ *   - cardImage: custom background image for user card
  */
 router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
   logger.info(`${req.user.username} updated user settings`);
   await User.findByIdAndUpdate(req.user._id, {
-    $set: { discord: req.body.discord, timezone: req.body.timezone },
+    $set: { discord: req.body.discord, timezone: req.body.timezone, cardImage: req.body.cardImage },
   });
   res.send({});
 });
@@ -554,13 +558,12 @@ router.postAsync("/match", ensure.isAdmin, async (req, res) => {
   res.send(match);
 });
 
-
 type SubmitWarmupBody = {
   match: string; // Match ID
   playerNo: 1 | 2; // Player number in match (1 or 2)
   warmup: string; // Warmup map link or ID
   mod: WarmupMod; // Mod used for warmup (only NM or DT is supported, defaults to NM)
-}
+};
 /**
  * POST /api/warmup
  * Submit a warmup
@@ -576,8 +579,14 @@ router.postAsync("/warmup", ensure.loggedIn, async (req: Request<{}, SubmitWarmu
   }
   try {
     // Make sure mod is valid, if it's not default to nm
-    if (req.body.mod != "DT") { req.body.mod = "NM" }
-    match[`warmup${req.body.playerNo}`] = await parseWarmup(req.body.warmup, req.body.mod || "NM", match.tourney);
+    if (req.body.mod != "DT") {
+      req.body.mod = "NM";
+    }
+    match[`warmup${req.body.playerNo}`] = await parseWarmup(
+      req.body.warmup,
+      req.body.mod || "NM",
+      match.tourney
+    );
     match[`warmup${req.body.playerNo}Mod`] = req.body.mod;
   } catch (e) {
     res.status(400).send(e.message);
@@ -896,7 +905,8 @@ router.postAsync("/lobby-referee", ensure.isRef, async (req, res) => {
   await lobby.save();
 
   logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${req.body.lobby
+    `${req.user.username} signed ${req.body.user ?? "self"} up to ref quals lobby ${
+      req.body.lobby
     } for ${req.body.tourney}`
   );
   res.send(lobby);
@@ -930,7 +940,8 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   logger.info(
-    `${req.user.username} signed up ${req.body.user ?? "self"} for quals lobby ${req.body.lobby
+    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
+      req.body.lobby
     } in ${req.body.tourney}`
   );
   
@@ -1045,8 +1056,12 @@ const fetchMatchesAndUpdateStageStats = async (tourney, stage, mpIds) => {
           // Skip tracking players that aren't registered in the tourney
           if (!tourneyPlayers.has(score.userId)) continue;
 
+          let mod = "";
+          if (Number(score.raw_mods) & 8) mod += "HD";
+          if (Number(score.raw_mods) & 16) mod += "HR";
+
           const playerId = Number(score.userId);
-          const newPlayerScore = { userId: playerId, score: Number(score.score) };
+          const newPlayerScore = { userId: playerId, score: Number(score.score), mod };
 
           // Update player high score
           const previousPlayerScore = mapStats.playerScores.find(
@@ -1165,7 +1180,7 @@ router.postAsync("/stage-stats", ensure.isAdmin, async (req, res) => {
   const updatedStageStats = await StageStats.findOneAndUpdate(
     { tourney: req.body.stats.tourney, stage: req.body.stats.stage },
     req.body.stats,
-    { new: true }
+    { new: true, upsert: true }
   );
   res.send(updatedStageStats);
 });
@@ -1324,38 +1339,65 @@ router.postAsync("/team-stats", ensure.isAdmin, async (req, res) => {
  * POST /api/player-stats
  * Set stats/details about an existing player
  * Params:
- *   - _id: the _id of the player
- *   - seedName: i.e. Top, High, Mid, or Low
- *   - seedNum: the player's rank in the seeding
- *   - group: one character capitalized group name
- *   - regTime: the date/time the player registered
  *   - tourney: the code of the tourney
+ *   - playerStats: Array of:
+ *     - _id: the _id of the player
+ *     - stats: object with properties:
+ *       - seedName: i.e. Top, High, Mid, or Low
+ *       - seedNum: the player's rank in the seeding
+ *       - group: one character capitalized group name
+ *       - regTime: the date/time the player registered
  */
-router.postAsync("/player-stats", ensure.isAdmin, async (req, res) => {
-  await User.findOneAndUpdate(
-    { _id: req.body._id },
-    { $pull: { stats: { tourney: req.body.tourney } } }
-  );
+type PlayerStatsBody = {
+  tourney: string; // identifier for the tourney
+  playerStats: Array<{
+    _id: Types.ObjectId;
+    stats: UserTourneyStats;
+  }>;
+};
+type PlayerStatsResponse = Array<IUser>;
 
-  const user = await User.findOneAndUpdate(
-    { _id: req.body._id },
-    {
-      $push: {
-        stats: {
-          tourney: req.body.tourney,
-          seedName: req.body.seedName,
-          seedNum: req.body.seedNum,
-          group: req.body.group,
-          regTime: req.body.regTime,
-        },
-      },
-    },
-    { new: true }
-  ).orFail();
+router.postAsync(
+  "/player-stats",
+  ensure.isAdmin,
+  async (req: Request<{}, PlayerStatsBody>, res: Response<PlayerStatsResponse>) => {
+    await Promise.all(
+      req.body.playerStats.map((playerStats) => {
+        return User.findOneAndUpdate(
+          { _id: playerStats._id },
+          { $pull: { stats: { tourney: req.body.tourney } } }
+        );
+      })
+    );
 
-  logger.info(`${req.user.username} set stats for ${user.username} in ${req.body.tourney}`);
-  res.send(user);
-});
+    const users = await Promise.all(
+      req.body.playerStats.map((playerStats) => {
+        return User.findOneAndUpdate(
+          { _id: playerStats._id },
+          {
+            $push: {
+              stats: {
+                ...playerStats.stats,
+                tourney: req.body.tourney,
+              },
+            },
+          },
+          { new: true }
+        ).orFail();
+      })
+    );
+
+    if (req.body.playerStats.length === 1) {
+      logger.info(
+        `${req.user!.username} set stats for ${users[0].username} in ${req.body.tourney}`
+      );
+    }
+    if (req.body.playerStats.length > 1) {
+      logger.info(`${req.user!.username} set stats multiple players in ${req.body.tourney}`);
+    }
+    res.send(users);
+  }
+);
 
 /**
  * POST /api/refresh
