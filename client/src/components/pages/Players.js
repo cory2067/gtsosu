@@ -246,15 +246,17 @@ export default function Players({ tourney, user }) {
 
   const handleTeamEditStats = async (formData, _id) => {
     try {
-      const newTeam = await post("/api/team-stats", {
-        ...formData,
-        _id,
-        tourney: tourney,
+      const newTeams = await post("/api/team-stats", {
+        tourney,
+        teamStats: [{
+          ...formData,
+          _id,
+        }],
       });
 
       setTeams(
         teams.map((t) => {
-          if (t._id === _id) return newTeam;
+          if (t._id === _id) return newTeams[0];
 
           return t;
         })
