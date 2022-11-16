@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
 import { get, post, prettifyTourney, hasAccess, getStage } from "../../utilities";
-import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip } from "antd";
+import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip, Radio } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 const { Content } = Layout;
 const { Column, ColumnGroup } = Table;
@@ -33,6 +33,7 @@ export default function Stats({ tourney, user }) {
     refetchDataInProgress: false,
     refetchScoresInProgress: false,
     assignSeedsInProgress: false,
+    freemodFilter: "none",
   });
 
   const calculateStats = () => {
@@ -62,13 +63,29 @@ export default function Stats({ tourney, user }) {
 
       let currentRank = 1;
       let currentScore;
+      let currentFilteredRank = 0;
+      let ties = 0;
+      let currentFilteredScore;
       for (let i = 0; i < sortedPlayerScores.length; i++) {
         const playerScore = sortedPlayerScores[i];
+        const filterActive = (mod === "FM" || mod === "TB") && state.freemodFilter !== "none";
+        const matchesFreemodFilter = state.freemodFilter === playerScore.mod;
         if (!currentScore || playerScore.score < currentScore) {
           currentRank = i + 1;
           currentScore = playerScore.score;
         }
-        processedPlayerScores.push({ ...playerScore, rank: currentRank });
+        if (filterActive && matchesFreemodFilter) {
+          if (!currentFilteredScore || playerScore.score < currentFilteredScore) {
+            currentFilteredRank += ties + 1;
+            currentFilteredScore = playerScore.score;
+            ties = 0;
+          } else {
+            ties += 1;
+          }
+          processedPlayerScores.push({ ...playerScore, rank: currentFilteredRank });
+        } else if (!filterActive) {
+          processedPlayerScores.push({ ...playerScore, rank: currentRank });
+        }
 
         if (!overallPlayerStats.has(playerScore.userId)) {
           overallPlayerStats.set(playerScore.userId, {
@@ -483,7 +500,7 @@ export default function Stats({ tourney, user }) {
   const isFreemod = () => {
     const mapId = Number(state.currentSelectedMapId);
     const theBeatmap = state.stageMaps.find((stageMap) => stageMap.mapId === mapId);
-    return theBeatmap?.mod === "FM";
+    return theBeatmap?.mod === "FM" || theBeatmap?.mod === "TB";
   };
 
   const getAverageTeamScore = () => {
@@ -617,6 +634,15 @@ export default function Stats({ tourney, user }) {
     }
   };
 
+  const handleFreemodFilterChange = (event) => {
+    const value = event.target.value;
+    setState({
+      ...state,
+      freemodFilter: value,
+      recalculateStats: true,
+    });
+  };
+
   return (
     <Content className="content">
       <div className="u-flex">
@@ -634,7 +660,7 @@ export default function Stats({ tourney, user }) {
           )}
         </div>
 
-        <div>
+        <div className="page-content">
           {state.currentSelectedStage && isAdmin() && (
             <div className="stats-settings">
               {!state.inEditMode && (
@@ -711,8 +737,8 @@ export default function Stats({ tourney, user }) {
             </div>
           )}
 
-          {state.tourneyModel?.teams && (
-            <div className="topbar">
+          <div className="topbar">
+            {state.tourneyModel?.teams && (
               <Menu
                 mode="horizontal"
                 onClick={(e) => setState({ ...state, currentSelectedTable: e.key })}
@@ -721,8 +747,23 @@ export default function Stats({ tourney, user }) {
                 <Menu.Item key="team">Team Rankings</Menu.Item>
                 <Menu.Item key="player">Player Rankings</Menu.Item>
               </Menu>
-            </div>
-          )}
+            )}
+
+            {state.currentSelectedTable === "player" && isFreemod() && (
+              <div className="mod-filter">
+                <span className="mod-filter-label">Mod filter: </span>
+                <Radio.Group value={state.freemodFilter} onChange={handleFreemodFilterChange}>
+                  <>
+                    <Radio.Button value="none">None</Radio.Button>
+                    <Radio.Button value="">NM</Radio.Button>
+                    <Radio.Button value="HD">HD</Radio.Button>
+                    <Radio.Button value="HR">HR</Radio.Button>
+                    <Radio.Button value="HDHR">HDHR</Radio.Button>
+                  </>
+                </Radio.Group>
+              </div>
+            )}
+          </div>
 
           <div className="topbar">
             <Menu

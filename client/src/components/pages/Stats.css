@@ -1,3 +1,7 @@
+.page-content {
+  width: 100%;
+}
+
 .tables-container {
   display: flex;
 }
@@ -15,6 +19,17 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--m);
+  height: 48px;
+}
+
+.mod-filter {
+  margin-left: auto;
+}
+
+.mod-filter-label {
+  font-size: 12pt;
+  font-weight: bold;
+  margin-right: var(--s);
 }
 
 .stats-settings {
