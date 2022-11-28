@@ -10,10 +10,10 @@ export default {
   rgts: 2022,
   sgts: 2021,
   test: 2020,
-  tsc: 2021,
+  tsc: 2023,
   zgts: 2021,
   ygts: 2022,
   btt: 2022,
-  tcl: 2023,
+  tcl: 2022,
   ftwc: 2022,
 };
