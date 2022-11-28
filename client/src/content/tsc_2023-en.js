@@ -1,7 +1,7 @@
 export default {
   name: "Taiko Suiji Cup 2023",
   description:
-    "The Taiko Suiji Cup 2023, one of the biggest osu!taiko tournaments. 4v4, no rank limit, and entirely random teams. The top 32 teams after the seeding phase will play in a double-elimination bracket.",
+    "The Taiko Suiji Cup 2023, one of the biggest osu!taiko tournaments. 3v3, no rank limit, and entirely random teams. The top 192 players based on rank are randomly put into 32 teams of 6, which, after the seeding phase, will play in a double-elimination bracket.",
   discord: "https://discord.gg/yV3bDTC",
   homepage: [
     {
