@@ -110,13 +110,13 @@ February 25th until February 26th.`,
 
 # Mappool Instructions
  - There will be 1 mappool for each of the following: Seeding Phase, RO32, RO16, Quarterfinals, Semifinals, Finals and Grand Finals.
- - The Seeding Phase pool will be different from all the other rounds as it will have a format of 1 NoMod map, 1 Challenge map, 1 Hard Rock map, 1 Double Time map. 
+ - The Seeding Phase pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 Hard Rock map, 1 Double Time map and 1 Challenge map. 
  - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend. 
  - The mappool format for all bracket rounds of Suiji 2023 will be different from most other tournaments, since it is two mappools into one. The A mappool, as well as the B mappool.
- - Mappool A consists of 4 brackets: NoMod, Hidden, HardRock, and FreeMod. 
- - Mappool A has 4 NoMod maps, 2 Hidden maps, 2 HardRock maps, and 2 FreeMod maps.
- - Mappool B consists of 6 brackets: Double Time, Hidden + Hard Rock, Convert, Easy, Challenge, and the TieBreaker.
- - Mappool B has 1 Double Time map, 1 Hidden + Hard Rock map, 1 Convert map, 1 Easy map, 2 Challenge maps, and the TieBreaker.
+ - Mappool A consists of 4 brackets: NoMod, Hidden, HardRock, Double Time and FreeMod. 
+ - Mappool A has 4 NoMod maps, 2 Hidden maps, 2 HardRock maps, 2 Double Time and 2 FreeMod maps.
+ - Mappool B consists of 5 brackets: Hidden + Hard Rock, Convert, Easy, Challenge, and the TieBreaker.
+ - Mappool B has 1 Hidden + Hard Rock map, 1 Convert map, 1 Easy map, 2 Challenge maps, and the TieBreaker.
  - **MAPPOOL B MAPS CANNOT BE BANNED WHATSOEVER.**
  - The FreeMod pool is played with FreeMod activated. Every individual player can pick **NoMod, Hidden or HardRock**. 
  - Depending on the round, the amount of players required to use a mod will be gradually changing.
