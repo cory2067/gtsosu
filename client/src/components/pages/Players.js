@@ -365,7 +365,7 @@ export default function Players({ tourney, user }) {
   const hasTeamSeeds = () => hasTeams || flags.has("suiji");
 
   const assignSuijiSeeds = async () => {
-    const players = [...players].sort((x, y) => x.rank - y.rank);
+    const thePlayers = sortedPlayers("rank", players);
     const getSeedName = (rank) => {
       if (rank < 64) {
         return "A";
@@ -381,11 +381,33 @@ export default function Players({ tourney, user }) {
       }
       return undefined;
     };
+    
+    try {
+      const newPlayers = await post("/api/player-stats", {
+        tourney: tourney,
+        playerStats: thePlayers.map((player, index) =>
+          ({
+            _id: player._id,
+            stats: {
+              seedName: getSeedName(index),
+              seedNum: index + 1,
+              regTime: getStatsById(player._id).regTime,
+            },
+          })
+        ),
+      });
 
-    for (const [index, player] of players.entries()) {
-      await handlePlayerEdit({ seedName: getSeedName(index), seedNum: index + 1 }, player._id);
+      const newPlayersById = new Map(newPlayers.map(player => [player._id, player]));
 
-      setRefreshPercent(Math.min(100, Math.round((100 * (index + 1)) / players.length)));
+      setPlayers(
+        players.map((t) => {
+          if (newPlayersById.has(t._id)) return newPlayersById.get(t._id);
+          else return t;
+        })
+      );
+      message.success(`Successfully assigned Suiji seeds!`);
+    } catch (e) {
+      message.error(`Something went wrong: ${e}`);
     }
   };
 
