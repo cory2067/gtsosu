@@ -42,10 +42,9 @@ November 27th until November 28th.`,
     {
       title: "Prizes",
       body: `
-All prizes are sponsored by [LotusPro](https://lotuspro.io/).
-- **1st place:** osu! profile badge, $500, and a physical trophy. 
-- **2nd place:** osu! profile badge (Tentative), $250, and a physical trophy.
-- **3rd place:** osu! profile badge (Tentative), $125, and a physical trophy.
+- **1st place:** osu! profile badge, $500. 
+- **2nd place:** osu! profile badge, $250.
+- **3rd place:** osu! profile badge, $125.
 - **4th place:** $75.`,
     },
   ],

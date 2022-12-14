@@ -47,12 +47,12 @@ April 17th.`,
     {
       title: "Prizes",
       body: 
-`- **1v1 1st place:** $40, special plaque to the winner's name, specially made taiko keypad
-- **1v1 2nd place:** $20, special plaque to the winner's name, specially made taiko keypad
-- **1v1 3rd place:** $10, special plaque to the winner's name, specially made taiko keypad
-- **4v4 1st place:** $43,75 per player, special plaque per player, specially made taiko keypad, osu! profile badge
-- **4v4 2nd place:** $23,75 per player, special plaque per player, specially made taiko keypad
-- **4v4 3rd place:** $13,75 per player, special plaque per player, specially made taiko keypad
+`- **1v1 1st place:** $40.
+- **1v1 2nd place:** $20.
+- **1v1 3rd place:** $10.
+- **4v4 1st place:** $43,75 per player, osu! profile badge.
+- **4v4 2nd place:** $23,75 per player.
+- **4v4 3rd place:** $13,75 per player.
       `,
     },
   ],

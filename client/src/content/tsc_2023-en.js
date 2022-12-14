@@ -1,7 +1,7 @@
 export default {
-  name: "Taiko Suiji Cup 2021",
+  name: "Taiko Suiji Cup 2023",
   description:
-    "The Taiko Suiji Cup 2021, one of the biggest osu!taiko tournaments. 4v4, no rank limit, and entirely random teams. The top 32 teams after the seeding phase will play in a double-elimination bracket.",
+    "The Taiko Suiji Cup 2023, one of the biggest osu!taiko tournaments. 3v3, no rank limit, and entirely random teams. The top 192 players based on rank are randomly put into 32 teams of 6, which, after the seeding phase, will play in a double-elimination bracket.",
   discord: "https://discord.gg/yV3bDTC",
   homepage: [
     {
@@ -12,41 +12,47 @@ export default {
       title: "Dates",
       body: `
 ### Registration Phase
-June 13th until June 27th.
+November 28th until December 11th.
 ### Screening phase
-June 27th until July 4th.
-### Team Drawings + Qualifiers Mappool Showcase Stream
-July 4th.
+December 11th until January 8th.
+### Team Drawings + Seeding Phase Mappool Showcase Stream
+January 8th.
 ### Seeding Phase
-July 10th until July 11th.
+January 14th until January 15th.
 ### Round of 32
-July 17th until July 18th.
+January 21st until January 22nd.
 ### Round of 16 + Loser's Bracket Round 1
-July 24th until July 25th.
+January 28th until January 29th.
 ### Quarterfinals + Loser's Bracket Round 2 and 3
-July 31st until August 1st.
+February 4th until February 5th.
 ### Semifinals + Loser's Bracket Round 4 and 5
-August 7th until August 8th.
+February 11th until February 12th.
 ### Winner's Bracket Finals and Loser's Bracket 6 and Finals
-August 14th until August 15th.
+February 18th until February 19th.
 ### Grand Finals and Loser's Bracket Grand Finals
-August 21st until August 22nd.`,
+February 25th until February 26th.`,
    },
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
       title: "Prizes",
       body: `
-  - **1st place:** osu! profile badge, 1 year of supporter or $26 per player.
-  - **2nd place:** 6 months of supporter or $16 per player.
-  - **3rd place:** 4 months of supporter or $12 per player.`,
+  - **1st place:** osu! profile badge (Pending).`,
     },
   ],
   rules: `
   # General Rules
- - This tournament is a **4v4 team tournament** with teams of **8 players maximum**. Teams are formed randomly, during the teams drawings stream.
+ - This tournament is a **3v3 team tournament** with teams of **6 players maximum**. Teams are formed randomly, during the teams drawings stream.
+ - Although, during rounds, teams will be able to take a player from the team they have beaten. For the teams that play in Loser's Bracket, they will only be able to take a player in the other team from the last match they have played and won in the weekend.
+ - Team size in matches required will change during rounds as required by this list:
+    - RO32: 3v3
+    - RO16 & LBR1/2: 4v4
+    - QF & LBR3/4: 5v5
+    - SF & LBR5/6: 6v6
+    - Finals & LBRF/GF: 7v7
+    - GF: 8v8
  - The teams will first go through **a seeding phase**. Then they will play in a **double-elimination bracket**.
  - The Score System used will be **Score V2**.
- - Any player who meets the requirements stated in the rank restrictions part is allowed to sign up. Since this tournament will aim to get badged some players might be declined by osu! staff.
+ - Any osu!taiko player is allowed to sign up. Only the top 192 players sorted by rank will make it to the team drawings. Since this tournament will aim to get badged some players might be declined by osu! staff.
  - Any members of staff apart from **Organizers, Mappoolers and Referees** are allowed to play.
  - Anyone with an ongoing tournament ban cannot be a staff member as an Organizer, Mappooler or Referee.
  - Players and staff members must have read this ruleset entirely (and we will assume you did so throughout the tournament).
@@ -61,12 +67,12 @@ August 21st until August 22nd.`,
  - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches. 
 
 # Stage Regulations
- - There are seven stages in this tournament: the Qualifiers, the RO32, the RO16, the Quarterfinals, the Semifinals, the Finals and the Grand Finals. 
- - The team will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part)  
+ - There are seven stages in this tournament: the Seeding Phase, the RO32, the RO16, the Quarterfinals, the Semifinals, the Finals and the Grand Finals. 
+ - The team will be seeded with the average of their ranks on each map during the Seeding Phase round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part)  
  - The winning condition for each stage is:
-   - RO32, RO16, Quarterfinals and Loser's bracket round 1: BO9 (win 5 maps)
-   - Quarterfinals and Loser's bracket round 2 and 3: BO11 (win 6 maps)
-   - Semifinals, Finals, Grand Finals and Loser's Bracket Round 4, 5 and 6: BO13 (win 7 maps)
+   - RO32, RO16 and Loser's Bracket Round 1: BO9 (win 5 maps)
+   - Quarterfinals and Loser's Bracket Round 2 and 3: BO11 (win 6 maps)
+   - Semifinals, Finals, Grand Finals and Loser's Bracket Round 4, 5, 6, Finals, and Grand Finals: BO13 (win 7 maps)
 
 # Seeding Phase Regulations
  - During this round there will be multiple lobbies available at various hours. 
@@ -84,7 +90,7 @@ August 21st until August 22nd.`,
  - If less than the minimum required players attend, the maximum time the match can be postponed is 10 minutes. 
  - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time. 
  - If neither of both teams have the minimum required players after 10 minutes, the highest seeded team will advance. 
- - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "TSC 2021: (Team Red) vs (Team Blue)". 
+ - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "TSC 2023: (Team Red) vs (Team Blue)". 
  - Each team is allowed one warm-up but it must be below 3 minutes, and must be sent to the referee and streamer of the match one hour prior to the match's start time. Otherwise, the team will have no warmups.
  - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
  - Each captain has to ban **one beatmap** from Mappool A. These beatmaps are not allowed to be picked by any team in the entire match. 
@@ -103,17 +109,23 @@ August 21st until August 22nd.`,
  - In case of a tie in points (example: 4-4 in BO9) the tiebreaker is selected. 
 
 # Mappool Instructions
- - There will be 1 mappool for each of the following: Qualifiers, RO32, RO16, Quarterfinals, Semifinals, Finals and Grand Finals. A different pool will be prepared for All-Star (see All-Star Rules for more details). 
- - The Qualifiers pool will be different from all the other rounds as it will have a format of 1 NoMod map, 1 Challenge map, 1 Hard Rock map, 1 Double Time map. 
+ - There will be 1 mappool for each of the following: Seeding Phase, RO32, RO16, Quarterfinals, Semifinals, Finals and Grand Finals.
+ - The Seeding Phase pool will be different from all the other rounds as it will have a format of 1 NoMod map, 1 Challenge map, 1 Hard Rock map, 1 Double Time map. 
  - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend. 
- - The mappool format for all bracket rounds of Suiji 2021 will be different from most other tournaments, since it is two mappools into one. The A mappool, as well as the B mappool.
+ - The mappool format for all bracket rounds of Suiji 2023 will be different from most other tournaments, since it is two mappools into one. The A mappool, as well as the B mappool.
  - Mappool A consists of 4 brackets: NoMod, Hidden, HardRock, and FreeMod. 
  - Mappool A has 4 NoMod maps, 2 Hidden maps, 2 HardRock maps, and 2 FreeMod maps.
  - Mappool B consists of 6 brackets: Double Time, Hidden + Hard Rock, Convert, Easy, Challenge, and the TieBreaker.
  - Mappool B has 1 Double Time map, 1 Hidden + Hard Rock map, 1 Convert map, 1 Easy map, 2 Challenge maps, and the TieBreaker.
  - **MAPPOOL B MAPS CANNOT BE BANNED WHATSOEVER.**
  - The FreeMod pool is played with FreeMod activated. Every individual player can pick **NoMod, Hidden or HardRock**. 
- - **At least two players from each team must use a mod.**
+ - Depending on the round, the amount of players required to use a mod will be gradually changing.
+   - RO32: 1
+   - RO16 & LBR1/2: 2
+   - QF & LBR3/4: 3
+   - SF & LBR5/6: 4
+   - Finals & LBRF/GF: 5
+   - GF: 6
  - Challenge maps, also known as EX maps, will always be played under NoMod conditions.
  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mod activated. 
  - The mappool for each stage will be showcased a week beforehand. 

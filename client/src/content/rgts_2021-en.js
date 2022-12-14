@@ -35,7 +35,7 @@ July 24th until July 25th.`,
     {
       title: "Prizes",
       body: `
-- **1st place:** Trophy to the name of each winner, 1 year and 4 months of supporter, osu! profile badge.
+- **1st place:** 1 year and 4 months of supporter, osu! profile badge.
 - **2nd place:** One year of supporter per player
 - **3rd place:** Six months of supporter per player`,
     },
