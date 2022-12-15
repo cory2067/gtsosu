@@ -10,7 +10,7 @@ import { UserRole } from "../../permissions/UserRole";
 const { Content } = Layout;
 const { Panel } = Collapse;
 
-const DONATION_GOAL = 1800;
+const DONATION_GOAL = 5800;
 
 function Donate({ user }) {
   const [loading, setLoading] = useState(false);
@@ -75,9 +75,15 @@ function Donate({ user }) {
         <div className="Donate-info">
           <h1>Support GTS!</h1>
           <p>
-            In 2021, we offered a total of $1,800 in cash prizes to the winners of GTS tournaments.
-            But due to a sponsorship scam, we ended up never getting that funding. We need your help
-            to give our GTS champions the prizes they've earned!
+            Hello!
+            As you are likely aware, OsuMe65 is the main designer for the GTS series, having designed for AGTS in 2020 and 2021, CGTS in 2019, RGTS in 2021, and, of course, being the main designer for EGTS since 2021.
+            As you may know, he is running on quite the, not so good laptop, having to deal with 50+ hours renders for nearly anything intensive like his EGTS trailer or reveal videos, forcing him to put it all on us.
+            And well, it's not getting better by the day, and it's probably getting to the point where his current laptop would die soon LOL.
+            Considering his creativity and speed at working, we believe it's for the best to do this for him, especially as he is the only designer currently with such struggles.
+            To try and give him a PC that would have no issues though, we're aiming for a total donation of $2,275, being a bit over what he would need for an optimal setup.
+            So, if you've enjoyed any design of EGTS, and, or his numerous custom songs, and want to see it get better and better, please donate if you can!
+            Any donation, as small as it is will be hugely appreciated.
+
           </p>
           <p>
             Everyone on the GTS team has worked for free, through their own generosity and passion
