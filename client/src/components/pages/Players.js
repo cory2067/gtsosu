@@ -432,7 +432,7 @@ export default function Players({ tourney, user }) {
                 <>
                   <Radio.Button value="rank">Rank</Radio.Button>
                   <Radio.Button value="alpha">Alphabetical</Radio.Button>
-                  {!hasPlayerSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
+                  {hasPlayerSeeds() && <Radio.Button value="seed">Seed</Radio.Button>}
                   {!hasTeams && hasGroups && <Radio.Button value="group">Group</Radio.Button>}
                   <Radio.Button value="country">Country</Radio.Button>
                   <Radio.Button value="reg">Reg Time</Radio.Button>
