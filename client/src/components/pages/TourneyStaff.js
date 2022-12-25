@@ -160,8 +160,8 @@ export default function TourneyStaff({ tourney, user }) {
                 <Form.Item label="Username" name="username">
                   <Input />
                 </Form.Item>
-                <Form.Item label="Role" name="role">
-                  <Select showSearch>
+                <Form.Item label="Roles" name="roles">
+                  <Select showSearch mode="multiple">
                     {roles.map((role, i) => (
                       <Select.Option key={i} value={role}>
                         {role}
