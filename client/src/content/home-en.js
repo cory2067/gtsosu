@@ -6,10 +6,11 @@ export default {
       title: "EGTS 2022",
       fullTitle: "EXPERT GLOBAL TAIKO SHOWDOWN 2022",
       code: "egts",
+      banner: "/public/backgrounds/egts_2022.png",
+      ongoing: true,
       description: `
 The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
 The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
-      banner: "/public/backgrounds/egts_2022.png"
     },
     {
       title: "IGTS 2022",

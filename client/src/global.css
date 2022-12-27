@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,600;1,700;1,900&display=swap");
 
 :root {
   --gts-orange: #f75c03;
@@ -8,7 +8,14 @@
   --white: #fff;
   --bg: #f0f2f5;
   --gold: #ffc53b;
-  --darker-night: #131415;
+  --darker-night: rgb(19, 20, 21);
+  --dark-night: rgb(41, 45, 50);
+  --onyx-dark: rgb(49, 55, 63);
+  --greyts: rgb(181, 200, 214);
+  --greyts-lighter: rgb(206, 219, 228);
+  --full-white: rgb(255, 255, 255);
+  --gts-orange: rgb(247, 92, 3);
+  --onyx-light: rgb(56, 66, 79);
 
   --xs: 4px;
   --s: 8px;
@@ -18,7 +25,8 @@
 }
 
 html body {
-  font-family: 'Red Hat Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  font-family: "Red Hat Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif;
 }
 
 form {
@@ -97,8 +105,8 @@ form {
 
 /* Ant default overrides */
 body {
-  font-variant: normal!important;
-  font-feature-settings: normal!important;
+  font-variant: normal !important;
+  font-feature-settings: normal !important;
 }
 
 body .ant-card {
@@ -132,7 +140,6 @@ body .ant-menu-item.ant-menu-item-selected {
 body .ant-menu-item.ant-menu-item-selected:hover {
   color: var(--white);
 }
-
 
 .u-add-tag {
   background: var(--night) !important;

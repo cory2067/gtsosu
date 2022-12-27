@@ -4,7 +4,7 @@ body .Home-content {
 
 .Home-content {
   height: calc(100vh - 64px);
-  background-color: var(--night);
+  background-color: var(--dark-night);
 }
 
 .Home-title {
@@ -13,7 +13,7 @@ body .Home-content {
   line-height: 1;
   margin-bottom: 0;
   text-transform: uppercase;
-  color: var(--night);
+  color: var(--dark-night);
 }
 
 .Home-about-container {
@@ -33,7 +33,7 @@ body .Home-content {
   justify-content: center;
   align-items: center;
   height: 350px;
-  background: #E5E5E5;
+  background: #e5e5e5;
   color: var(--onyx);
 }
 
@@ -43,7 +43,12 @@ body .Home-content {
 
 .Home-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
-  background-color: var(--night);
+  background-color: var(--dark-night);
+  padding: 30px;
+}
+
+.Home-container > .ant-row > .ant-col {
+  display: flex;
 }

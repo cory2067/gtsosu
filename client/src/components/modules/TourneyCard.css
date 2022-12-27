@@ -1,50 +1,49 @@
-.content .TourneyCard-card .TourneyCard-title {
-  transition-delay: 500ms;
-  font-size: 24px;
-  text-align: center;
-  align-self: center;
-  color: white;
-}
-
-.content .TourneyCard-card:hover .TourneyCard-title {
-  font-size: 24px;
-  text-align: left;
-  align-self: flex-start;
-  animation: fadein 0.25s ease-in;
-}
-
-.content .TourneyCard-card .TourneyCard-description {
-  font-size: 14px;
-  color: white;
-  animation: fadein 0.25s ease-in;
-}
-
 .content .TourneyCard-card {
-  padding: 12px;
-  transition: all 0.5s;
-  transition-timing-function: ease-out;
-  margin: var(--m);
-  flex: 1;
-  flex-shrink: 0;
-  min-width: 120px;
-  max-width: 600px;
-  width: 200px;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
+  margin: 10px;
   overflow: hidden;
+  padding: 0px;
+  display: flex;
+  border-radius: 8px;
 }
 
-.content .TourneyCard-card:hover {
-  transition: all 0.5s;
-  transition-timing-function: ease-out;
-  flex-grow: 5;
-  flex-shrink: 0;
+.TourneyCard-container {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  backdrop-filter: blur(100px);
+  display: flex;
+}
+
+.TourneyCard-content {
+  margin: 48px;
+}
+
+.TourneyCard-banner {
+  width: 100%;
+  height: 290px;
+  border-radius: var(--s);
+}
+
+.TourneyCard-description {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0px;
+  line-height: 1.1;
+}
+
+.TourneyCard-container .ant-btn {
+  background-color: transparent;
+  justify-self: end;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
 }
 
 @keyframes fadein {
-    0%   { opacity: 0; }
-    100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

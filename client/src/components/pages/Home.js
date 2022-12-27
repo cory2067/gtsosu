@@ -4,17 +4,31 @@ import TourneyCard from "../modules/TourneyCard";
 import "./Home.css";
 
 import data from "../../content/home-en";
-import { Layout } from "antd";
+import { Col, Layout, Row } from "antd";
 const { Header, Content } = Layout;
+
+function organizeIntoGrid(tournies) {
+  var tourneyGrid = [];
+
+  for (var i = 0; i < tournies.length; i += 2) {
+    var row = tournies.slice(i, i + 2);
+    tourneyGrid.push(row);
+  }
+
+  return tourneyGrid;
+}
 
 export default function Home() {
   useEffect(() => {
     document.title = "GTS";
   });
 
+  var ongoingTournies = data.tournies.filter((tourney) => tourney.ongoing);
+  var tournies = data.tournies.filter((tourney) => !tourney.ongoing);
+
   return (
     <Content className="content Home-content">
-      <div className="Home-title-section">
+      {/* <div className="Home-title-section">
         <div className="Home-title-section-inner">
           <h1 className="Home-title u-xbold">{data.title}</h1>
           <div className="Home-about-container">
@@ -23,12 +37,25 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="Home-container">
-        {data.tournies.map((tourney) => (
+        {ongoingTournies.map((tourney) => (
           <TourneyCard key={tourney.code} {...tourney} />
         ))}
+        {organizeIntoGrid(tournies).map((row, i) => {
+          return (
+            <Row key={i.toString()} gutter={[0, 0]} align="stretch">
+              {row.map((tourney) => {
+                return (
+                  <Col span={12}>
+                    <TourneyCard key={tourney.code} {...tourney} />
+                  </Col>
+                );
+              })}
+            </Row>
+          );
+        })}
       </div>
     </Content>
   );
