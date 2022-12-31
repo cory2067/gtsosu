@@ -1,5 +1,5 @@
 .content .TourneyCard-card {
-  margin: 10px;
+  margin: var(--m);
   overflow: hidden;
   padding: 0px;
   display: flex;

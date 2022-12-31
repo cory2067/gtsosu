@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import ReactMarkdown from "react-markdown";
-import TourneyCard from "../modules/TourneyCard";
+import TourneyCard from "./TourneyCard";
+import SocialCard from "./SocialCard";
 import "./Home.css";
 
-import data from "../../content/home-en";
+import data from "../../../content/home-en";
+import socials from "../../../content/socials";
 import { Col, Layout, Row } from "antd";
 const { Header, Content } = Layout;
 
@@ -40,9 +42,12 @@ export default function Home() {
       </div> */}
 
       <div className="Home-container">
+        {/* Ongoing tournies */}
         {ongoingTournies.map((tourney) => (
           <TourneyCard key={tourney.code} {...tourney} />
         ))}
+
+        {/* Other tournies */}
         {organizeIntoGrid(tournies).map((row, i) => {
           return (
             <Row key={i.toString()} gutter={[0, 0]} align="stretch">
@@ -56,6 +61,13 @@ export default function Home() {
             </Row>
           );
         })}
+
+        {/* Socials */}
+        <div className="Home-socials-container">
+          {socials.map((item) => (
+            <SocialCard key={item.link} {...item} />
+          ))}
+        </div>
       </div>
     </Content>
   );

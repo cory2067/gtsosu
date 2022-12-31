@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "@reach/router";
 import ReactMarkdown from "react-markdown";
-import TourneyCard from "../modules/TourneyCard";
+import TourneyCard from "./home/TourneyCard";
 import { get, hasAccess, delet, post, prettifyTourney, tokenizeTourney } from "../../utilities";
 import "./Archives.css";
 

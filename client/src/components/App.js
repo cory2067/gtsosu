@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { navigate, Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-import Home from "./pages/Home.js";
+import Home from "./pages/home/Home.js";
 import Archives from "./pages/Archives.js";
 import TourneyHome from "./pages/TourneyHome";
 import NewTourneyHome from "./pages/NewTourneyHome";

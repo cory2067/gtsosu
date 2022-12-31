@@ -2,10 +2,8 @@ import React, { useState } from "react";
 
 import { Button, Typography } from "antd";
 import "./TourneyCard.css";
-import { Link } from "@reach/router";
-import Text from "antd/lib/typography/Text";
 
-function redirectToTourney() {
+function redirectToTourney(code) {
   window.location.href = `/${code}/home`;
 }
 
@@ -19,11 +17,7 @@ export default function TourneyCard({
   ongoing,
 }) {
   // No tournament has divisions for now
-  const hasDivisions = !!divisions;
-  const [hover, setHover] = useState(false);
-  const [inTransition, setInTransision] = useState(false);
-
-  const overlayLightOpacity = hover ? 0.05 : 0.2;
+  // const hasDivisions = !!divisions;
 
   return (
     <div
@@ -33,9 +27,9 @@ export default function TourneyCard({
         backgroundImage: `url("${banner}"), linear-gradient(var(--onyx-dark), var(--onyx-dark))`,
         backgroundBlendMode: "color",
         backgroundPosition: "center",
-        backgroundSize: "160%",
+        backgroundSize: "cover",
       }}
-      onClick={redirectToTourney}
+      onClick={() => redirectToTourney(code)}
     >
       <div
         className="TourneyCard-container"
@@ -68,6 +62,7 @@ export default function TourneyCard({
               fontSize: ongoing ? "40px" : "33px",
               fontStyle: "italic",
               fontWeight: 900,
+              lineHeight: "1",
             }}
           >
             {fullTitle}
@@ -80,7 +75,7 @@ export default function TourneyCard({
           >
             {description}
           </Typography.Paragraph>
-          <Button onClick={redirectToTourney} size="large">
+          <Button onClick={() => redirectToTourney(code)} size="large">
             Learn More
           </Button>
         </div>
