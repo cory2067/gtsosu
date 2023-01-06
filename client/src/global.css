@@ -103,6 +103,10 @@ form {
   padding: 0;
 }
 
+.u-rounded-border {
+  border-radius: var(--s);
+}
+
 /* Ant default overrides */
 body {
   font-variant: normal !important;

@@ -1,0 +1,9 @@
+.PastTournies-title {
+  font-size: 35px;
+}
+
+.PastTournies-container {
+  margin: var(--m);
+  padding: 34px;
+  background-color: var(--onyx);
+}

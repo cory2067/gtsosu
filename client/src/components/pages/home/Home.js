@@ -7,6 +7,7 @@ import "./Home.css";
 import data from "../../../content/home-en";
 import socials from "../../../content/socials";
 import { Col, Layout, Row } from "antd";
+import PastTournies from "./PastTournies";
 const { Header, Content } = Layout;
 
 function organizeIntoGrid(tournies) {
@@ -53,8 +54,8 @@ export default function Home() {
             <Row key={i.toString()} gutter={[0, 0]} align="stretch">
               {row.map((tourney) => {
                 return (
-                  <Col span={12}>
-                    <TourneyCard key={tourney.code} {...tourney} />
+                  <Col span={12} key={tourney.code}>
+                    <TourneyCard {...tourney} />
                   </Col>
                 );
               })}
@@ -67,6 +68,11 @@ export default function Home() {
           {socials.map((item) => (
             <SocialCard key={item.link} {...item} />
           ))}
+        </div>
+
+        {/* Past Tournies */}
+        <div className="Home-past-tournies-container">
+          <PastTournies />
         </div>
       </div>
     </Content>

@@ -18,7 +18,7 @@ export default function SocialCard({
 }) {
   return (
     <div
-      className="SocialCard-card"
+      className="u-rounded-border SocialCard-card"
       style={{
         background: `linear-gradient(${gradientColor1}, ${gradientColor2})`,
       }}

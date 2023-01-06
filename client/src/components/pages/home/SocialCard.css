@@ -1,6 +1,5 @@
 .SocialCard-card {
   margin: 0px;
-  border-radius: var(--s);
   display: flex;
   flex-direction: column;
   padding-left: 35px;

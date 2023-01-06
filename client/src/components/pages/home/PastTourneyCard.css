@@ -1,0 +1,41 @@
+.PastTourneyCard-container {
+  background-color: #38424f;
+  margin-top: var(--m);
+  margin-bottom: var(--m);
+  display: flex;
+  flex-direction: row;
+  height: 205px;
+}
+
+/* Needs the extra specificity to override img.ant-image-img */
+img.PastTourneyCard-thumbnail {
+  width: 485px;
+  height: 205px;
+}
+
+.PastTourneyCard-text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 52px;
+  padding-right: 52px;
+}
+
+.PastTourneyCard-title {
+  font-family: Red Hat Display;
+  font-size: 40px;
+  font-weight: 900;
+  line-height: 53px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.PastTourneyCard-description {
+  font-family: Red Hat Display;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  text-align: left;
+}

@@ -22,7 +22,7 @@ export default function TourneyCard({
   return (
     <div
       to={`/${code}/home`}
-      className="TourneyCard-card"
+      className="u-rounded-border TourneyCard-card"
       style={{
         backgroundImage: `url("${banner}"), linear-gradient(var(--onyx-dark), var(--onyx-dark))`,
         backgroundBlendMode: "color",
@@ -38,7 +38,7 @@ export default function TourneyCard({
         }}
       >
         <div
-          className={"TourneyCard-banner"}
+          className={"u-rounded-border TourneyCard-banner"}
           style={{
             backgroundImage: `url("${banner}")`,
             backgroundPosition: "center",
