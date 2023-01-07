@@ -387,9 +387,19 @@ router.getAsync("/staff", async (req, res) => {
  *   - username: username of the new staff member
  *   - tourney: identifier for the tournament
  *   - role: role in the tournament
+ *   - roles: array of roles in the tournament. If this is set, role is ignored
  */
 router.postAsync("/staff", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} added ${req.body.username} as ${req.body.tourney} staff`);
+
+  const roles: IUser["roles"] = [];
+  if (req.body.roles) {
+    req.body.roles.forEach((role) => {
+      roles.push({ tourney: req.body.tourney, role });
+    });
+  } else {
+    roles.push({ tourney: req.body.tourney, role: req.body.role });
+  }
 
   const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
   const user = await User.findOneAndUpdate(
@@ -400,7 +410,7 @@ router.postAsync("/staff", ensure.isAdmin, async (req, res) => {
         country: userData.country,
         avatar: `https://a.ppy.sh/${userData.id}`,
       },
-      $push: { roles: { tourney: req.body.tourney, role: req.body.role } },
+      $push: { roles },
     },
     { new: true, upsert: true }
   );
@@ -944,7 +954,7 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
       req.body.lobby
     } in ${req.body.tourney}`
   );
-  
+
   // Prevent non-admin signing up another player
   if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
   // Prevent non-registered player signing up self
@@ -952,16 +962,17 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
     return res.status(403).send({});
 
   const tourney = await Tournament.findOne({ code: req.body.tourney });
-  const lobby = await QualifiersLobby.findOne(
-    {
-      _id: req.body.lobby,
-      tourney: req.body.tourney,
-    },
-  );
+  const lobby = await QualifiersLobby.findOne({
+    _id: req.body.lobby,
+    tourney: req.body.tourney,
+  });
   // Prevent registered player signing up self for a full lobby
-  if (tourney!.lobbyMaxSignups && !req.body.user &&
-      lobby!.players.length >= tourney!.lobbyMaxSignups)
-    return res.status(403).send({message: "Lobby is full", updatedLobby: lobby});
+  if (
+    tourney!.lobbyMaxSignups &&
+    !req.body.user &&
+    lobby!.players.length >= tourney!.lobbyMaxSignups
+  )
+    return res.status(403).send({ message: "Lobby is full", updatedLobby: lobby });
 
   const toAdd =
     req.body.user ??
@@ -1327,7 +1338,7 @@ type TeamStatsBody = {
   }>;
 };
 type TeamStatsResponse = Array<ITeam>;
- 
+
 router.postAsync(
   "/team-stats",
   ensure.isAdmin,
@@ -1344,20 +1355,21 @@ router.postAsync(
             },
           },
           { new: true }
-        ).orFail().populate<ITeam>("players");
+        )
+          .orFail()
+          .populate<ITeam>("players");
       })
     );
 
     if (req.body.teamStats.length === 1) {
-      logger.info(
-        `${req.user!.username} set stats for ${teams[0].name} in ${req.body.tourney}`
-      );
+      logger.info(`${req.user!.username} set stats for ${teams[0].name} in ${req.body.tourney}`);
     }
     if (req.body.teamStats.length > 1) {
       logger.info(`${req.user!.username} set stats multiple teams in ${req.body.tourney}`);
     }
     res.send(teams);
-});
+  }
+);
 
 /**
  * POST /api/player-stats
