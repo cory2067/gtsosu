@@ -19,6 +19,8 @@ export default function TourneyCard({
   // No tournament has divisions for now
   // const hasDivisions = !!divisions;
 
+  var ongoingClassname = ongoing ? " ongoing" : "";
+
   return (
     <div
       to={`/${code}/home`}
@@ -31,48 +33,18 @@ export default function TourneyCard({
       }}
       onClick={() => redirectToTourney(code)}
     >
-      <div
-        className="TourneyCard-container"
-        style={{
-          flexDirection: ongoing ? "row-reverse" : "column",
-        }}
-      >
+      <div className={`TourneyCard-container${ongoingClassname}`}>
         <div
-          className={"u-rounded-border TourneyCard-banner"}
+          className={`u-rounded-border TourneyCard-banner${ongoingClassname}`}
           style={{
             backgroundImage: `url("${banner}")`,
             backgroundPosition: "center",
             backgroundSize: "cover",
-            // The 100px width here is just to
-            width: ongoing ? "100px" : "100%",
-            height: ongoing ? "auto" : "290px",
-            flexGrow: ongoing ? 0.7 : 0,
           }}
         />
-        <div
-          className={"TourneyCard-content"}
-          style={{
-            width: ongoing ? "100px" : "auto",
-            flexGrow: ongoing ? 0.3 : 0,
-          }}
-        >
-          <Typography.Title
-            className="TourneyCard-title"
-            style={{
-              fontSize: ongoing ? "40px" : "33px",
-              fontStyle: "italic",
-              fontWeight: 900,
-              lineHeight: "1",
-            }}
-          >
-            {fullTitle}
-          </Typography.Title>
-          <Typography.Paragraph
-            className="TourneyCard-description"
-            style={{
-              fontSize: ongoing ? "24px" : "20px",
-            }}
-          >
+        <div className={`TourneyCard-content${ongoingClassname}`}>
+          <Typography className={`TourneyCard-title${ongoingClassname}`}>{fullTitle}</Typography>
+          <Typography.Paragraph className={`TourneyCard-description${ongoingClassname}`}>
             {description}
           </Typography.Paragraph>
           <Button onClick={() => redirectToTourney(code)} size="large">

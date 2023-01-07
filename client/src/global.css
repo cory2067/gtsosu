@@ -73,6 +73,10 @@ form {
   font-weight: 700;
 }
 
+.u-xxbold {
+  font-weight: 900;
+}
+
 .u-textCenter {
   text-align: center;
 }

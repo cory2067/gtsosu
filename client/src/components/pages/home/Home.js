@@ -8,13 +8,15 @@ import data from "../../../content/home-en";
 import socials from "../../../content/socials";
 import { Col, Layout, Row } from "antd";
 import PastTournies from "./PastTournies";
+import { useMatchMedia } from "../../../utilities";
+import Text from "antd/lib/typography/Text";
 const { Header, Content } = Layout;
 
-function organizeIntoGrid(tournies) {
+function organizeIntoGrid(tournies, columns = 2) {
   var tourneyGrid = [];
 
-  for (var i = 0; i < tournies.length; i += 2) {
-    var row = tournies.slice(i, i + 2);
+  for (var i = 0; i < tournies.length; i += columns) {
+    var row = tournies.slice(i, i + columns);
     tourneyGrid.push(row);
   }
 
@@ -26,6 +28,8 @@ export default function Home() {
     document.title = "GTS";
   });
 
+  var mobileLayout = useMatchMedia("(max-width: 1280px)")?.matches;
+  var tourneyColSpan = mobileLayout ? 24 : 12;
   var ongoingTournies = data.tournies.filter((tourney) => tourney.ongoing);
   var tournies = data.tournies.filter((tourney) => !tourney.ongoing);
 
@@ -49,12 +53,12 @@ export default function Home() {
         ))}
 
         {/* Other tournies */}
-        {organizeIntoGrid(tournies).map((row, i) => {
+        {organizeIntoGrid(tournies, mobileLayout ? 1 : 2).map((row, i) => {
           return (
             <Row key={i.toString()} gutter={[0, 0]} align="stretch">
               {row.map((tourney) => {
                 return (
-                  <Col span={12} key={tourney.code}>
+                  <Col span={tourneyColSpan} key={tourney.code}>
                     <TourneyCard {...tourney} />
                   </Col>
                 );

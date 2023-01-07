@@ -46,7 +46,7 @@ body .Home-content {
   flex-direction: column;
   justify-content: center;
   background-color: var(--dark-night);
-  padding: 30px;
+  padding: 16px;
 }
 
 .Home-container > .ant-row > .ant-col {
@@ -55,10 +55,23 @@ body .Home-content {
 
 .Home-socials-container {
   display: flex;
+  flex-direction: column;
   justify-content: stretch;
   align-items: stretch;
   background-color: transparent;
   margin: var(--m);
   margin-top: var(--s);
   gap: var(--m);
+}
+
+@media (min-width: 720px) {
+  .Home-container {
+    padding: 50px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .Home-socials-container {
+    flex-direction: row;
+  }
 }

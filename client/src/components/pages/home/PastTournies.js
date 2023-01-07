@@ -1,4 +1,5 @@
 import { Typography } from "antd";
+import Text from "antd/lib/typography/Text";
 import React, { useState, useEffect } from "react";
 
 import { get, prettifyTourney, tokenizeTourney } from "../../../utilities";
@@ -33,8 +34,8 @@ export default function PastTournies() {
   return (
     <div className="u-rounded-border PastTournies-container">
       <Typography className="PastTournies-title">
-        <text style={{ fontWeight: 900 }}>Past</text>{" "}
-        <text tyle={{ fontWeight: 900 }}>Tournaments</text>
+        <Text style={{ fontWeight: 900 }}>Past</Text>{" "}
+        <Text tyle={{ fontWeight: 900 }}>Tournaments</Text>
       </Typography>
       {tournies.map((tourney) => (
         <PastTourneyCard key={tourney._id} tourney={tourney} />

@@ -2,9 +2,8 @@
   margin: 0px;
   display: flex;
   flex-direction: column;
-  padding-left: 35px;
+  padding: 35px;
   padding-top: 30px;
-  padding-bottom: 35px;
   flex-grow: 1;
   align-items: flex-start;
   justify-content: center;
@@ -12,8 +11,14 @@
   user-select: none;
 }
 
+.SocialCard-large-text {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .SocialCard-small-text {
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1;
 }
@@ -25,12 +30,16 @@
   gap: var(--s);
 }
 
-.SocialCard-large-text {
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 1;
-}
-
 .SocialCard-icon {
   font-size: 24px;
+}
+
+@media (min-width: 1680px) {
+  .SocialCard-large-text {
+    font-size: 30px;
+  }
+
+  .SocialCard-small-text {
+    font-size: 16px;
+  }
 }

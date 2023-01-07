@@ -1,4 +1,5 @@
 import { Image, Typography } from "antd";
+import Text from "antd/lib/typography/Text";
 import React, { useState, useEffect } from "react";
 
 import ContentManager from "../../../ContentManager";
@@ -33,10 +34,13 @@ export default function PastTourneyCard({ tourney }) {
         fallback="/public/gts-tournament-no-image.png"
       />
       <div className="PastTourneyCard-text-container">
-        <Typography className="PastTourneyCard-title">{tourneyContent?.name || "..."}</Typography>
-        <Typography className="PastTourneyCard-description">
-          {tourneyContent?.description || "..."}
+        <Typography className="PastTourneyCard-title">
+          <Text className="u-xxbold">{tourneyContent?.name || "..."}</Text>
+          <Text> {tourney?.year}</Text>
         </Typography>
+        <Typography.Paragraph ellipsis={{ rows: 3 }} className="PastTourneyCard-description">
+          {tourneyContent?.description || "..."}
+        </Typography.Paragraph>
       </div>
     </div>
   );
