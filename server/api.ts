@@ -284,14 +284,23 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
   }
 
   const players = await Promise.all(
-    updates.map((updateArgs) => User.findOneAndUpdate(...updateArgs).orFail())
+    updates.map((updateArgs) => User.findOneAndUpdate(...updateArgs))
   );
+
+  for (const p of players) {
+    if (!p) {
+      // using findOneAndUpdate(...).orFail() behaves oddly, so manually checking
+      logger.warn("Failed registration for this update:");
+      logger.warn(updates);
+      return res.status(500).send({ error: "Failed to register players - contact staff" });
+    }
+  }
 
   const team = new Team({
     name: req.body.name,
-    players: players.map((p) => p._id),
+    players: players.map((p) => p!._id),
     tourney: req.body.tourney,
-    country: players[0].country,
+    country: players[0]!.country,
     icon: req.body.icon,
   });
 
