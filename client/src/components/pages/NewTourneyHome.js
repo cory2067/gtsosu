@@ -25,6 +25,8 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
   const [settingsData, setSettingsData] = useState({});
   const [showSettings, setShowSettings] = useState(false);
   const [showScroll, setShowScroll] = useState(false);
+  const [showRegisterAsTeam, setShowRegisterAsTeam] = useState(false);
+  const [teamModalLoading, setTeamModalLoading] = useState(false);
 
   const infoRef = React.createRef();
   const rulesRef = React.createRef();
@@ -76,6 +78,11 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
 
   const isAdmin = new UserAuth(user).forTourney(tourney).hasRole(UserRole.Admin);
   const register = () => {
+    if (tourneyFlags.includes("registerAsTeam")) {
+      setShowRegisterAsTeam(true);
+      return;
+    }
+
     const tourneyDisplay = prettifyTourney(tourney);
     const success = {
       message: `Success`,
@@ -102,6 +109,32 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
         }
       },
     });
+  };
+
+  const submitTeamRegistration = (formData) => {
+    setTeamModalLoading(true);
+    post("/api/register-team", { ...formData, tourney })
+      .then(() => {
+        setShowRegisterAsTeam(false);
+        setTeamModalLoading(false);
+        const prettyTourney = prettifyTourney(tourney);
+        const success = {
+          message: `Success`,
+          description: `Your team is now registered for ${prettyTourney}`,
+          duration: 3,
+        };
+        notification.open(success);
+        setUser({ ...user, tournies: [...(user.tournies || []), tourney] });
+      })
+      .catch((e) => {
+        setTeamModalLoading(false);
+        const fail = {
+          message: `Failed`,
+          description: `Registration failed: ${e.error ?? e}`,
+          duration: 6,
+        };
+        notification.open(fail);
+      });
   };
 
   const scrollToTop = () =>
@@ -218,6 +251,15 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
           </div>
         </div>
       </div>
+      {user._id && (
+        <CreateTeamModal
+          user={user}
+          visible={showRegisterAsTeam}
+          loading={teamModalLoading}
+          handleSubmit={submitTeamRegistration}
+          handleCancel={() => setShowRegisterAsTeam(false)}
+        />
+      )}
       <EditTourneyModal
         visible={showSettings}
         tourney={tourney}

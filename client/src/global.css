@@ -133,6 +133,10 @@ body .ant-menu-item.ant-menu-item-selected:hover {
   color: var(--white);
 }
 
+body .ant-input[disabled] {
+  color: var(--white);
+}
+
 
 .u-add-tag {
   background: var(--night) !important;
