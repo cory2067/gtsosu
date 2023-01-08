@@ -41,13 +41,13 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 16 
       banner: "/public/backgrounds/rgts_2022.png"
     },
     {
-      title: "SGTS 2021",
-      fullTitle: "SQUAD GLOBAL TAIKO SHOWDOWN 2022",
+      title: "SGTS 2023",
+      fullTitle: "SQUAD GLOBAL TAIKO SHOWDOWN 2023",
       code: "sgts",
       description: `
 The Squad Global Taiko Showdown, our open-rank 3v3 tournament, where you can make your own team with 3-6 players.
 The top 32 teams after qualifiers will then face off in a double-elimination bracket.`,
-      banner: "/public/backgrounds/sgts_2021.png"
+      banner: "/public/backgrounds/sgts_2023.png"
     },
   ],
 };
