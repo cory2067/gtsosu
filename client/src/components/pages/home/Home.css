@@ -44,7 +44,8 @@ body .Home-content {
 .Home-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: stretch;
   background-color: var(--dark-night);
   padding: 16px;
 }

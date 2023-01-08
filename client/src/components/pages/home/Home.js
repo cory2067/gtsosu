@@ -10,6 +10,7 @@ import { Col, Layout, Row } from "antd";
 import PastTournies from "./PastTournies";
 import { useMatchMedia } from "../../../utilities";
 import Text from "antd/lib/typography/Text";
+import HomeBanner from "./HomeBanner";
 const { Header, Content } = Layout;
 
 function organizeIntoGrid(tournies, columns = 2) {
@@ -47,6 +48,9 @@ export default function Home() {
       </div> */}
 
       <div className="Home-container">
+        {/* Banner */}
+        <HomeBanner />
+
         {/* Ongoing tournies */}
         {ongoingTournies.map((tourney) => (
           <TourneyCard key={tourney.code} {...tourney} />
