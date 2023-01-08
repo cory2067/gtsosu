@@ -8,7 +8,7 @@ export default {
   igts: 2022,
   lgts: 2021,
   rgts: 2022,
-  sgts: 2021,
+  sgts: 2023,
   test: 2020,
   tsc: 2023,
   zgts: 2021,
