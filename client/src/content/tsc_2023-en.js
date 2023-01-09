@@ -79,7 +79,7 @@ February 25th until February 26th.`,
  - A private match will be created and teams will be invited into the lobby when it's their time. Make certain you're online at this time. 
  - There are no warmups.
  - Failed scores will count.
- - Only four players from a team will be playing per map. There is no limitations on player swapping. 
+ - Only three players from a team will be playing per map. There is no limitations on player swapping. 
  - Seedings will be done with the average rank of each team on each map. 
  - Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking. 
  - All teams will go through, as it is there only for seeding purposes.
