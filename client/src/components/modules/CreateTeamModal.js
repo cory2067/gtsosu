@@ -51,18 +51,22 @@ function CreateTeamModal({
       <Form name="basic" onValuesChange={onValuesChange} initialValues={initialFormData}>
         {range(NUM_PLAYERS).map((i) => (
           <Form.Item key={i} label={`Player ${i + 1}`} name={`player${i}`}>
-            <Select
-              allowClear
-              showSearch
-              placeholder="Select players"
-              disabled={i === 0 && !shouldEdit}
-            >
-              {availablePlayers.map((playerItem, playerIndex) => (
-                <Select.Option value={playerItem.username} key={playerIndex}>
-                  {playerItem.username}
-                </Select.Option>
-              ))}
-            </Select>
+            {availablePlayers ? (
+              <Select
+                allowClear
+                showSearch
+                placeholder="Select players"
+                disabled={i === 0 && !shouldEdit}
+              >
+                {availablePlayers.map((playerItem, playerIndex) => (
+                  <Select.Option value={playerItem.username} key={playerIndex}>
+                    {playerItem.username}
+                  </Select.Option>
+                ))}
+              </Select>
+            ) : (
+              <Input disabled={i === 0 && !shouldEdit} />
+            )}
           </Form.Item>
         ))}
         <Form.Item label="Team Name" name="name">
@@ -76,9 +80,5 @@ function CreateTeamModal({
     </Modal>
   );
 }
-
-CreateTeamModal.defaultProps = {
-  availablePlayers: [],
-};
 
 export default CreateTeamModal;
