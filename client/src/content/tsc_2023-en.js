@@ -47,7 +47,7 @@ February 25th until February 26th.`,
     - RO32 & LBR2/3: 3v3
     - LBR1: 2v2
     - RO16 & LB4/5: 4v4
-    - QF & LBR6/F: 5v6
+    - QF & LBR6/F: 5v5
     - SF & LBRGF: 6v6
     - Finals: 7v7
     - GF: 8v8
