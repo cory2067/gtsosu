@@ -44,11 +44,12 @@ February 25th until February 26th.`,
  - This tournament is a **3v3 team tournament** with teams of **6 players maximum**. Teams are formed randomly, during the teams drawings stream.
  - Although, during rounds, teams will be able to take a player from the team they have beaten. For the teams that play in Loser's Bracket, they will only be able to take a player in the other team from the last match they have played and won in the weekend.
  - Team size in matches required will change during rounds as required by this list:
-    - RO32: 3v3
-    - RO16 & LBR1/2: 4v4
-    - QF & LBR3/4: 5v5
-    - SF & LBR5/6: 6v6
-    - Finals & LBRF/GF: 7v7
+    - RO32 & LBR2/3: 3v3
+    - LBR1: 2v2
+    - RO16 & LB4/5: 4v4
+    - QF & LBR6/F: 5v6
+    - SF & LBRGF: 6v6
+    - Finals: 7v7
     - GF: 8v8
  - The teams will first go through **a seeding phase**. Then they will play in a **double-elimination bracket**.
  - The Score System used will be **Score V2**.
