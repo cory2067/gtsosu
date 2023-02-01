@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Form, Input, Modal, Select, Button } from "antd";
 
-const NUM_PLAYERS = 6;
+const DEFAULT_MAX_TEAM_SIZE = 6;
 const range = (i) => [...Array(i).keys()];
 
 const teamToFormData = (team) => ({
@@ -10,9 +10,9 @@ const teamToFormData = (team) => ({
   ...Object.fromEntries(team.players.map((p, i) => [`player${i}`, p.username])),
 });
 
-const formDataToTeam = (formData) => ({
+const formDataToTeam = (formData, maxTeamSize) => ({
   ...formData,
-  players: range(NUM_PLAYERS)
+  players: range(maxTeamSize)
     .map((i) => formData[`player${i}`])
     .filter((p) => !!p),
 });
@@ -28,6 +28,7 @@ function CreateTeamModal({
   initialTeam,
   shouldEdit,
   availablePlayers,
+  maxTeamSize,
 }) {
   const initialFormData = initialTeam ? teamToFormData(initialTeam) : { player0: user.username };
   const [formData, setFormData] = useState(initialFormData);
@@ -37,7 +38,7 @@ function CreateTeamModal({
   };
 
   const handleOk = () => {
-    handleSubmit(formDataToTeam(formData));
+    handleSubmit(formDataToTeam(formData, maxTeamSize ?? DEFAULT_MAX_TEAM_SIZE));
   };
 
   return (
@@ -49,7 +50,7 @@ function CreateTeamModal({
       onCancel={handleCancel}
     >
       <Form name="basic" onValuesChange={onValuesChange} initialValues={initialFormData}>
-        {range(NUM_PLAYERS).map((i) => (
+        {range(maxTeamSize ?? DEFAULT_MAX_TEAM_SIZE).map((i) => (
           <Form.Item key={i} label={`Player ${i + 1}`} name={`player${i}`}>
             {availablePlayers ? (
               <Select

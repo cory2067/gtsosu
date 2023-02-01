@@ -489,6 +489,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - tourney: identifier for the tournament
  *   - registrationOpen: are players allowed to register
  *   - teams: true if this tourney has teams
+ *   - maxTeamSize: maximum number of players on a team
  *   - countries: what countries can participate in this tourney (empty if all)
  *   - rankMin / rankMax: rank restriction
  *   - stages: what stages this tourney consists of
@@ -505,6 +506,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
 
   tourney.registrationOpen = req.body.registrationOpen;
   tourney.teams = req.body.teams;
+  tourney.maxTeamSize = req.body.maxTeamSize;
   tourney.rankMin = req.body.rankMin;
   tourney.rankMax = req.body.rankMax;
   tourney.countries = req.body.countries;

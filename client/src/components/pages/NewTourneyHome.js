@@ -50,6 +50,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
       setSettingsData({
         registrationOpen: data.registrationOpen || false,
         teams: data.teams || false,
+        maxTeamSize: data.maxTeamSize || 1,
         stages: (data.stages || []).map((s) => s.name),
         rankMin: data.rankMin || -1,
         rankMax: data.rankMax || -1,
