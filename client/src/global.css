@@ -41,6 +41,11 @@ form {
   display: flex;
 }
 
+.u-flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
 .u-flexColumn {
   display: flex;
   flex-direction: column;

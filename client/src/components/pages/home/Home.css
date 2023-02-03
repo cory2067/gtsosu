@@ -47,7 +47,6 @@ body .Home-content {
   justify-content: flex-start;
   align-items: stretch;
   background-color: var(--dark-night);
-  padding: 16px;
 }
 
 .Home-container > .ant-row > .ant-col {

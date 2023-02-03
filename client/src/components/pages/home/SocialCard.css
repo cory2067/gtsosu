@@ -2,8 +2,8 @@
   margin: 0px;
   display: flex;
   flex-direction: column;
-  padding: 35px;
-  padding-top: 30px;
+  padding: 24px;
+  padding-top: 20px;
   flex-grow: 1;
   align-items: flex-start;
   justify-content: center;
@@ -35,6 +35,11 @@
 }
 
 @media (min-width: 1680px) {
+  .SocialCard-card {
+    padding: 35px;
+    padding-top: 30px;
+  }
+
   .SocialCard-large-text {
     font-size: 30px;
   }

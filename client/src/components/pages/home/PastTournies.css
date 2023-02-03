@@ -4,7 +4,6 @@
 }
 
 .PastTournies-container {
-  margin: var(--m);
   padding: 34px;
   background-color: var(--onyx);
 }
@@ -13,5 +12,11 @@
   .PastTournies-title {
     font-size: 35px;
     text-align: left;
+  }
+
+  .PastTournies-container {
+    margin: var(--m);
+    padding: 34px;
+    background-color: var(--onyx);
   }
 }
