@@ -11,6 +11,7 @@ interface ITournament {
   code: string;
   registrationOpen: boolean;
   teams: boolean;
+  minTeamSize: number;
   maxTeamSize: number;
   stages: TourneyStage[];
   rankMin: number;
@@ -24,6 +25,7 @@ const Tournament = new Schema<ITournament>({
   code: String,
   registrationOpen: Boolean,
   teams: Boolean,
+  minTeamSize: Number,
   maxTeamSize: Number,
   stages: [
     {
