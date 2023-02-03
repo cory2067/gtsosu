@@ -218,21 +218,20 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "Team name is too long (max 40 characters)" });
   }
 
-  // TODO: instead of hardcoding these, add them as configurable vars for the Tournament
-  const MIN_PLAYERS = 3;
-  const MAX_PLAYERS = 6;
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+
+  const minTeamSize = tourney.minTeamSize || 3;
+  const maxTeamSize = tourney.maxTeamSize || 6;
   const numPlayers = req.body.players.length;
-  if (numPlayers < MIN_PLAYERS || numPlayers > MAX_PLAYERS) {
+  if (numPlayers < minTeamSize || numPlayers > maxTeamSize) {
     return res
       .status(400)
-      .send({ error: `A team must have ${MIN_PLAYERS} to ${MAX_PLAYERS} players` });
+      .send({ error: `A team must have ${minTeamSize} to ${maxTeamSize} players` });
   }
 
   if (numPlayers !== new Set(req.body.players).size) {
     return res.status(400).send({ error: "Team can't have duplicate players" });
   }
-
-  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
 
   const updates: Array<Array<Object>> = [];
   for (const username of req.body.players) {
@@ -489,6 +488,8 @@ router.getAsync("/tournament", async (req, res) => {
  *   - tourney: identifier for the tournament
  *   - registrationOpen: are players allowed to register
  *   - teams: true if this tourney has teams
+ *   - minTeamSize: minimum number of players on a team
+ *   - maxTeamSize: maximum number of players on a team
  *   - countries: what countries can participate in this tourney (empty if all)
  *   - rankMin / rankMax: rank restriction
  *   - stages: what stages this tourney consists of
@@ -505,6 +506,8 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
 
   tourney.registrationOpen = req.body.registrationOpen;
   tourney.teams = req.body.teams;
+  tourney.minTeamSize = req.body.minTeamSize;
+  tourney.maxTeamSize = req.body.maxTeamSize;
   tourney.rankMin = req.body.rankMin;
   tourney.rankMax = req.body.rankMax;
   tourney.countries = req.body.countries;

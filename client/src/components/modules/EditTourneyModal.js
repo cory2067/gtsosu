@@ -40,6 +40,12 @@ export default function EditTourneyModal({
         <Form.Item name="teams" label="Enable Teams" valuePropName="checked">
           <Switch />
         </Form.Item>
+        <Form.Item name="minTeamSize" label="Min Team Size">
+          <InputNumber min={1} />
+        </Form.Item>
+        <Form.Item name="maxTeamSize" label="Max Team Size">
+          <InputNumber min={1} />
+        </Form.Item>
         <Form.Item name="stages" label="Stages for this tourney">
           <Select mode="multiple">
             {stages.map((k) => (

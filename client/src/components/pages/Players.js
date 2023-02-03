@@ -71,6 +71,7 @@ export default function Players({ tourney, user }) {
   const [players, setPlayers] = useState([]);
   const [teams, setTeams] = useState([]);
   const [hasTeams, setHasTeams] = useState(false);
+  const [maxTeamSize, setMaxTeamSize] = useState(undefined);
   const [hasGroups, setHasGroups] = useState(false);
   const [sort, setSort] = useState("rank");
   const [mode, setMode] = useState("players");
@@ -92,6 +93,7 @@ export default function Players({ tourney, user }) {
 
       setPlayers(playersData);
       setHasTeams(tourneyData.teams);
+      setMaxTeamSize(tourneyData.maxTeamSize);
       setHasGroups(tourneyData.stages.some((s) => s.name === "Group Stage"));
       setRankRange([
         tourneyData.rankMin,
@@ -567,6 +569,7 @@ export default function Players({ tourney, user }) {
       {editingTeam != -1 && (
         <CreateTeamModal
           initialTeam={teams.filter((t) => t._id == editingTeam)[0]}
+          maxTeamSize={maxTeamSize}
           availablePlayers={sortedPlayers("alpha", players)}
           shouldEdit={true}
           visible={true}
