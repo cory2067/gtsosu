@@ -50,6 +50,8 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
       setSettingsData({
         registrationOpen: data.registrationOpen || false,
         teams: data.teams || false,
+        minTeamSize: data.minTeamSize || 1,
+        maxTeamSize: data.maxTeamSize || 1,
         stages: (data.stages || []).map((s) => s.name),
         rankMin: data.rankMin || -1,
         rankMax: data.rankMax || -1,
@@ -258,6 +260,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
           loading={teamModalLoading}
           handleSubmit={submitTeamRegistration}
           handleCancel={() => setShowRegisterAsTeam(false)}
+          maxTeamSize={settingsData.maxTeamSize}
         />
       )}
       <EditTourneyModal

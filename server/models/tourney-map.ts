@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 interface ITourneyMap {
   mapId: number;
-  mod: "NM" | "HD" | "HR" | "DT" | "FM" | "HT" | "HDHR" | "EZ" | "CV" | "EX" | "TB";
+  mod: "NM" | "HD" | "HR" | "DT" | "FM" | "HT" | "HDHR" | "EZ" | "FL" | "CV" | "EX" | "TB";
   index: number;
   title: string;
   artist: string;
@@ -23,7 +23,7 @@ interface ITourneyMap {
 
 const TourneyMapSchema = new Schema<ITourneyMap>({
   mapId: Number,
-  mod: { type: String, enum: ["NM", "HD", "HR", "DT", "FM", "HT", "HDHR", "EZ", "CV", "EX", "TB"] },
+  mod: { type: String, enum: ["NM", "HD", "HR", "DT", "FM", "HT", "HDHR", "EZ", "FL", "CV", "EX", "TB"] },
   index: Number,
   title: String,
   artist: String,
