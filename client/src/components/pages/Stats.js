@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
-import { get, post, prettifyTourney, hasAccess, getStage } from "../../utilities";
+import { get, post, prettifyTourney, hasAccess, getStageWithVisibleStats } from "../../utilities";
 import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip, Radio } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 const { Content } = Layout;
@@ -213,7 +213,7 @@ export default function Stats({ tourney, user }) {
     if (state.refetchDataInProgress) return;
     setState({ ...state, refetchDataInProgress: true });
 
-    const [tourneyModel, currentSelectedStage] = await getStage(tourney);
+    const [tourneyModel, currentSelectedStage] = await getStageWithVisibleStats(tourney);
 
     const [players, teams, stageMaps, stageStats, matches] = await Promise.all([
       get("/api/players", { tourney }),
