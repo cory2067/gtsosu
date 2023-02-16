@@ -160,7 +160,7 @@ export default function Players({ tourney, user }) {
       rank: (x, y) =>
         x.players.reduce((sum, p) => sum + p.rank, 0) / x.players.length -
         y.players.reduce((sum, p) => sum + p.rank, 0) / y.players.length,
-      seed: (x, y) => (x.seedNum || 0) - (y.seedNum || 0),
+      seed: (x, y) => (x.seedNum || Infinity) - (y.seedNum || Infinity),
     };
 
     const sortFn = sortFunctions[sortMethod];
@@ -263,8 +263,9 @@ export default function Players({ tourney, user }) {
           return t;
         })
       );
+      message.success(`Successfully edited team stats`);
     } catch (e) {
-      message.error(`Couldn't get team stats: ${e}`);
+      message.error(`Failed to edit team stats: ${e}`);
     }
   };
 
@@ -290,8 +291,9 @@ export default function Players({ tourney, user }) {
           return t;
         })
       );
+      message.success(`Successfully edited player stats`);
     } catch (e) {
-      message.error(`Something went wrong: ${e}`);
+      message.error(`Failed to edit player stats: ${e}`);
     }
   };
 
