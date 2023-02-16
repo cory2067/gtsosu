@@ -532,12 +532,6 @@ export default function Players({ tourney, user }) {
         {mode === "players"
           ? players.map((player) => {
               const stats = player.stats.filter((t) => t.tourney == tourney)[0];
-              const extra =
-                stats && stats.seedName
-                  ? `${stats.seedName} Seed (#${stats.seedNum})${
-                      stats.group ? `, Group ${stats.group}` : ""
-                    }`
-                  : "";
 
               return (
                 <UserCard
@@ -550,7 +544,6 @@ export default function Players({ tourney, user }) {
                   stats={stats}
                   rankRange={rankRange}
                   showGroups={hasGroups}
-                  extra={extra}
                   flags={flags}
                 />
               );

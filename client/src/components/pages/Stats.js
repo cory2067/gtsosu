@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./Stats.css";
 import { get, post, prettifyTourney, hasAccess, getStageWithVisibleStats } from "../../utilities";
-import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip, Radio } from "antd";
+import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip, Radio, Popover } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 const { Content } = Layout;
 const { Column, ColumnGroup } = Table;
 import AddPlayerModal from "../modules/AddPlayerModal";
 import FlagIcon from "../modules/FlagIcon";
 import StageSelector from "../modules/StageSelector";
+import UserCard from "../modules/UserCard";
+import TeamCard from "../modules/TeamCard";
 
 export default function Stats({ tourney, user }) {
   const [state, setState] = useState({
@@ -463,13 +465,13 @@ export default function Stats({ tourney, user }) {
   const getTeamLabel = (teamName) => {
     const theTeam = state.teams.get(teamName);
     if (theTeam) {
-      const tooltipString = theTeam.seedName && theTeam.seedNum ? `${theTeam.seedName} Seed (#${theTeam.seedNum})` : "";
+      const popoverContent = (<TeamCard key={theTeam._id} {...theTeam} />);
 
       return (
         <div>
-          <Tooltip title={tooltipString}>
+          <Popover content={popoverContent} placement="right">
             <FlagIcon size={16} customIcon={theTeam.icon} code={theTeam.country} /> {teamName}
-          </Tooltip>
+          </Popover>
         </div>
       );
     } else return teamName;
@@ -480,15 +482,13 @@ export default function Stats({ tourney, user }) {
 
     if (thePlayer) {
       const playerTourneyStats = thePlayer.stats.find(stats => stats.tourney === tourney);
-      const seedName = playerTourneyStats?.seedName;
-      const seedNum = playerTourneyStats?.seedNum;
-      const tooltipString = seedName && seedNum ? `${seedName} Seed (#${seedNum})` : "";
+      const popoverContent = (<UserCard key={thePlayer._id} user={thePlayer} stats={playerTourneyStats} />);
 
       return (
         <div>
-          <Tooltip title={tooltipString}>
+          <Popover content={popoverContent} placement="right">
             <FlagIcon size={16} code={thePlayer.country} /> {thePlayer.username}
-          </Tooltip>
+          </Popover>
         </div>
       );
     } else return userId;
