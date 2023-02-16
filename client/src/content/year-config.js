@@ -16,4 +16,6 @@ export default {
   btt: 2022,
   tcl: 2022,
   ftwc: 2022,
+  wtt1v1: 2023,
+  wtt2v2: 2023,
 };
