@@ -463,9 +463,13 @@ export default function Stats({ tourney, user }) {
   const getTeamLabel = (teamName) => {
     const theTeam = state.teams.get(teamName);
     if (theTeam) {
+      const tooltipString = theTeam.seedName && theTeam.seedNum ? `${theTeam.seedName} Seed (#${theTeam.seedNum})` : "";
+
       return (
         <div>
-          <FlagIcon size={16} customIcon={theTeam.icon} code={theTeam.country} /> {teamName}
+          <Tooltip title={tooltipString}>
+            <FlagIcon size={16} customIcon={theTeam.icon} code={theTeam.country} /> {teamName}
+          </Tooltip>
         </div>
       );
     } else return teamName;
