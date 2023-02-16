@@ -58,6 +58,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
         countries: data.countries || [],
         flags: data.flags || [],
         lobbyMaxSignups: data.lobbyMaxSignups || 8,
+        blacklist: (data.blacklist || []).toString(),
       });
     })();
   }, []);
@@ -161,6 +162,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
     console.log(settingsData);
     const res = await post("/api/tournament", {
       ...settingsData,
+      blacklist: settingsData.blacklist.split(",").map(x => Number.parseInt(x)).filter(x => x),
       tourney,
     });
     setShowSettings(false);
