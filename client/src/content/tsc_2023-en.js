@@ -122,9 +122,9 @@ February 25th until February 26th.`,
  - Depending on the round, the amount of players required to use a mod will be gradually changing.
    - RO32: 1
    - RO16 & LBR1/2: 2
-   - QF & LBR3/4: 3
-   - SF & LBR5/6: 4
-   - Finals & LBRF/GF: 5
+   - QF & LBR3/4/6/F: 3
+   - SF & LBR5/GF: 4
+   - Finals: 5
    - GF: 6
  - Challenge maps, also known as EX maps, will always be played under NoMod conditions.
  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mod activated. 
