@@ -1,7 +1,7 @@
 import React from "react";
 import countries from "../../content/countries";
 
-import { Form, Modal, InputNumber, Select, Switch } from "antd";
+import { Form, Modal, InputNumber, Select, Switch, Input } from "antd";
 
 const stages = [
   "Qualifiers",
@@ -76,6 +76,10 @@ export default function EditTourneyModal({
         <Form.Item name="lobbyMaxSignups" label="Maximum number of lobby signups">
           <InputNumber min={0} />
         </Form.Item>
+        <Form.Item name="blacklist" label="Blacklist">
+          <Input />
+        </Form.Item>
+        <span>(Specify players by IDs separated by commas)</span>
       </Form>
     </Modal>
   );

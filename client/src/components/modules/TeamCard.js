@@ -54,6 +54,7 @@ export default function TeamCard({
               </>
             )}
           </div>
+          {seedName && seedNum && <div className="TeamCard-group">{`${seedName} Seed (#${seedNum})`}</div>}
           {group && <div className="TeamCard-group">{group}</div>}
         </div>
         {players

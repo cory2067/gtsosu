@@ -157,8 +157,17 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   ]);
 
   const username = userData.name;
+  const userid = userData.id;
   const rank = userData.pp.rank;
   const country = userData.country;
+
+  if ((tourney.blacklist || []).includes(userid)) {
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (blacklisted)`);
+    return res
+      .status(400)
+      .send({ error: `You are banned from participating in this tourney.` });
+  }
+
   if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (overrank)`);
     return res
@@ -247,6 +256,14 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     if (user && cantPlay(user, req.body.tourney)) {
       logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
       return res.status(400).send({ error: "Staff member on team." });
+    }
+
+    const userid = userData.id;
+    if ((tourney.blacklist || []).includes(userid)) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (blacklisted)`);
+      return res
+        .status(400)
+        .send({ error: `${username} is banned from participating in this tourney.` });
     }
 
     const rank = userData.pp.rank;
@@ -495,6 +512,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - stages: what stages this tourney consists of
  *   - flags: list of special options for the tourney
  *   - lobbyMaxSignups: number of players/teams that can sign up for a given qualifier lobby
+ *   - blacklist: list of player ids that are banned from registering for this tourney
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
@@ -513,6 +531,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.countries = req.body.countries;
   tourney.flags = req.body.flags;
   tourney.lobbyMaxSignups = req.body.lobbyMaxSignups;
+  tourney.blacklist = req.body.blacklist;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];

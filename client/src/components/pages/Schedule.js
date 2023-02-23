@@ -9,6 +9,8 @@ import AddTag from "../modules/AddTag";
 import Qualifiers from "../modules/Qualifiers";
 import SubmitWarmupModal from "../modules/SubmitWarmupModal";
 import "./Schedule.css";
+import UserCard from "../modules/UserCard";
+import TeamCard from "../modules/TeamCard";
 
 import {
   Layout,
@@ -23,6 +25,7 @@ import {
   Tooltip,
   Select,
   Radio,
+  Popover,
 } from "antd";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
@@ -312,17 +315,22 @@ class Schedule extends Component {
     }
 
     const stats = this.getStats(p);
-
-    const title =
-      stats && stats.seedName && stats.seedNum ? `${stats.seedName} Seed (#${stats.seedNum})` : "";
+    const thePlayerOrTeam = this.getInfo(p);
+    
+    const popoverContent = thePlayerOrTeam._id ?
+                             (thePlayerOrTeam.players ?
+                               <TeamCard key={thePlayerOrTeam._id} {...thePlayerOrTeam} /> :
+                               <UserCard key={thePlayerOrTeam.userid} user={thePlayerOrTeam} stats={stats} />
+                             ) :
+                             (`No info available`);
 
     return (
-      <Tooltip title={title}>
+      <Popover content={popoverContent} placement="right">
         <span className="Players-name">
           <FlagIcon size={14} code={this.getInfo(p).country} customIcon={this.getInfo(p).icon} />
           {p}
         </span>
-      </Tooltip>
+      </Popover>
     );
   };
 

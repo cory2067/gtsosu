@@ -71,6 +71,23 @@ export async function getStage(tourneyId) {
   return [tourney, { ...current, index: curIndex }];
 }
 
+// returns the tournament and the current stage indicated bythe page URL
+export async function getStageWithVisibleStats(tourneyId) {
+  const tourney = await get("/api/tournament", { tourney: tourneyId });
+  if (!tourney.stages || tourney.stages.length === 0) return [tourney, {}];
+
+  let curIndex;
+  if (!location.hash.substring(1)) {
+    curIndex = Math.max(0, tourney.stages.filter((s) => s.statsVisible).length - 1);
+  } else {
+    curIndex = parseInt(location.hash.substring(1)) || 0;
+  }
+
+  const current = tourney.stages[curIndex] || tourney.stages[0];
+
+  return [tourney, { ...current, index: curIndex }];
+}
+
 export function prettifyTourney(tourney) {
   return `${tourney.replace("_", " ").toUpperCase()}`;
 }
