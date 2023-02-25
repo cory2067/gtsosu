@@ -68,6 +68,7 @@ function potentialTeamCounter({ flags, hasTeams, players }) {
 }
 
 export default function Players({ tourney, user }) {
+  const [tournament, setTournament] = useState([]);
   const [players, setPlayers] = useState([]);
   const [teams, setTeams] = useState([]);
   const [hasTeams, setHasTeams] = useState(false);
@@ -91,6 +92,7 @@ export default function Players({ tourney, user }) {
         get("/api/tournament", { tourney: tourney }),
       ]);
 
+      setTournament(tourneyData);
       setPlayers(playersData);
       setHasTeams(tourneyData.teams);
       setMaxTeamSize(tourneyData.maxTeamSize);
@@ -178,11 +180,15 @@ export default function Players({ tourney, user }) {
     }
   };
 
-  const handleTeamDelete = async (_id) => {
+  const handleTeamDelete = async (_id, playerNames) => {
     try {
       await delet("/api/team", { tourney: tourney, _id });
 
       setTeams(teams.filter((p) => p._id !== _id));
+      
+      if (tournament.flags.includes("registerAsTeam")) {
+        setPlayers(players.filter((p) => !playerNames.includes(p.username)));
+      }
     } catch {
       message.error("Something went wrong, failed to delete team.");
     }

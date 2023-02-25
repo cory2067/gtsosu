@@ -227,6 +227,12 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "Team name is too long (max 40 characters)" });
   }
 
+  const teams = await Team.find({ tourney: req.body.tourney });
+  const teamNames = teams.map(team => team.name);
+  if (teamNames.includes(req.body.name)) {
+    return res.status(400).send({ error: "There is a registered team with this name already." });
+  }
+
   const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
 
   const minTeamSize = tourney.minTeamSize || 3;
@@ -257,6 +263,13 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     if (user && cantPlay(user, req.body.tourney)) {
       logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
       return res.status(400).send({ error: "Staff member on team." });
+    }
+
+    if (user && user.tournies.includes(req.body.tourney)) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (already registered)`);
+      return res
+        .status(400)
+        .send({ error: `${username} is already registered for this tourney.` });
     }
 
     const userid = userData.id;
@@ -1357,6 +1370,17 @@ router.getAsync("/teams", async (req, res) => {
  */
 router.deleteAsync("/team", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} deleted team ${req.body._id} from ${req.body.tourney}`);
+  // Unregister the players as well if the tourney has registerAsTeam flag enabled
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+  if (tourney.flags.includes("registerAsTeam")) {
+    const team = await Team.findOne({ _id: req.body._id });
+    team!.players.forEach(async (player) => {
+      await User.findOneAndUpdate(
+        { _id: player._id },
+        { $pull: { tournies: req.body.tourney, stats: { tourney: req.body.tourney } } }
+      );
+    });
+  }
   await Team.deleteOne({ _id: req.body._id });
   res.send({});
 });
