@@ -18,4 +18,5 @@ export default {
   ftwc: 2022,
   wtt1v1: 2023,
   wtt2v2: 2023,
+  gtms: 2023,
 };

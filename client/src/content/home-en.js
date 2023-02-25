@@ -48,6 +48,14 @@ The Squad Global Taiko Showdown, our open-rank 3v3 tournament, where you can mak
 The top 32 teams after qualifiers will then face off in a double-elimination bracket.`,
       banner: "/public/backgrounds/sgts_2023.png"
     },
+    {
+      title: "GTMS 2023",
+      fullTitle: "GLOBAL TAIKO MALAYSIAN SHOWDOWN 2023",
+      code: "gtms",
+      description: `
+      The Global Taiko Malaysian Showdown is a special 2v2 tournament collaboration event between the osu!taiko Malaysian Tournament (OTMT) and Global Taiko Showdown (GTS). Each team must consist of one Malaysian and one Global player and the top 32 teams after qualifiers will face-off in a high stakes single-elimination bracket.`,
+      banner: "/public/backgrounds/gtms_2023.png"
+    },
   ],
 };
 
