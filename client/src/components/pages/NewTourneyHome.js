@@ -59,6 +59,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
         flags: data.flags || [],
         lobbyMaxSignups: data.lobbyMaxSignups || 8,
         blacklist: (data.blacklist || []).toString(),
+        requiredCountries: data.requiredCountries || [],
       });
     })();
   }, []);
