@@ -242,6 +242,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "Team can't have duplicate players" });
   }
 
+  const representedCountries = new Set();
   const updates: Array<Array<Object>> = [];
   for (const username of req.body.players) {
     let userData;
@@ -297,6 +298,16 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
       },
       { new: true, upsert: true },
     ]);
+    representedCountries.add(userData.country);
+  }
+
+  for (const country of (tourney.requiredCountries || [])) {
+    if (!representedCountries.has(country)) {
+      logger.info(`${req.body.players} failed to register for ${req.body.tourney} (country requirement not met)`);
+      return res
+        .status(400)
+        .send({ error: `Team is missing required represented country: ${country}` });
+    }
   }
 
   const players = await Promise.all(
@@ -508,6 +519,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - minTeamSize: minimum number of players on a team
  *   - maxTeamSize: maximum number of players on a team
  *   - countries: what countries can participate in this tourney (empty if all)
+ *   - requiredCountries: which countries are required to be represented when registering as a team (empty if none)
  *   - rankMin / rankMax: rank restriction
  *   - stages: what stages this tourney consists of
  *   - flags: list of special options for the tourney
@@ -529,6 +541,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.rankMin = req.body.rankMin;
   tourney.rankMax = req.body.rankMax;
   tourney.countries = req.body.countries;
+  tourney.requiredCountries = req.body.requiredCountries;
   tourney.flags = req.body.flags;
   tourney.lobbyMaxSignups = req.body.lobbyMaxSignups;
   tourney.blacklist = req.body.blacklist;

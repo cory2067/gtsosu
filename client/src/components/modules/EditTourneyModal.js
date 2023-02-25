@@ -60,6 +60,13 @@ export default function EditTourneyModal({
             ))}
           </Select>
         </Form.Item>
+        <Form.Item name="requiredCountries" label="Required country codes">
+          <Select mode="multiple" placeholder="No requirement">
+            {countries.map((c) => (
+              <Select.Option key={c}>{c}</Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
         <Form.Item name="flags" label="Special options">
           <Select mode="multiple">
             <Select.Option key="suiji">Suiji</Select.Option>
