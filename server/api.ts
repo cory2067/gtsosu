@@ -1373,13 +1373,15 @@ router.deleteAsync("/team", ensure.isAdmin, async (req, res) => {
   // Unregister the players as well if the tourney has registerAsTeam flag enabled
   const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
   if (tourney.flags.includes("registerAsTeam")) {
-    const team = await Team.findOne({ _id: req.body._id });
-    team!.players.forEach(async (player) => {
-      await User.findOneAndUpdate(
-        { _id: player._id },
-        { $pull: { tournies: req.body.tourney, stats: { tourney: req.body.tourney } } }
-      );
-    });
+    const team = await Team.findOne({ _id: req.body._id }).orFail();
+    await Promise.all(
+      team.players.map((player) =>
+        User.findOneAndUpdate(
+          { _id: player._id },
+          { $pull: { tournies: req.body.tourney, stats: { tourney: req.body.tourney } } }
+        )
+      )
+    );
   }
   await Team.deleteOne({ _id: req.body._id });
   res.send({});
