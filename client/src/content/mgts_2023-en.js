@@ -41,7 +41,7 @@ TBD, will be announced in the Discord server.
   - [Beatmap template download](https://assets.ppy.sh/artists/326/Songs/Ekcle%20-%20Crafted%20In%20Ice.osz)
 - **SDMNE feat. Nam1541 - VOID'S BLOSSOM // - + - // Tragedy_Eternal**
   - [Song preview](https://www.youtube.com/watch?v=HJwhgC2VK70)
-  - [Beatmap download template](LINK)`,
+  - [Beatmap download template](https://drive.google.com/file/d/1vOll7agNcw4eVWOYBsy5SoPU5vHrp9ke/view?usp=sharing)`,
     },
     {
       title: "Prizes",
