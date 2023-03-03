@@ -228,6 +228,13 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
                     {regMessage}
                   </Button>
                 </div>
+                {content.submissions && (
+                  <div>
+                    <Button block size="large" target="_blank" href={content.submissions}>
+                      {UI.submissions}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
