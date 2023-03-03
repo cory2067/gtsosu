@@ -56,6 +56,14 @@ The top 32 teams after qualifiers will then face off in a double-elimination bra
       The Global Taiko Malaysian Showdown is a special 2v2 tournament collaboration event between the osu!taiko Malaysian Tournament (OTMT) and Global Taiko Showdown (GTS). Each team must consist of one Malaysian and one Global player and the top 32 teams after qualifiers will face-off in a high stakes single-elimination bracket.`,
       banner: "/public/backgrounds/gtms_2023.png"
     },
+    {
+        title: "MGTS 2023",
+        fullTitle: "MAPPING GLOBAL TAIKO SHOWDOWN 2023",
+        code: "mgts",
+        description: `
+        The Mapping Global Taiko Showdown (MGTS) is our mapping contest series for the osu!taiko game mode. It is a single-round, team-based contest where each team is composed of 4 to 6 mappers, with each team collaborating on a total of 3 songs.`,
+        banner: "/public/backgrounds/mgts_2023.png"
+        },
   ],
 };
 
