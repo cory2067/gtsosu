@@ -16,7 +16,7 @@ February 25th - March 12th.
 ### Screening phase
 March 12th - March 25th.
 ### Qualifiers Showcase
-March 25th, 20:00UTC.
+March 25th, 12:00UTC.
 ### Qualifiers
 April 1st - April 2nd.
 ### Round of 24
