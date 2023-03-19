@@ -12,14 +12,14 @@ The top 128 of it after qualifiers will face-off in a heated double-elimination 
       banner: "/public/backgrounds/egts_2022.png"
     },
     {
-      title: "IGTS 2022",
-      fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2022",
+      title: "IGTS 2023",
+      fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2023",
       code: "igts",
-      banner: "/public/backgrounds/igts_2022.png",
+      banner: "/public/backgrounds/igts_2023.png",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
 It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. 
-The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.`,
+The teams will first go through Qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.`,
     },
     {
       title: "AGTS 2022",
