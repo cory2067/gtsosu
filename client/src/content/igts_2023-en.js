@@ -9,7 +9,7 @@ export default {
         body: `1. You must be between ranks #4500  - #10000 in osu!taiko during the entirety of the registration phase.
   2. You are not allowed to rank up further than #4000 during the tournament. If you pass this limit you'll be disqualified. 
   3. You must join the Discord server of the tournament.
-  4. You must not have been part of a team that has won IGTS or that has placed top 3 in the past 2 years.
+  4. You must not have been part of a team that has won or that has placed top 3 in IGTS in the past 2 years.
   5. You must not have been part of a team that has placed top 3 in any of the higher rank-restricted GTS tournament (RGTS/AGTS).
   6. Any osu!taiko player who has not been restricted within the past 12 months and follows these criterias will be allowed in this tournament. The osu! support reserves the right of removing any player from the tournament following the screening phase.`,
       },
