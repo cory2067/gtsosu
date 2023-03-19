@@ -62,35 +62,35 @@ export default {
   - Any report to be made in relation to this tournament's organization should be sent to the official tournament committee [reporting form](https://pif.ephemeral.ink/partial-authenticate).
   
   # Tournament Registration and Teams Creation
-  - In order to participate you need to meet the criteria stated in the **rank restrictions** part. 
+  - In order to participate you need to meet the criteria stated in the **rank restrictions** part.
   - You are not allowed to rank up further than #4000 during the tournament. If you pass this limit you'll be disqualified.
-  - osu! staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range. 
+  - osu! staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range.
   - Players sign up individually. When their registration is accepted, they will get a country role.
-  - A country needs at least 2 players to participate.
+  - A country needs **at least 2 players** to participate.
   - Players from countries or territories (as seen on their profile flag) that are under a protectorate, sovereign state, or otherwise closely related to another country may choose to play for that country if the country listed on their profile is unable to field enough players to form a valid team.
-  - If there are 35 or more unique countries able to participate after screening, only 1 team per country will be allowed. In that case, if there are more than 5 players signed up for a country they will decide among themselves who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team. 
-  - If there are less than 35 unique countries, we are allowing 2 teams for a country under certain conditions:
+  - If there are 35 or more unique countries able to participate after screening, only 1 team per country will be allowed. In that case, if there are more than 5 players signed up for a country they will decide among themselves who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team.
+  - If there are less than 35 unique countries, we are **allowing 2 teams** for a country under certain conditions:
     - There are **7 or more players** signed up for a country.
     - Each team has to have **at least 3 players**.
-  - Because of the previous rule there are going to be different situations when creating the teams: 
-    - If there are 5 players or less signed up for a country, those players will form the team representing their country. 
-    - In case there are more than 10 players signed up for a country, players will decide among themselves who will partake in the tournament. If they cannot decide the top 10 players by ranking will be chosen to form the 2 teams. 
-    - If there are 6 players, players will have to decide on the 5 players who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team. 
-    - If there are 7 to 10 players (after keeping the best ranked ones) signed up for a country, the players from that country will have a few days to decide how to split themselves between the 2 teams. 
-    - In case the players can't come to an agreement, they will be ranked by pp and put in the 2 teams with at least 3 members in each of them with the best ones in a first team and the lowest in the second. 
-  - It is recommended to come to an agreement as fast as possible to then decide on the captain and be able to schedule and prepare your matches rapidly. 
-    - The players will decide on the captain of their team. 
+  - Because of the previous rule there are going to be different situations when creating the teams:
+    - If there are 5 players or less signed up for a country, those players will form the team representing their country.
+    - In case there are more than 10 players signed up for a country, players will decide among themselves who will partake in the tournament. If they cannot decide the top 10 players by ranking will be chosen to form the 2 teams.
+    - If there are 6 players, players will have to decide on the 5 players who will partake in the tournament. If they cannot decide the top 5 players by ranking will be chosen to form the team.
+    - If there are 7 to 10 players (after keeping the best ranked ones) signed up for a country, the players from that country will have a few days to decide how to split themselves between the 2 teams.
+    - In case the players can't come to an agreement, they will be ranked by pp and put in the 2 teams with at least 3 members in each of them with the best ones in a first team and the lowest in the second.
+  - It is recommended to come to an agreement as fast as possible to then decide on the captain and be able to schedule and prepare your matches rapidly.
+    - The players will decide on the captain of their team.
     - If the players can't agree or find a captain, the highest ranked player will be chosen.
-    - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches. 
+    - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches.
   
   # Stage Regulations
-  - There are 4 main stages in this tournament: the Qualifiers, the Group Stage, the Runoff Bracket, the Main Bracket. 
+  - There are 4 main stages in this tournament: the Qualifiers, the Group Stage, the Runoff Bracket, the Main Bracket.
   - Teams will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part)
   - Teams seeded 1-8 will skip the first 2 weeks while teams seeded 9-16 skip the first week.
   - **Group Stage**
-    - Teams seeded 17-32 will be drawn in **4 groups of 4 teams** during a drawing show which will happen on Sunday April 16th. 
-    - In the Group Stage all the teams from each group will face each other. The **best 2 teams** get out of their group. 
-    - Rankings of each group are determined by sorting the results of each team's performance in the following priority: 
+    - Teams seeded 17-32 will be drawn in **4 groups of 4 teams** during a drawing show which will happen on Sunday April 16th.
+    - In the Group Stage all the teams from each group will face each other. The **best 2 teams** get out of their group.
+    - Rankings of each group are determined by sorting the results of each team's performance in the following priority:
         - Most matches won.
         - Highest (number of beatmaps won - number of maps lost) score.
         - Most beatmaps won.
@@ -114,68 +114,68 @@ export default {
     - Weel 5 & 6/Finals, Grand Finals + Loser's Bracket Round 5 and 6: BO13 (win 7 maps)
   
   # Qualifiers Regulations
-  - During this round there will be multiple lobbies available at various hours. 
-  - A private match will be created and teams will be invited into the lobby when it's their time. Make certain you're online at this time. 
+  - During this round there will be multiple lobbies available at various hours.
+  - A private match will be created and teams will be invited into the lobby when it's their time. Make certain you're online at this time.
   - There are no warmups.
   - Failed scores will count.
-  - Only two players from a team will be playing per map. There is no limitations on player swapping. 
+  - Only two players from a team will be playing per map. There is no limitations on player swapping.
   - Seedings will be done with the average rank of each team on each map.
   - If two teams are tied, the team who has the highest combined score of their best runs across all maps, will be seeded higher.
-  - Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking. 
-  - Only the 32 best teams will continue on. 
+  - Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking.
+  - Only the 32 best teams will continue on.
   
   # Match Regulations
-  - A private lobby will be created 10 minutes before your match by a referee. Both team's captains will be invited into the room when it's match time. Then the referee or the captains will invite the other players into the room. 
-  - If no staff or referee is available the match will be postponed. 
-  - If less than the minimum required players attend, the maximum time the match can be postponed is 10 minutes. 
-  - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time. 
-  - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the double elimination bracket the highest seeded team will advance. 
-  - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "IGTS 2023: (Team Red) vs (Team Blue)". 
+  - A private lobby will be created 10 minutes before your match by a referee. Both team's captains will be invited into the room when it's match time. Then the referee or the captains will invite the other players into the room.
+  - If no staff or referee is available the match will be postponed.
+  - If less than the minimum required players attend, the maximum time the match can be postponed is 10 minutes.
+  - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time.
+  - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the double elimination bracket the highest seeded team will advance.
+  - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "IGTS 2023: (Team Red) vs (Team Blue)".
   - Each team is allowed one warm-up but the total time of the map must be below 3 minutes. The warm-up must be uploaded on the website up to one hour prior to the match's start time. Teams will be allowed to send warmups starting from the day schedules release.
   - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
-  - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match. 
-  - The captain of each team will roll with the command "!roll" in the chat. 
-  - The team with the highest roll **bans second and picks first**. The team with the lowest roll **bans first and picks second**. 
-  - Each captain has 2 mins to announce their ban. If they didn't tell the referee by that time the ban will be made with a roll. 
-  - Beatmap selection will then alternate between each captain selecting a beatmap out of the map pool. 
-  - Captains may pick freely from any bracket. 
-  - Teams will have 2 minutes to pick a beatmap and 2 minutes to get ready. If a team didn't tell their pick before the end of the timer the map will be picked with a roll. 
-  - Exchanging players during a match is allowed without limitations. 
-  - If a player disconnects between the beatmaps and the team cannot provide an exchange the match can be delayed 10 minutes at most. This delay can only be applied once. 
-  - If a player disconnects, they get treated as if they failed the map. 
-  - Disconnects within 30 seconds after the beatmap was started allows the map to be replayed. This is only allowed once per team. 
-  - Failed players' scores do get added to the team score. 
-  - If the beatmap ends in a draw the game will be nullified and the map will be replayed. 
-  - In case of a tie in points (example: 4-4 in BO9) the tiebreaker is selected. 
+  - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match.
+  - The captain of each team will roll with the command "!roll" in the chat.
+  - The team with the highest roll **bans second and picks first**. The team with the lowest roll **bans first and picks second**.
+  - Each captain has 2 mins to announce their ban. If they didn't tell the referee by that time the ban will be made with a roll.
+  - Beatmap selection will then alternate between each captain selecting a beatmap out of the map pool.
+  - Captains may pick freely from any bracket.
+  - Teams will have 2 minutes to pick a beatmap and 2 minutes to get ready. If a team didn't tell their pick before the end of the timer the map will be picked with a roll.
+  - Exchanging players during a match is allowed without limitations.
+  - If a player disconnects between the beatmaps and the team cannot provide an exchange the match can be delayed 10 minutes at most. This delay can only be applied once.
+  - If a player disconnects, they get treated as if they failed the map.
+  - Disconnects within 30 seconds after the beatmap was started allows the map to be replayed. This is only allowed once per team.
+  - Failed players' scores do get added to the team score.
+  - If the beatmap ends in a draw the game will be nullified and the map will be replayed.
+  - In case of a tie in points (example: 4-4 in BO9) the tiebreaker is selected.
   
   # Mappool Instructions
   - There will be 1 mappool for each of the following stage: Qualifiers, Week 1, Week 2, Week 3, Week 4, Week 5 and Week 6.
-  - The Qualifiers pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 HardRock map, 1 DoubleTime map and 1 FreeMod map. 
-  - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend. 
-  - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker. 
-  - The Week 1 mappool will consist of 14 maps. Week 2, Week 3 and Week 4 mappool will consist of 15 maps. Week 5 and Week 6 mappool will consist of 16 maps. 
-  - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages as well. 
+  - The Qualifiers pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 HardRock map, 1 DoubleTime map and 1 FreeMod map.
+  - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
+  - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker.
+  - The Week 1 mappool will consist of 14 maps. Week 2, Week 3 and Week 4 mappool will consist of 15 maps. Week 5 and Week 6 mappool will consist of 16 maps.
+  - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages as well.
   - The size of the NoMod bracket will be 4 in Week 1; 5 in  Week 2, Week 3 and Week 4; 6 for Week 5 and Week 6.
-  - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least one player of each team must have at least one mod activated**. 
-  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated. 
-  - The mappool for each stage will be showcased a week beforehand. 
+  - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least one player of each team must have at least one mod activated**.
+  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated.
+  - The mappool for each stage will be showcased a week beforehand.
   
   # Scheduling Instructions
-  - Every stage is held **during the weekend**. (It is however allowed to schedule on another day if no agreement is found on a time during the weekend) 
-  - Matches are allowed to overlap if referees are available. 
-  - We will try to schedule as best as possible so it fits with the time zones. The schedule will be released the previous weekend of each stage. 
-  - Reschedules will only be considered if both teams agree on a time. Proof of that needs to be sent to the tournament staff before **Thursday at 23:59 UTC+0** in that particular week when your match takes place. 
+  - Every stage is held **during the weekend**. (It is however allowed to schedule on another day if no agreement is found on a time during the weekend)
+  - Matches are allowed to overlap if referees are available.
+  - We will try to schedule as best as possible so it fits with the time zones. The schedule will be released the previous weekend of each stage.
+  - Reschedules will only be considered if both teams agree on a time. Proof of that needs to be sent to the tournament staff before **Thursday at 23:59 UTC+0** in that particular week when your match takes place.
   - Reschedules may only be requested by **a team captain**.
   
   # All-Star Rules
-  - All-Star is a fun event taking place on the same weekend as the Grand Finals! 
-  It'll showcase the best players of the tournament playing against each other in a special match. 
-  - 12 players will participate in this event. They will be decided by vote. 
-  - The top 12 players will play in All-Star. If there are more than 2 players from a country in the top 12 most voted players only the 2 best will partake in All-Star. 
-  - The top 2 players will be captains of each team. Their teammates will be decided by the ranking of the next 10 players. The topmost voted player will play with players with an odd number and the second most voted player with players with an even number. 
+  - All-Star is a fun event taking place on the same weekend as the Grand Finals!
+  It'll showcase the best players of the tournament playing against each other in a special match.
+  - 12 players will participate in this event. They will be decided by vote.
+  - The top 12 players will play in All-Star. If there are more than 2 players from a country in the top 12 most voted players only the 2 best will partake in All-Star.
+  - The top 2 players will be captains of each team. Their teammates will be decided by the ranking of the next 10 players. The topmost voted player will play with players with an odd number and the second most voted player with players with an even number.
   - The Grand Finals mappool will be used.
-  - The event will be a 4 vs 4 match with the following rules: 
-    - BO15. 
+  - The event will be a 4 vs 4 match with the following rules:
+    - BO15.
     - No bans.
     - Map selection is the same as a normal match.
     - Same rules as a normal match for disconnections.
