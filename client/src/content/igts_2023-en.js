@@ -107,7 +107,7 @@ export default {
   - **Main Bracket**
     - From this stage, the tournament will follow a classic double-elimination bracket format.
     - Teams that went out from the Runoff Bracket on their first match will be placed against teams seeded 5-8 while the others will play against the teams seeded 1-4.
-    - The matchups will follow the Runoff Bracket match IDs in reverse order (for example: ID 1 corresponds to seed 9 vs seed 16, winner of this match will play against seed 8)
+    - The matchups will follow the Runoff Bracket match IDs in reverse order. The first 4 IDs are for the Runoff Bracket winner bracket matches while the last 4 are for the loser bracket. (for example: ID 1 corresponds to seed 9 vs seed 16, winner of this match will play against seed 8. For LB, ID 8 is loser of ID 1 vs winner of 1st of A vs 2nd of D and will play against seed 1.)
   - The winning condition for each stage is:
     - Week 1/Group Stage: BO9 (win 5 maps)
     - Week 2 & 3 & 4/Runoff bracket, Round Of 16 + Quarterfinals + Semifinals + Loser's Bracket Round 1, 2, 3 and 4: BO11 (win 6 maps)
