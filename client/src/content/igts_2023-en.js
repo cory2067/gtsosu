@@ -1,7 +1,7 @@
 export default {
     name: "Intermediate Global Taiko Showdown",
     description:
-      "The Intermediate Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. The teams will first play in a qualifiers.",
+      "The Intermediate Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
     discord: "https://discord.gg/a6PzzFz",
     homepage: [
       {
