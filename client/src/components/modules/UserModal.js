@@ -18,7 +18,7 @@ const cardImages = [
   "naru-agts.png",
   "naru-bgts.png",
   "naru-egts1.png",
-  "naru-gream.png",
+  "naru-grem.png",
   "naru-gtms.png",
   "naru-igts.png",
   "reese.png",
