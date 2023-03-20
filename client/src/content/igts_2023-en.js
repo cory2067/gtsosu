@@ -103,7 +103,8 @@ export default {
         - The winner of this match will go on to play in the main bracket. The loser will play against the winner of the Loser Bracket match.
     - The Loser Bracket will see teams who finished first place in their group play against a second place team (1st of A vs 2nd of D, 1st of B vs 2nd of C, 1st of C vs 2nd of B, 1st of D vs 2nd of A)
         - The winner of this match will go on to play against the loser of the Winner Bracket match. The loser is eliminated.
-    - The last match determines if the team goes on to play in the main bracket or is eliminated from the tournament.
+    - The second round of the Loser Bracket matches will keep the order from the first set of matches (Loser of 9 vs 16 play against winner of 1st of A vs 2nd of D and so on).
+      - The winner of this match will go on to play in the main bracket. The loser is eliminated from the tournament.
   - **Main Bracket**
     - From this stage, the tournament will follow a classic double-elimination bracket format.
     - Teams that went out from the Runoff Bracket on their first match will be placed against teams seeded 5-8 while the others will play against the teams seeded 1-4.
