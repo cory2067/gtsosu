@@ -63,7 +63,7 @@ export default {
   
   # Tournament Registration and Teams Creation
   - In order to participate you need to meet the criteria stated in the **rank restrictions** part.
-  - You are not allowed to rank up further than #4000 during the tournament. If you pass this limit you'll be disqualified.
+  - You are not allowed to rank up further than #4500 during the registration period and then further than #4000 during the actual tournament. If you pass this limit you'll be disqualified.
   - osu! staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range.
   - Players sign up individually. When their registration is accepted, they will get a country role.
   - A country needs **at least 2 players** to participate.
