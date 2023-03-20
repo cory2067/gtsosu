@@ -26,6 +26,7 @@ const roles = [
   "Recruiter",
   "Showcase",
   "Judge",
+  "Playtester",
 ];
 
 // The managerial roles that osu! officially considers as "staff"
