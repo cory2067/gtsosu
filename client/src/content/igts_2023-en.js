@@ -55,7 +55,8 @@ export default {
   - The teams will first go through **Qualifiers**. Then they will play in a **Group Stage**, a **Runoff Bracket** and finally in a **Double-elimination Bracket**.
   - The Score System used will be **Score V2**.
   - Any player who meets the requirements stated in the rank restrictions part is allowed to sign up. Since this tournament will aim to get badged some players might be declined by osu staff.
-  - Any members of staff apart from **Organizers, Mappoolers, Playtesters/Replayers and Referees** are allowed to play.
+  - Any member of **staff** (**Organizers, Mappoolers, Playtesters/Replayers, Custom Mappers and Referees**) is not allowed to play. Other positions considered as **helpers** (**Commentators**, **Streamers**, ...) are allowed to play.
+  - Players who have been eliminated from the tournament are allowed to join staff as **Referees or Playtesters/Replayers**. Other staff roles are not allowed. They can also join the **helpers** at any moment.
   - Players and staff members must have read this ruleset entirely (and we will assume you did so throughout the tournament).
   - All participants must stay respectful and keep a proper attitude. Not following this rule can result in a ban/blacklist from the tournament. This rule concerns all the staff as well.
   - Any rule changes or unexpected occurrences will be announced in the Discord server.
