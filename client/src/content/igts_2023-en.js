@@ -131,7 +131,7 @@ export default {
   - If no staff or referee is available the match will be postponed.
   - If less than the minimum required players attend, the maximum time the match can be postponed is 10 minutes.
   - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time.
-  - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the double elimination bracket the highest seeded team will advance.
+  - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the Runoff Bracket or the Main Bracket the highest seeded team will advance.
   - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "IGTS 2023: (Team Red) vs (Team Blue)".
   - Each team is allowed one warm-up but the total time of the map must be below 3 minutes. The warm-up must be uploaded on the website up to one hour prior to the match's start time. Teams will be allowed to send warmups starting from the day schedules release.
   - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
