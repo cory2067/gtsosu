@@ -22,9 +22,10 @@ export default function UserCard({
   const timezone = `UTC${user.timezone > 0 ? "+" : ""}${user.timezone}`;
   const badRank = rankRange && (user.rank < rankRange[0] || user.rank > rankRange[1]);
   const cardStyle = {};
-  if (user.donations >= 10 && user.cardImage) {
+  if (user.cardImage) {
     cardStyle.backgroundImage = `linear-gradient(#13141577, #2e313577), url("/public/cards/${user.cardImage}")`;
   }
+  const seedInfo = stats && stats.seedName ? `${stats.seedName} Seed (#${stats.seedNum})${stats.group ? `, Group ${stats.group}` : ""}` : "";
 
   return (
     <div>
@@ -68,6 +69,7 @@ export default function UserCard({
             )}
           </div>
           {extra && <div className="UserCard-bot">{extra}</div>}
+          {seedInfo && <div className="UserCard-bot">{seedInfo}</div>}
         </div>
         {canEdit && (
           <div>

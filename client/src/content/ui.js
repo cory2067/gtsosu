@@ -26,6 +26,7 @@ export default {
     stats: "Statistics",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   ja: {
@@ -55,6 +56,7 @@ export default {
     stats: "スタッツ",
     information: "参加に関して",
     donate: "支援",
+    submissions: "Entry Submissions",
   },
 
   ko: {
@@ -83,6 +85,7 @@ export default {
     archives: "Archives",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   de: {
@@ -111,6 +114,7 @@ export default {
     archives: "Archives",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   ru: {
@@ -139,6 +143,7 @@ export default {
     archives: "Archives",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   "zh-sg": {
@@ -167,6 +172,7 @@ export default {
     archives: "Archives",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   fr: {
@@ -195,6 +201,7 @@ export default {
     archives: "Archives",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   es: {
@@ -223,6 +230,7 @@ export default {
     archives: "Archives",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   pl: {
@@ -251,6 +259,7 @@ export default {
     archives: "Archives",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   es_cl: {
@@ -279,6 +288,7 @@ export default {
     archives: "Archives",
     information: "Information",
     donate: "Donate",
+    submissions: "Entry Submissions",
   },
 
   nl: {
@@ -307,5 +317,6 @@ export default {
     archives: "Archief",
     information: "Informatie",
     donate: "Doneren",
+    submissions: "Entry Submissions",
   },
 };

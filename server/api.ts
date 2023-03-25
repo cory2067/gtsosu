@@ -157,8 +157,17 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   ]);
 
   const username = userData.name;
+  const userid = userData.id;
   const rank = userData.pp.rank;
   const country = userData.country;
+
+  if ((tourney.blacklist || []).includes(userid)) {
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (blacklisted)`);
+    return res
+      .status(400)
+      .send({ error: `You are banned from participating in this tourney.` });
+  }
+
   if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (overrank)`);
     return res
@@ -218,6 +227,12 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "Team name is too long (max 40 characters)" });
   }
 
+  const teams = await Team.find({ tourney: req.body.tourney });
+  const teamNames = teams.map(team => team.name);
+  if (teamNames.includes(req.body.name)) {
+    return res.status(400).send({ error: "There is a registered team with this name already." });
+  }
+
   const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
 
   const minTeamSize = tourney.minTeamSize || 3;
@@ -233,6 +248,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "Team can't have duplicate players" });
   }
 
+  const representedCountries = new Set();
   const updates: Array<Array<Object>> = [];
   for (const username of req.body.players) {
     let userData;
@@ -247,6 +263,21 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     if (user && cantPlay(user, req.body.tourney)) {
       logger.info(`${username} failed to register for ${req.body.tourney} (staff)`);
       return res.status(400).send({ error: "Staff member on team." });
+    }
+
+    if (user && user.tournies.includes(req.body.tourney)) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (already registered)`);
+      return res
+        .status(400)
+        .send({ error: `${username} is already registered for this tourney.` });
+    }
+
+    const userid = userData.id;
+    if ((tourney.blacklist || []).includes(userid)) {
+      logger.info(`${username} failed to register for ${req.body.tourney} (blacklisted)`);
+      return res
+        .status(400)
+        .send({ error: `${username} is banned from participating in this tourney.` });
     }
 
     const rank = userData.pp.rank;
@@ -280,6 +311,16 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
       },
       { new: true, upsert: true },
     ]);
+    representedCountries.add(userData.country);
+  }
+
+  for (const country of (tourney.requiredCountries || [])) {
+    if (!representedCountries.has(country)) {
+      logger.info(`${req.body.players} failed to register for ${req.body.tourney} (country requirement not met)`);
+      return res
+        .status(400)
+        .send({ error: `Team is missing required represented country: ${country}` });
+    }
   }
 
   const players = await Promise.all(
@@ -491,10 +532,12 @@ router.getAsync("/tournament", async (req, res) => {
  *   - minTeamSize: minimum number of players on a team
  *   - maxTeamSize: maximum number of players on a team
  *   - countries: what countries can participate in this tourney (empty if all)
+ *   - requiredCountries: which countries are required to be represented when registering as a team (empty if none)
  *   - rankMin / rankMax: rank restriction
  *   - stages: what stages this tourney consists of
  *   - flags: list of special options for the tourney
  *   - lobbyMaxSignups: number of players/teams that can sign up for a given qualifier lobby
+ *   - blacklist: list of player ids that are banned from registering for this tourney
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
@@ -511,8 +554,10 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.rankMin = req.body.rankMin;
   tourney.rankMax = req.body.rankMax;
   tourney.countries = req.body.countries;
+  tourney.requiredCountries = req.body.requiredCountries;
   tourney.flags = req.body.flags;
   tourney.lobbyMaxSignups = req.body.lobbyMaxSignups;
+  tourney.blacklist = req.body.blacklist;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];
@@ -1325,6 +1370,19 @@ router.getAsync("/teams", async (req, res) => {
  */
 router.deleteAsync("/team", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} deleted team ${req.body._id} from ${req.body.tourney}`);
+  // Unregister the players as well if the tourney has registerAsTeam flag enabled
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+  if (tourney.flags.includes("registerAsTeam")) {
+    const team = await Team.findOne({ _id: req.body._id }).orFail();
+    await Promise.all(
+      team.players.map((player) =>
+        User.findOneAndUpdate(
+          { _id: player._id },
+          { $pull: { tournies: req.body.tourney, stats: { tourney: req.body.tourney } } }
+        )
+      )
+    );
+  }
   await Team.deleteOne({ _id: req.body._id });
   res.send({});
 });

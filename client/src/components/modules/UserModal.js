@@ -14,10 +14,13 @@ const cardImages = [
   "keios.png",
   "kyou.png",
   "lucia.png",
+  "nothing.png",
   "naru-agts.png",
   "naru-bgts.png",
   "naru-egts1.png",
-  "nothing.png",
+  "naru-grem.png",
+  "naru-gtms.png",
+  "naru-igts.png",
   "reese.png",
   "sachnus1.png",
   "sachnus2.png",
@@ -67,7 +70,7 @@ function UserModal({ user, formData, visible, loading, handleOk, handleCancel, o
             ))}
           </Select>
         </Form.Item>
-        {user.donations >= 10 && (
+        {user.donations >= 10 || user.roles.some(role => ["Designer", "Artist"].includes(role.role)) && (
           <Form.Item name="cardImage" label="Custom BG">
             <Select placeholder="No image">
               <Select.Option key="none" value={""}>

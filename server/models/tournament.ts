@@ -17,8 +17,10 @@ interface ITournament {
   rankMin: number;
   rankMax: number;
   countries: string[];
+  requiredCountries: string[];
   flags: string[];
   lobbyMaxSignups: number;
+  blacklist: number[];
 }
 
 const Tournament = new Schema<ITournament>({
@@ -38,8 +40,10 @@ const Tournament = new Schema<ITournament>({
   rankMin: Number,
   rankMax: Number,
   countries: [String],
+  requiredCountries: [String],
   flags: [String],
   lobbyMaxSignups: Number,
+  blacklist: [Number],
 });
 
 export { TourneyStage, ITournament };
