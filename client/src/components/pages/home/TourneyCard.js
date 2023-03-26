@@ -47,7 +47,7 @@ export default function TourneyCard({
           <Typography.Paragraph className={`TourneyCard-description${ongoingClassname}`}>
             {description}
           </Typography.Paragraph>
-          <Button onClick={() => redirectToTourney(code)} size="large">
+          <Button className="outlined-light" onClick={() => redirectToTourney(code)} size="large">
             Learn More
           </Button>
         </div>

@@ -25,10 +25,12 @@ function HomeBannerBackground() {
 function LoginButtons() {
   return (
     <div className="HomeBanner-login-buttons-container">
-      <Button type="primary" size="large">
+      <Button className="cta" size="large">
         Login
       </Button>
-      <Button size="large">Learn More</Button>
+      <Button className="outlined-light" size="large">
+        Learn More
+      </Button>
     </div>
   );
 }
