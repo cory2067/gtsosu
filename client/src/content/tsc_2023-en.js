@@ -35,8 +35,7 @@ February 25th until February 26th.`,
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account, then click on the Discord button to join the server of our tournament. **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
     {
       title: "Prizes",
-      body: `
-  - **1st place:** osu! profile badge (Pending).`,
+      body: ``,
     },
   ],
   rules: `
@@ -44,11 +43,12 @@ February 25th until February 26th.`,
  - This tournament is a **3v3 team tournament** with teams of **6 players maximum**. Teams are formed randomly, during the teams drawings stream.
  - Although, during rounds, teams will be able to take a player from the team they have beaten. For the teams that play in Loser's Bracket, they will only be able to take a player in the other team from the last match they have played and won in the weekend.
  - Team size in matches required will change during rounds as required by this list:
-    - RO32: 3v3
-    - RO16 & LBR1/2: 4v4
-    - QF & LBR3/4: 5v5
-    - SF & LBR5/6: 6v6
-    - Finals & LBRF/GF: 7v7
+    - RO32 & LBR2/3: 3v3
+    - LBR1: 2v2
+    - RO16 & LB4/5: 4v4
+    - QF & LBR6/F: 5v5
+    - SF & LBRGF: 6v6
+    - Finals: 7v7
     - GF: 8v8
  - The teams will first go through **a seeding phase**. Then they will play in a **double-elimination bracket**.
  - The Score System used will be **Score V2**.
@@ -79,7 +79,7 @@ February 25th until February 26th.`,
  - A private match will be created and teams will be invited into the lobby when it's their time. Make certain you're online at this time. 
  - There are no warmups.
  - Failed scores will count.
- - Only four players from a team will be playing per map. There is no limitations on player swapping. 
+ - Only three players from a team will be playing per map. There is no limitations on player swapping. 
  - Seedings will be done with the average rank of each team on each map. 
  - Maps will be played twice in a row during the lobby. The best run will be taken into account for the ranking. 
  - All teams will go through, as it is there only for seeding purposes.
@@ -122,9 +122,9 @@ February 25th until February 26th.`,
  - Depending on the round, the amount of players required to use a mod will be gradually changing.
    - RO32: 1
    - RO16 & LBR1/2: 2
-   - QF & LBR3/4: 3
-   - SF & LBR5/6: 4
-   - Finals & LBRF/GF: 5
+   - QF & LBR3/4/6/F: 3
+   - SF & LBR5/GF: 4
+   - Finals: 5
    - GF: 6
  - Challenge maps, also known as EX maps, will always be played under NoMod conditions.
  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mod activated. 

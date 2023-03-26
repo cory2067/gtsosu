@@ -68,9 +68,11 @@ function potentialTeamCounter({ flags, hasTeams, players }) {
 }
 
 export default function Players({ tourney, user }) {
+  const [tournament, setTournament] = useState([]);
   const [players, setPlayers] = useState([]);
   const [teams, setTeams] = useState([]);
   const [hasTeams, setHasTeams] = useState(false);
+  const [maxTeamSize, setMaxTeamSize] = useState(undefined);
   const [hasGroups, setHasGroups] = useState(false);
   const [sort, setSort] = useState("rank");
   const [mode, setMode] = useState("players");
@@ -90,8 +92,10 @@ export default function Players({ tourney, user }) {
         get("/api/tournament", { tourney: tourney }),
       ]);
 
+      setTournament(tourneyData);
       setPlayers(playersData);
       setHasTeams(tourneyData.teams);
+      setMaxTeamSize(tourneyData.maxTeamSize);
       setHasGroups(tourneyData.stages.some((s) => s.name === "Group Stage"));
       setRankRange([
         tourneyData.rankMin,
@@ -158,7 +162,7 @@ export default function Players({ tourney, user }) {
       rank: (x, y) =>
         x.players.reduce((sum, p) => sum + p.rank, 0) / x.players.length -
         y.players.reduce((sum, p) => sum + p.rank, 0) / y.players.length,
-      seed: (x, y) => (x.seedNum || 0) - (y.seedNum || 0),
+      seed: (x, y) => (x.seedNum || Infinity) - (y.seedNum || Infinity),
     };
 
     const sortFn = sortFunctions[sortMethod];
@@ -176,11 +180,15 @@ export default function Players({ tourney, user }) {
     }
   };
 
-  const handleTeamDelete = async (_id) => {
+  const handleTeamDelete = async (_id, playerNames) => {
     try {
       await delet("/api/team", { tourney: tourney, _id });
 
       setTeams(teams.filter((p) => p._id !== _id));
+      
+      if (tournament.flags.includes("registerAsTeam")) {
+        setPlayers(players.filter((p) => !playerNames.includes(p.username)));
+      }
     } catch {
       message.error("Something went wrong, failed to delete team.");
     }
@@ -261,8 +269,9 @@ export default function Players({ tourney, user }) {
           return t;
         })
       );
+      message.success(`Successfully edited team stats`);
     } catch (e) {
-      message.error(`Couldn't get team stats: ${e}`);
+      message.error(`Failed to edit team stats: ${e}`);
     }
   };
 
@@ -288,8 +297,9 @@ export default function Players({ tourney, user }) {
           return t;
         })
       );
+      message.success(`Successfully edited player stats`);
     } catch (e) {
-      message.error(`Something went wrong: ${e}`);
+      message.error(`Failed to edit player stats: ${e}`);
     }
   };
 
@@ -528,12 +538,6 @@ export default function Players({ tourney, user }) {
         {mode === "players"
           ? players.map((player) => {
               const stats = player.stats.filter((t) => t.tourney == tourney)[0];
-              const extra =
-                stats && stats.seedName
-                  ? `${stats.seedName} Seed (#${stats.seedNum})${
-                      stats.group ? `, Group ${stats.group}` : ""
-                    }`
-                  : "";
 
               return (
                 <UserCard
@@ -546,7 +550,6 @@ export default function Players({ tourney, user }) {
                   stats={stats}
                   rankRange={rankRange}
                   showGroups={hasGroups}
-                  extra={extra}
                   flags={flags}
                 />
               );
@@ -567,6 +570,7 @@ export default function Players({ tourney, user }) {
       {editingTeam != -1 && (
         <CreateTeamModal
           initialTeam={teams.filter((t) => t._id == editingTeam)[0]}
+          maxTeamSize={maxTeamSize}
           availablePlayers={sortedPlayers("alpha", players)}
           shouldEdit={true}
           visible={true}

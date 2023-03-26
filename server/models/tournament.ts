@@ -11,18 +11,24 @@ interface ITournament {
   code: string;
   registrationOpen: boolean;
   teams: boolean;
+  minTeamSize: number;
+  maxTeamSize: number;
   stages: TourneyStage[];
   rankMin: number;
   rankMax: number;
   countries: string[];
+  requiredCountries: string[];
   flags: string[];
   lobbyMaxSignups: number;
+  blacklist: number[];
 }
 
 const Tournament = new Schema<ITournament>({
   code: String,
   registrationOpen: Boolean,
   teams: Boolean,
+  minTeamSize: Number,
+  maxTeamSize: Number,
   stages: [
     {
       name: String,
@@ -34,8 +40,10 @@ const Tournament = new Schema<ITournament>({
   rankMin: Number,
   rankMax: Number,
   countries: [String],
+  requiredCountries: [String],
   flags: [String],
   lobbyMaxSignups: Number,
+  blacklist: [Number],
 });
 
 export { TourneyStage, ITournament };

@@ -50,12 +50,16 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
       setSettingsData({
         registrationOpen: data.registrationOpen || false,
         teams: data.teams || false,
+        minTeamSize: data.minTeamSize || 1,
+        maxTeamSize: data.maxTeamSize || 1,
         stages: (data.stages || []).map((s) => s.name),
         rankMin: data.rankMin || -1,
         rankMax: data.rankMax || -1,
         countries: data.countries || [],
         flags: data.flags || [],
         lobbyMaxSignups: data.lobbyMaxSignups || 8,
+        blacklist: (data.blacklist || []).toString(),
+        requiredCountries: data.requiredCountries || [],
       });
     })();
   }, []);
@@ -159,6 +163,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
     console.log(settingsData);
     const res = await post("/api/tournament", {
       ...settingsData,
+      blacklist: settingsData.blacklist.split(",").map(x => Number.parseInt(x)).filter(x => x),
       tourney,
     });
     setShowSettings(false);
@@ -223,6 +228,13 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
                     {regMessage}
                   </Button>
                 </div>
+                {content.submissions && (
+                  <div>
+                    <Button block size="large" target="_blank" href={content.submissions}>
+                      {UI.submissions}
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -258,6 +270,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
           loading={teamModalLoading}
           handleSubmit={submitTeamRegistration}
           handleCancel={() => setShowRegisterAsTeam(false)}
+          maxTeamSize={settingsData.maxTeamSize}
         />
       )}
       <EditTourneyModal

@@ -1,7 +1,7 @@
 import React from "react";
 import countries from "../../content/countries";
 
-import { Form, Modal, InputNumber, Select, Switch } from "antd";
+import { Form, Modal, InputNumber, Select, Switch, Input } from "antd";
 
 const stages = [
   "Qualifiers",
@@ -15,6 +15,12 @@ const stages = [
   "Finals",
   "Grand Finals",
   "All Stars",
+  "Week 1",
+  "Week 2",
+  "Week 3",
+  "Week 4",
+  "Week 5",
+  "Week 6",
 ];
 
 export default function EditTourneyModal({
@@ -40,6 +46,12 @@ export default function EditTourneyModal({
         <Form.Item name="teams" label="Enable Teams" valuePropName="checked">
           <Switch />
         </Form.Item>
+        <Form.Item name="minTeamSize" label="Min Team Size">
+          <InputNumber min={1} />
+        </Form.Item>
+        <Form.Item name="maxTeamSize" label="Max Team Size">
+          <InputNumber min={1} />
+        </Form.Item>
         <Form.Item name="stages" label="Stages for this tourney">
           <Select mode="multiple">
             {stages.map((k) => (
@@ -49,6 +61,13 @@ export default function EditTourneyModal({
         </Form.Item>
         <Form.Item name="countries" label="Allowed country codes">
           <Select mode="multiple" placeholder="Allow all">
+            {countries.map((c) => (
+              <Select.Option key={c}>{c}</Select.Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item name="requiredCountries" label="Required country codes">
+          <Select mode="multiple" placeholder="No requirement">
             {countries.map((c) => (
               <Select.Option key={c}>{c}</Select.Option>
             ))}
@@ -70,6 +89,10 @@ export default function EditTourneyModal({
         <Form.Item name="lobbyMaxSignups" label="Maximum number of lobby signups">
           <InputNumber min={0} />
         </Form.Item>
+        <Form.Item name="blacklist" label="Blacklist">
+          <Input />
+        </Form.Item>
+        <span>(Specify players by IDs separated by commas)</span>
       </Form>
     </Modal>
   );

@@ -45,7 +45,7 @@ export default function TeamCard({
                 {onEdit && <EditOutlined onClick={() => onEdit(_id)} className="TeamCard-icon" />}
                 <Popconfirm
                   title={`Are you sure you want to remove ${name}?`}
-                  onConfirm={() => onDelete(_id)}
+                  onConfirm={() => onDelete(_id, players.map((player) => player.username))}
                   okText="Yes"
                   cancelText="No"
                 >
@@ -54,6 +54,7 @@ export default function TeamCard({
               </>
             )}
           </div>
+          {seedName && seedNum && <div className="TeamCard-group">{`${seedName} Seed (#${seedNum})`}</div>}
           {group && <div className="TeamCard-group">{group}</div>}
         </div>
         {players

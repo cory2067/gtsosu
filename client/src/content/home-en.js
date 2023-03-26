@@ -13,14 +13,14 @@ The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards t
 The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
     },
     {
-      title: "IGTS 2022",
-      fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2022",
+      title: "IGTS 2023",
+      fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2023",
       code: "igts",
-      banner: "/public/backgrounds/igts_2022.png",
+      banner: "/public/backgrounds/igts_2023.png",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
 It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. 
-The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.`,
+The teams will first go through Qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.`,
     },
     {
       title: "AGTS 2022",
@@ -49,6 +49,22 @@ The Squad Global Taiko Showdown, our open-rank 3v3 tournament, where you can mak
 The top 32 teams after qualifiers will then face off in a double-elimination bracket.`,
       banner: "/public/backgrounds/sgts_2023.png"
     },
+    {
+      title: "GTMS 2023",
+      fullTitle: "GLOBAL TAIKO MALAYSIAN SHOWDOWN 2023",
+      code: "gtms",
+      description: `
+      The Global Taiko Malaysian Showdown is a special 2v2 tournament collaboration event between the osu!taiko Malaysian Tournament (OTMT) and Global Taiko Showdown (GTS). Each team must consist of one Malaysian and one Global player and the top 32 teams after qualifiers will face-off in a high stakes single-elimination bracket.`,
+      banner: "/public/backgrounds/gtms_2023.png"
+    },
+    {
+        title: "MGTS 2023",
+        fullTitle: "MAPPING GLOBAL TAIKO SHOWDOWN 2023",
+        code: "mgts",
+        description: `
+        The Mapping Global Taiko Showdown (MGTS) is our mapping contest series for the osu!taiko game mode. It is a single-round, team-based contest where each team is composed of 4 to 6 mappers, with each team collaborating on a total of 3 songs.`,
+        banner: "/public/backgrounds/mgts_2023.png"
+        },
   ],
 };
 
