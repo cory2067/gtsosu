@@ -9,7 +9,7 @@ export default {
       title: "Dates",
       body: `
 ### Registration + Submission Phase
-March 4th until April 1st.
+March 4th until April 1st 23:59 UTC+0.
 ### Screening Phase
 Tentative*
 ### Judging Phase
