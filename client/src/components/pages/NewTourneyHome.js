@@ -11,7 +11,6 @@ import EditTourneyModal from "../../components/modules/EditTourneyModal";
 import CreateTeamModal from "../modules/CreateTeamModal";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
-import { setConstantValue } from "typescript";
 
 const UI = ContentManager.getUI();
 
