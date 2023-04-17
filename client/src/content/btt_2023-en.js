@@ -123,5 +123,18 @@ There are no other prizes being considered for BTT8
 - If both players reach match point (1 more point needed to win), the TieBreaker will be played.
 - Results will be displayed on the website, on Challonge, and announced by the referee in the #match-feed channel of the Discord server.
 - If both players tie on the TieBreaker, the TieBreaker will be replayed.
+
+# All-Star Rules
+- All-Star is a fun event taking place on the same weekend as the Grand Finals! 
+It'll showcase the best players of the tournament playing against each other in a special match. 
+- 8 players will participate in this event. They will be decided by vote. 
+- The top 8 players will play in All-Star. If there are more than 2 players from a country in the top 8 most voted players only the 2 best will partake in All-Star. 
+- The top 2 players will be captains of each team. Their teammates will be decided by the ranking of the next 6 players. The topmost voted player will play with players with an odd number and the second most voted player with players with an even number. 
+- The event will be a 4 vs 4 match with the following rules: 
+  - BO15. 
+  - Mappool will be the Grand Finals mappool.
+  - No bans. 
+  - Map selection is the same as a normal match. 
+  - Same rules as a normal match for disconnections. 
 `,
 };
