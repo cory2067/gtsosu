@@ -25,17 +25,17 @@ April 17th until May 7th.
 May 13th until May 14th.
 ### Round of 64
 May 20th until May 21st.
-### Round of 32 + Loser's Bracket Round 1 and 2
+### Round of 32 + Loser's Bracket Round 1
 May 27th until May 28nd.
-### Round of 16 + Loser's Bracket Round 3 and 4
+### Round of 16 + Loser's Bracket Round 2 and 3
 June 3rd until June 4th.
-### Quarterfinals + Loser's Bracket Round 5 and 6
+### Quarterfinals + Loser's Bracket Round 4 and 5
 June 10th until June 11th.
-### Semifinals + Loser's Bracket Round 7 and 8
+### Semifinals + Loser's Bracket Round 6 and 7
 June 17th until June 18th.
-### Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
+### Winner's Bracket Finals + Loser's Bracket Round 8 and Finals
 June 24th until June 25th.
-### Grand Finals + All-Stars
+### Grand Finals + Loser's Bracket Grand Finals + All-Stars
 July 1st until July 2nd.`,
     },
     {
