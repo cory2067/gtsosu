@@ -32,13 +32,13 @@ export default {
   April 22nd until April 23rd.
   ### Week 2/Runoff bracket
   April 29th until April 30th.
-  ### Week 3/Round Of 16 + Quarterfinals + Loser's Bracket Round 1 and 2
+  ### Week 3/Round Of 16 + Quarterfinals + Loser's Bracket Round 1
   May 6th until May 7th.
-  ### Week 4/Semifinals + Loser's Bracket Round 3 and 4
+  ### Week 4/Semifinals + Loser's Bracket Round 2 and 3
   May 13th until May 14th.
-  ### Week 5/Winner's Bracket Finals + Loser's Bracket Finals and Grand Finals
+  ### Week 5/Winner's Bracket Finals + Loser's Bracket Round 4 and 5
   May 20th until May 21st.
-  ### Week 6/Grand Finals + All-Stars
+  ### Week 6/Grand Finals + Loser's Bracket Round 6 (Grand Finals) + All-Stars
   May 27th until May 28th.`,
       },
       {
