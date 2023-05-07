@@ -1,7 +1,7 @@
 // Default years for tournaments
 
 export default {
-  agts: 2022,
+  agts: 2023,
   bgts: 2020,
   cgts: 2021,
   egts: 2022,
