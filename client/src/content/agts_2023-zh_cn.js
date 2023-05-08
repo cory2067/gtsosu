@@ -2,7 +2,7 @@ export default {
     name: "全球高级太鼓锦标赛",
     description:
       "全球高级太鼓锦标赛，是一个排名限制在500到1500名，面向高级玩家的二对二锦标赛。所有队伍需要首先参加资格赛，然后参加小组赛、冒泡赛，最后进入双败淘汰赛。",
-    discord: "https://discord.gg/a6PzzFz",
+    discord: "https://discord.gg/3mGC3HB",
     homepage: [
       {
         title: "注册限制",
