@@ -2,7 +2,7 @@ export default {
     name: "Advanced Global Taiko Showdown",
     description:
       "La 'Advanced Global Taiko Showdown', el torneo fundador de esta serie. Es nuestro torneo 2vs2 para jugadores de nivel avanzado entre el ranking #500 to #1,500. Los equipos jugarán primero una fase de clasificatorias. Luego jugaran por la fase de grupos, una llave intermedia y finalmente en una llave de doble eliminación.",
-    discord: "https://discord.gg/a6PzzFz",
+    discord: "https://discord.gg/3mGC3HB",
     homepage: [
       {
         title: "Restricciones",
