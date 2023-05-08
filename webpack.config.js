@@ -24,12 +24,12 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: ["@babel/polyfill", entryFile],
+  mode: 'production',
   output: {
     path: outputDir,
     publicPath: "/",
     filename: "bundle.js",
   },
-  devtool: "source-map",
   module: {
     rules: [
       {

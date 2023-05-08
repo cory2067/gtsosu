@@ -319,4 +319,33 @@ export default {
     donate: "Doneren",
     submissions: "Entry Submissions",
   },
+  
+  "zh-cn": {
+    home: "主页",
+    rules: "规则",
+    mappools: "图池",
+    schedule: "赛程",
+    players: "选手",
+    staff: "主办成员",
+    language: "语言",
+    merch: {
+      title: "商品",
+      mainStore: "主商城",
+      mousepads: "鼠标垫",
+    },
+    login: "登入",
+    logout: "登出",
+    register: "注册",
+    discord: "Discord",
+    userSettings: {
+      note: "请记得附上discord账号的#编号 (例如：Naru#1234)",
+      discord: "Discord账号",
+      timezone: "时区",
+      tournies: "我的比赛",
+    },
+    archives: "历史比赛",
+    information: "信息",
+    donate: "捐赠",
+    submissions: "Entry Submissions",
+  },
 };
