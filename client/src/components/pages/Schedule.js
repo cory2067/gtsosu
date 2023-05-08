@@ -294,6 +294,8 @@ class Schedule extends Component {
   };
 
   renderName = (p) => {
+    if (!p) return "";
+    
     if (p.startsWith("Winner of ")) {
       const code = p.split("Winner of ")[1];
       const match = this.state.matches.filter((match) => match.code === code)[0];

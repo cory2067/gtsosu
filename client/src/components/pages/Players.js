@@ -96,7 +96,7 @@ export default function Players({ tourney, user }) {
       setPlayers(playersData);
       setHasTeams(tourneyData.teams);
       setMaxTeamSize(tourneyData.maxTeamSize);
-      setHasGroups(tourneyData.stages.some((s) => s.name === "Group Stage"));
+      setHasGroups((tourneyData.stages || []).some((s) => s.name === "Group Stage"));
       setRankRange([
         tourneyData.rankMin,
         tourneyData.rankMax !== -1 ? tourneyData.rankMax : Infinity,
@@ -111,8 +111,9 @@ export default function Players({ tourney, user }) {
           return message.error("Something went wrong, failed to fetch team data.");
         }
       }
-    } catch {
+    } catch (e) {
       message.error("Something went wrong, failed to fetch data.");
+      console.log(e);
     }
   };
 
