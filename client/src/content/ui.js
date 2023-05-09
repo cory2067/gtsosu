@@ -27,6 +27,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    songs: "Songs",
   },
 
   ja: {
