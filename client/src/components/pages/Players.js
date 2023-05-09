@@ -186,7 +186,7 @@ export default function Players({ tourney, user }) {
       await delet("/api/team", { tourney: tourney, _id });
 
       setTeams(teams.filter((p) => p._id !== _id));
-      
+
       if (tournament.flags.includes("registerAsTeam")) {
         setPlayers(players.filter((p) => !playerNames.includes(p.username)));
       }
@@ -257,10 +257,12 @@ export default function Players({ tourney, user }) {
     try {
       const newTeams = await post("/api/team-stats", {
         tourney,
-        teamStats: [{
-          ...formData,
-          _id,
-        }],
+        teamStats: [
+          {
+            ...formData,
+            _id,
+          },
+        ],
       });
 
       setTeams(
@@ -335,6 +337,16 @@ export default function Players({ tourney, user }) {
     }
   };
 
+  const handleTeamExport = () => {
+    const output = teams
+      .sort((x, y) => x.seedNum - y.seedNum)
+      .map((team) => {
+        return team.name;
+      })
+      .join("\n");
+    navigator.clipboard.writeText(output);
+  };
+
   const isAdmin = () => hasAccess(user, tourney, []);
 
   const refreshRanks = async () => {
@@ -392,23 +404,21 @@ export default function Players({ tourney, user }) {
       }
       return undefined;
     };
-    
+
     try {
       const newPlayers = await post("/api/player-stats", {
         tourney: tourney,
-        playerStats: thePlayers.map((player, index) =>
-          ({
-            _id: player._id,
-            stats: {
-              seedName: getSeedName(index),
-              seedNum: index + 1,
-              regTime: getStatsById(player._id).regTime,
-            },
-          })
-        ),
+        playerStats: thePlayers.map((player, index) => ({
+          _id: player._id,
+          stats: {
+            seedName: getSeedName(index),
+            seedNum: index + 1,
+            regTime: getStatsById(player._id).regTime,
+          },
+        })),
       });
 
-      const newPlayersById = new Map(newPlayers.map(player => [player._id, player]));
+      const newPlayersById = new Map(newPlayers.map((player) => [player._id, player]));
 
       setPlayers(
         players.map((t) => {
@@ -463,34 +473,40 @@ export default function Players({ tourney, user }) {
       </div>
 
       {mode === "teams" && isAdmin() && (
-        <Collapse>
-          <Panel header={`Add new team`} key="1">
-            Add all player names, with the captain's name first.
-            <Form name="basic" onFinish={onFinish}>
-              <Form.Item label="Players" name="players">
-                <Select mode="multiple" showSearch allowClear placeholder="Select players">
-                  {sortedPlayers("alpha", players).map((playerItem, playerIndex) => (
-                    <Select.Option value={playerItem.username} key={playerIndex}>
-                      {playerItem.username}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-              <Form.Item label="Team Name" name="name">
-                <Input />
-              </Form.Item>
-              Optional link to a team flag (the dimensions should be 70x47)
-              <Form.Item label="Custom flag" name="icon">
-                <Input />
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Add
-                </Button>
-              </Form.Item>
-            </Form>
-          </Panel>
-        </Collapse>
+        <>
+          <Collapse>
+            <Panel header={`Add new team`} key="1">
+              Add all player names, with the captain's name first.
+              <Form name="basic" onFinish={onFinish}>
+                <Form.Item label="Players" name="players">
+                  <Select mode="multiple" showSearch allowClear placeholder="Select players">
+                    {sortedPlayers("alpha", players).map((playerItem, playerIndex) => (
+                      <Select.Option value={playerItem.username} key={playerIndex}>
+                        {playerItem.username}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item label="Team Name" name="name">
+                  <Input />
+                </Form.Item>
+                Optional link to a team flag (the dimensions should be 70x47)
+                <Form.Item label="Custom flag" name="icon">
+                  <Input />
+                </Form.Item>
+                <Form.Item>
+                  <Button type="primary" htmlType="submit" loading={loading}>
+                    Add
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Panel>
+          </Collapse>
+
+          <div className="Players-admintool">
+            <Button onClick={handleTeamExport}>Copy teams sorted by seed</Button>
+          </div>
+        </>
       )}
 
       <AddPlayerModal
