@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { prettifyTourney } from "../../utilities";
 import {
   DeleteOutlined,
   StarOutlined,
@@ -33,12 +34,23 @@ export default function MapCard({
   pooler,
   sr,
   title,
+  showTourney,
+  tourney,
+  stage,
 }) {
   return (
     <Card
       title={
         <div className="MapCard-title">
           <div className={`MapCard-icon mod-${mod}`}></div>
+          {showTourney && (
+            <span>
+              {prettifyTourney(tourney)}
+              &nbsp;-&nbsp;
+              {stage}
+              &nbsp;-&nbsp;
+            </span>
+          )}
           {`${mod}${index}`}
           <div style={{ marginRight: 12 }} />
           {customMap && (

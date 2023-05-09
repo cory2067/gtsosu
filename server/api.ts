@@ -1565,6 +1565,15 @@ router.getAsync("/map-history", async (req, res) => {
 });
 
 /**
+ * GET /api/custom-songs
+ * Gets all the GTS tourney maps that are marked as custom songs
+ */
+router.getAsync("/custom-songs", async (req, res) => {
+  const maps = await TourneyMap.find({ customSong: true });
+  res.send(maps);
+});
+
+/**
  * GET /api/languages
  * Get the supported languages for a tourney
  * Params:
