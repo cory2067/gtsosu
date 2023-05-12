@@ -13,7 +13,7 @@ import Tournament, { ITournament } from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
 import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
-import { Request } from "./types";
+import { Request, BaseRequestArgs } from "./types";
 
 import mapRouter from "./api/map";
 import donationRouter from "./api/donation";
@@ -30,9 +30,6 @@ const mpRegex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+
 const mpRegex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
 
 // Populate each request with tourney-level user auth
-type BaseRequestArgs = {
-  tourney?: string;
-};
 router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
   const auth = new UserAuth(req.user);
   const tourney = req.body.tourney ?? req.query.tourney;
@@ -385,14 +382,13 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
  * POST /api/settings
  * Submit settings for a user
  * Params:
- *   - discord: discord username
  *   - timezone: player's timezone
  *   - cardImage: custom background image for user card
  */
 router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
   logger.info(`${req.user.username} updated user settings`);
   await User.findByIdAndUpdate(req.user._id, {
-    $set: { discord: req.body.discord, timezone: req.body.timezone, cardImage: req.body.cardImage },
+    $set: { timezone: req.body.timezone, cardImage: req.body.cardImage },
   });
   res.send({});
 });

@@ -3,7 +3,7 @@ import passport from "passport";
 import fetch from "node-fetch";
 import passportOAuth2 from "passport-oauth2";
 import User from "./models/user";
-import { UserDocument } from "./types";
+import { UserDocument, Request, BaseRequestArgs } from "./types";
 
 const OAuth2Strategy = passportOAuth2.Strategy;
 
@@ -55,6 +55,25 @@ const makeAuthStrategy = (clientId: string, clientSecret: string) =>
     }
   );
 
+const makeAuthStrategyDiscord = (clientId: string, clientSecret: string) =>
+  new OAuth2Strategy(
+    {
+      authorizationURL: "https://discord.com/api/oauth2/authorize",
+      tokenURL: "https://discord.com/api/oauth2/token",
+      clientID: clientId,
+      clientSecret: clientSecret,
+      callbackURL: "/auth/discord/callback",
+      scope: ["identify"],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      const me = await fetch("https://discord.com/api/users/@me", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }).then((res) => res.json());
+
+      done(null, me);
+    }
+  );
+
 const getStrategy = (req) => (req.hostname === "taikotourney.com" ? "taikotourney" : "default");
 
 if (process.env.NODE_ENV !== "test") {
@@ -65,6 +84,13 @@ if (process.env.NODE_ENV !== "test") {
     passport.use(
       "taikotourney",
       makeAuthStrategy(process.env.TT_CLIENT_ID, process.env.TT_CLIENT_SECRET)
+    );
+  }
+  
+  if (process.env.DISCORD_CLIENT_ID && process.env.DISCORD_CLIENT_SECRET) {
+    passport.use(
+      "discord",
+      makeAuthStrategyDiscord(process.env.DISCORD_CLIENT_ID, process.env.DISCORD_CLIENT_SECRET)
     );
   }
 
@@ -90,6 +116,29 @@ if (process.env.NODE_ENV !== "test") {
     (req, res, next) =>
       passport.authenticate(getStrategy(req), { failureRedirect: "/login" })(req, res, next),
     (req, res) => {
+      // Successful authentication!
+      // janky thing to close the login popup window
+      res.send("<script>setInterval(window.close)</script>");
+    }
+  );
+  
+  router.get("/login-discord", (req, res) => passport.authorize("discord")(req, res));
+  
+  router.get(
+    "/discord/callback",
+    (req, res, next) =>
+      passport.authorize("discord", { failureRedirect: "/login-discord" })(req, res, next),
+    async (req: Request<BaseRequestArgs, BaseRequestArgs>, res) => {
+      if (req.user && req.account) {
+        // Associate discord account with logged-in user
+        await User.findByIdAndUpdate(req.user._id, {
+          $set: {
+            discordId: req.account.id,
+            discord: `${req.account.username}#${req.account.discriminator}`,
+          },
+        });
+      }
+      
       // Successful authentication!
       // janky thing to close the login popup window
       res.send("<script>setInterval(window.close)</script>");

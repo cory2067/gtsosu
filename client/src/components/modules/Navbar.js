@@ -207,7 +207,9 @@ function Navbar(props) {
   }
 
   useEffect(() => {
-    setVisible(isIncomplete());
+    if (isIncomplete()) {
+      setVisible(true);
+    }
     setFormData(user);
   }, [user]);
 
@@ -272,6 +274,7 @@ function Navbar(props) {
             visible={visible}
             loading={loading}
             user={user}
+            setUser={setUser}
             formData={formData}
             handleOk={handleOk}
             handleCancel={handleCancel}

@@ -13,7 +13,18 @@ interface Request<Q extends Query, B> extends express.Request {
   body: B;
   user?: UserDocument;
   auth: UserAuthWithContext;
+  account?: DiscordAccount;
 }
 type Populate<T, R> = Omit<T, keyof R> & R;
 
-export { Request, UserDocument, Populate };
+type BaseRequestArgs = {
+  tourney?: string;
+};
+
+type DiscordAccount = {
+  id: string;
+  username: string;
+  discriminator: string;
+};
+
+export { Request, UserDocument, Populate, BaseRequestArgs };

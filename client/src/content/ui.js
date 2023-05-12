@@ -21,6 +21,8 @@ export default {
       discord: "Discord Username",
       timezone: "Timezone",
       tournies: "My Tournies",
+      discordLink: "Link",
+      discordUpdate: "Update",
     },
     archives: "Archives",
     stats: "Statistics",

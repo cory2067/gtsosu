@@ -22,6 +22,7 @@ interface IUser {
   tournies: string[];
   donations: number;
   cardImage: string;
+  discordId: string;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -51,6 +52,7 @@ const UserSchema = new Schema<IUser>({
   tournies: [String], // map from tourney code to list of roles
   donations: Number,
   cardImage: String,
+  discordId: String,
 });
 
 export { UserTourneyStats, IUser };
