@@ -698,22 +698,30 @@ router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
 });
 
 /**
- * POST /api/reschedule
- * Reschedule a tourney match
+ * POST /api/edit-match
+ * Edit a tourney match
  * Params:
  *   - match: the _id of the match
  *   - tourney: identifier for the tournament
  *   - time: the new match time (in UTC)
+ *   - code: the new match id
+ *   - player1, player2: the player usernames
  */
-router.postAsync("/reschedule", ensure.isAdmin, async (req, res) => {
+router.postAsync("/edit-match", ensure.isAdmin, async (req, res) => {
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match },
-    { $set: { time: new Date(req.body.time) } },
-    { new: true }
+    { $set: {
+        time: req.body.time ? new Date(req.body.time) : undefined,
+        code: req.body.code,
+        player1: req.body.player1,
+        player2: req.body.player2,
+      }
+    },
+    { new: true, omitUndefined: true }
   ).orFail();
 
   logger.info(
-    `${req.user.username} rescheduled ${req.body.tourney} match ${newMatch.code} to ${req.body.time}`
+    `${req.user.username} edited ${req.body.tourney} match ${newMatch.code}`
   );
   res.send(newMatch);
 });
