@@ -95,6 +95,9 @@ There are no other prizes being considered for BTT8
 - Matches are allowed to overlap if referees are available. 
 - We will try to schedule as best as possible so it fits with the time zones. The schedule will be released the weekend before each stage. 
 - Reschedules will only be considered if both players agree on a time. Proof of that (screenshot) along with the new match time needs to be sent in #reschedules before **Thursday at 23:59 UTC+0** in that particular week when your match takes place.
+- If a player is not responding to a reschedule request, the host (TaikoMom#6758) should be made aware of this so she can look into this on time.
+- If a player is not cooperating on a reschedule and there are no given reasons as to why, the host may decide to make it a wbd for the other player. This is done on a case-by-case basis and can only be decided by the host.
+- If there is hard evidence of a player denying a reschedule request (screenshots and such), the host may immediately kick the player from the tournament and permanently ban them from ever participating again. This is, again, done on a case-by-case basis and can only be decided by the host.
 
 # Match Regulations
 - A private match will be created 10-15 minutes before your match by a referee. Both players will be invited when it's match time. Make certain you're online at this time.
