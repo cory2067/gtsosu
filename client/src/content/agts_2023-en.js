@@ -1,17 +1,16 @@
 export default {
-    name: "Intermediate Global Taiko Showdown",
+    name: "Advanced Global Taiko Showdown",
     description:
-      "The Intermediate Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
-    discord: "https://discord.gg/a6PzzFz",
+      "The Advanced Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for advanced level players being restricted for ranks #500 to #1,500. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
+    discord: "https://discord.gg/3mGC3HB",
     homepage: [
       {
         title: "Restrictions",
-        body: `1. You must be between ranks #4500  - #10000 in osu!taiko during the entirety of the registration phase.
-  2. You are not allowed to rank up further than #4000 during the tournament. If you pass this limit you'll be disqualified. 
+        body: `1. You must be between ranks #500 - #1,500 in osu!taiko during the entirety of the registration phase.
+  2. You are not allowed to rank up further than #400 during the tournament. If you pass this limit you'll be disqualified. 
   3. You must join the Discord server of the tournament.
-  4. You must not have been part of a team that has placed top 3 in the past 2 years or that has won IGTS.
-  5. You must not have been part of a team that has placed top 3 in any of the higher rank-restricted GTS tournament (RGTS/AGTS).
-  6. Any osu!taiko player who has not been restricted within the past 12 months and follows these criterias will be allowed in this tournament. The osu! support reserves the right of removing any player from the tournament following the screening phase.`,
+  4. You must not have been part of a team that has placed top 3 in the past 2 years or that has ever won AGTS.
+  5. Any osu!taiko player who has not been restricted within the past 12 months and follows these criterias will be allowed in this tournament. The osu! support reserves the right of removing any player from the tournament following the screening phase.`,
       },
       { 
         title: "Registration", 
@@ -23,23 +22,23 @@ export default {
         title: "Dates",
         body: `
   ### Registration Phase
-  March 19th until April 2nd 23:59 UTC
+  May 7th until May 21st.
   ### Screening and teams creation
-  April 2nd until April 9th.
+  May 21st until June 4th.
   ### Qualifiers
-  April 15th until April 16th.
+  June 10th until June 11th.
   ### Week 1/Group Stage
-  April 22nd until April 23rd.
+  June 17th until June 18th.
   ### Week 2/Runoff bracket
-  April 29th until April 30th.
+  June 24th until June 25th.
   ### Week 3/Round Of 16 + Quarterfinals + Loser's Bracket Round 1
-  May 6th until May 7th.
+  July 1st until July 2nd.
   ### Week 4/Semifinals + Loser's Bracket Round 2 and 3
-  May 13th until May 14th.
+  July 8th until July 9th.
   ### Week 5/Winner's Bracket Finals + Loser's Bracket Round 4 and 5
-  May 20th until May 21st.
+  July 15th until July 16.
   ### Week 6/Grand Finals + Loser's Bracket Round 6 (Grand Finals) + All-Stars
-  May 27th until May 28th.`,
+  July 22nd until July 23rd.`,
       },
       {
         title: "Prizes",
@@ -64,7 +63,7 @@ export default {
   
   # Tournament Registration and Teams Creation
   - In order to participate you need to meet the criteria stated in the **rank restrictions** part.
-  - You are not allowed to rank up further than #4500 during the registration period and then further than #4000 during the actual tournament. If you pass this limit you'll be disqualified.
+  - You are not allowed to rank up further than #500 during the registration period and then further than #400 during the actual tournament. If you pass this limit you'll be disqualified.
   - osu! staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range.
   - Players sign up individually. When their registration is accepted, they will get a country role.
   - A country needs **at least 2 players** to participate.
@@ -132,7 +131,7 @@ export default {
   - If less than the minimum required players attend, the maximum time the match can be postponed is 10 minutes.
   - There is no penalty for not joining the room instantly after match time as long as it's within the postponed time.
   - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the Runoff Bracket or the Main Bracket the highest seeded team will advance.
-  - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "IGTS 2023: (Team Red) vs (Team Blue)".
+  - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "AGTS2023: (Team Red) vs (Team Blue)".
   - Each team is allowed one warm-up but the total time of the map must be below 3 minutes. The warm-up must be uploaded on the website up to one hour prior to the match's start time. Teams will be allowed to send warmups starting from the day schedules release.
   - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
   - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match.
@@ -153,13 +152,14 @@ export default {
   
   # Mappool Instructions
   - There will be 1 mappool for each of the following stage: Qualifiers, Week 1, Week 2, Week 3, Week 4, Week 5 and Week 6.
-  - The Qualifiers pool will be different from all the other rounds as it will have a format of 2 NoMod maps, 1 Hidden map, 1 HardRock map, 1 DoubleTime map and 1 FreeMod map.
+  - The Qualifiers pool will be different from all the other rounds as it will have a format of 3 NoMod maps, 2 Hidden maps, 2 HardRock maps, 1 DoubleTime map and 1 FreeMod map.
   - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
   - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker.
   - The Week 1 mappool will consist of 14 maps. Week 2, Week 3 and Week 4 mappool will consist of 15 maps. Week 5 and Week 6 mappool will consist of 16 maps.
   - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages as well.
   - The size of the NoMod bracket will be 4 in Week 1; 5 in  Week 2, Week 3 and Week 4; 6 for Week 5 and Week 6.
   - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least one player of each team must have at least one mod activated**.
+  - Players must select **different mod combinations**. **Both players using Hidden, only HardRock or double Hidden+HardRock is disallowed**.
   - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated.
   - The mappool for each stage will be showcased a week beforehand.
   

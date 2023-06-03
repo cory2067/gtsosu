@@ -13,6 +13,7 @@ import Schedule from "./pages/Schedule";
 import Stats from "./pages/Stats";
 import PoolHelper from "./pages/PoolHelper";
 import Donate from "./pages/Donate";
+import Songs from "./pages/Songs";
 import Navbar from "./modules/Navbar";
 import { get } from "../utilities";
 
@@ -51,6 +52,7 @@ export default function App() {
           <Archives path="/archives" />
           <PoolHelper path="/pool-helper" />
           <Donate path="/donate" user={user} />
+          <Songs path="/songs" />
 
           <TourneyRouteWrapper
             user={user}
