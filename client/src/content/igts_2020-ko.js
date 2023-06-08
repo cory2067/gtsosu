@@ -2,7 +2,20 @@ export default {
     name: "Intermediate Global Taiko Showdown",
     description:
       "Intermediate Global Taiko Showdown는, GTS시리즈의 시작과 함께한 대회입니다. 중급 수준의 플레이어들을 위한 2대2 토너먼트로, 참가자는 #3,500위 부터 #10,000위 까지의 유저들로 제한되어 있습니다.",
-    discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "디스코드",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge",
+        link: "https://challonge.com/IGTS2020"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/34"
+      },
+    ],
     homepage: [
       {
         title: "제한사항",

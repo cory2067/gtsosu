@@ -2,7 +2,20 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "Expert Global Taiko Showdownは、ランク制限を設けず、トッププレイヤーを対象とした1vs1のトーナメントです。予選を勝ち抜いた上位128名による、白熱したダブルエリミネーショントーナメントが繰り広げられます。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "ディスコード",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2022"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/94"
+    },
+  ],
   homepage: [
     {
       title: "参加資格",

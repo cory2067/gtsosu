@@ -2,7 +2,20 @@ export default {
   name: "Intermediate Global Taiko Showdown",
   description:
     "The Intermediate Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.",
-  discord: "https://discord.gg/a6PzzFz",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/a6PzzFz"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/IGTS2022"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/83"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

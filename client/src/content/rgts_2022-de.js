@@ -2,7 +2,16 @@ export default {
   name: "Rising Global Taiko Showdown",
   description:
     "Der Rising Global Taiko Showdown, unser 2-gegen-2 Turnier für Spieler mittlerer Ranghöhe zwischen Rang #1000 und #4500. Nach der Qualifikation werden die besten 32 Teams in der Gruppenphase aufeinandertreffen. Aus dieser gehen 16 Teams hervor und werden in einem Doppel-K.o.-System gegeneinander spielen.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2022"
+    },
+  ],
   homepage: [
     {
       title: "Einschränkungen",

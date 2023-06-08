@@ -2,7 +2,16 @@ export default {
   name: "Squad Global Taiko Showdown",
   description:
     "Squad Global Taiko Showdown, это турнир 3 на 3 где игроки могут собрать свои собственные команды до 6-ти игроков. По результатам квалификаций, 32 лучшие команды сыграют в сетке с двойным вылетом. ",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/SGTS2023"
+    },
+  ],
   homepage: [
     {
       title: "Ограничения",

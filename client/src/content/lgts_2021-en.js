@@ -2,7 +2,16 @@ export default {
   name: "LordEnder Global Taiko Showdown",
   description:
   "The LordEnder Global Taiko Showdown, the 8th GTS tournament. It's a tournament with no rank range. Teams are made entirely by LordEnder. The teams will be seeded by LordEnder. The top 16 teams will go through and play in a double-elimination bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/LGTS2021"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

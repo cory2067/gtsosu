@@ -1,7 +1,12 @@
 export default {
   name: "Not A Real Tournament",
   description: "This is a fake tourney used for website testing purposes",
-  discord: "https://discord.gg/a6PzzFz",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/a6PzzFz"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

@@ -2,7 +2,12 @@ export default {
   name: "cavoe's osu! event's Global Taiko Showdown",
   description:
     "The cavoe's osu! event's Global Taiko Showdown, our first ever offline 1v1 tournament, with entirely custom songs. The top 16 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

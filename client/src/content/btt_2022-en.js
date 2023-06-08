@@ -2,7 +2,16 @@ export default {
   name: "Beginner's Taiko Tournament Season 7",
   description:
     "Beginner's Taiko Tournament is a rank-restricted tournament for newcomers to the taiko scene from infinity up to #10,000 rank. The players will first play in a qualifiers. The top 64 players will then play in a double-elimination bracket.",
-  discord: "https://discord.gg/9FKYDe74un",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/9FKYDe74un"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/BTTS7"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

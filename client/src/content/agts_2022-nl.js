@@ -2,7 +2,20 @@ export default {
   name: "Advanced Global Taiko Showdown",
   description:
     "De Advanced Global Taiko Showdown, ons 2v2 toernooi for advanced-level players, being restricted for ranks #500 to #1,500. The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/AGTS2022"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/85"
+    },
+  ],
   homepage: [
     {
       title: "Restricties",

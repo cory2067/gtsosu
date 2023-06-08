@@ -2,7 +2,20 @@ export default {
   name: "Beginners Global Taiko Showdown",
   description:
     "Der Beginners Global Taiko Showdown, unser 2 gegen 2 Turnier für Anfänger von Rang #8000 ohne untere Grenze. Nach der Qualifikation werden die besten 16 Teams in der Gruppenphase aufeinandertreffen. Aus dieser gehen 8 Teams hervor und werden in einem Doppel-Eliminierungs-Format gegeneinander spielen.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/BGTS2020"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/48"
+    },
+  ],
   homepage: [
     {
       title: "Einschränkungen",

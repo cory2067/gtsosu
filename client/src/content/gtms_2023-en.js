@@ -2,7 +2,20 @@ export default {
   name: "Global Taiko Malaysian Showdown",
   description:
     "The Global Taiko Malaysian Showdown is a special 2v2 tournament collaboration event between the osu!taiko Malaysian Tournament (OTMT) and Global Taiko Showdown (GTS). Each team must consist of one Malaysian and one Global player and the top teams after qualifiers will face-off in a double-elimination bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/GTMS2023"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/113"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

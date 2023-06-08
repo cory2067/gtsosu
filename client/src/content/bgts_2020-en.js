@@ -2,7 +2,20 @@ export default {
   name: "Beginners Global Taiko Showdown",
   description:
     "The Beginners Global Taiko Showdown, our 2v2 tournament for beginners players, being restricted for ranks #8,000 to no bottom rank limit. The top 16 teams after qualifiers will then face off in a Group Stage, where 8 teams will go through, and play in a double-elimination bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/BGTS2020"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/48"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

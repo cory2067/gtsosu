@@ -2,7 +2,20 @@ export default {
   name: "Rising Global Taiko Showdown",
   description:
     "De Rising Global Taiko Showdown, ons 2-tegen-2 toernooi voor middelklasse spelers, met een rank van #1,000 tot #4,500. De top 32 teams na de kwalificatie zullen tegen elkaar strijden in de Groepsfase, waar de 16 beste teams doorheen komen, die daarna een dubbele eliminatie bracket spelen.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2021"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/64"
+    },
+  ],
   homepage: [
     {
       title: "Restricties",
