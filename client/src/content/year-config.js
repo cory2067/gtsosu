@@ -18,4 +18,5 @@ export default {
   ftwc: 2022,
   gtms: 2023,
   mgts: 2023,
+  coegts: 2023,
 };
