@@ -7,7 +7,15 @@ import PastTourneyCard from "./PastTourneyCard";
 
 import "./PastTournies.css";
 
-export default function PastTournies() {
+/**
+ * @typedef PastTourniesProps
+ * @property {String[]} exclude Tournies full code to exclude from the list
+ */
+/**
+ * @param {PastTourniesProps} param0
+ * @returns
+ */
+export default function PastTournies({ exclude }) {
   const [tournies, setTournies] = useState([]);
 
   useEffect(() => {
@@ -37,9 +45,11 @@ export default function PastTournies() {
         <Text style={{ fontWeight: 900 }}>Past</Text>{" "}
         <Text tyle={{ fontWeight: 900 }}>Tournaments</Text>
       </Typography>
-      {tournies.map((tourney) => (
-        <PastTourneyCard key={tourney._id} tourney={tourney} />
-      ))}
+      {tournies
+        .filter((t) => !exclude.includes(t.fullCode))
+        .map((tourney) => (
+          <PastTourneyCard key={tourney._id} tourney={tourney} />
+        ))}
     </div>
   );
 }

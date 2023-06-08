@@ -33,13 +33,14 @@ export default function Home() {
   var tourneyColSpan = mobileLayout ? 24 : 12;
   var ongoingTournies = data.tournies.filter((tourney) => tourney.ongoing);
   var tournies = data.tournies.filter((tourney) => !tourney.ongoing);
+  const currentTourniesFullCode = data.tournies.map((tourney) => tourney.fullCode);
 
   return (
     <Content className="content Home-content">
       {/* <div className="Home-title-section">
         <div className="Home-title-section-inner">
-          <h1 className="Home-title u-xbold">{data.title}</h1>
-          <div className="Home-about-container">
+          <h1 className="Home-title u-bold">{data.title}</h1>
+          <div className="Home-about-container">x
             <div className="Home-about">
               <ReactMarkdown source={data.description} />
             </div>
@@ -80,7 +81,7 @@ export default function Home() {
 
         {/* Past Tournies */}
         <div className="Home-past-tournies-container">
-          <PastTournies />
+          <PastTournies exclude={currentTourniesFullCode} />
         </div>
       </div>
     </Content>

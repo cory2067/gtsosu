@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import ContentManager from "../../../ContentManager";
 
 import "./PastTourneyCard.css";
+import { Link } from "@reach/router";
 
 /**
  * @typedef tourney
@@ -12,6 +13,7 @@ import "./PastTourneyCard.css";
  * @property {string} code
  * @property {number} year
  * @property {string} codeAndDivision
+ * @property {string} fullCode
  */
 /**
  * @param {object} props
@@ -24,24 +26,27 @@ export default function PastTourneyCard({ tourney }) {
     ContentManager.get(tourney.fullCode).then((content) => {
       SetTourneyContent(content);
     });
-  }, [tourney.codeAndDivision]);
+  }, [tourney.fullCode]);
 
   return (
-    <div className="u-rounded-border PastTourneyCard-container">
-      <Image
-        className="u-rounded-border PastTourneyCard-thumbnail"
-        src="TODO: banner url"
-        fallback="/public/gts-tournament-no-image.png"
-      />
-      <div className="PastTourneyCard-text-container">
-        <Typography className="PastTourneyCard-title">
-          <Text className="u-xxbold">{tourneyContent?.name || "..."}</Text>
-          <Text> {tourney?.year}</Text>
-        </Typography>
-        <Typography.Paragraph ellipsis={{ rows: 3 }} className="PastTourneyCard-description">
-          {tourneyContent?.description || "..."}
-        </Typography.Paragraph>
+    <Link to={`/${tourney.year}/${tourney.codeAndDivision}/home`}>
+      <div className="u-rounded-border PastTourneyCard-container">
+        <Image
+          className="u-rounded-border PastTourneyCard-thumbnail"
+          src={`/public/backgrounds/${tourney.fullCode}.png`}
+          fallback="/public/gts-tournament-no-image.png"
+          preview={false}
+        />
+        <div className="PastTourneyCard-text-container">
+          <Typography className="PastTourneyCard-title">
+            <Text className="u-xxbold">{tourneyContent?.name || "..."}</Text>
+            <Text> {tourney?.year}</Text>
+          </Typography>
+          <Typography.Paragraph ellipsis={{ rows: 3 }} className="PastTourneyCard-description">
+            {tourneyContent?.description || "..."}
+          </Typography.Paragraph>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 }
