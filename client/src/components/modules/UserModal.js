@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
-import { Form, Select, Input, Modal } from "antd";
+import { get, showAuthPopup } from "../../utilities";
+import { Form, Select, Input, Modal, Button } from "antd";
 import ContentManager from "../../ContentManager";
 import UserCard from "./UserCard";
 
@@ -43,7 +43,18 @@ for (let i = -12; i <= 14; i += 0.5) {
   timezones.push(i);
 }
 
-function UserModal({ user, formData, visible, loading, handleOk, handleCancel, onValuesChange }) {
+function UserModal({
+  user,
+  setUser,
+  formData,
+  visible,
+  loading,
+  handleOk,
+  handleCancel,
+  onValuesChange,
+}) {
+  const discordLoginFlow = () => showAuthPopup("/auth/login-discord", setUser);
+
   return (
     <Modal
       title={`Settings for ${user.username}`}
@@ -57,9 +68,19 @@ function UserModal({ user, formData, visible, loading, handleOk, handleCancel, o
       </div>
 
       <Form {...layout} onValuesChange={onValuesChange} initialValues={user}>
-        <div style={{ marginBottom: 12 }}>{UI.note}</div>
-        <Form.Item name="discord" label={UI.discord}>
-          <Input />
+        <Form.Item label={UI.discord}>
+          {user.discordId ? (
+            <div>
+              <span style={{ paddingRight: 8 }}>{user.discord}</span>
+              <Button type="primary" onClick={discordLoginFlow}>
+                {UI.discordUpdate}
+              </Button>
+            </div>
+          ) : (
+            <Button type="primary" onClick={discordLoginFlow}>
+              {UI.discordLink}
+            </Button>
+          )}
         </Form.Item>
         <Form.Item name="timezone" label={UI.timezone}>
           <Select placeholder="UTC+0">
@@ -70,7 +91,8 @@ function UserModal({ user, formData, visible, loading, handleOk, handleCancel, o
             ))}
           </Select>
         </Form.Item>
-        {(user.donations >= 10 || user.roles.some(role => ["Designer", "Artist"].includes(role.role))) && (
+        {(user.donations >= 10 ||
+          user.roles.some((role) => ["Designer", "Artist"].includes(role.role))) && (
           <Form.Item name="cardImage" label="Custom BG">
             <Select placeholder="No image">
               <Select.Option key="none" value={""}>
