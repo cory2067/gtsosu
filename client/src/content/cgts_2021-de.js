@@ -2,7 +2,36 @@ export default {
   name: "Continental Global Taiko Showdown",
   description:
     "Der Continental Global Taiko Showdown, unser 1-gegen-1-Tunier ohne Rangbeschränkung für 5 Regionen gleichzeitig, aus welchen die jeweils 8 besten Spieler ihrer Region in einem 4-gegen-4 Doppel-Eliminierungs-Format gegeneinander antreten. Die besten 32 Spieler nach den Qualifikation treffen in einem 1-gegen-1 Doppel-Eliminierungs-Format aufeinander.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge: Global",
+      link: "https://challonge.com/CGTS2021_4v4"
+    },
+    {
+      label: "Challonge: Asia",
+      link: "https://challonge.com/CGTS2021_Asia"
+    },
+    {
+      label: "Challonge: Europe",
+      link: "https://challonge.com/CGTS2021_Europe"
+    },
+    {
+      label: "Challonge: North America",
+      link: "https://challonge.com/CGTS2021_NA"
+    },
+    {
+      label: "Challonge: Oceania/SEA",
+      link: "https://challonge.com/CGTS2021_OSEA"
+    },
+    {
+      label: "Challonge: South America",
+      link: "https://challonge.com/CGTS2021_SA"
+    },
+  ],
   divisions: ["4v4", "asia", "eu", "na", "osea", "sa"],
   homepage: [
     {

@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "The Expert Global Taiko Showdown is our 1v1 tournament targeted towards top players, even though it has no rank limit. The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2021"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

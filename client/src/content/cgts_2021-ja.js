@@ -2,7 +2,36 @@ export default {
     name: "Continental Global Taiko Showdown",
     description:
       "Continental Global Taiko Showdownはランク制限のないosu!taikoの大会です。まず、5つの地域で1対1の大会が同時に進行され、その後、各地域での上位8人がチームを組み、4対4のダブルイリミネーション形式のトーナメントで戦います。1対1での大会は、予選（qualifiers）を突破した32人がダブルイリミネーション形式のトーナメントで戦います。",
-    discord: "https://discord.gg/3mGC3HB",
+    links: [
+      {
+        label: "ディスコード",
+        link: "https://discord.gg/3mGC3HB"
+      },
+      {
+        label: "Challonge: Global",
+        link: "https://challonge.com/CGTS2021_4v4"
+      },
+      {
+        label: "Challonge: Asia",
+        link: "https://challonge.com/CGTS2021_Asia"
+      },
+      {
+        label: "Challonge: Europe",
+        link: "https://challonge.com/CGTS2021_Europe"
+      },
+      {
+        label: "Challonge: North America",
+        link: "https://challonge.com/CGTS2021_NA"
+      },
+      {
+        label: "Challonge: Oceania/SEA",
+        link: "https://challonge.com/CGTS2021_OSEA"
+      },
+      {
+        label: "Challonge: South America",
+        link: "https://challonge.com/CGTS2021_SA"
+      },
+    ],
     divisions: ["4v4", "asia", "eu", "na", "osea", "sa"],
     homepage: [
       {

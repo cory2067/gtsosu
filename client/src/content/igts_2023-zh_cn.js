@@ -3,6 +3,24 @@ export default {
     description:
       "全球中级太鼓锦标赛，是本系列锦标赛的初创赛事。这是一个排名限制在4500到10000名，面向中级玩家的二对二锦标赛。所有队伍需要首先参加资格赛，然后参加小组赛、冒泡赛，最后进入双败淘汰赛。",
     discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge Week 1: Group Stage",
+        link: "https://challonge.com/IGTS2023Week1"
+      },
+      {
+        label: "Challonge Week 2: Runoff Bracket",
+        link: "https://challonge.com/IGTS2023Week2"
+      },
+      {
+        label: "Challonge Week 3-6: Main Bracket",
+        link: "https://challonge.com/IGTS2023Main"
+      },
+    ],
     homepage: [
       {
         title: "注册限制",
@@ -112,8 +130,8 @@ export default {
     - 比赛序号以冒泡赛的倒序进行排序。头4位序号将分配给冒泡赛胜者组，而后4位序号将分配给冒泡赛败者组。（例如：序号1的比赛是由资格赛第九对第十六的胜者对阵资格赛第八。序号8的比赛是由资格赛第九对第十六的败者与A组第一对D组第二的胜者之间的胜者对阵资格赛第一。）
   - 每个阶段的胜利条件是：
     - 第一周/小组赛： 9局5胜。
-    - 第二、三、四周/冒泡赛，十六强赛，胜者组八强赛、半决赛，败者组第一、二、三、四轮：11局6胜。
-    - 第五、六周/胜者组决赛，总决赛，败者组第五轮、决赛：13局7胜。
+    - 第二、三、四周/冒泡赛，十六强赛，胜者组八强赛、半决赛，败者组第一、二、三轮：11局6胜。
+    - 第五、六周/胜者组决赛，总决赛，败者组第四、五轮、决赛：13局7胜。
 
   # 资格赛规则
   - 在这轮比赛中，会在不同时间段创建多个房间。

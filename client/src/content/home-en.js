@@ -40,30 +40,14 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 16 
       banner: "/public/backgrounds/rgts_2022.png"
     },
     {
-      title: "SGTS 2023",
-      fullTitle: "SQUAD GLOBAL TAIKO SHOWDOWN 2023",
-      code: "sgts",
+      title: "COEGTS 2023",
+      fullTitle: "CAVOE'S OSU! EVENT'S GLOBAL TAIKO SHOWDOWN 2023",
+      code: "coegts",
       description: `
-The Squad Global Taiko Showdown, our open-rank 3v3 tournament, where you can make your own team with 3-6 players.
-The top 32 teams after qualifiers will then face off in a double-elimination bracket.`,
-      banner: "/public/backgrounds/sgts_2023.png"
+The cavoe's osu! event's Global Taiko Showdown, our first ever offline 1v1 tournament, with entirely custom songs.
+The top 16 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,
+      banner: "/public/backgrounds/coegts_2023.png"
     },
-    {
-      title: "GTMS 2023",
-      fullTitle: "GLOBAL TAIKO MALAYSIAN SHOWDOWN 2023",
-      code: "gtms",
-      description: `
-      The Global Taiko Malaysian Showdown is a special 2v2 tournament collaboration event between the osu!taiko Malaysian Tournament (OTMT) and Global Taiko Showdown (GTS). Each team must consist of one Malaysian and one Global player and the top 32 teams after qualifiers will face-off in a high stakes single-elimination bracket.`,
-      banner: "/public/backgrounds/gtms_2023.png"
-    },
-    {
-        title: "MGTS 2023",
-        fullTitle: "MAPPING GLOBAL TAIKO SHOWDOWN 2023",
-        code: "mgts",
-        description: `
-        The Mapping Global Taiko Showdown (MGTS) is our mapping contest series for the osu!taiko game mode. It is a single-round, team-based contest where each team is composed of 4 to 6 mappers, with each team collaborating on a total of 3 songs.`,
-        banner: "/public/backgrounds/mgts_2023.png"
-        },
   ],
 };
 

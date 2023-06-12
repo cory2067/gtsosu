@@ -2,7 +2,28 @@ export default {
     name: "Advanced Global Taiko Showdown",
     description:
       "The Advanced Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for advanced level players being restricted for ranks #500 to #1,500. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
-    discord: "https://discord.gg/3mGC3HB",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/3mGC3HB"
+      },
+      {
+        label: "Challonge Week 1: Group Stage",
+        link: "https://challonge.com/AGTS2023Week1"
+      },
+      {
+        label: "Challonge Week 2: Runoff Bracket",
+        link: "https://challonge.com/AGTS2023Week2"
+      },
+      {
+        label: "Challonge Week 3-6: Main Bracket",
+        link: "https://challonge.com/AGTS2023Main"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/117"
+      },
+    ],
     homepage: [
       {
         title: "Restrictions",
@@ -24,21 +45,21 @@ export default {
   ### Registration Phase
   May 7th until May 21st.
   ### Screening and teams creation
-  May 21st until May 28th.
+  May 21st until June 4th.
   ### Qualifiers
-  June 3rd until June 4th.
-  ### Week 1/Group Stage
   June 10th until June 11th.
-  ### Week 2/Runoff bracket
+  ### Week 1/Group Stage
   June 17th until June 18th.
-  ### Week 3/Round Of 16 + Quarterfinals + Loser's Bracket Round 1
+  ### Week 2/Runoff bracket
   June 24th until June 25th.
-  ### Week 4/Semifinals + Loser's Bracket Round 2 and 3
+  ### Week 3/Round Of 16 + Quarterfinals + Loser's Bracket Round 1
   July 1st until July 2nd.
-  ### Week 5/Winner's Bracket Finals + Loser's Bracket Round 4 and 5
+  ### Week 4/Semifinals + Loser's Bracket Round 2 and 3
   July 8th until July 9th.
+  ### Week 5/Winner's Bracket Finals + Loser's Bracket Round 4 and 5
+  July 15th until July 16.
   ### Week 6/Grand Finals + Loser's Bracket Round 6 (Grand Finals) + All-Stars
-  July 15th until July 16.`,
+  July 22nd until July 23rd.`,
       },
       {
         title: "Prizes",

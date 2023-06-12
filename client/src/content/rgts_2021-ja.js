@@ -2,7 +2,20 @@ export default {
   name: "Rising Global Taiko Showdown",
   description:
     "Rising Global Taiko Showdownは、ppランクが#1000から#4500までのプレイヤーが参加できる、2対2で行われる中級者向けのトーナメントです。予選を通過した32チームがGroup Stageで戦い、それを突破した16チームがダブルイリミネーション形式のトーナメントへ進出します。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "ディスコード",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2021"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/64"
+    },
+  ],
   homepage: [
     {
       title: "参加資格",

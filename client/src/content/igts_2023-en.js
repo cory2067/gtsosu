@@ -3,6 +3,24 @@ export default {
     description:
       "The Intermediate Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
     discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge Week 1: Group Stage",
+        link: "https://challonge.com/IGTS2023Week1"
+      },
+      {
+        label: "Challonge Week 2: Runoff Bracket",
+        link: "https://challonge.com/IGTS2023Week2"
+      },
+      {
+        label: "Challonge Week 3-6: Main Bracket",
+        link: "https://challonge.com/IGTS2023Main"
+      },
+    ],
     homepage: [
       {
         title: "Restrictions",
@@ -112,8 +130,8 @@ export default {
     - The matchups will follow the Runoff Bracket match IDs in reverse order. The first 4 IDs are for the Runoff Bracket winner bracket matches while the last 4 are for the loser bracket. (for example: ID 1 corresponds to seed 9 vs seed 16, winner of this match will play against seed 8. For LB, ID 8 is loser of ID 1 vs winner of 1st of A vs 2nd of D and will play against seed 1.)
   - The winning condition for each stage is:
     - **Week 1/Group Stage: BO9 (win 5 maps)**
-    - **Week 2 & 3 & 4/Runoff bracket, Round Of 16 + Quarterfinals + Semifinals + Loser's Bracket Round 1, 2, 3 and 4: BO11 (win 6 maps)**
-    - **Week 5 & 6/Finals, Grand Finals + Loser's Bracket Round 5 and 6: BO13 (win 7 maps)**
+    - **Week 2 & 3 & 4/Runoff bracket, Round Of 16 + Quarterfinals + Semifinals + Loser's Bracket Round 1, 2 and 3: BO11 (win 6 maps)**
+    - **Week 5 & 6/Finals, Grand Finals + Loser's Bracket Round 4, 5 and 6: BO13 (win 7 maps)**
   
   # Qualifiers Regulations
   - During this round there will be multiple lobbies available at various hours.

@@ -2,7 +2,20 @@ export default {
   name: "Squad Global Taiko Showdown",
   description:
     "O Squad Global Taiko Showdown é o nosso torneio 3v3 onde os jogadores podem decidir as suas equipas até 6 jogadores. As 32ªs melhores equipas após as qualificatórias irão enfrentar-se numa chave dupla eliminatória.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/SGTS2022"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/78"
+    },
+  ],
   homepage: [
     {
       title: "Restrições",

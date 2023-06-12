@@ -2,7 +2,20 @@ export default {
   name: "Rising Global Taiko Showdown",
   description:
     "Le Rising Global Taiko Showdown, notre tournoi en 2 contre 2 pour les joueurs de milieu de gamme entre les rangs #1,000 à #4,500. Les 32 meilleures équipes après la phase de qualifications s'affronteront dans une phase de poules, où 16 équipes vont par la suite jouer dans un arbre en double élimination.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2021"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/64"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

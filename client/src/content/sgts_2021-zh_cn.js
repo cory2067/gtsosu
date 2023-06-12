@@ -2,7 +2,20 @@ export default {
   name: "集结杯全球太鼓锦标赛",
   description:
     "集结杯全球太鼓锦标赛，是一项三对三团体赛事，选手们可以自由组成最多6人的队伍。资格赛成绩最好的32支队伍将进行双败淘汰赛。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/SGTS2022"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/78"
+    },
+  ],
   homepage: [
     {
       title: "注册限制",

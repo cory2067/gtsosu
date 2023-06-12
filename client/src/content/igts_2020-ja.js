@@ -2,7 +2,20 @@ export default {
     name: "Intermediate Global Taiko Showdown",
     description:
       "Intermediate Global Taiko Showdown, このシリーズの創立大会. 中級者向けの2対2の国別大会で、ランク制限#3,500から#10,000。それぞれのチームは最初に予選でプレイします。 その後はグループステージにプレイし、最後にトーナメント（ダブルイリミネーション方式）でプレイします。",
-    discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "ディスコード",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge",
+        link: "https://challonge.com/IGTS2020"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/34"
+      },
+    ],
     homepage: [
       {
         title: "参加条件",

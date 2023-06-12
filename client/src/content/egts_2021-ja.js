@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "Expert Global Taiko Showdownは、参加者のppランクに制限はありませんが、トッププレイヤーを対象としたトーナメントです。予選を突破した上位128人が、ダブルイリミネーション方式のトーナメントで戦います。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "ディスコード",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2021"
+    },
+  ],
   homepage: [
     {
       title: "参加資格",

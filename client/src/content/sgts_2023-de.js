@@ -2,7 +2,16 @@ export default {
   name: "Squad Global Taiko Showdown",
   description:
     "Der Squad Global Taiko Showdown ist unser 3-gegen-3 Turnier, in dem Spieler ihre eigenen Teams mit bis zu 6 Spielern selbst erschaffen können. Nach der Qualifikation werden die besten 32 Teams in einem hitzigen Doppel-K.o.-System aufeinandertreffen.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/SGTS2023"
+    },
+  ],
   homepage: [
     {
       title: "Einschränkungen",

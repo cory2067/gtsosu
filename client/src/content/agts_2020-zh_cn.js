@@ -2,7 +2,20 @@ export default {
   name: "高级全球太鼓比赛",
   description:
     "高级全球太鼓比赛是一个给高级玩家的2v2比赛。所有参赛者的排名必须在#500到#3500之间。预赛过后排名头32的队伍将会进入小组赛，其中的16强将会进入双重淘汰赛。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/AGTS2020"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/46"
+    },
+  ],
   homepage: [
     {
       title: "限制",

@@ -2,7 +2,20 @@ export default {
   name: "飞升杯全球太鼓锦标赛",
   description:
     "飞升杯全球太鼓锦标赛，是针对中等玩家的二对二比赛。限制排名在1000到4500名的选手参加。资格赛成绩最好的32支队伍将进入小组赛，随后小组成绩最好的16支队伍将晋级到双败淘汰赛。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2021"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/64"
+    },
+  ],
   homepage: [
     {
       title: "注册限制",

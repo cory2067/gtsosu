@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "The Expert Global Taiko Showdown是為高排名玩家所舉辦的1對1個人賽（但不設最低rank限制，任何玩家皆可報名）。入圍賽的前128名將會在雙敗淘汰制下對決決出冠軍。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2020"
+    },
+  ],
   homepage: [
     {
       title: "參賽條件",
