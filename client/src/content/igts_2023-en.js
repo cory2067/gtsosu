@@ -3,6 +3,24 @@ export default {
     description:
       "The Intermediate Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
     discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge Week 1: Group Stage",
+        link: "https://challonge.com/IGTS2023Week1"
+      },
+      {
+        label: "Challonge Week 2: Runoff Bracket",
+        link: "https://challonge.com/IGTS2023Week2"
+      },
+      {
+        label: "Challonge Week 3-6: Main Bracket",
+        link: "https://challonge.com/IGTS2023Main"
+      },
+    ],
     homepage: [
       {
         title: "Restrictions",

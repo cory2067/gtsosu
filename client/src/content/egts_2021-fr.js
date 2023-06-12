@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "L'Expert Global Taiko Showdown est notre tournoi 1 contre 1 destiné aux meilleurs joueurs, malgré l'absence d'une limite de rang. Les 128 meilleurs joueurs de la phase de qualifications s'affronteront dans un arbre à double élimination.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2021"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

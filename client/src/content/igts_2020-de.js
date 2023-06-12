@@ -2,7 +2,20 @@ export default {
     name: "Intermediate Global Taiko Showdown",
     description:
       "Der Intermediate Global Taiko Showdown, das Gründungsturnier dieser Turnierserie, ist unser 2 vs. 2 Turnier für Intermediate-Level Taikospieler, die sich innerhalb der Ränge #3.500 und #10.000 befinden.",
-    discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge",
+        link: "https://challonge.com/IGTS2020"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/34"
+      },
+    ],
     homepage: [
       {
         title: "Beschränkungen",

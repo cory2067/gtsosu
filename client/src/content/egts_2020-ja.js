@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "Expert Global Taiko Showdownは1対1で行われる上級者向けのosu!taiko大会です。参加者のランクの制限はありません。予選を突破した上位128人がダブルイリミネーション形式のトーナメントの中で白熱した試合を見せてくれることでしょう。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "ディスコード",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2020"
+    },
+  ],
   homepage: [
     {
       title: "参加資格",

@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "Expert Global Taiko Showdown, наш 1v1 турнир для лучших игроков тайко, хотя ограничений по рейтингу нет. Топ 128 по результатам квалификации встретятся в напряжённой сетке c выбыванием после двух поражений.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2020"
+    },
+  ],
   homepage: [
     {
       title: "Ограничения",

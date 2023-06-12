@@ -2,7 +2,20 @@ export default {
   name: "Taiko Suiji Cup 2021",
   description:
     "The Taiko Suiji Cup 2021, one of the biggest osu!taiko tournaments. 4v4, no rank limit, and entirely random teams. The top 32 teams after the seeding phase will play in a double-elimination bracket.",
-  discord: "https://discord.gg/yV3bDTC",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/yV3bDTC"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/TSC2021"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/66"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

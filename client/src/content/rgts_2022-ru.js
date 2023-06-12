@@ -2,7 +2,16 @@ export default {
   name: "Rising Global Taiko Showdown",
   description:
     "Rising Global Taiko Showdown, это турнир 2 на 2 для игроков среднего уровня, с ограничением рангов от #1,500 до #4,500. По результатам квалификаций, 32 лучшие команды сразятся в групповой стадии, где пройдут 16 команд, которые сыграют в сетке с двойным вылетом.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2022"
+    },
+  ],
   homepage: [
     {
       title: "Ограничения",

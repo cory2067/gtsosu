@@ -2,7 +2,20 @@ export default {
   name: "Intermediate Global Taiko Showdown",
   description:
     "L'Intermediate Global Taiko Showdown, le tournoi fondateur de cette série de tournois. C'est notre tournoi 2vs2 pour les joueurs de niveau intermédaire limité pour les rangs #3500 à #100000. Les équipes vont d'abord jouer une qualification. Les 32 meilleures vont ensuite jouer dans une phase de groupe d'où 16 équipes vont sortir pour jouer dans un bracket à double élimination.",
-  discord: "https://discord.gg/a6PzzFz",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/a6PzzFz"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/IGTS2020"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/34"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

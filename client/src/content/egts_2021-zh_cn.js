@@ -2,7 +2,16 @@ export default {
   name: "精英级全球太鼓锦标赛",
   description:
     "精英级全球太鼓锦标赛，尽管没有排名限制，是针对高排名玩家的1对1比赛。入围赛后的前128名会在双重淘汰赛中对决。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2021"
+    },
+  ],
   homepage: [
     {
       title: "参赛条件",

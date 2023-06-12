@@ -2,7 +2,28 @@ export default {
     name: "Advanced Global Taiko Showdown",
     description:
       "La 'Advanced Global Taiko Showdown', el torneo fundador de esta serie. Es nuestro torneo 2vs2 para jugadores de nivel avanzado entre el ranking #500 to #1,500. Los equipos jugarán primero una fase de clasificatorias. Luego jugaran por la fase de grupos, una llave intermedia y finalmente en una llave de doble eliminación.",
-    discord: "https://discord.gg/3mGC3HB",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/3mGC3HB"
+      },
+      {
+        label: "Challonge Week 1: Group Stage",
+        link: "https://challonge.com/AGTS2023Week1"
+      },
+      {
+        label: "Challonge Week 2: Runoff Bracket",
+        link: "https://challonge.com/AGTS2023Week2"
+      },
+      {
+        label: "Challonge Week 3-6: Main Bracket",
+        link: "https://challonge.com/AGTS2023Main"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/117"
+      },
+    ],
     homepage: [
       {
         title: "Restricciones",

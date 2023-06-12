@@ -2,7 +2,16 @@ export default {
   name: "Rising Global Taiko Showdown",
   description:
     "The Rising Global Taiko Showdown, our 2v2 tournament for mid-level players, being restricted for ranks #1,500 to #4,500. The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2022"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

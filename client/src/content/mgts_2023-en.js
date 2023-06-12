@@ -2,7 +2,12 @@ export default {
   name: "Mapping Global Taiko Showdown",
   description:
     "The Mapping Global Taiko Showdown (MGTS) is our mapping contest series for the osu!taiko game mode. It is a single-round, team-based contest where each team is composed of 4 to 6 mappers, with each team collaborating on a total of 3 songs.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+  ],
   submissions: "https://mappersguild.com/contests/listing?contest=640260c3517b1f1d40ca88e1",
   homepage: [
     {

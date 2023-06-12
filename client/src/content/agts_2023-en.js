@@ -2,7 +2,28 @@ export default {
     name: "Advanced Global Taiko Showdown",
     description:
       "The Advanced Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for advanced level players being restricted for ranks #500 to #1,500. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
-    discord: "https://discord.gg/3mGC3HB",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/3mGC3HB"
+      },
+      {
+        label: "Challonge Week 1: Group Stage",
+        link: "https://challonge.com/AGTS2023Week1"
+      },
+      {
+        label: "Challonge Week 2: Runoff Bracket",
+        link: "https://challonge.com/AGTS2023Week2"
+      },
+      {
+        label: "Challonge Week 3-6: Main Bracket",
+        link: "https://challonge.com/AGTS2023Main"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/117"
+      },
+    ],
     homepage: [
       {
         title: "Restrictions",

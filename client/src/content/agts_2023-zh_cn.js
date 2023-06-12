@@ -2,7 +2,28 @@ export default {
     name: "全球高级太鼓锦标赛",
     description:
       "全球高级太鼓锦标赛，是一个排名限制在500到1500名，面向高级玩家的二对二锦标赛。所有队伍需要首先参加资格赛，然后参加小组赛、冒泡赛，最后进入双败淘汰赛。",
-    discord: "https://discord.gg/3mGC3HB",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/3mGC3HB"
+      },
+      {
+        label: "Challonge Week 1: Group Stage",
+        link: "https://challonge.com/AGTS2023Week1"
+      },
+      {
+        label: "Challonge Week 2: Runoff Bracket",
+        link: "https://challonge.com/AGTS2023Week2"
+      },
+      {
+        label: "Challonge Week 3-6: Main Bracket",
+        link: "https://challonge.com/AGTS2023Main"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/117"
+      },
+    ],
     homepage: [
       {
         title: "注册限制",

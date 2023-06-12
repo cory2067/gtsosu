@@ -2,7 +2,20 @@ export default {
   name: "精英级全球太鼓锦标赛",
   description:
     "精英级全球太鼓锦标赛，是没有排名限制，针对顶级玩家的1对1比赛。资格赛成绩最好的128名选手将晋级至双败淘汰赛。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2022"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/94"
+    },
+  ],
   homepage: [
     {
       title: "参赛条件",

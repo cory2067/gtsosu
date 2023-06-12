@@ -2,7 +2,12 @@ export default {
   name: "osu! Taiko Collegiate League",
   description:
     "osu! Taiko Collegiate League is an open-rank tournament for the collegiate Taiko scene. The teams/colleges will first play in a qualifiers. The top 20 teams (Subject to change based on number of participants) will then play in a group stage, followed by a double elimination bracket.",
-  discord: "https://discord.gg/spx2GECSCg",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/spx2GECSCg"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",
