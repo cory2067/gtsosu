@@ -61,12 +61,15 @@ export default function AllStaff() {
     );
   };
 
+  const plural = (length, name) => (length === 1 ? name : `${name}s`);
+
   return (
     <Content className="content">
       <div className="AllStaff-container">
         {staff.map((user) => {
           const tourneyToRoles = getTourneyToRoles(user.roles);
           const numTourneys = Object.keys(tourneyToRoles).length;
+          const numRoles = user.roles.length;
           return (
             <UserCard
               canDelete={false}
@@ -74,7 +77,8 @@ export default function AllStaff() {
               user={user}
               extra={
                 <Popover content={getPopoverContent(tourneyToRoles)} placement="bottom">
-                  {`${numTourneys} ${numTourneys === 1 ? "tournament" : "tournaments"} staffed`}
+                  {`${numRoles} ${plural(numRoles, "role")} for `}
+                  {`${numTourneys} ${plural(numTourneys, "tournament")}`}
                 </Popover>
               }
               hideRank
