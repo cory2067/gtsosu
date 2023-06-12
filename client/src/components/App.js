@@ -48,7 +48,7 @@ export default function App() {
       <Layout>
         <Navbar attention={loginAttention} user={user} setUser={setUser} />
         <Router primary={false}>
-          <Home path="/" />
+          <Home path="/" user={user} setUser={setUser} />
           <Archives path="/archives" />
           <PoolHelper path="/pool-helper" />
           <Donate path="/donate" user={user} />

@@ -24,7 +24,10 @@ function organizeIntoGrid(tournies, columns = 2) {
   return tourneyGrid;
 }
 
-export default function Home() {
+/**
+ * @param {import("./HomeBanner").HomeBannerProps} props
+ */
+export default function Home({ user, setUser }) {
   useEffect(() => {
     document.title = "GTS";
   });
@@ -50,7 +53,7 @@ export default function Home() {
 
       <div className="Home-container">
         {/* Banner */}
-        <HomeBanner />
+        <HomeBanner user={user} setUser={setUser} />
 
         {/* Ongoing tournies */}
         {ongoingTournies.map((tourney) => (
