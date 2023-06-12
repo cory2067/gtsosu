@@ -56,7 +56,7 @@ const canViewHiddenPools = (user: IUser, tourney: string) =>
       UserRole.AllStarMapSetter,
       UserRole.HeadPooler,
       UserRole.Mapper,
-      UserRole.Playtester
+      UserRole.Playtester,
     ]);
 
 const cantPlay = (user: IUser, tourney: string) =>
@@ -415,13 +415,19 @@ router.getAsync("/tourneys", async (req, res) => {
 
 /**
  * GET /api/staff
- * Get staff list for a tourney
+ * Get staff list for a tourney, or all GTS Team members if tourney isn't specified
  * Params:
  *   - tourney: identifier for the tournament
  */
 router.getAsync("/staff", async (req, res) => {
-  const staff = await User.find({ "roles.tourney": req.query.tourney });
-  res.send(staff);
+  if (req.query.tourney) {
+    const staff = await User.find({ "roles.tourney": req.query.tourney });
+    res.send(staff);
+    return;
+  }
+
+  const allStaff = await User.find({ "roles.0": { $exists: true } });
+  res.send(allStaff);
 });
 
 /**

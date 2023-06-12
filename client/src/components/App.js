@@ -15,6 +15,7 @@ import PoolHelper from "./pages/PoolHelper";
 import Donate from "./pages/Donate";
 import Songs from "./pages/Songs";
 import Navbar from "./modules/Navbar";
+import AllStaff from "./pages/AllStaff";
 import { get } from "../utilities";
 
 import "../global.css";
@@ -52,6 +53,7 @@ export default function App() {
           <Archives path="/archives" />
           <PoolHelper path="/pool-helper" />
           <Donate path="/donate" user={user} />
+          <AllStaff path="/staff" />
           <Songs path="/songs" />
 
           <TourneyRouteWrapper
