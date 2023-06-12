@@ -21,7 +21,7 @@ type BaseRequestArgs = {
   tourney?: string;
 };
 
-type DiscordAccount = {
+export type DiscordAccount = {
   id: string;
   username: string;
   discriminator: string;

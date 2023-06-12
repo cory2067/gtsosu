@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { get } from "../../utilities";
+import { get, showAuthPopup } from "../../utilities";
 import { Form, Select, Input, Modal, Button } from "antd";
 import ContentManager from "../../ContentManager";
 import UserCard from "./UserCard";
@@ -43,30 +43,18 @@ for (let i = -12; i <= 14; i += 0.5) {
   timezones.push(i);
 }
 
-function UserModal({ user, setUser, formData, visible, loading, handleOk, handleCancel, onValuesChange }) {
-  const discordLoginFlow = async () => {
-    const width = 600;
-    const height = 600;
-    const left = window.innerWidth / 2 - width / 2;
-    const top = window.innerHeight / 2 - height / 2;
+function UserModal({
+  user,
+  setUser,
+  formData,
+  visible,
+  loading,
+  handleOk,
+  handleCancel,
+  onValuesChange,
+}) {
+  const discordLoginFlow = () => showAuthPopup("/auth/login-discord", setUser);
 
-    const popup = window.open(
-      "/auth/login-discord/",
-      "",
-      `toolbar=no, location=no, directories=no, status=no, menubar=no,
-      scrollbars=no, resizable=no, copyhistory=no, width=${width},
-      height=${height}, top=${top}, left=${left}`
-    );
-    
-    const loop = setInterval(async () => {
-      if (popup.closed) {
-        clearInterval(loop);
-        const userData = await get("/api/whoami");
-        setUser(userData);
-    }
-    }, 50);
-  };
-  
   return (
     <Modal
       title={`Settings for ${user.username}`}
@@ -84,10 +72,14 @@ function UserModal({ user, setUser, formData, visible, loading, handleOk, handle
           {user.discordId ? (
             <div>
               <span style={{ paddingRight: 8 }}>{user.discord}</span>
-              <Button type="primary" onClick={discordLoginFlow}>{UI.discordUpdate}</Button>
+              <Button type="primary" onClick={discordLoginFlow}>
+                {UI.discordUpdate}
+              </Button>
             </div>
           ) : (
-            <Button type="primary" onClick={discordLoginFlow}>{UI.discordLink}</Button>
+            <Button type="primary" onClick={discordLoginFlow}>
+              {UI.discordLink}
+            </Button>
           )}
         </Form.Item>
         <Form.Item name="timezone" label={UI.timezone}>
@@ -99,7 +91,8 @@ function UserModal({ user, setUser, formData, visible, loading, handleOk, handle
             ))}
           </Select>
         </Form.Item>
-        {(user.donations >= 10 || user.roles.some(role => ["Designer", "Artist"].includes(role.role))) && (
+        {(user.donations >= 10 ||
+          user.roles.some((role) => ["Designer", "Artist"].includes(role.role))) && (
           <Form.Item name="cardImage" label="Custom BG">
             <Select placeholder="No image">
               <Select.Option key="none" value={""}>

@@ -3,7 +3,7 @@ import passport from "passport";
 import fetch from "node-fetch";
 import passportOAuth2 from "passport-oauth2";
 import User from "./models/user";
-import { UserDocument, Request, BaseRequestArgs } from "./types";
+import { UserDocument, Request, BaseRequestArgs, DiscordAccount } from "./types";
 
 const OAuth2Strategy = passportOAuth2.Strategy;
 
@@ -86,7 +86,7 @@ if (process.env.NODE_ENV !== "test") {
       makeAuthStrategy(process.env.TT_CLIENT_ID, process.env.TT_CLIENT_SECRET)
     );
   }
-  
+
   if (process.env.DISCORD_CLIENT_ID && process.env.DISCORD_CLIENT_SECRET) {
     passport.use(
       "discord",
@@ -121,9 +121,9 @@ if (process.env.NODE_ENV !== "test") {
       res.send("<script>setInterval(window.close)</script>");
     }
   );
-  
+
   router.get("/login-discord", (req, res) => passport.authorize("discord")(req, res));
-  
+
   router.get(
     "/discord/callback",
     (req, res, next) =>
@@ -134,16 +134,23 @@ if (process.env.NODE_ENV !== "test") {
         await User.findByIdAndUpdate(req.user._id, {
           $set: {
             discordId: req.account.id,
-            discord: `${req.account.username}#${req.account.discriminator}`,
+            discord: getFullDiscordUsername(req.account),
           },
         });
       }
-      
+
       // Successful authentication!
       // janky thing to close the login popup window
       res.send("<script>setInterval(window.close)</script>");
     }
   );
+}
+
+function getFullDiscordUsername(account: DiscordAccount): string {
+  if (account.discriminator && account.discriminator !== "0") {
+    return `${account.username}#${account.discriminator}`;
+  }
+  return account.username;
 }
 
 export default router;
