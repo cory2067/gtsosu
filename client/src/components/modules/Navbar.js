@@ -94,6 +94,9 @@ function RootNavbar(props) {
             <Link to="/donate">{UI.donate}</Link>
           </Menu.Item>
           <Menu.Item key="5">
+            <Link to="/staff">{UI.staff}</Link>
+          </Menu.Item>
+          <Menu.Item key="6">
             <Link to="/songs">{UI.songs}</Link>
           </Menu.Item>
         </Menu>
