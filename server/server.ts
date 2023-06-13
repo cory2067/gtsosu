@@ -7,6 +7,7 @@ import passport from "passport";
 import sslRedirect from "heroku-ssl-redirect";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { Client, Events, GatewayIntentBits } from 'discord.js';
 
 import api from "./api";
 import auth from "./auth";
@@ -90,4 +91,12 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
-export { app };
+const discordClient = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+discordClient.on("ready", async () => {
+  logger.info(`Discord client logged in as ${discordClient?.user?.username}`);
+});
+
+discordClient.login(process.env.DISCORD_BOT_TOKEN);
+
+export { app, discordClient };
