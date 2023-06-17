@@ -159,7 +159,6 @@ export default {
   - El capitán de cada equipo deberá de rollear utilizando el comando "!roll" en el chat de la sala.
   - El equipo con el roll más alto **baneará segundo y escogerá primero**. El equipo con el roll más bajo **baneará primero y escogerá segundo**.
   - Cada capitán tiene hasta 2 minutos para anunciar su ban. Si se supera este tiempo, el ban será decidido al azar.
-  - Cada equipo tendra permitido una pausa de 2 minutos por partido. Esta pausa es completamente opcional.
   - Posteriormente, la selección de mapas alternará entre ambos capitanes..
   - Los capitanes pueden escoger cualquier mapa de los disponibles.
   - Los equipos tienen un máximo de 2 minutos para escoger un mapa y estar listos. Si se supera este tiempo, se escogerá un mapa al azar.
