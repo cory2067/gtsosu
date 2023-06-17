@@ -159,7 +159,6 @@ export default {
   - The captain of each team will roll with the command "!roll" in the chat.
   - The team with the highest roll **bans second and picks first**. The team with the lowest roll **bans first and picks second**.
   - Each captain has 2 mins to announce their ban. If they didn't tell the referee by that time the ban will be made with a roll.
-  - Each team is allowed a timeout of 2 mins per match. This timeout is optional.
   - Beatmap selection will then alternate between each captain selecting a beatmap out of the map pool.
   - Captains may pick freely from any bracket.
   - Teams will have 2 minutes to pick a beatmap and 2 minutes to get ready. If a team didn't tell their pick before the end of the timer the map will be picked with a roll.
