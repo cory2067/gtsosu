@@ -186,7 +186,7 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   if (tourney.discordServerId) {
     if (!req.user.discordId) {
       logger.info(`${req.user.username} failed to register for ${req.body.tourney} (discord account not linked)`);
-      return res.status(400).send({ error: "You have not linked your Discord account." });
+      return res.status(400).send({ error: "Plaese link your Discord account in your user settings and then try again." });
     }
     
     let theDiscordServer: Guild|undefined = undefined;

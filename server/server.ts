@@ -97,6 +97,8 @@ discordClient.on("ready", async () => {
   logger.info(`Discord client logged in as ${discordClient?.user?.username}`);
 });
 
-discordClient.login(process.env.DISCORD_BOT_TOKEN);
+if (process.env.NODE_ENV !== "test") {
+  discordClient.login(process.env.DISCORD_BOT_TOKEN);
+}
 
 export { app, discordClient };
