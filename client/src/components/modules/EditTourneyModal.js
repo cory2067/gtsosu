@@ -85,18 +85,14 @@ export default function EditTourneyModal({
         <Form.Item name="rankMax" label="Maximum rank">
           <InputNumber min={-1} />
         </Form.Item>
-        <div style={{marginBottom:"24px"}}>(Use -1 for no rank limit)</div>
+        <span>(Use -1 for no rank limit)</span>
         <Form.Item name="lobbyMaxSignups" label="Maximum number of lobby signups">
           <InputNumber min={0} />
         </Form.Item>
         <Form.Item name="blacklist" label="Blacklist">
           <Input />
         </Form.Item>
-        <div style={{marginBottom:"24px"}}>(Specify players by IDs separated by commas)</div>
-        <Form.Item name="discordServerId" label="Discord Server ID">
-          <Input />
-        </Form.Item>
-        <div style={{marginBottom:"24px"}}>(Specify this value to enforce Discord server membership when registering)</div>
+        <span>(Specify players by IDs separated by commas)</span>
       </Form>
     </Modal>
   );
