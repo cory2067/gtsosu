@@ -3,6 +3,7 @@ import express, { Response } from "express";
 import pino from "pino";
 import osu from "node-osu";
 import fs from "fs";
+import { Guild, GuildMember } from "discord.js";
 
 import ensure from "./ensure";
 import Match, { IMatch, ModLengthMultiplier, WarmupMod } from "./models/match";
@@ -14,6 +15,7 @@ import TourneyMap from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
 import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
 import { Request, BaseRequestArgs } from "./types";
+import { discordClient } from "./server";
 
 import mapRouter from "./api/map";
 import donationRouter from "./api/donation";
@@ -179,6 +181,41 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
       `${req.user.username} failed to register for ${req.body.tourney} (country not allowed)`
     );
     return res.status(400).send({ error: `Your country can't participate in this division` });
+  }
+  
+  if (tourney.discordServerId) {
+    if (!req.user.discordId) {
+      logger.info(`${req.user.username} failed to register for ${req.body.tourney} (discord account not linked)`);
+      return res.status(400).send({ error: "Plaese link your Discord account in your user settings and then try again." });
+    }
+    
+    let theDiscordServer: Guild|undefined = undefined;
+    try {
+      theDiscordServer = await discordClient.guilds.fetch(tourney.discordServerId);
+    } catch (e) {
+      if (e.code === 10004) {
+        logger.info(`${req.user.username} failed to register for ${req.body.tourney} (discord server not found)`);
+        return res.status(400).send({ error: "Discord server not found - contact staff" });
+      } else {
+        logger.info(e);
+        return res.status(400).send({ error: "Unknown error - contact staff" });
+      }
+    }
+    
+    let theDiscordMember: GuildMember|undefined = undefined;
+    try {
+      theDiscordMember = await theDiscordServer.members.fetch(req.user.discordId);
+    } catch (e) {
+      if (e.code === 10007) {
+        logger.info(`${req.user.username} failed to register for ${req.body.tourney} (discord server not joined)`);
+        return res.status(400).send({ error: "You have not joined the Discord server." });
+      } else {
+        logger.info(e);
+        return res.status(400).send({ error: "Unknown error - contact staff" });
+      }
+    }
+    
+    logger.info(`Successfully confirmed that ${theDiscordMember.user.username} is a member of ${theDiscordServer.name}`);
   }
 
   logger.info(`${req.user.username} registered for ${req.body.tourney}`);
@@ -535,6 +572,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - flags: list of special options for the tourney
  *   - lobbyMaxSignups: number of players/teams that can sign up for a given qualifier lobby
  *   - blacklist: list of player ids that are banned from registering for this tourney
+ *   - discordServerId: a Discord server ID to enforce membership of
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
@@ -555,6 +593,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.flags = req.body.flags;
   tourney.lobbyMaxSignups = req.body.lobbyMaxSignups;
   tourney.blacklist = req.body.blacklist;
+  tourney.discordServerId = req.body.discordServerId;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];
