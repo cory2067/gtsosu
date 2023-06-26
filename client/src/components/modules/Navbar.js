@@ -217,7 +217,7 @@ function Navbar(props) {
   }, [user]);
 
   const handleOk = async () => {
-    if (!formData.discord || formData.timezone === undefined) {
+    if (formData.timezone === undefined) {
       return message.error("You must fill out these fields");
     }
 
