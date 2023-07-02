@@ -86,9 +86,9 @@
 }
 
 .HomeBanner-media {
-  transform: perspective(720px) rotateX(25deg);
+  transform: perspective(100vw) rotateX(25deg);
   border-radius: 4px;
-  width: 100%;
+  width: 90%;
 }
 
 .HomeBanner-login-buttons-container {
@@ -144,7 +144,7 @@
     align-items: center;
     margin-left: var(--m);
     margin-right: var(--m);
-    height: 644px;
+    /* height: 644px; */
   }
 
   .HomeBanner-section-1 {
@@ -169,10 +169,10 @@
   .HomeBanner-media {
     margin: 0px;
     padding: 0px;
-    width: 90%;
+    width: 100%;
     left: 0px;
     flex-grow: 0;
-    transform: perspective(1280px) rotateY(-25deg);
+    transform: perspective(75vw) rotateY(-25deg) translateX(-5vw);
     border: 4px solid #474a4f;
     border-radius: 8px;
     box-shadow: 0px 0px 150px -50px rgba(255, 255, 255, 1);
