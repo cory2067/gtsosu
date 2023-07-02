@@ -2,7 +2,20 @@ export default {
   name: "Beginners Global Taiko Showdown",
   description:
     "De Beginners Global Taiko Showdown, onze 2v2 toernooi voor beginnende spelers, voor spelers tot rank #8,000 zonder laagste rank limiet. Na de kwalificatieronde strijden de beste 16 teams tegen elkaar in de groeps fase, waarna 8 teams door gaan naar de dubbele eliminatie ronde ronde.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/BGTS2020"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/48"
+    },
+  ],
   homepage: [
     {
       title: "Restricties",

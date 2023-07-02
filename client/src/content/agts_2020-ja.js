@@ -2,7 +2,20 @@ export default {
   name: "Advanced Global Taiko Showdown",
   description:
     "Advanced Global Taiko Showdownは、ppランクが#500から#3500までのプレイヤーが参加できる、2対2で行われる上級者向けのトーナメントです。予選を通過した32チームがGroup Stageで戦い、それを突破した16チームがダブルイリミネーション形式のトーナメントへ進出します。",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "ディスコード",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/AGTS2020"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/46"
+    },
+  ],
   homepage: [
     {
       title: "参加資格",

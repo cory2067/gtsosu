@@ -2,7 +2,20 @@ export default {
   name: "Advanced Global Taiko Showdown",
   description:
     "Advanced Global Taiko Showdown es nuestro torneo con formato 2v2, dirigido para los jugadores de taiko entre #500 y #3,500 de rank. El top 32 de equipos después de los Qualifiers se enfretarán en una Fase de Grupos, donde 16 equipos pasarán a al formato de doble eliminación del torneo.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/AGTS2020"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/46"
+    },
+  ],
   homepage: [
     {
       title: "Restricciones",

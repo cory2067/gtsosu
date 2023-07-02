@@ -22,6 +22,17 @@
  color: #4d358f;
 }
 
+.NewTourneyHome-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.NewTourneyHome-link-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+}
+
 .NewTourneyHome-content {
   padding: 0;
 }

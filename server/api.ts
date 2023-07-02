@@ -13,14 +13,14 @@ import Tournament, { ITournament } from "./models/tournament";
 import TourneyMap from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
 import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
-import { Request } from "./types";
+import { Request, BaseRequestArgs } from "./types";
 
 import mapRouter from "./api/map";
 import donationRouter from "./api/donation";
 
 import { addAsync } from "@awaitjs/express";
 import { UserAuth } from "./permissions/UserAuth";
-import { UserRole } from "./permissions/UserRole";
+import { UserRole, managementRoles } from "./permissions/UserRole";
 const router = addAsync(express.Router());
 
 const logger = pino();
@@ -30,9 +30,6 @@ const mpRegex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+
 const mpRegex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
 
 // Populate each request with tourney-level user auth
-type BaseRequestArgs = {
-  tourney?: string;
-};
 router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
   const auth = new UserAuth(req.user);
   const tourney = req.body.tourney ?? req.query.tourney;
@@ -48,22 +45,19 @@ router.use(donationRouter);
 
 const isAdmin = (user: IUser | undefined, tourney: string) => checkPermissions(user, tourney, []);
 const canViewHiddenPools = (user: IUser, tourney: string) =>
-  checkPermissions(user, tourney, [
-    "Mapsetter",
-    "Showcase",
-    "All-Star Mapsetter",
-    "Head Pooler",
-    "Mapper",
-  ]);
+  new UserAuth(user)
+    .forTourney(tourney)
+    .hasAnyRole([
+      UserRole.Mapsetter,
+      UserRole.Showcase,
+      UserRole.AllStarMapSetter,
+      UserRole.HeadPooler,
+      UserRole.Mapper,
+      UserRole.Playtester,
+    ]);
 
 const cantPlay = (user: IUser, tourney: string) =>
-  checkPermissions(user, tourney, [
-    "Mapsetter",
-    "Referee",
-    "All-Star Mapsetter",
-    "Head Pooler",
-    "Mapper",
-  ]);
+  user.admin || new UserAuth(user).forTourney(tourney).hasAnyRole(managementRoles);
 
 const parseMatchId = (mpLink: string | undefined) => {
   if (!mpLink) return undefined;
@@ -163,9 +157,7 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
 
   if ((tourney.blacklist || []).includes(userid)) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (blacklisted)`);
-    return res
-      .status(400)
-      .send({ error: `You are banned from participating in this tourney.` });
+    return res.status(400).send({ error: `You are banned from participating in this tourney.` });
   }
 
   if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
@@ -228,7 +220,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
   }
 
   const teams = await Team.find({ tourney: req.body.tourney });
-  const teamNames = teams.map(team => team.name);
+  const teamNames = teams.map((team) => team.name);
   if (teamNames.includes(req.body.name)) {
     return res.status(400).send({ error: "There is a registered team with this name already." });
   }
@@ -267,9 +259,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
 
     if (user && user.tournies.includes(req.body.tourney)) {
       logger.info(`${username} failed to register for ${req.body.tourney} (already registered)`);
-      return res
-        .status(400)
-        .send({ error: `${username} is already registered for this tourney.` });
+      return res.status(400).send({ error: `${username} is already registered for this tourney.` });
     }
 
     const userid = userData.id;
@@ -314,9 +304,11 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     representedCountries.add(userData.country);
   }
 
-  for (const country of (tourney.requiredCountries || [])) {
+  for (const country of tourney.requiredCountries || []) {
     if (!representedCountries.has(country)) {
-      logger.info(`${req.body.players} failed to register for ${req.body.tourney} (country requirement not met)`);
+      logger.info(
+        `${req.body.players} failed to register for ${req.body.tourney} (country requirement not met)`
+      );
       return res
         .status(400)
         .send({ error: `Team is missing required represented country: ${country}` });
@@ -385,14 +377,13 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
  * POST /api/settings
  * Submit settings for a user
  * Params:
- *   - discord: discord username
  *   - timezone: player's timezone
  *   - cardImage: custom background image for user card
  */
 router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
   logger.info(`${req.user.username} updated user settings`);
   await User.findByIdAndUpdate(req.user._id, {
-    $set: { discord: req.body.discord, timezone: req.body.timezone, cardImage: req.body.cardImage },
+    $set: { timezone: req.body.timezone, cardImage: req.body.cardImage },
   });
   res.send({});
 });
@@ -420,13 +411,19 @@ router.getAsync("/tourneys", async (req, res) => {
 
 /**
  * GET /api/staff
- * Get staff list for a tourney
+ * Get staff list for a tourney, or all GTS Team members if tourney isn't specified
  * Params:
  *   - tourney: identifier for the tournament
  */
 router.getAsync("/staff", async (req, res) => {
-  const staff = await User.find({ "roles.tourney": req.query.tourney });
-  res.send(staff);
+  if (req.query.tourney) {
+    const staff = await User.find({ "roles.tourney": req.query.tourney });
+    res.send(staff);
+    return;
+  }
+
+  const allStaff = await User.find({ "roles.0": { $exists: true } });
+  res.send(allStaff);
 });
 
 /**
@@ -710,19 +707,18 @@ router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
 router.postAsync("/edit-match", ensure.isAdmin, async (req, res) => {
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match },
-    { $set: {
+    {
+      $set: {
         time: req.body.time ? new Date(req.body.time) : undefined,
         code: req.body.code,
         player1: req.body.player1,
         player2: req.body.player2,
-      }
+      },
     },
     { new: true, omitUndefined: true }
   ).orFail();
 
-  logger.info(
-    `${req.user.username} edited ${req.body.tourney} match ${newMatch.code}`
-  );
+  logger.info(`${req.user.username} edited ${req.body.tourney} match ${newMatch.code}`);
   res.send(newMatch);
 });
 

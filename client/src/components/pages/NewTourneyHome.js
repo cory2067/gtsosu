@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "./NewTourneyHome.css";
 
-import { Layout, Card, Button, Modal, notification, message } from "antd";
+import { Layout, Card, Button, Modal, notification, message, Menu, Dropdown } from "antd";
 import { ExclamationCircleOutlined, EditOutlined } from "@ant-design/icons";
 import { get, post, prettifyTourney, tokenizeTourney } from "../../utilities";
 import { navigate } from "@reach/router";
@@ -11,6 +11,10 @@ import EditTourneyModal from "../../components/modules/EditTourneyModal";
 import CreateTeamModal from "../modules/CreateTeamModal";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
+
+import ChallongeLogo from "../../public/challonge-logo.svg";
+import DiscordLogo from "../../public/discord-logo.svg";
+import PickemsLogo from "../../public/pickems-logo.png";
 
 const UI = ContentManager.getUI();
 
@@ -176,6 +180,19 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
   if (!user._id) regMessage = "Login to Register";
   else if (isRegistered()) regMessage = "Registered";
   else if (!registrationOpen) regMessage = "Registration Closed";
+  
+  const getMenuIcon = (label) => {
+    if (label.includes("Discord")) {
+      return (<img className="NewTourneyHome-link-icon" src={DiscordLogo} />);
+    }
+    if (label.includes("Challonge")) {
+      return (<img className="NewTourneyHome-link-icon" src={ChallongeLogo} />);
+    }
+    if (label.includes("Pick'ems")) {
+      return (<img className="NewTourneyHome-link-icon" src={PickemsLogo} />);
+    }
+    return (<span class="NewTourneyHome-link-icon"></span>);
+  };
 
   return (
     <Content className="NewTourneyHome-content">
@@ -211,11 +228,30 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
                     {UI.rules}
                   </Button>
                 </div>
-                <div>
-                  <Button block size="large" href={content.discord}>
-                    {UI.discord}
-                  </Button>
-                </div>
+                {content.links && (
+                  <div>
+                    <Dropdown
+                      overlay={(
+                        <Menu>
+                          {
+                            content.links.map(entry => (
+                              <Menu.Item>
+                                <a target="_blank" href={entry.link}>
+                                  <div class="NewTourneyHome-menu-item">
+                                    {getMenuIcon(entry.label)}
+                                    {entry.label}
+                                  </div>
+                                </a>
+                              </Menu.Item>
+                            ))
+                          }
+                        </Menu>
+                      )}
+                    >
+                      <Button block size="large">{UI.links}</Button>
+                    </Dropdown>
+                  </div>
+                )}
                 <div onMouseEnter={() => handleRegHover()}>
                   <Button
                     block

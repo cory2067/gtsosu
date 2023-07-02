@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserAuth } from "./permissions/UserAuth";
+import { message } from "antd";
 
 function formatParams(params) {
   return Object.keys(params)
@@ -8,6 +9,11 @@ function formatParams(params) {
 }
 
 async function processResponse(res, type) {
+  if (res === "TIMEOUT") {
+    message.error("The server took too long to respond. Try again later");
+    throw Error("request timeout");
+  }
+
   const text = await res.text();
   let output = text;
   try {
@@ -25,9 +31,16 @@ async function processResponse(res, type) {
   return output;
 }
 
+function fetchWithTimeout(endpoint, args, timeout = 10) {
+  return Promise.race([
+    fetch(endpoint, args),
+    new Promise((resolve) => setTimeout(() => resolve("TIMEOUT"), timeout * 1000)),
+  ]);
+}
+
 export function get(endpoint, params = {}) {
   const fullPath = endpoint + "?" + formatParams(params);
-  return fetch(fullPath, {
+  return fetchWithTimeout(fullPath, {
     credentials: "include",
   }).then(processResponse);
 }
@@ -139,4 +152,28 @@ export function useMatchMedia(query) {
   }, [query]);
 
   return result;
+}
+
+export async function showAuthPopup(authEndpoint, setUser) {
+  const width = 600;
+  const height = 600;
+  const left = window.innerWidth / 2 - width / 2;
+  const top = window.innerHeight / 2 - height / 2;
+
+  const popup = window.open(
+    authEndpoint,
+    "",
+    `toolbar=no, location=no, directories=no, status=no, menubar=no,
+      scrollbars=no, resizable=no, copyhistory=no, width=${width},
+      height=${height}, top=${top}, left=${left}`
+  );
+
+  const loop = setInterval(async () => {
+    if (popup.closed) {
+      clearInterval(loop);
+      const userData = await get("/api/whoami");
+      setUser(userData);
+    }
+  }, 50);
+  return loop;
 }

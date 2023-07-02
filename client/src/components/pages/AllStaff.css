@@ -1,0 +1,9 @@
+
+.AllStaff-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.AllStaff-popover {
+  background-color: var(--onyx);
+}

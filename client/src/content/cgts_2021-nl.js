@@ -2,7 +2,36 @@ export default {
   name: "Continental Global Taiko Showdown",
   description:
     "De Continentale Global Taiko Showdown, ons 1v1 toernooi zonder rank limiet, voor 5 verschillende regio's tegelijk, waarbij de top 8 doorgaan naar een 4v4 toernooi met een dubbele eliminatie bracket. De top 32 spelers van de kwalificatie ronde in de 1v1 toernooien zullen dan tegen elkaar strijden in een dubbele eliminatie bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge: Global",
+      link: "https://challonge.com/CGTS2021_4v4"
+    },
+    {
+      label: "Challonge: Asia",
+      link: "https://challonge.com/CGTS2021_Asia"
+    },
+    {
+      label: "Challonge: Europe",
+      link: "https://challonge.com/CGTS2021_Europe"
+    },
+    {
+      label: "Challonge: North America",
+      link: "https://challonge.com/CGTS2021_NA"
+    },
+    {
+      label: "Challonge: Oceania/SEA",
+      link: "https://challonge.com/CGTS2021_OSEA"
+    },
+    {
+      label: "Challonge: South America",
+      link: "https://challonge.com/CGTS2021_SA"
+    },
+  ],
   divisions: ["4v4", "asia", "eu", "na", "osea", "sa"],
   homepage: [
     {

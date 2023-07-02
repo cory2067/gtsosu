@@ -21,6 +21,8 @@ export default {
       discord: "Discord Username",
       timezone: "Timezone",
       tournies: "My Tournies",
+      discordLink: "Link",
+      discordUpdate: "Update",
     },
     archives: "Archives",
     stats: "Statistics",
@@ -28,6 +30,7 @@ export default {
     donate: "Donate",
     submissions: "Entry Submissions",
     songs: "Songs",
+    links: "Links",
   },
 
   ja: {
@@ -58,6 +61,7 @@ export default {
     information: "参加に関して",
     donate: "支援",
     submissions: "Entry Submissions",
+    links: "リンク",
   },
 
   ko: {
@@ -87,6 +91,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 
   de: {
@@ -116,6 +121,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 
   ru: {
@@ -145,6 +151,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 
   "zh-sg": {
@@ -174,6 +181,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 
   fr: {
@@ -203,6 +211,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 
   es: {
@@ -232,6 +241,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 
   pl: {
@@ -261,6 +271,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 
   es_cl: {
@@ -290,6 +301,7 @@ export default {
     information: "Information",
     donate: "Donate",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 
   nl: {
@@ -319,6 +331,7 @@ export default {
     information: "Informatie",
     donate: "Doneren",
     submissions: "Entry Submissions",
+    links: "Links",
   },
   
   "zh-cn": {
@@ -348,5 +361,6 @@ export default {
     information: "信息",
     donate: "捐赠",
     submissions: "Entry Submissions",
+    links: "Links",
   },
 };

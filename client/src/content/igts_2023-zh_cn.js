@@ -3,6 +3,24 @@ export default {
     description:
       "全球中级太鼓锦标赛，是本系列锦标赛的初创赛事。这是一个排名限制在4500到10000名，面向中级玩家的二对二锦标赛。所有队伍需要首先参加资格赛，然后参加小组赛、冒泡赛，最后进入双败淘汰赛。",
     discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge Week 1: Group Stage",
+        link: "https://challonge.com/IGTS2023Week1"
+      },
+      {
+        label: "Challonge Week 2: Runoff Bracket",
+        link: "https://challonge.com/IGTS2023Week2"
+      },
+      {
+        label: "Challonge Week 3-6: Main Bracket",
+        link: "https://challonge.com/IGTS2023Main"
+      },
+    ],
     homepage: [
       {
         title: "注册限制",

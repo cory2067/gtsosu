@@ -94,6 +94,9 @@ function RootNavbar(props) {
             <Link to="/donate">{UI.donate}</Link>
           </Menu.Item>
           <Menu.Item key="5">
+            <Link to="/staff">{UI.staff}</Link>
+          </Menu.Item>
+          <Menu.Item key="6">
             <Link to="/songs">{UI.songs}</Link>
           </Menu.Item>
         </Menu>
@@ -207,12 +210,14 @@ function Navbar(props) {
   }
 
   useEffect(() => {
-    setVisible(isIncomplete());
+    if (isIncomplete()) {
+      setVisible(true);
+    }
     setFormData(user);
   }, [user]);
 
   const handleOk = async () => {
-    if (!formData.discord || formData.timezone === undefined) {
+    if (formData.timezone === undefined) {
       return message.error("You must fill out these fields");
     }
 
@@ -272,6 +277,7 @@ function Navbar(props) {
             visible={visible}
             loading={loading}
             user={user}
+            setUser={setUser}
             formData={formData}
             handleOk={handleOk}
             handleCancel={handleCancel}

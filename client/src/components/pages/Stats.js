@@ -57,7 +57,7 @@ export default function Stats({ tourney, user }) {
 
     // process, sort, and rank the stats for each map, while tracking overall stats
     for (const mapStats of state.stageStats.maps || []) {
-      const mod = state.stageMaps.find((stageMap) => stageMap.mapId === mapStats.mapId).mod;
+      const mod = state.stageMaps.find((stageMap) => stageMap.mapId === mapStats.mapId)?.mod;
       const sortedPlayerScores = [...mapStats.playerScores].sort((a, b) => b.score - a.score);
       const sortedTeamScores = [...mapStats.teamScores].sort((a, b) => b.score - a.score);
       const processedPlayerScores = [];

@@ -2,7 +2,20 @@ export default {
   name: "Zandom Global Taiko Showdown",
   description:
     "why are you signing up to this",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge: Part 1",
+      link: "https://challonge.com/RGTS2021_"
+    },
+    {
+      label: "Challonge: Part 2",
+      link: "https://challonge.com/YGTS2"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

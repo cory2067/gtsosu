@@ -37,6 +37,7 @@ function createTestUser(params: createTestUserParams): IUser {
     userid: "testUser",
     donations: 0,
     cardImage: "",
+    discordId: "123",
   };
 }
 
