@@ -21,11 +21,11 @@ June 6th - June 25th.
 ### Screening phase
 June 25th - July 9th.
 ### Qualifiers Showcase
-July 9th, exact time undetermined for now.
+July 9th, 17:00 (UTC+2).
 ### Online Qualifiers
 July 15th - July 16th.
 ### Main Tournament Mappool Showcase (On COE's stage, streamed on Twitch as well.)
-July 31st, 21:00 (UTC+2).
+July 31st, 18:00 (UTC+2).
 ### Main Tournament Day 1 (RO16)
 August 1st, 14:00 to 22:00 (UTC+2, 22:00 being the end of the last match.)
 ### Main Tournament Day 2 (QF to Finals)

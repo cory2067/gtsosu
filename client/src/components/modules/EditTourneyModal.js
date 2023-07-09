@@ -21,6 +21,8 @@ const stages = [
   "Week 4",
   "Week 5",
   "Week 6",
+  "Day 1",
+  "Day 2"
 ];
 
 export default function EditTourneyModal({
