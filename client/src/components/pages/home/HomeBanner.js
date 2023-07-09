@@ -118,9 +118,19 @@ export default function HomeBanner({ user, setUser }) {
         </div>
       </div>
       <div className="HomeBanner-section-2">
-        <video autoPlay loop muted className="HomeBanner-media">
+        {/* <video autoPlay loop muted className="HomeBanner-media">
           <source src="/public/banner.mp4" type="video/mp4" />
-        </video>
+        </video> */}
+        <iframe
+          className="HomeBanner-media"
+          // width="1280"
+          // height="720"
+          src="https://www.youtube.com/embed/ezH1jj1pzXo?autoplay=1&showinfo=0&controls=0&autohide=1&mute=1&loop=1&playlist=ezH1jj1pzXo"
+          title="COEGTS 2023"
+          frameborder="0"
+          controls="0"
+          allow="autoplay;"
+        ></iframe>
         {mobileLayout && LoginButtons({ user, setUser })}
       </div>
     </div>
