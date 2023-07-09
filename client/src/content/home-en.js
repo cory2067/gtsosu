@@ -1,7 +1,7 @@
 export default {
   title: "Global Taiko Showdown",
   description: "Welcome to the website of the biggest osu!taiko tournament series! Here, you can look at everything related to GTS, with pages for all our current and past tournaments!",
-  bannerVideoID: "ezH1jj1pzXo",
+  bannerVideoID: "ezH1jj1pzXo", // Youtube video ID for the video in home banner
   tournies: [
     {
       title: "EGTS 2022",
