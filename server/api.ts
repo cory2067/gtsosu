@@ -9,8 +9,8 @@ import Match, { IMatch, ModLengthMultiplier, WarmupMod } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
 import StageStats, { IStageStats } from "./models/stage-stats";
 import Team, { PopulatedTeam, ITeam } from "./models/team";
-import Tournament, { ITournament } from "./models/tournament";
-import TourneyMap from "./models/tourney-map";
+import Tournament, { ITournament, TourneyStage } from "./models/tournament";
+import TourneyMap, { ITourneyMap } from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
 import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
 import { Request, BaseRequestArgs } from "./types";
@@ -1574,7 +1574,46 @@ router.getAsync("/map-history", async (req, res) => {
  */
 router.getAsync("/custom-songs", async (req, res) => {
   const maps = await TourneyMap.find({ customSong: true });
-  res.send(maps);
+  const output: ITourneyMap[] = [];
+
+  // To avoid repeated db calls
+  const tournamentCache: { [key: string]: ITournament } = {};
+
+  // To avoid repeated stage search
+  const stageCache: { [key: string]: TourneyStage } = {};
+
+  for (const map of maps) {
+    let tourney = tournamentCache[map.tourney];
+    if (!tourney) {
+      let fetchedTourney = await Tournament.findOne({ code: map.tourney });
+      if (fetchedTourney) {
+        tourney = fetchedTourney;
+        tournamentCache[map.tourney] = tourney;
+      } else {
+        // If tournament is not found, skip this map
+        continue;
+      }
+    }
+
+    const stageKey = `${tourney.code}-${map.stage}`;
+    let stage = stageCache[stageKey];
+    if (!stage) {
+      let foundStage = tourney.stages.find((stage) => stage.name === map.stage);
+      if (!foundStage) {
+        // If stage is not found, skip this map
+        continue;
+      }
+      stage = foundStage;
+      stageCache[stageKey] = stage;
+    }
+
+    // Show map only if the pool is visible
+    if (stage.poolVisible) {
+      output.push(map);
+    }
+  }
+
+  res.send(output);
 });
 
 /**
