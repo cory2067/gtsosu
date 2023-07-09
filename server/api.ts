@@ -1582,8 +1582,16 @@ router.getAsync("/custom-songs", async (req, res) => {
   // To avoid repeated stage search
   const stageCache: { [key: string]: TourneyStage } = {};
 
+  // Pre-fetch all tournies to avoid repeated db calls to find individual tournies
+  const tourniesFromDb = await Tournament.find();
+  tourniesFromDb.forEach((tourney) => {
+    tournamentCache[tourney.code] = tourney;
+  });
+
   for (const map of maps) {
     let tourney = tournamentCache[map.tourney];
+
+    // Keeping this here in case the pre-fetch above doesn't fetch all tournies for some reason
     if (!tourney) {
       let fetchedTourney = await Tournament.findOne({ code: map.tourney });
       if (fetchedTourney) {
