@@ -1,6 +1,7 @@
 export default {
   title: "Global Taiko Showdown",
-  description: "The biggest osu!taiko tournament series!",
+  description: "Welcome to the website of the biggest osu!taiko tournament series! Here, you can look at everything related to GTS, with pages for all our current and past tournaments!",
+  bannerVideoID: "ezH1jj1pzXo",
   tournies: [
     {
       title: "EGTS 2022",

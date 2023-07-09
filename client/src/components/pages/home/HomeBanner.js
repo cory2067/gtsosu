@@ -1,14 +1,13 @@
 import React from "react";
 
 import ContentManager from "../../../ContentManager";
+import Content from "../../../content/home-en";
 import { get } from "../../../utilities";
 
 import stripesBottomLeft from "./svg/stripes-bottom-left.svg";
 import stripesTopRight from "./svg/stripes-top-right.svg";
 import stripedCircleWhite from "./svg/striped-circle-white.svg";
 import stripedCircleOrange from "./svg/striped-circle-orange.svg";
-
-// import gtsLogo from "../../../public/gts-osu.svg";
 
 import "./HomeBanner.css";
 import { Button, Typography } from "antd";
@@ -110,22 +109,14 @@ export default function HomeBanner({ user, setUser }) {
             <img src="public/gts-osu.svg" className="HomeBanner-logo" />
             <Typography className="HomeBanner-title">GLOBAL TAIKO SHOWDOWN</Typography>
           </div>
-          <Typography className="HomeBanner-description">
-            Text go here talking about it, bla bla bla, random cool text, uwu, it's cool here, i
-            like this text
-          </Typography>
+          <Typography className="HomeBanner-description">{Content.description}</Typography>
           {!mobileLayout && LoginButtons({ user, setUser })}
         </div>
       </div>
       <div className="HomeBanner-section-2">
-        {/* <video autoPlay loop muted className="HomeBanner-media">
-          <source src="/public/banner.mp4" type="video/mp4" />
-        </video> */}
         <iframe
           className="HomeBanner-media"
-          // width="1280"
-          // height="720"
-          src="https://www.youtube.com/embed/ezH1jj1pzXo?autoplay=1&showinfo=0&controls=0&autohide=1&mute=1&loop=1&playlist=ezH1jj1pzXo"
+          src={`https://www.youtube.com/embed/${Content.bannerVideoID}?autoplay=1&showinfo=0&controls=0&autohide=1&mute=1&loop=1&playlist=${Content.bannerVideoID}`}
           title="COEGTS 2023"
           frameborder="0"
           controls="0"

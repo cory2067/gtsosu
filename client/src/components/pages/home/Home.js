@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import ReactMarkdown from "react-markdown";
 import TourneyCard from "./TourneyCard";
 import SocialCard from "./SocialCard";
 import "./Home.css";
@@ -9,9 +8,8 @@ import socials from "../../../content/socials";
 import { Col, Layout, Row } from "antd";
 import PastTournies from "./PastTournies";
 import { useMatchMedia } from "../../../utilities";
-import Text from "antd/lib/typography/Text";
 import HomeBanner from "./HomeBanner";
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 function organizeIntoGrid(tournies, columns = 2) {
   var tourneyGrid = [];
@@ -40,17 +38,6 @@ export default function Home({ user, setUser }) {
 
   return (
     <Content className="content Home-content">
-      {/* <div className="Home-title-section">
-        <div className="Home-title-section-inner">
-          <h1 className="Home-title u-bold">{data.title}</h1>
-          <div className="Home-about-container">x
-            <div className="Home-about">
-              <ReactMarkdown source={data.description} />
-            </div>
-          </div>
-        </div>
-      </div> */}
-
       <div className="Home-container">
         {/* Banner */}
         <HomeBanner user={user} setUser={setUser} />
