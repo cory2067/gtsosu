@@ -9,7 +9,6 @@ export default {
       code: "egts",
       fullCode: "egts_2022",
       banner: "/public/backgrounds/egts_2022.png",
-      ongoing: true,
       description: `
 The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
 The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
@@ -50,6 +49,7 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 16 
       fullTitle: "CAVOE'S OSU! EVENT'S GLOBAL TAIKO SHOWDOWN 2023",
       code: "coegts",
       fullCode: "coegts_2023",
+      ongoing: "true",
       description: `
 The cavoe's osu! event's Global Taiko Showdown, our first ever offline 1v1 tournament, with entirely custom songs.
 The top 16 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,

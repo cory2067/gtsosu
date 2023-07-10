@@ -30,10 +30,10 @@ export default function Home({ user, setUser }) {
     document.title = "GTS";
   });
 
-  var mobileLayout = useMatchMedia("(max-width: 1280px)")?.matches;
-  var tourneyColSpan = mobileLayout ? 24 : 12;
-  var ongoingTournies = data.tournies.filter((tourney) => tourney.ongoing);
-  var tournies = data.tournies.filter((tourney) => !tourney.ongoing);
+  const mobileLayout = useMatchMedia("(max-width: 1280px)")?.matches;
+  const tourneyColSpan = mobileLayout ? 24 : 12;
+  const ongoingTournies = data.tournies.filter((tourney) => tourney.ongoing);
+  const tournies = data.tournies.filter((tourney) => !tourney.ongoing);
   const currentTourniesFullCode = data.tournies.map((tourney) => tourney.fullCode);
 
   return (

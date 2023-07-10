@@ -20,11 +20,11 @@ import { Link } from "@reach/router";
  * @param {tourney} props.tourney
  */
 export default function PastTourneyCard({ tourney }) {
-  const [tourneyContent, SetTourneyContent] = useState(null);
+  const [tourneyContent, setTourneyContent] = useState(null);
 
   useEffect(() => {
     ContentManager.get(tourney.fullCode).then((content) => {
-      SetTourneyContent(content);
+      setTourneyContent(content);
     });
   }, [tourney.fullCode]);
 

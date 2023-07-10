@@ -15,49 +15,6 @@ import { useMatchMedia } from "../../../utilities";
 
 const UI = ContentManager.getUI();
 
-/**
- * @typedef {Object} LoginProps
- *
- * @property {Object} user
- * @property {Function} setUser
- */
-/**
- * Opens a popup window to osu! OAuth login.
- * This is copied from LoginButton.js
- *
- * @param {LoginProps} props
- */
-async function login({ user, setUser }) {
-  if (user.username) {
-    await fetch("/auth/logout");
-    setUser({});
-    return;
-  }
-
-  const width = 600;
-  const height = 600;
-  const left = window.innerWidth / 2 - width / 2;
-  const top = window.innerHeight / 2 - height / 2;
-
-  const popup = window.open(
-    "/auth/login/",
-    "",
-    `toolbar=no, location=no, directories=no, status=no, menubar=no,
-    scrollbars=no, resizable=no, copyhistory=no, width=${width},
-    height=${height}, top=${top}, left=${left}`
-  );
-
-  // Not sure why but onclose doesn't work
-  const loop = setInterval(async () => {
-    if (popup.closed) {
-      clearInterval(loop);
-      const userData = await get("/api/whoami");
-      setUser(userData);
-    }
-  }, 50);
-  return loop;
-}
-
 function HomeBannerBackground() {
   return (
     <div className="HomeBannerBackground-container">
@@ -70,36 +27,12 @@ function HomeBannerBackground() {
 }
 
 /**
- * @param {LoginProps} props
- */
-function LoginButtons({ user, setUser }) {
-  return (
-    <div className="HomeBanner-login-buttons-container">
-      <Button
-        className="cta"
-        size="large"
-        onClick={() => {
-          login({ user, setUser });
-        }}
-      >
-        {user?.username ? UI.logout : UI.login}
-      </Button>
-      <Button className="outlined-light" size="large">
-        Learn More
-      </Button>
-    </div>
-  );
-}
-
-/**
  * @typedef {LoginProps} HomeBannerProps
  */
 /**
  * @param {HomeBannerProps} props
  */
 export default function HomeBanner({ user, setUser }) {
-  var mobileLayout = useMatchMedia("(max-width: 1000px)")?.matches;
-
   return (
     <div className="HomeBanner-container">
       <HomeBannerBackground />
@@ -110,7 +43,6 @@ export default function HomeBanner({ user, setUser }) {
             <Typography className="HomeBanner-title">GLOBAL TAIKO SHOWDOWN</Typography>
           </div>
           <Typography className="HomeBanner-description">{Content.description}</Typography>
-          {!mobileLayout && LoginButtons({ user, setUser })}
         </div>
       </div>
       <div className="HomeBanner-section-2">
@@ -122,7 +54,6 @@ export default function HomeBanner({ user, setUser }) {
           controls="0"
           allow="autoplay;"
         ></iframe>
-        {mobileLayout && LoginButtons({ user, setUser })}
       </div>
     </div>
   );
