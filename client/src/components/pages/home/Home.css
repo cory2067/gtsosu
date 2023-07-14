@@ -1,0 +1,79 @@
+@import url("../../../styles/buttons.css");
+
+body .Home-content {
+  padding: 0;
+}
+
+.Home-content {
+  height: calc(100vh - 64px);
+  background-color: var(--dark-night);
+}
+
+.Home-title {
+  font-size: 62pt;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  color: var(--dark-night);
+}
+
+.Home-about-container {
+  justify-content: center;
+  display: flex;
+}
+
+.Home-about {
+  font-size: 22pt;
+  padding: var(--xs);
+  max-width: 800px;
+  font-style: italic;
+}
+
+.Home-title-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 350px;
+  background: #e5e5e5;
+  color: var(--onyx);
+}
+
+.Home-about p {
+  margin-bottom: 0;
+}
+
+.Home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  background-color: var(--dark-night);
+}
+
+.Home-container > .ant-row > .ant-col {
+  display: flex;
+}
+
+.Home-socials-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+  background-color: transparent;
+  margin: var(--m);
+  margin-top: var(--s);
+  gap: var(--m);
+}
+
+@media (min-width: 720px) {
+  .Home-container {
+    padding: 50px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .Home-socials-container {
+    flex-direction: row;
+  }
+}

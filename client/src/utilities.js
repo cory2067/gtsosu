@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { UserAuth } from "./permissions/UserAuth";
 import { message } from "antd";
 
@@ -128,6 +129,29 @@ export function exportTextFile({ content, contentType = "text/csv", fileName, ch
   dl.target = "_blank";
   dl.download = fileName;
   dl.click();
+}
+
+/**
+ * A wrapper for window.matchMedia with updates
+ *
+ * @param {string} query
+ * @returns {?MediaQueryList}
+ */
+export function useMatchMedia(query) {
+  const [result, setResult] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    setResult(media);
+    const onChange = (e) => setResult(e);
+    media.addEventListener("change", onChange);
+
+    return () => {
+      media.removeEventListener("change", onChange);
+    };
+  }, [query]);
+
+  return result;
 }
 
 export async function showAuthPopup(authEndpoint, setUser) {

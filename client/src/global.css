@@ -1,14 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400;1,500;1,600;1,700;1,900&display=swap");
 
 :root {
+  --gts-orange-light: #f97d35;
   --gts-orange: #f75c03;
+  --gts-orange-dark: #943702;
   --greyts: #b5c8d6;
+  --greyts-lighter: rgb(206, 219, 228);
   --onyx: #31373f;
   --night: #2e3135;
   --white: #fff;
   --bg: #f0f2f5;
   --gold: #ffc53b;
-  --darker-night: #131415;
+  --darker-night: rgb(19, 20, 21);
+  --dark-night: rgb(41, 45, 50);
+  --onyx-dark: rgb(49, 55, 63);
+
+  --full-white: rgb(255, 255, 255);
+  --onyx-light: rgb(56, 66, 79);
 
   --xs: 4px;
   --s: 8px;
@@ -18,7 +26,8 @@
 }
 
 html body {
-  font-family: 'Red Hat Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  font-family: "Red Hat Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    sans-serif;
 }
 
 form {
@@ -31,6 +40,11 @@ form {
 
 .u-flex {
   display: flex;
+}
+
+.u-flexRow {
+  display: flex;
+  flex-direction: row;
 }
 
 .u-flexColumn {
@@ -65,6 +79,10 @@ form {
   font-weight: 700;
 }
 
+.u-xxbold {
+  font-weight: 900;
+}
+
 .u-textCenter {
   text-align: center;
 }
@@ -95,10 +113,14 @@ form {
   padding: 0;
 }
 
+.u-rounded-border {
+  border-radius: var(--s);
+}
+
 /* Ant default overrides */
 body {
-  font-variant: normal!important;
-  font-feature-settings: normal!important;
+  font-variant: normal !important;
+  font-feature-settings: normal !important;
 }
 
 body .ant-card {
@@ -136,7 +158,6 @@ body .ant-menu-item.ant-menu-item-selected:hover {
 body .ant-input[disabled] {
   color: var(--white);
 }
-
 
 .u-add-tag {
   background: var(--night) !important;

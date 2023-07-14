@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { navigate, Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
-import Home from "./pages/Home.js";
+import Home from "./pages/home/Home.js";
 import Archives from "./pages/Archives.js";
 import TourneyHome from "./pages/TourneyHome";
 import NewTourneyHome from "./pages/NewTourneyHome";
@@ -49,7 +49,7 @@ export default function App() {
       <Layout>
         <Navbar attention={loginAttention} user={user} setUser={setUser} />
         <Router primary={false}>
-          <Home path="/" />
+          <Home path="/" user={user} setUser={setUser} />
           <Archives path="/archives" />
           <PoolHelper path="/pool-helper" />
           <Donate path="/donate" user={user} />
