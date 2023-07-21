@@ -1,29 +1,28 @@
-import React, { Component, useEffect, useState } from "react";
-import { navigate, Router } from "@reach/router";
-import NotFound from "./pages/NotFound.js";
-import Home from "./pages/home/Home.js";
-import Archives from "./pages/Archives.js";
-import TourneyHome from "./pages/TourneyHome";
-import NewTourneyHome from "./pages/NewTourneyHome";
-import TourneyStaff from "./pages/TourneyStaff";
-import Rules from "./pages/Rules";
-import Mappools from "./pages/Mappools";
-import Players from "./pages/Players";
-import Schedule from "./pages/Schedule";
-import Stats from "./pages/Stats";
-import PoolHelper from "./pages/PoolHelper";
-import Donate from "./pages/Donate";
-import Songs from "./pages/Songs";
-import Navbar from "./modules/Navbar";
-import AllStaff from "./pages/AllStaff";
+import { Router, navigate } from "@reach/router";
+import React, { useEffect, useState, lazy, Suspense } from "react";
 import { get } from "../utilities";
+import Navbar from "./modules/Navbar";
+const AllStaff = lazy(() => import("./pages/AllStaff"));
+const Archives = lazy(() => import("./pages/Archives"));
+const Donate = lazy(() => import("./pages/Donate"));
+const Mappools = lazy(() => import("./pages/Mappools"));
+const NewTourneyHome = lazy(() => import("./pages/NewTourneyHome"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Players = lazy(() => import("./pages/Players"));
+const PoolHelper = lazy(() => import("./pages/PoolHelper"));
+const Rules = lazy(() => import("./pages/Rules"));
+const Schedule = lazy(() => import("./pages/Schedule"));
+const Songs = lazy(() => import("./pages/Songs"));
+const Stats = lazy(() => import("./pages/Stats"));
+const TourneyHome = lazy(() => import("./pages/TourneyHome"));
+const TourneyStaff = lazy(() => import("./pages/TourneyStaff"));
+import Home from "./pages/home/Home.js";
 
-import "../global.css";
 import YearConfig from "../content/year-config";
+import "../global.css";
 
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 import "antd/dist/antd.css";
-const { Footer } = Layout;
 import "./App.less";
 
 export default function App() {
@@ -50,11 +49,11 @@ export default function App() {
         <Navbar attention={loginAttention} user={user} setUser={setUser} />
         <Router primary={false}>
           <Home path="/" user={user} setUser={setUser} />
-          <Archives path="/archives" />
-          <PoolHelper path="/pool-helper" />
-          <Donate path="/donate" user={user} />
-          <AllStaff path="/staff" />
-          <Songs path="/songs" />
+          <AsyncPageWrapper path="/archives" PageComponent={Archives} />
+          <AsyncPageWrapper path="/pool-helper" PageComponent={PoolHelper} />
+          <AsyncPageWrapper path="/donate" PageComponent={Donate} user={user} />
+          <AsyncPageWrapper path="/staff" PageComponent={AllStaff} />
+          <AsyncPageWrapper path="/songs" PageComponent={Songs} />
 
           <TourneyRouteWrapper
             user={user}
@@ -118,6 +117,33 @@ export default function App() {
   );
 }
 
+/**
+ * Placeholder component for a loading page
+ */
+function AsyncPageWrapper(props) {
+  const { PageComponent, path } = props;
+  return (
+    <Suspense
+      fallback={
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10%",
+          }}
+        >
+          <Spin path={path} />
+        </div>
+      }
+    >
+      <PageComponent {...props}></PageComponent>
+    </Suspense>
+  );
+}
+
 function TourneyRouteWrapper(props) {
   const { PageComponent, year, tourney } = props;
 
@@ -125,5 +151,11 @@ function TourneyRouteWrapper(props) {
   const _year = year ?? YearConfig[tourneyName];
   if (!_year) navigate("/404");
 
-  return <PageComponent {...props} tourney={`${tourney}_${_year}`} />;
+  return (
+    <AsyncPageWrapper
+      PageComponent={PageComponent}
+      {...props}
+      tourney={`${tourney}_${_year}`}
+    ></AsyncPageWrapper>
+  );
 }

@@ -1,13 +1,12 @@
-import React, { Component } from "react";
-import AddMapModal from "../modules/AddMapModal";
-import StageSelector from "../modules/StageSelector";
-import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
-import { get, post, delet, hasAccess, getStage, prettifyTourney } from "../../utilities";
-import { navigate } from "@reach/router";
+import React, { Component } from "react";
+import { delet, get, getStage, hasAccess, post, prettifyTourney } from "../../utilities";
+import AddMapModal from "../modules/AddMapModal";
+import MapCard from "../modules/MapCard";
+import StageSelector from "../modules/StageSelector";
 import "./Mappools.css";
 
-import { Layout, Menu, Button, Form, Switch, Input, message, Empty } from "antd";
+import { Button, Empty, Form, Input, Layout, Switch, message } from "antd";
 const { Content } = Layout;
 
 class Mappools extends Component {

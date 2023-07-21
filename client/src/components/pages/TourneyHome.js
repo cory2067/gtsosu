@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import ReactMarkdown from "react-markdown";
 import "./TourneyHome.css";
 
-import { Layout, Card, Button, Modal, notification, message } from "antd";
-import { ExclamationCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { get, post, hasAccess, prettifyTourney, tokenizeTourney } from "../../utilities";
+import { EditOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { navigate } from "@reach/router";
+import { Button, Card, Layout, Modal, message, notification } from "antd";
 import ContentManager from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
+import { get, hasAccess, post, prettifyTourney, tokenizeTourney } from "../../utilities";
 import CreateTeamModal from "../modules/CreateTeamModal";
 
 const UI = ContentManager.getUI();

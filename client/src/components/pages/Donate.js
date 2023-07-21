@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useMemo } from "react";
-import ReactMarkdown from "react-markdown";
+import React, { useEffect, useMemo, useState } from "react";
+import { get, post } from "../../utilities";
 import UserCard from "../modules/UserCard";
-import { get, hasAccess, delet, post } from "../../utilities";
 import "./Donate.css";
 
-import { Layout, Form, Button, Collapse, Input, Progress } from "antd";
+import { Button, Collapse, Form, Input, Layout, Progress } from "antd";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
 const { Content } = Layout;

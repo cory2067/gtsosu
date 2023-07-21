@@ -1,19 +1,14 @@
 import React from "react";
 
-import ContentManager from "../../../ContentManager";
 import Content from "../../../content/home-en";
-import { get } from "../../../utilities";
 
+import stripedCircleOrange from "./svg/striped-circle-orange.svg";
+import stripedCircleWhite from "./svg/striped-circle-white.svg";
 import stripesBottomLeft from "./svg/stripes-bottom-left.svg";
 import stripesTopRight from "./svg/stripes-top-right.svg";
-import stripedCircleWhite from "./svg/striped-circle-white.svg";
-import stripedCircleOrange from "./svg/striped-circle-orange.svg";
 
+import { Typography } from "antd";
 import "./HomeBanner.css";
-import { Button, Typography } from "antd";
-import { useMatchMedia } from "../../../utilities";
-
-const UI = ContentManager.getUI();
 
 function HomeBannerBackground() {
   return (
@@ -26,13 +21,7 @@ function HomeBannerBackground() {
   );
 }
 
-/**
- * @typedef {LoginProps} HomeBannerProps
- */
-/**
- * @param {HomeBannerProps} props
- */
-export default function HomeBanner({ user, setUser }) {
+export default function HomeBanner() {
   return (
     <div className="HomeBanner-container">
       <HomeBannerBackground />
@@ -50,7 +39,6 @@ export default function HomeBanner({ user, setUser }) {
           className="HomeBanner-media"
           src={`https://www.youtube.com/embed/${Content.bannerVideoID}?autoplay=1&showinfo=0&controls=0&autohide=1&mute=1&loop=1&playlist=${Content.bannerVideoID}`}
           title="COEGTS 2023"
-          frameborder="0"
           controls="0"
           allow="autoplay;"
         ></iframe>

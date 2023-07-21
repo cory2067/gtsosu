@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "./NewTourneyHome.css";
 
-import { Layout, Card, Button, Modal, notification, message, Menu, Dropdown } from "antd";
-import { ExclamationCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { get, post, prettifyTourney, tokenizeTourney } from "../../utilities";
+import { EditOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { navigate } from "@reach/router";
+import { Button, Dropdown, Layout, Menu, Modal, message, notification } from "antd";
 import ContentManager from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
-import CreateTeamModal from "../modules/CreateTeamModal";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
+import { get, post, prettifyTourney, tokenizeTourney } from "../../utilities";
+import CreateTeamModal from "../modules/CreateTeamModal";
 
 import ChallongeLogo from "../../public/challonge-logo.svg";
 import DiscordLogo from "../../public/discord-logo.svg";

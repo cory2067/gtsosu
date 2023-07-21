@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
 import { Link, Router } from "@reach/router";
+import React, { useEffect, useState } from "react";
 
-import { Modal, Layout, Menu, message, Typography, Switch, Checkbox } from "antd";
-import LoginButton from "./LoginButton";
-import UserModal from "./UserModal";
-import "./Navbar.css";
-import { get, post, tokenizeTourney } from "../../utilities";
-import ContentManager from "../../ContentManager";
-import GTSLogo from "../../public/gts-osu.svg";
-import YearConfig from "../../content/year-config";
 import { GlobalOutlined } from "@ant-design/icons";
+import { Layout, Menu, Modal, Typography, message } from "antd";
+import ContentManager from "../../ContentManager";
+import YearConfig from "../../content/year-config";
+import GTSLogo from "../../public/gts-osu.svg";
+import { get, post, tokenizeTourney } from "../../utilities";
+import LoginButton from "./LoginButton";
+import "./Navbar.css";
+import UserModal from "./UserModal";
 
 const { Header } = Layout;
 const { SubMenu } = Menu;
