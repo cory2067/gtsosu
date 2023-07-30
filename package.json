@@ -7,7 +7,7 @@
     "hotloader": "webpack-dev-server --config ./webpack.config.js --mode development --port 5000",
     "start": "if test \"$NODE_ENV\" = \"production\" ; then npm run prod ; else npm run dev ; fi",
     "dev": "nodemon -q --ignore client/ | tee logs.txt | pino-pretty",
-    "prod": "pm2 start built/server.js",
+    "prod": "pm2 start built/server.js --no-daemon",
     "build": "tsc && webpack",
     "prettier": "prettier --write .",
     "postinstall": "patch-package",
