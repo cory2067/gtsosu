@@ -5,8 +5,9 @@
   "main": "server/server.ts",
   "scripts": {
     "hotloader": "webpack-dev-server --config ./webpack.config.js --mode development --port 5000",
-    "start": "nodemon -q --ignore client/ | tee logs.txt | pino-pretty",
-    "start-prod": "pm2 start built/server.js",
+    "start": "if test \"$NODE_ENV\" = \"production\" ; then npm run prod ; else npm run dev ; fi",
+    "dev": "nodemon -q --ignore client/ | tee logs.txt | pino-pretty",
+    "prod": "pm2 start built/server.js",
     "build": "tsc && webpack",
     "prettier": "prettier --write .",
     "postinstall": "patch-package",
