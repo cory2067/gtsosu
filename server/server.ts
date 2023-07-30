@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET!,
-    store: MongoStore.create({ clientPromise }),
+    store: MongoStore.create({ clientPromise, touchAfter: 24 * 3600 }),
     resave: false,
     saveUninitialized: true,
   })

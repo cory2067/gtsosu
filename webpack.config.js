@@ -24,7 +24,7 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: ["@babel/polyfill", entryFile],
-  mode: 'production',
+  mode: "production",
   output: {
     path: outputDir,
     publicPath: "/",

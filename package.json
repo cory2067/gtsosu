@@ -6,6 +6,7 @@
   "scripts": {
     "hotloader": "webpack-dev-server --config ./webpack.config.js --mode development --port 5000",
     "start": "nodemon -q --ignore client/ | tee logs.txt | pino-pretty",
+    "start-prod": "pm2 start built/server.js",
     "build": "tsc && webpack",
     "prettier": "prettier --write .",
     "postinstall": "patch-package",
@@ -48,6 +49,7 @@
     "pg": "^7.18.2",
     "pino": "^7.8.1",
     "pino-pretty": "^3.6.1",
+    "pm2": "^5.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-google-login": "^5.1.21",
