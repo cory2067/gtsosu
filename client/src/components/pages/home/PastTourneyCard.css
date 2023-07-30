@@ -12,6 +12,7 @@
 img.PastTourneyCard-thumbnail {
   width: 135px;
   height: 90px;
+  object-fit: cover;
 }
 
 .PastTourneyCard-text-container {

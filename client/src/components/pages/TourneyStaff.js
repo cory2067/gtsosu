@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { get, post, hasAccess, delet, prettifyTourney, exportCSVFile } from "../../utilities";
+import { delet, exportCSVFile, get, hasAccess, post, prettifyTourney } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
-import { Layout, Collapse, Form, Input, Select, Button, message } from "antd";
+import { Button, Collapse, Form, Input, Layout, Select, message } from "antd";
 const { Content } = Layout;
 const { Panel } = Collapse;
 

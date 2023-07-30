@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
 import { navigate } from "@reach/router";
 import { Layout } from "antd";
+import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
-import { prettifyTourney } from "../../utilities";
 import ContentManager from "../../ContentManager";
+import { prettifyTourney } from "../../utilities";
 const { Content } = Layout;
 
 export default function Rules({ tourney }) {

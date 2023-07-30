@@ -1,6 +1,6 @@
 import { Typography } from "antd";
 import Text from "antd/lib/typography/Text";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { get, prettifyTourney, tokenizeTourney } from "../../../utilities";
 import PastTourneyCard from "./PastTourneyCard";

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import "./Stats.css";
-import { get, post, prettifyTourney, hasAccess, getStageWithVisibleStats } from "../../utilities";
-import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip, Radio, Popover } from "antd";
-import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
-const { Content } = Layout;
-const { Column, ColumnGroup } = Table;
+import { MinusOutlined } from "@ant-design/icons";
+import { Button, Form, InputNumber, Layout, Menu, Popover, Radio, Spin, Switch, Table, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { get, getStageWithVisibleStats, hasAccess, post, prettifyTourney } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";
 import FlagIcon from "../modules/FlagIcon";
 import StageSelector from "../modules/StageSelector";
-import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
+import UserCard from "../modules/UserCard";
+import "./Stats.css";
+const { Content } = Layout;
+const { Column, ColumnGroup } = Table;
 
 export default function Stats({ tourney, user }) {
   const [state, setState] = useState({

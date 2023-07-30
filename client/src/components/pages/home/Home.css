@@ -66,14 +66,29 @@ body .Home-content {
   gap: var(--m);
 }
 
+.Home-tourney-grid-container {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
 @media (min-width: 720px) {
   .Home-container {
     padding: 50px;
+  }
+
+  .Home-tourney-grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
   }
 }
 
 @media (min-width: 1280px) {
   .Home-socials-container {
     flex-direction: row;
+  }
+
+  .Home-tourney-grid-container {
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr;
   }
 }
