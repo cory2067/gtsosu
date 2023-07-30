@@ -33,7 +33,7 @@ export default function PastTourneyCard({ tourney }) {
       <div className="u-rounded-border PastTourneyCard-container">
         <Image
           className="u-rounded-border PastTourneyCard-thumbnail"
-          src={`/public/backgrounds/${tourney.fullCode}.png`}
+          src={`/public/thumbnails/${tourney.fullCode}-small.png`}
           fallback="/public/gts-tournament-no-image.png"
           preview={false}
         />
