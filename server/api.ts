@@ -182,40 +182,52 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
     );
     return res.status(400).send({ error: `Your country can't participate in this division` });
   }
-  
+
   if (tourney.discordServerId) {
     if (!req.user.discordId) {
-      logger.info(`${req.user.username} failed to register for ${req.body.tourney} (discord account not linked)`);
-      return res.status(400).send({ error: "Plaese link your Discord account in your user settings and then try again." });
+      logger.info(
+        `${req.user.username} failed to register for ${req.body.tourney} (discord account not linked)`
+      );
+      return res
+        .status(400)
+        .send({
+          error: "Please link your Discord account in your user settings and then try again.",
+        });
     }
-    
-    let theDiscordServer: Guild|undefined = undefined;
+
+    let theDiscordServer: Guild | undefined = undefined;
     try {
       theDiscordServer = await discordClient.guilds.fetch(tourney.discordServerId);
     } catch (e) {
       if (e.code === 10004) {
-        logger.info(`${req.user.username} failed to register for ${req.body.tourney} (discord server not found)`);
+        logger.info(
+          `${req.user.username} failed to register for ${req.body.tourney} (discord server not found)`
+        );
         return res.status(400).send({ error: "Discord server not found - contact staff" });
       } else {
         logger.info(e);
         return res.status(400).send({ error: "Unknown error - contact staff" });
       }
     }
-    
-    let theDiscordMember: GuildMember|undefined = undefined;
+
+    let theDiscordMember: GuildMember | undefined = undefined;
     try {
       theDiscordMember = await theDiscordServer.members.fetch(req.user.discordId);
     } catch (e) {
       if (e.code === 10007) {
-        logger.info(`${req.user.username} failed to register for ${req.body.tourney} (discord server not joined)`);
+        logger.info(
+          `${req.user.username} failed to register for ${req.body.tourney} (discord server not joined)`
+        );
         return res.status(400).send({ error: "You have not joined the Discord server." });
       } else {
         logger.info(e);
         return res.status(400).send({ error: "Unknown error - contact staff" });
       }
     }
-    
-    logger.info(`Successfully confirmed that ${theDiscordMember.user.username} is a member of ${theDiscordServer.name}`);
+
+    logger.info(
+      `Successfully confirmed that ${theDiscordMember.user.username} is a member of ${theDiscordServer.name}`
+    );
   }
 
   logger.info(`${req.user.username} registered for ${req.body.tourney}`);
