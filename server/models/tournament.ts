@@ -21,6 +21,7 @@ interface ITournament {
   flags: string[];
   lobbyMaxSignups: number;
   blacklist: number[];
+  discordServerId: string;
 }
 
 const Tournament = new Schema<ITournament>({
@@ -44,6 +45,7 @@ const Tournament = new Schema<ITournament>({
   flags: [String],
   lobbyMaxSignups: Number,
   blacklist: [Number],
+  discordServerId: String,
 });
 
 export { TourneyStage, ITournament };
