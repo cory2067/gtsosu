@@ -635,7 +635,14 @@ class Schedule extends Component {
                                 <Select.Option key={name} value={name}>
                                   {name}
                                 </Select.Option>
-                              ))}
+                            ))}
+                            {this.state.matches
+                              .map((match) => `Loser of ${match.code}`)
+                              .map((name) => (
+                                <Select.Option key={name} value={name}>
+                                  {name}
+                                </Select.Option>
+                            ))}
                           </Select>
                         </Form.Item>
                         <Form.Item label="Match ID" name="code">
