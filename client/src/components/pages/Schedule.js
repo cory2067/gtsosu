@@ -319,6 +319,26 @@ class Schedule extends Component {
       return this.renderName(match.player2);
     }
 
+    if (playerName.startsWith("Loser of ")) {
+      const code = playerName.split("Loser of ")[1];
+      const match = this.state.matches.filter((match) => match.code === code)[0];
+      if (!match || match.score1 === match.score2) {
+        // no loser of the match yet, just display "Loser of X"
+        return (
+          <span className="Players-name">
+            <FlagIcon size={14} />
+            {playerName}
+          </span>
+        );
+      }
+
+      // may recurse through several match references
+      if (match.score1 < match.score2) {
+        return this.renderName(match.player2);
+      }
+      return this.renderName(match.player1);
+    }
+
     const stats = this.getStats(playerName);
     const thePlayerOrTeam = this.getInfo(playerName);
     
@@ -510,6 +530,13 @@ class Schedule extends Component {
         ))}
         {this.state.matches
           .map((match) => `Winner of ${match.code}`)
+          .map((name) => (
+            <Select.Option key={name} value={name}>
+              {name}
+            </Select.Option>
+        ))}
+        {this.state.matches
+          .map((match) => `Loser of ${match.code}`)
           .map((name) => (
             <Select.Option key={name} value={name}>
               {name}
