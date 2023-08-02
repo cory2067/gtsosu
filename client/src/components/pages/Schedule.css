@@ -9,3 +9,9 @@
 .Schedule-filter {
   margin-top: var(--m);
 }
+
+.Schedule-player {
+  display: inline-flex;
+  column-gap: var(--xs);
+  align-items: center;
+}
