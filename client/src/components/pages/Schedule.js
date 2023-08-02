@@ -305,7 +305,7 @@ class Schedule extends Component {
       if (!match || match.score1 === match.score2) {
         // no winner of the match yet, just display "Winner of X"
         return (
-          <span className="Players-name">
+          <span className="Schedule-player">
             <FlagIcon size={14} />
             {playerName}
           </span>
@@ -325,7 +325,7 @@ class Schedule extends Component {
       if (!match || match.score1 === match.score2) {
         // no loser of the match yet, just display "Loser of X"
         return (
-          <span className="Players-name">
+          <span className="Schedule-player">
             <FlagIcon size={14} />
             {playerName}
           </span>
@@ -351,7 +351,7 @@ class Schedule extends Component {
 
     return (
       <Popover content={popoverContent} placement="right">
-        <span className="Players-name">
+        <span className="Schedule-player">
           <FlagIcon size={14} code={this.getInfo(playerName).country} customIcon={this.getInfo(playerName).icon} />
           {playerName}
         </span>
