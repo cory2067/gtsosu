@@ -36,9 +36,9 @@ August 2nd, 13:00 to 22:00 (UTC+2, 22:00 being the end of Finals.)`,
     {
       title: "Prizes",
       body: `
-- **1st place:** osu! Profile Badge (Pending) + Custom Profile Banner + Undefined Grand Physical Prize
-- **2nd place:** Custom Profile Banner + Undefined Physical Prize
-- **3rd place:** Custom Profile Banner + Undefined Physical Prize
+- **1st place:** osu! Profile Badge (Pending) + Custom Profile Banner + COEGTS limited edition t-shirt + Plushie trophy + COEGTS 1st place poster + Official osu! merch 
+- **2nd place:** Custom Profile Banner + COEGTS limited edition t-shirt + Plushie trophy + COEGTS 2nd place poster + Official osu! merch 
+- **3rd place:** Custom Profile Banner + COEGTS limited edition t-shirt + Plushie trophy + COEGTS 3rd place poster + Official osu! merch 
       `,
     },
   ],
