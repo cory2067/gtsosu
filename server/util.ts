@@ -3,7 +3,7 @@ import osu from "node-osu";
 import { IUser } from "./models/user";
 import { UserAuth } from "./permissions/UserAuth";
 import { UserRole } from "./permissions/UserRole";
-import { Request, UserDocument } from "./types";
+import { Request, UserDocument, GameMode } from "./types";
 import Team, { PopulatedTeam } from "./models/team";
 import Tournament from "./models/tournament";
 import assert from "assert";

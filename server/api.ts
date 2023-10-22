@@ -399,7 +399,9 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
     `${req.body.username} registered for ${req.body.tourney} (forced by ${req.user.username})`
   );
 
-  const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+  const mode = getGamemodeId(tourney.mode);
+  const userData = await osuApi.getUser({ u: req.body.username, m: mode });
   const user = await User.findOneAndUpdate(
     { userid: userData.id },
     {
@@ -1576,6 +1578,9 @@ router.postAsync("/refresh", ensure.isAdmin, async (req, res) => {
     logger.info(`${req.user.username} initiated a refresh of ${req.body.tourney} player list`);
   }
 
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+  const mode = getGamemodeId(tourney.mode);
+  console.log(mode);
   const players = await User.find({ tournies: req.body.tourney })
     .skip(req.body.offset)
     .limit(BATCH_SIZE);
@@ -1583,7 +1588,7 @@ router.postAsync("/refresh", ensure.isAdmin, async (req, res) => {
   await Promise.all(
     players.map(async (p) => {
       try {
-        const userData = await osuApi.getUser({ u: p.userid, m: 1, type: "id" });
+        const userData = await osuApi.getUser({ u: p.userid, m: mode, type: "id" });
         p.rank = userData.pp.rank;
         p.username = userData.name;
         await p.save();
