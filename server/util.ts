@@ -53,3 +53,6 @@ export const getTeamMapForMatch = async (match: IMatch, playerNo?: 1 | 2) => {
     [getPlayerName(match, 2)]: teams[1],
   };
 };
+
+const MODE_TO_ID: Record<GameMode, 1 | 2> = { taiko: 1, catch: 2 };
+export const getGamemodeId = (mode?: GameMode) => (mode ? MODE_TO_ID[mode] : 1); // default to taiko

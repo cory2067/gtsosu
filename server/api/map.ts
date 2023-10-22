@@ -6,7 +6,7 @@ import Tournament from "../models/tournament";
 import TourneyMap, { ITourneyMap } from "../models/tourney-map";
 import { IUser } from "../models/user";
 import { Request } from "../types";
-import { getOsuApi, checkPermissions, assertUser } from "../util";
+import { getOsuApi, checkPermissions, assertUser, getGamemodeId } from "../util";
 import { GameMode } from "../types";
 
 import { addAsync } from "@awaitjs/express";
@@ -31,9 +31,6 @@ const scaleDiff = (diff: number, mod: string) => {
   }
   return diff;
 };
-
-const MODE_TO_ID: Record<GameMode, 1 | 2> = { taiko: 1, catch: 2 };
-const getGamemodeId = (mode?: GameMode) => (mode ? MODE_TO_ID[mode] : 1); // default to taiko
 
 const canViewHiddenPools = (user: IUser | undefined, tourney: string) =>
   checkPermissions(user, tourney, [

@@ -13,7 +13,7 @@ import Team, { PopulatedTeam, ITeam } from "./models/team";
 import Tournament, { ITournament, TourneyStage } from "./models/tournament";
 import TourneyMap, { ITourneyMap } from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
-import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
+import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser, getGamemodeId } from "./util";
 import { Request, BaseRequestArgs } from "./types";
 import { discordClient } from "./server";
 
@@ -147,10 +147,9 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "You're a staff member." });
   }
 
-  const [userData, tourney] = await Promise.all([
-    osuApi.getUser({ u: req.user.userid, m: 1, type: "id" }),
-    Tournament.findOne({ code: req.body.tourney }).orFail(),
-  ]);
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+  const mode = getGamemodeId(tourney.mode);
+  const userData = await osuApi.getUser({ u: req.user.userid, m: mode, type: "id" });
 
   const username = userData.name;
   const userid = userData.id;
