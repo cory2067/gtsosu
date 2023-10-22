@@ -19,4 +19,5 @@ export default {
   gtms: 2023,
   mgts: 2023,
   coegts: 2023,
+  egcs: 2023,
 };
