@@ -27,7 +27,7 @@ class Mappools extends Component {
     document.title = `${prettifyTourney(this.props.tourney)}: Mappools`;
 
     const [tourney, current] = await getStage(this.props.tourney);
-    this.setState({ stages: tourney.stages, current });
+    this.setState({ stages: tourney.stages, current, mode: tourney.mode });
     await this.getMappool(current.name);
     if (this.isPooler()) this.formRef.current.setFieldsValue(current);
   }
@@ -100,6 +100,7 @@ class Mappools extends Component {
       ...this.state.formData,
       tourney: this.props.tourney,
       stage: this.state.current.name,
+      mode: this.state.mode,
     })
       .then((res) => {
         this.setState((state) => ({

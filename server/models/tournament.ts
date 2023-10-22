@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { GameMode } from "../types";
 
 interface TourneyStage {
   name: string;
@@ -22,6 +23,7 @@ interface ITournament {
   lobbyMaxSignups: number;
   blacklist: number[];
   discordServerId: string;
+  mode: GameMode;
 }
 
 const Tournament = new Schema<ITournament>({
@@ -46,6 +48,7 @@ const Tournament = new Schema<ITournament>({
   lobbyMaxSignups: Number,
   blacklist: [Number],
   discordServerId: String,
+  mode: String,
 });
 
 export { TourneyStage, ITournament };

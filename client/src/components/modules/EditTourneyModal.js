@@ -22,7 +22,7 @@ const stages = [
   "Week 5",
   "Week 6",
   "Day 1",
-  "Day 2"
+  "Day 2",
 ];
 
 export default function EditTourneyModal({
@@ -87,18 +87,26 @@ export default function EditTourneyModal({
         <Form.Item name="rankMax" label="Maximum rank">
           <InputNumber min={-1} />
         </Form.Item>
-        <div style={{marginBottom:"24px"}}>(Use -1 for no rank limit)</div>
+        <div style={{ marginBottom: "24px" }}>(Use -1 for no rank limit)</div>
         <Form.Item name="lobbyMaxSignups" label="Maximum number of lobby signups">
           <InputNumber min={0} />
         </Form.Item>
         <Form.Item name="blacklist" label="Blacklist">
           <Input />
         </Form.Item>
-        <div style={{marginBottom:"24px"}}>(Specify players by IDs separated by commas)</div>
+        <Form.Item name="mode" label="Game mode">
+          <Select>
+            <Select.Option key={"taiko"}>Taiko</Select.Option>
+            <Select.Option key={"catch"}>Catch</Select.Option>
+          </Select>
+        </Form.Item>
+        <div style={{ marginBottom: "24px" }}>(Specify players by IDs separated by commas)</div>
         <Form.Item name="discordServerId" label="Discord Server ID">
           <Input />
         </Form.Item>
-        <div style={{marginBottom:"24px"}}>(Specify this value to enforce Discord server membership when registering)</div>
+        <div style={{ marginBottom: "24px" }}>
+          (Specify this value to enforce Discord server membership when registering)
+        </div>
       </Form>
     </Modal>
   );

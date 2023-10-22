@@ -16,9 +16,11 @@ import DefaultBG from "../../public/default-bg.png";
 
 export default function MapCard({
   _id,
+  ar,
   artist,
   bpm,
   creator,
+  cs,
   customMap,
   customSong,
   diff,
@@ -30,6 +32,7 @@ export default function MapCard({
   length,
   mapId,
   mod,
+  mode,
   od,
   pooler,
   sr,
@@ -115,6 +118,16 @@ export default function MapCard({
         <div className="MapCard-attr">
           <span className="u-bold">HP:</span> {hp}
         </div>
+        {mode == "catch" && (
+          <>
+            <div className="MapCard-attr">
+              <span className="u-bold">AR:</span> {ar}
+            </div>
+            <div className="MapCard-attr">
+              <span className="u-bold">CS:</span> {cs}
+            </div>
+          </>
+        )}
       </div>
     </Card>
   );

@@ -27,4 +27,6 @@ export type DiscordAccount = {
   discriminator: string;
 };
 
-export { Request, UserDocument, Populate, BaseRequestArgs };
+type GameMode = "taiko" | "catch"; // supported osu! gamemodes
+
+export { Request, UserDocument, Populate, BaseRequestArgs, GameMode };

@@ -64,6 +64,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
         blacklist: (data.blacklist || []).toString(),
         requiredCountries: data.requiredCountries || [],
         discordServerId: data.discordServerId || "",
+        mode: data.mode || "taiko",
       });
     })();
   }, []);
@@ -167,7 +168,10 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
     console.log(settingsData);
     const res = await post("/api/tournament", {
       ...settingsData,
-      blacklist: settingsData.blacklist.split(",").map(x => Number.parseInt(x)).filter(x => x),
+      blacklist: settingsData.blacklist
+        .split(",")
+        .map((x) => Number.parseInt(x))
+        .filter((x) => x),
       tourney,
     });
     setShowSettings(false);
@@ -181,18 +185,18 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
   if (!user._id) regMessage = "Login to Register";
   else if (isRegistered()) regMessage = "Registered";
   else if (!registrationOpen) regMessage = "Registration Closed";
-  
+
   const getMenuIcon = (label) => {
     if (label.includes("Discord")) {
-      return (<img className="NewTourneyHome-link-icon" src={DiscordLogo} />);
+      return <img className="NewTourneyHome-link-icon" src={DiscordLogo} />;
     }
     if (label.includes("Challonge")) {
-      return (<img className="NewTourneyHome-link-icon" src={ChallongeLogo} />);
+      return <img className="NewTourneyHome-link-icon" src={ChallongeLogo} />;
     }
     if (label.includes("Pick'ems")) {
-      return (<img className="NewTourneyHome-link-icon" src={PickemsLogo} />);
+      return <img className="NewTourneyHome-link-icon" src={PickemsLogo} />;
     }
-    return (<span class="NewTourneyHome-link-icon"></span>);
+    return <span class="NewTourneyHome-link-icon"></span>;
   };
 
   return (
@@ -232,24 +236,24 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
                 {content.links && (
                   <div>
                     <Dropdown
-                      overlay={(
+                      overlay={
                         <Menu>
-                          {
-                            content.links.map(entry => (
-                              <Menu.Item>
-                                <a target="_blank" href={entry.link}>
-                                  <div class="NewTourneyHome-menu-item">
-                                    {getMenuIcon(entry.label)}
-                                    {entry.label}
-                                  </div>
-                                </a>
-                              </Menu.Item>
-                            ))
-                          }
+                          {content.links.map((entry) => (
+                            <Menu.Item>
+                              <a target="_blank" href={entry.link}>
+                                <div class="NewTourneyHome-menu-item">
+                                  {getMenuIcon(entry.label)}
+                                  {entry.label}
+                                </div>
+                              </a>
+                            </Menu.Item>
+                          ))}
                         </Menu>
-                      )}
+                      }
                     >
-                      <Button block size="large">{UI.links}</Button>
+                      <Button block size="large">
+                        {UI.links}
+                      </Button>
                     </Dropdown>
                   </div>
                 )}
