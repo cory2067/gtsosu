@@ -20,8 +20,8 @@ for file in "$src_dir"/*; do
         filename=$(basename -- "$file")
         filename_no_ext="${filename%.*}"
 
-        # Use 'convert' to rescale the image to 135x90
-        convert "$file" -resize 135x90 "$dest_dir/${filename_no_ext}-small.png"
+        # Use 'convert' to rescale the image to 485x205
+        convert "$file" -resize 485x205 "$dest_dir/${filename_no_ext}-small.png"
 
         echo "Rescaled $file to $dest_dir/${filename_no_ext}-small.png"
     fi
