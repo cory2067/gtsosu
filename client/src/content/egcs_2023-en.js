@@ -15,7 +15,7 @@ export default {
   homepage: [
     {
       title: "Restrictions",
-      body: `There are no rank restrictions or country restrictions. Any osu!taiko player who has not been restricted within the past 12 months will be allowed in this tournament. The osu! support reserves the right from removing any player from the tournament following the screening phase.`,
+      body: `There are no rank restrictions or country restrictions. Any osu!catch player who has not been restricted within the past 12 months will be allowed in this tournament. The osu! support reserves the right from removing any player from the tournament following the screening phase.`,
     },
     {
       title: "Dates",
