@@ -19,7 +19,7 @@ The website will be live at http://localhost:5000 but only the "Home" and "Rules
 
 ### Running the full website
 
-First obtain a `.env` file from `Cychloryn#1321`. This file contains credentials that are used to communicate with the database and the osu! api. The database you'll be using isn't the actual database running on gtsosu.com, but an blank copy that you can play around with. For the security of the website, I won't distribute the credentials for the actual database.
+First obtain a `.env` file from `Cychloryn#1321`. This file contains credentials that are used to communicate with the database and the osu! api. The database you'll be using isn't the actual database running on gtsosu.com, but a blank copy that you can play around with. For the security of the website, I won't distribute the credentials for the actual database.
 
 Place the `.env` in the root directory of this repository. In the file, there will be a line that says `OSU_API_KEY=`. You'll need to paste your osu! API key there, or else many features won't work.
 
@@ -39,7 +39,7 @@ If you're running in Windows CMD, `npm start` may fail. In that case, try runnin
 
 ### Testing permissions in development
 
-In development, sometimes you'll want to have admin permissions (to set up new tourneys, or test addding pools/schedules, etc) but sometimes you'll want to be a regular user (to make sure the player experience is correct). By default, you'll be an admin, but you can change this in the .env file.
+In development, sometimes you'll want to have admin permissions (to set up new tourneys, or test adding pools/schedules, etc) but sometimes you'll want to be a regular user (to make sure the player experience is correct). By default, you'll be an admin, but you can change this in the .env file.
 
 There should be a line `DEV_ADMIN=true`. To become a regular user, change this to `DEV_ADMIN=false`. Then, restart the terminal running the backend and log out and back in again.
 
