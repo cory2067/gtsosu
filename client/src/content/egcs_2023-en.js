@@ -80,6 +80,7 @@ December 16th until December 17th.`,
 - The mappools for the entire tournament will be of 19 maps.
 - The size of the NoMod bracket will be of 6 during the entire tournament.
 - The size of the Hidden, Hard Rock, and Double Time will be of 4 during the entire tournament.
+- Players are allowed to use Hidden on Hard Rock and Double Time picks.
 - The Tiebreaker is played under FreeMod conditions, it is not necessary to enable mods, but players can use Hidden or HardRock, or both mods if they wish to. Otherwise, they can just play it NoMod.
 - The mappool for each stage will be showcased a week before.
 
