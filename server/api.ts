@@ -14,7 +14,7 @@ import Tournament, { ITournament, TourneyStage } from "./models/tournament";
 import TourneyMap, { ITourneyMap } from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
 import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser, getGamemodeId } from "./util";
-import { Request, BaseRequestArgs } from "./types";
+import { Request, BaseRequestArgs, legacyGamemodeId } from "./types";
 import { discordClient } from "./server";
 
 import mapRouter from "./api/map";
@@ -103,9 +103,17 @@ const parseWarmup = async (warmup: string, mod: WarmupMod, tourney: string) => {
     throw new Error("This beatmap is part of the map pool");
   }
 
+  // Fetch tourney object to get the correct game mode
+  const tourneyData = await Tournament.findOne({ code: tourney }).orFail();
+
+  // Make taiko the default mode (old tourney data doesn't seem to have mode defined)
+  tourneyData.mode ??= "taiko";
+
   let mapData: osu.Beatmap;
   try {
-    mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
+    mapData = (
+      await osuApi.getBeatmaps({ b: warmupMapId, m: legacyGamemodeId[tourneyData.mode], a: 1 })
+    )[0];
   } catch (e) {
     if (e.message == "Not found") {
       throw new Error("Beatmap not found");
@@ -124,7 +132,10 @@ const parseWarmup = async (warmup: string, mod: WarmupMod, tourney: string) => {
     throw new Error("Warmup map too long (max 3 minutes)");
   }
 
-  return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#taiko/${warmupMapId}`;
+  return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#${
+    // GameMode defines catch but in beatmap url it's fruits
+    tourneyData.mode == "catch" ? "fruits" : tourneyData.mode
+  }/${warmupMapId}`;
 };
 
 /**
