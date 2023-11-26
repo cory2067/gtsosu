@@ -27,17 +27,6 @@ export type DiscordAccount = {
   discriminator: string;
 };
 
-type GameMode = "taiko" | "catch"; // supported osu! gamemodes
-
-/**
- * Maps gamemodes to their legacy ID
- */
-export const legacyGamemodeId = Object.freeze({
-  osu: 0,
-  taiko: 1,
-  catch: 2,
-  fruits: 2,
-  mania: 3,
-});
+type GameMode = "osu" | "taiko" | "catch" | "fruits" | "mania"; // supported osu! gamemodes
 
 export { Request, UserDocument, Populate, BaseRequestArgs, GameMode };

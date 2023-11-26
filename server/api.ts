@@ -13,8 +13,15 @@ import Team, { PopulatedTeam, ITeam } from "./models/team";
 import Tournament, { ITournament, TourneyStage } from "./models/tournament";
 import TourneyMap, { ITourneyMap } from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
-import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser, getGamemodeId } from "./util";
-import { Request, BaseRequestArgs, legacyGamemodeId } from "./types";
+import {
+  getOsuApi,
+  checkPermissions,
+  getTeamMapForMatch,
+  assertUser,
+  getGamemodeId,
+  getApiCompliantGamemode,
+} from "./util";
+import { Request, BaseRequestArgs } from "./types";
 import { discordClient } from "./server";
 
 import mapRouter from "./api/map";
@@ -112,7 +119,7 @@ const parseWarmup = async (warmup: string, mod: WarmupMod, tourney: string) => {
   let mapData: osu.Beatmap;
   try {
     mapData = (
-      await osuApi.getBeatmaps({ b: warmupMapId, m: legacyGamemodeId[tourneyData.mode], a: 1 })
+      await osuApi.getBeatmaps({ b: warmupMapId, m: getGamemodeId(tourneyData.mode), a: 1 })
     )[0];
   } catch (e) {
     if (e.message == "Not found") {
@@ -132,10 +139,8 @@ const parseWarmup = async (warmup: string, mod: WarmupMod, tourney: string) => {
     throw new Error("Warmup map too long (max 3 minutes)");
   }
 
-  return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#${
-    // GameMode defines catch but in beatmap url it's fruits
-    tourneyData.mode == "catch" ? "fruits" : tourneyData.mode
-  }/${warmupMapId}`;
+  const apiCompliantGamemode = getApiCompliantGamemode(tourneyData.mode);
+  return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#${apiCompliantGamemode}/${warmupMapId}`;
 };
 
 /**
