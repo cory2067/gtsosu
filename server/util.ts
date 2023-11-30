@@ -54,5 +54,12 @@ export const getTeamMapForMatch = async (match: IMatch, playerNo?: 1 | 2) => {
   };
 };
 
-const MODE_TO_ID: Record<GameMode, 1 | 2> = { taiko: 1, catch: 2 };
+const MODE_TO_ID: Record<GameMode, 0 | 1 | 2 | 3> = {
+  osu: 0,
+  taiko: 1,
+  catch: 2,
+  fruits: 2,
+  mania: 3,
+};
 export const getGamemodeId = (mode?: GameMode) => (mode ? MODE_TO_ID[mode] : 1); // default to taiko
+export const getApiCompliantGamemode = (mode?: GameMode) => (mode === "catch" ? "fruits" : mode);

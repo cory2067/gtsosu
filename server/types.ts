@@ -27,6 +27,6 @@ export type DiscordAccount = {
   discriminator: string;
 };
 
-type GameMode = "taiko" | "catch"; // supported osu! gamemodes
+type GameMode = "osu" | "taiko" | "catch" | "fruits" | "mania"; // supported osu! gamemodes
 
 export { Request, UserDocument, Populate, BaseRequestArgs, GameMode };
