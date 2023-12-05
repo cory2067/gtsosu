@@ -1,0 +1,11 @@
+.NavbarLeft-container {
+  display: flex;
+  flex-direction: row;
+  padding-left: var(--m);
+}
+
+.NavbarLeft-title {
+  margin-left: var(--m);
+  font-weight: 400;
+  font-size: 21px;
+}

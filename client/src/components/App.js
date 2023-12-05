@@ -2,6 +2,7 @@ import { Router, navigate } from "@reach/router";
 import React, { useEffect, useState, lazy, Suspense } from "react";
 import { get } from "../utilities";
 import Navbar from "./modules/Navbar";
+import { Navbar as NewNavbar } from "./modules/Navbar/Navbar";
 const AllStaff = lazy(() => import("./pages/AllStaff"));
 const Archives = lazy(() => import("./pages/Archives"));
 const Donate = lazy(() => import("./pages/Donate"));
@@ -46,7 +47,8 @@ export default function App() {
   return (
     <>
       <Layout>
-        <Navbar attention={loginAttention} user={user} setUser={setUser} />
+        <NewNavbar user={user} setUser={setUser} attention={loginAttention} />
+        {/* <Navbar attention={loginAttention} user={user} setUser={setUser} /> */}
         <Router primary={false}>
           <Home path="/" user={user} setUser={setUser} />
           <AsyncPageWrapper path="/archives" PageComponent={Archives} />

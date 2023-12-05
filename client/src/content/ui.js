@@ -12,8 +12,8 @@ export default {
       mainStore: "Main Store",
       mousepads: "Mousepads",
     },
-    login: "Login",
-    logout: "Logout",
+    login: "Log In",
+    logout: "Log Out",
     register: "Register",
     discord: "Discord",
     userSettings: {

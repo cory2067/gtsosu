@@ -1,0 +1,10 @@
+.ant-typography {
+  font-family: "Red Hat Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
+}
+
+header.Navbar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 50px;
+  background: var(--darker-night);
+}
