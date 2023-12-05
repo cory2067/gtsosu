@@ -25,6 +25,7 @@ import "../global.css";
 import { Layout, Spin } from "antd";
 import "antd/dist/antd.css";
 import "./App.less";
+import { RouteWrapper, TourneyRouteWrapper } from "./RouteWrappers";
 
 export default function App() {
   const [user, setUser] = useState({});
@@ -45,119 +46,67 @@ export default function App() {
     e.g. /2019/igts -> props.tourney === "igts_2019"
     */
   return (
-    <>
-      <Layout>
-        <NewNavbar user={user} setUser={setUser} attention={loginAttention} />
-        {/* <Navbar attention={loginAttention} user={user} setUser={setUser} /> */}
-        <Router primary={false}>
-          <Home path="/" user={user} setUser={setUser} />
-          <AsyncPageWrapper path="/archives" PageComponent={Archives} />
-          <AsyncPageWrapper path="/pool-helper" PageComponent={PoolHelper} />
-          <AsyncPageWrapper path="/donate" PageComponent={Donate} user={user} />
-          <AsyncPageWrapper path="/staff" PageComponent={AllStaff} />
-          <AsyncPageWrapper path="/songs" PageComponent={Songs} />
+    <Router primary={false}>
+      <RouteWrapper path="/" user={user} setUser={setUser} PageComponent={Home} />
+      <RouteWrapper path="/archives" user={user} setUser={setUser} PageComponent={Archives} />
+      <RouteWrapper path="/pool-helper" user={user} setUser={setUser} PageComponent={PoolHelper} />
+      <RouteWrapper
+        path="/donate"
+        user={user}
+        setUser={setUser}
+        PageComponent={Donate}
+      />
+      <RouteWrapper path="/staff" user={user} setUser={setUser} PageComponent={AllStaff} />
+      <RouteWrapper path="/songs" user={user} setUser={setUser} PageComponent={Songs} />
 
-          <TourneyRouteWrapper
-            user={user}
-            setUser={setUser}
-            setLoginAttention={setLoginAttention}
-            path="/:tourney/home"
-            PageComponent={NewTourneyHome}
-          />
-          <TourneyRouteWrapper
-            user={user}
-            setUser={setUser}
-            setLoginAttention={setLoginAttention}
-            path="/:year/:tourney/home"
-            PageComponent={NewTourneyHome}
-          />
+      <TourneyRouteWrapper
+        user={user}
+        setUser={setUser}
+        setLoginAttention={setLoginAttention}
+        path="/:tourney/home"
+        PageComponent={NewTourneyHome}
+      />
+      <TourneyRouteWrapper
+        user={user}
+        setUser={setUser}
+        setLoginAttention={setLoginAttention}
+        path="/:year/:tourney/home"
+        PageComponent={NewTourneyHome}
+      />
 
-          <TourneyRouteWrapper
-            user={user}
-            setUser={setUser}
-            setLoginAttention={setLoginAttention}
-            path="/:tourney/home-old"
-            PageComponent={TourneyHome}
-          />
-          <TourneyRouteWrapper
-            user={user}
-            setUser={setUser}
-            setLoginAttention={setLoginAttention}
-            path="/:year/:tourney/home-old"
-            PageComponent={TourneyHome}
-          />
+      <TourneyRouteWrapper
+        user={user}
+        setUser={setUser}
+        setLoginAttention={setLoginAttention}
+        path="/:tourney/home-old"
+        PageComponent={TourneyHome}
+      />
+      <TourneyRouteWrapper
+        user={user}
+        setUser={setUser}
+        setLoginAttention={setLoginAttention}
+        path="/:year/:tourney/home-old"
+        PageComponent={TourneyHome}
+      />
 
-          <TourneyRouteWrapper user={user} path="/:tourney/staff" PageComponent={TourneyStaff} />
-          <TourneyRouteWrapper
-            user={user}
-            path="/:year/:tourney/staff"
-            PageComponent={TourneyStaff}
-          />
+      <TourneyRouteWrapper user={user} path="/:tourney/staff" PageComponent={TourneyStaff} />
+      <TourneyRouteWrapper user={user} path="/:year/:tourney/staff" PageComponent={TourneyStaff} />
 
-          <TourneyRouteWrapper path="/:tourney/rules" PageComponent={Rules} />
-          <TourneyRouteWrapper path="/:year/:tourney/rules" PageComponent={Rules} />
+      <TourneyRouteWrapper path="/:tourney/rules" PageComponent={Rules} />
+      <TourneyRouteWrapper path="/:year/:tourney/rules" PageComponent={Rules} />
 
-          <TourneyRouteWrapper user={user} path="/:tourney/pools" PageComponent={Mappools} />
-          <TourneyRouteWrapper user={user} path="/:year/:tourney/pools" PageComponent={Mappools} />
+      <TourneyRouteWrapper user={user} path="/:tourney/pools" PageComponent={Mappools} />
+      <TourneyRouteWrapper user={user} path="/:year/:tourney/pools" PageComponent={Mappools} />
 
-          <TourneyRouteWrapper user={user} path="/:tourney/players" PageComponent={Players} />
-          <TourneyRouteWrapper user={user} path="/:year/:tourney/players" PageComponent={Players} />
+      <TourneyRouteWrapper user={user} path="/:tourney/players" PageComponent={Players} />
+      <TourneyRouteWrapper user={user} path="/:year/:tourney/players" PageComponent={Players} />
 
-          <TourneyRouteWrapper user={user} path="/:tourney/schedule" PageComponent={Schedule} />
-          <TourneyRouteWrapper
-            user={user}
-            path="/:year/:tourney/schedule"
-            PageComponent={Schedule}
-          />
-          <TourneyRouteWrapper user={user} path="/:tourney/stats" PageComponent={Stats} />
-          <TourneyRouteWrapper user={user} path="/:year/:tourney/stats" PageComponent={Stats} />
+      <TourneyRouteWrapper user={user} path="/:tourney/schedule" PageComponent={Schedule} />
+      <TourneyRouteWrapper user={user} path="/:year/:tourney/schedule" PageComponent={Schedule} />
+      <TourneyRouteWrapper user={user} path="/:tourney/stats" PageComponent={Stats} />
+      <TourneyRouteWrapper user={user} path="/:year/:tourney/stats" PageComponent={Stats} />
 
-          <NotFound default />
-        </Router>
-      </Layout>
-    </>
-  );
-}
-
-/**
- * Placeholder component for a loading page
- */
-function AsyncPageWrapper(props) {
-  const { PageComponent, path } = props;
-  return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "10%",
-          }}
-        >
-          <Spin path={path} />
-        </div>
-      }
-    >
-      <PageComponent {...props}></PageComponent>
-    </Suspense>
-  );
-}
-
-function TourneyRouteWrapper(props) {
-  const { PageComponent, year, tourney } = props;
-
-  const tourneyName = tourney.split("-")[0]; // discard division
-  const _year = year ?? YearConfig[tourneyName];
-  if (!_year) navigate("/404");
-
-  return (
-    <AsyncPageWrapper
-      PageComponent={PageComponent}
-      {...props}
-      tourney={`${tourney}_${_year}`}
-    ></AsyncPageWrapper>
+      <NotFound default />
+    </Router>
   );
 }

@@ -5,10 +5,40 @@
   align-items: center;
 }
 
-.NavbarRight-menu {
+.NavbarRight-container .ant-menu.ant-menu-dark.NavbarRight-menu {
   display: flex;
   flex-direction: row;
   padding-right: var(--m);
+  background-color: transparent;
+}
+
+.NavbarRight-container .NavbarRight-menuItem {
+  font-weight: 400;
+  font-size: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Antd specificity getting ridiculous here */
+.ant-menu-submenu-popup > .ant-menu {
+  background-color: var(--darker-night) !important;
+}
+
+.NavbarRight-container .NavbarRight-menuItem:hover {
+  background: var(--gts-orange);
+  color: var(--white);
+  transition: background linear 0.1s;
+}
+
+.NavbarRight-container .NavbarRight-menu .NavbarRight-menuText {
+  font-weight: 400;
+  color: var(--greyts);
+  text-transform: uppercase;
+}
+
+.NavbarRight-container .NavbarRight-menu .NavbarRight-menuText.active {
+  font-weight: 800;
+  color: var(--gts-orange);
 }
 
 button.ant-btn.login {

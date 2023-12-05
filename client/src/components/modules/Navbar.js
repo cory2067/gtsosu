@@ -8,7 +8,7 @@ import YearConfig from "../../content/year-config";
 import GTSLogo from "../../public/gts-osu.svg";
 import { get, post, tokenizeTourney } from "../../utilities";
 import LoginButton from "./LoginButton";
-import "./Navbar.css";
+// import "./Navbar.css";
 import UserModal from "./UserModal";
 
 const { Header } = Layout;

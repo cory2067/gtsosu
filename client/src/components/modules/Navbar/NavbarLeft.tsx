@@ -5,21 +5,37 @@ import { Typography } from "antd";
 
 import "./NavbarLeft.css";
 
-export function NavbarLeft() {
+export type NavbarTitleProps = {
+  tourney?: string;
+};
+
+export type NavbarLeftProps = NavbarTitleProps;
+
+export function NavbarTitle(props: NavbarTitleProps) {
+  return (
+    <div className="NavbarLeft-title-container">
+      <Typography
+        className={`NavbarLeft-title ${props.tourney ? "NavbarLeft-title-inactive" : ""}`}
+      >
+        GLOBAL <b>TAIKO</b> SHOWDOWN
+      </Typography>
+      {props.tourney && (
+        <>
+          <Typography className="NavbarLeft-title NavbarLeft-title-inactive">/</Typography>
+          <Typography className="NavbarLeft-title">{props.tourney.toUpperCase()}</Typography>
+        </>
+      )}
+    </div>
+  );
+}
+
+export function NavbarLeft(props: NavbarLeftProps) {
   return (
     <div className="NavbarLeft-container">
       <Link to="/">
-        <img
-          style={{
-            margin: 0,
-          }}
-          className="Navbar-Logo"
-          src={GTSLogo}
-        />
+        <img className="NavbarLeft-logo " src={GTSLogo} />
       </Link>
-      <Typography className="NavbarLeft-title">
-        GLOBAL <b>TAIKO</b> SHOWDOWN
-      </Typography>
+      <NavbarTitle tourney={props.tourney} />
     </div>
   );
 }

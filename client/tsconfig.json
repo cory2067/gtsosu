@@ -1,0 +1,15 @@
+// This file should have no effect on compilation, since we are using webpack's
+// typescript preset for frontend. This is only for IDE support (only for vscode
+// so far)
+//
+// Because this is manually written, it might be a good idea to review this,
+// or find a better way to fix IDE errors.
+{
+  "compilerOptions": {
+    "typeRoots": ["./src/types"],
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "target": "ESNext",
+    "module": "NodeNext"
+  }
+}

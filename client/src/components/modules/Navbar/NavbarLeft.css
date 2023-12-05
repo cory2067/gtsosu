@@ -4,8 +4,23 @@
   padding-left: var(--m);
 }
 
+.NavbarLeft-logo {
+  width: 48px;
+  height: 48px;
+  margin-right: var(--s);
+}
+
+.ant-typography.NavbarLeft-title-inactive {
+  color: gray;
+}
+
+.NavbarLeft-title-container {
+  display: flex;
+  flex-direction: row;
+}
+
 .NavbarLeft-title {
-  margin-left: var(--m);
+  margin-left: var(--s);
   font-weight: 400;
   font-size: 21px;
 }

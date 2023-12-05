@@ -1,17 +1,23 @@
 import { Router } from "@reach/router";
 import { Layout } from "antd";
 import React, { useEffect, useState } from "react";
-import { NavbarLeft } from "./NavbarLeft";
+import { NavbarLeft, NavbarLeftProps } from "./NavbarLeft";
 
 import "./Navbar.css";
-import { NavbarRight, RightMenuProps } from "./NavbarRight";
+import { NavbarRight, NavbarRightProps } from "./NavbarRight";
 
-type NavbarProps = RightMenuProps;
+export type NavbarProps = NavbarRightProps & NavbarLeftProps;
+
 export function Navbar(props: NavbarProps) {
   return (
     <Layout.Header className="Navbar-wrapper">
-      <NavbarLeft />
-      <NavbarRight user={props.user} setUser={props.setUser} />
+      <NavbarLeft tourney={props.tourney} />
+      <NavbarRight
+        user={props.user}
+        setUser={props.setUser}
+        path={props.path}
+        tourney={props.tourney}
+      />
     </Layout.Header>
   );
 }

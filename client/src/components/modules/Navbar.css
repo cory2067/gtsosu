@@ -26,10 +26,6 @@ header.Navbar-wrapper {
   display: flex;
 }
 
-#Navbar-RightNavbar .ant-menu-submenu {
-  padding: 0 16px;
-}
-
 #Navbar-RightNavbar .Navbar-lang-icon {
   margin-right: 6px;
   color: var(--greyts);
@@ -61,7 +57,6 @@ header.Navbar-wrapper .ant-menu-submenu .ant-menu-submenu-title {
     padding: 0 32px;
   }
 }
-
 
 .ant-menu-submenu-title {
   font-size: 15px;
