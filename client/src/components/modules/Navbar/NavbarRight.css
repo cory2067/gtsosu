@@ -30,6 +30,11 @@
   transition: background linear 0.1s;
 }
 
+/* To change text color back to white on hover for current page */
+.NavbarRight-container .NavbarRight-menuItem:hover .NavbarRight-menuText.active {
+  color: var(--white);
+}
+
 .NavbarRight-container .NavbarRight-menu .NavbarRight-menuText {
   font-weight: 400;
   color: var(--greyts);
@@ -41,26 +46,9 @@
   color: var(--gts-orange);
 }
 
-button.ant-btn.login {
-  padding-left: 32px;
-  padding-right: 32px;
-  border-width: 2px;
-  border-color: transparent;
-  border-radius: 4px;
-  height: 44px;
-  color: white;
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 24px;
-  background-color: var(--dark-night);
-}
-
-button.ant-btn.login:hover {
-  color: var(--dark-night);
-  background-color: white;
-}
-
-button.ant-btn.login:active {
-  color: black;
-  background-color: var(--greyts);
+.NavbarRight-separator {
+  width: 2px;
+  height: 48px;
+  background-color: var(--onyx-dark);
+  margin-right: var(--m);
 }

@@ -1,5 +1,5 @@
 import { Link } from "@reach/router";
-import { ConfigProvider, Menu, Typography } from "antd";
+import { ConfigProvider, Menu, MenuItemProps, Typography } from "antd";
 import React from "react";
 import ContentManager from "../../../ContentManager";
 
@@ -15,7 +15,7 @@ const MOUSEPAD_LINK = "https://merch.streamelements.com/gtsosu";
 // specifity
 const menuItemStyle: React.CSSProperties = {};
 
-type RouteMenuItemProps = {
+type RouteMenuItemProps = MenuItemProps & {
   text: string;
   to: string;
   currentPath: string;
@@ -30,7 +30,13 @@ function isAtRoute(navButtonProps: RouteMenuItemProps) {
 function RouteMenuItem(props: RouteMenuItemProps) {
   return (
     <Link to={props.to}>
-      <Menu.Item style={menuItemStyle} className="NavbarRight-menuItem">
+      {/* onItemHover needs to be passed along to Menu.Item to avoid errors */}
+      <Menu.Item
+        onItemHover={props.onItemHover}
+        onClick={props.onClick}
+        style={menuItemStyle}
+        className="NavbarRight-menuItem"
+      >
         <Typography className={`NavbarRight-menuText ${isAtRoute(props) ? "active" : ""}`}>
           {props.text}
         </Typography>
@@ -49,9 +55,10 @@ export type RightMenuProps = LoginButtonProps & {
  */
 function rootMenuItems(props: RightMenuProps) {
   return [
-    <RouteMenuItem text={UI.home} to="/" currentPath={props.path} />,
-    <RouteMenuItem text={UI.archives} to="/archives" currentPath={props.path} />,
+    <RouteMenuItem key="1" text={UI.home} to="/" currentPath={props.path} />,
+    <RouteMenuItem key="2" text={UI.archives} to="/archives" currentPath={props.path} />,
     <Menu.SubMenu
+      key="3"
       className="NavbarRight-menuItem"
       style={menuItemStyle}
       title={<Typography className="NavbarRight-menuText">{UI.merch.title}</Typography>}
@@ -68,9 +75,9 @@ function rootMenuItems(props: RightMenuProps) {
         <a href={MOUSEPAD_LINK}>{UI.merch.mousepads}</a>
       </Menu.Item>
     </Menu.SubMenu>,
-    <RouteMenuItem text={UI.donate} to="/donate" currentPath={props.path} />,
-    <RouteMenuItem text={UI.staff} to="/staff" currentPath={props.path} />,
-    <RouteMenuItem text={UI.songs} to="/songs" currentPath={props.path} />,
+    <RouteMenuItem key="4" text={UI.donate} to="/donate" currentPath={props.path} />,
+    <RouteMenuItem key="5" text={UI.staff} to="/staff" currentPath={props.path} />,
+    <RouteMenuItem key="6" text={UI.songs} to="/songs" currentPath={props.path} />,
   ];
 }
 
@@ -78,12 +85,12 @@ function tourneyMenuItems(props: RightMenuProps) {
   const prefix = window.location.pathname.split("/").slice(0, -1).join("/");
 
   return [
-    <RouteMenuItem text={UI.home} to={`${prefix}/home`} currentPath={props.path} />,
-    <RouteMenuItem text={UI.mappools} to={`${prefix}/pools`} currentPath={props.path} />,
-    <RouteMenuItem text={UI.schedule} to={`${prefix}/schedule`} currentPath={props.path} />,
-    <RouteMenuItem text={UI.players} to={`${prefix}/players`} currentPath={props.path} />,
-    <RouteMenuItem text={UI.staff} to={`${prefix}/staff`} currentPath={props.path} />,
-    <RouteMenuItem text={UI.stats} to={`${prefix}/stats`} currentPath={props.path} />,
+    <RouteMenuItem key="1" text={UI.home} to={`${prefix}/home`} currentPath={props.path} />,
+    <RouteMenuItem key="2" text={UI.mappools} to={`${prefix}/pools`} currentPath={props.path} />,
+    <RouteMenuItem key="3" text={UI.schedule} to={`${prefix}/schedule`} currentPath={props.path} />,
+    <RouteMenuItem key="4" text={UI.players} to={`${prefix}/players`} currentPath={props.path} />,
+    <RouteMenuItem key="5" text={UI.staff} to={`${prefix}/staff`} currentPath={props.path} />,
+    <RouteMenuItem key="6" text={UI.stats} to={`${prefix}/stats`} currentPath={props.path} />,
   ];
 }
 
@@ -96,13 +103,13 @@ export function RightMenu(props: RightMenuProps) {
       mode="horizontal"
       className="NavbarRight-menu"
       selectable={false}
-      onClick={(e) => {
-        const key = e.key as string;
-        if (key.startsWith("lang-")) {
-          const lang = key.split("lang-")[1];
-          ContentManager.setLanguage(lang);
-        }
-      }}
+      // onClick={(e) => {
+      //   const key = e.key as string;
+      //   if (key.startsWith("lang-")) {
+      //     const lang = key.split("lang-")[1];
+      //     ContentManager.setLanguage(lang);
+      //   }
+      // }}
     >
       {props.tourney ? tourneyMenuItems(props) : rootMenuItems(props)}
     </Menu>
@@ -120,6 +127,7 @@ export function NavbarRight(props: NavbarRightProps) {
         path={props.path}
         tourney={props.tourney}
       />
+      <div className="NavbarRight-separator" />
       <LoginButton user={props.user} setUser={props.setUser} attention={props.attention ?? false} />
     </div>
   );

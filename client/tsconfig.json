@@ -6,7 +6,7 @@
 // or find a better way to fix IDE errors.
 {
   "compilerOptions": {
-    "typeRoots": ["./src/types"],
+    "typeRoots": ["src/typedefs"],
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "target": "ESNext",

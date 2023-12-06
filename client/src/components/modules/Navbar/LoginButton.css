@@ -16,6 +16,52 @@
   animation-iteration-count: infinite;
 }
 
+.UserDisplay-container {
+  height: 48px;
+  border-radius: 24px;
+  padding-left: var(--l);
+  padding-right: 2px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.UserDisplay-container:hover {
+  transition: all 0.2s;
+  background-color: var(--onyx-dark);
+}
+
+.UserDisplay-username {
+  font-weight: 600;
+  font-size: 18px;
+  margin-right: var(--m);
+  user-select: none;
+}
+
+button.ant-btn.login {
+  padding-left: 32px;
+  padding-right: 32px;
+  border-width: 2px;
+  border-color: transparent;
+  border-radius: 4px;
+  height: 44px;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  background-color: var(--dark-night);
+}
+
+button.ant-btn.login:hover {
+  color: var(--dark-night);
+  background-color: white;
+}
+
+button.ant-btn.login:active {
+  color: black;
+  background-color: var(--greyts);
+}
+
 @keyframes shake {
   0% {
     transform: translate(1px, 1px) rotate(0deg);
