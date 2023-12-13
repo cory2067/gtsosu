@@ -10,7 +10,7 @@ export type NavbarProps = NavbarRightProps & NavbarLeftProps;
 
 export function Navbar(props: NavbarProps) {
   return (
-    <Layout.Header className="Navbar-wrapper">
+    <Layout.Header className="Navbar-container">
       <NavbarLeft tourney={props.tourney} />
       <NavbarRight
         user={props.user}

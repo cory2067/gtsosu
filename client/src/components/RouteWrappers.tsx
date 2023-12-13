@@ -4,6 +4,8 @@ import { Navbar, NavbarProps } from "./modules/Navbar/Navbar";
 import yearConfig from "../content/year-config";
 import { navigate } from "@reach/router";
 
+import "./RouteWrapper.css";
+
 type RouteProps = {
   path: string;
 };
@@ -18,7 +20,7 @@ export function RouteWrapper(props: RouteWrapperProps) {
   const { PageComponent } = props;
 
   return (
-    <Layout>
+    <Layout className="RouteWrapper">
       <Navbar {...props} />
       <Suspense
         fallback={

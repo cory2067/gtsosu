@@ -49,7 +49,7 @@ export default function LoginButton(props: LoginButtonProps) {
         className={`login LoginButton-button ${attention ? "LoginButton-attention" : ""}`}
         onClick={handleSubmit}
       >
-        UI.login
+        {UI.login}
       </Button>
     );
   }

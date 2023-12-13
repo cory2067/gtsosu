@@ -2,9 +2,11 @@
   font-family: "Red Hat Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans";
 }
 
-header.Navbar-wrapper {
+header.Navbar-container {
   display: flex;
   justify-content: space-between;
   padding: 0 50px;
   background: var(--darker-night);
+  z-index: 2;
+  margin-bottom: var(--xl);
 }

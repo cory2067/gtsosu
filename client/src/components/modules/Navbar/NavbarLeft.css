@@ -1,12 +1,13 @@
 .NavbarLeft-container {
+  overflow: visible;
   display: flex;
   flex-direction: row;
   padding-left: var(--m);
 }
 
 .NavbarLeft-logo {
-  width: 48px;
-  height: 48px;
+  /* width: 48px; */
+  height: 91px;
   margin-right: var(--s);
 }
 

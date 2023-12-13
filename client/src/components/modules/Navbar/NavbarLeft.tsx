@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Router } from "@reach/router";
-import GTSLogo from "../../../public/gts-osu.svg";
+import GTSLogo from "../../../public/gts-osu-navbar.svg";
 import { Typography } from "antd";
 
 import "./NavbarLeft.css";
@@ -32,8 +32,8 @@ export function NavbarTitle(props: NavbarTitleProps) {
 export function NavbarLeft(props: NavbarLeftProps) {
   return (
     <div className="NavbarLeft-container">
-      <Link to="/">
-        <img className="NavbarLeft-logo " src={GTSLogo} />
+      <Link to="/" className="NavbarLeft-logo">
+        <img className="NavbarLeft-logo" src={GTSLogo} />
       </Link>
       <NavbarTitle tourney={props.tourney} />
     </div>
