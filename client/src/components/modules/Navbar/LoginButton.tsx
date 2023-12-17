@@ -30,7 +30,6 @@ export type LoginButtonProps = {
 
 export default function LoginButton(props: LoginButtonProps) {
   const { user, setUser, attention } = props;
-  ``;
   const handleSubmit = async () => {
     if (user.username) {
       await fetch("/auth/logout");

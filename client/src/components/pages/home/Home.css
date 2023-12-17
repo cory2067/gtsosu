@@ -2,6 +2,7 @@
 
 body .Home-content {
   padding: 0;
+  padding-top: var(--xl);
 }
 
 .Home-content {

@@ -8,5 +8,4 @@ header.Navbar-container {
   padding: 0 50px;
   background: var(--darker-night);
   z-index: 2;
-  margin-bottom: var(--xl);
 }

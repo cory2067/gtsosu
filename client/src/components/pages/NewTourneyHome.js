@@ -239,7 +239,8 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
                       overlay={
                         <Menu>
                           {content.links.map((entry) => (
-                            <Menu.Item>
+                            // Adding a key here to avoid warnings
+                            <Menu.Item key={entry.link}>
                               <a target="_blank" href={entry.link}>
                                 <div class="NewTourneyHome-menu-item">
                                   {getMenuIcon(entry.label)}

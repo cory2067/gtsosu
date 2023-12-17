@@ -1,0 +1,14 @@
+.LanguageMenu-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: visible;
+}
+
+.LanguageMenu-menuText {
+  margin-left: var(--s);
+  font-weight: 400;
+  color: var(--greyts);
+  text-transform: uppercase;
+  user-select: none;
+}

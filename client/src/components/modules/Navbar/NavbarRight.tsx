@@ -5,15 +5,12 @@ import ContentManager from "../../../ContentManager";
 
 import "./NavbarRight.css";
 import LoginButton, { LoginButtonProps } from "./LoginButton";
+import { LanguageMenuItem } from "./LanguageMenu";
 
 const UI = ContentManager.getUI();
 
 const MERCH_LINK = "https://teespring.com/stores/gtsosu-store";
 const MOUSEPAD_LINK = "https://merch.streamelements.com/gtsosu";
-
-// These has to be done inline as antd menu elements seems to have a ton of
-// specifity
-const menuItemStyle: React.CSSProperties = {};
 
 type RouteMenuItemProps = MenuItemProps & {
   text: string;
@@ -34,7 +31,6 @@ function RouteMenuItem(props: RouteMenuItemProps) {
       <Menu.Item
         onItemHover={props.onItemHover}
         onClick={props.onClick}
-        style={menuItemStyle}
         className="NavbarRight-menuItem"
       >
         <Typography className={`NavbarRight-menuText ${isAtRoute(props) ? "active" : ""}`}>
@@ -60,7 +56,6 @@ function rootMenuItems(props: RightMenuProps) {
     <Menu.SubMenu
       key="3"
       className="NavbarRight-menuItem"
-      style={menuItemStyle}
       title={<Typography className="NavbarRight-menuText">{UI.merch.title}</Typography>}
       popupClassName="NavbarRight-menuPopup"
       // Not sure why it needs this offset to align, otherwise it's misaligned
@@ -95,23 +90,15 @@ function tourneyMenuItems(props: RightMenuProps) {
 }
 
 export function RightMenu(props: RightMenuProps) {
-  const prefix = window.location.pathname.split("/").slice(0, -1).join("/");
-
   return (
     <Menu
       theme="dark"
       mode="horizontal"
       className="NavbarRight-menu"
       selectable={false}
-      // onClick={(e) => {
-      //   const key = e.key as string;
-      //   if (key.startsWith("lang-")) {
-      //     const lang = key.split("lang-")[1];
-      //     ContentManager.setLanguage(lang);
-      //   }
-      // }}
     >
       {props.tourney ? tourneyMenuItems(props) : rootMenuItems(props)}
+      <LanguageMenuItem tourney={props.tourney} />
     </Menu>
   );
 }
