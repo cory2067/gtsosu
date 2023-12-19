@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Menu, MenuItemProps, Typography } from "antd";
-import ContentManager from "../../../ContentManager";
+import { contentManager } from "../../../ContentManager";
 import { get } from "../../../utilities";
-import UI from "../../../content/ui";
+import Localizations from "../../../content/ui";
 
 import "./LanguageMenu.css";
 import { useEffect, useState } from "react";
+import { LanguageContext } from "../../../ContentManager";
 
 export type LanguageMenuProps = MenuItemProps & {
   tourney?: string;
@@ -14,7 +15,7 @@ export type LanguageMenuProps = MenuItemProps & {
 
 async function getAvailableLanguages(tourney?: string): Promise<string[]> {
   if (!tourney) {
-    return Object.keys(UI);
+    return Object.keys(Localizations);
   }
 
   const apiResult = await get("/api/languages", {
@@ -27,6 +28,7 @@ async function getAvailableLanguages(tourney?: string): Promise<string[]> {
  * Language menu for the right navbar. Not intended to be used elsewhere.
  */
 export function LanguageMenuItem(props: LanguageMenuProps) {
+  const currentLanguage = useContext(LanguageContext);
   const [languages, setLanguages] = useState(["en"]);
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export function LanguageMenuItem(props: LanguageMenuProps) {
       title={
         <div className="LanguageMenu-container">
           <GlobalOutlined />
-          <Typography className="LanguageMenu-menuText">{ContentManager.getLanguage()}</Typography>
+          <Typography className="LanguageMenu-menuText">{currentLanguage}</Typography>
         </div>
       }
     >
@@ -54,7 +56,7 @@ export function LanguageMenuItem(props: LanguageMenuProps) {
             key={item}
             className="LanguageMenu-languageText"
             onClick={() => {
-              ContentManager.setLanguage(item);
+              contentManager.setLanguage(item);
             }}
           >
             {item.toUpperCase()}

@@ -3,19 +3,20 @@ import { Layout } from "antd";
 import React, { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
-import ContentManager from "../../ContentManager";
+import ContentManager, { contentManager } from "../../ContentManager";
 import { prettifyTourney } from "../../utilities";
 const { Content } = Layout;
 
 export default function Rules({ tourney }) {
   const [data, setData] = useState({});
+  const lang = useContext(LanguageContext);
 
   useEffect(() => {
     document.title = `${prettifyTourney(tourney)}: Rules`;
 
     const fetchData = async () => {
       try {
-        const data = await ContentManager.get(tourney);
+        const data = await contentManager.getLocalizedTourney(tourney, lang);
         setData(data);
       } catch {
         return navigate("/404");
@@ -23,7 +24,7 @@ export default function Rules({ tourney }) {
     };
 
     fetchData();
-  }, []);
+  }, [lang]);
 
   return (
     <Content className="content">

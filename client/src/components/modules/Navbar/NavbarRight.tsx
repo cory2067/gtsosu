@@ -1,13 +1,11 @@
 import { Link } from "@reach/router";
 import { ConfigProvider, Menu, MenuItemProps, Typography } from "antd";
-import React from "react";
-import ContentManager from "../../../ContentManager";
+import React, { useContext } from "react";
 
 import "./NavbarRight.css";
 import LoginButton, { LoginButtonProps } from "./LoginButton";
 import { LanguageMenuItem } from "./LanguageMenu";
-
-const UI = ContentManager.getUI();
+import { LanguageContext, contentManager } from "../../../ContentManager";
 
 const MERCH_LINK = "https://teespring.com/stores/gtsosu-store";
 const MOUSEPAD_LINK = "https://merch.streamelements.com/gtsosu";
@@ -50,6 +48,8 @@ export type RightMenuProps = LoginButtonProps & {
  * Returns menu items for routes outside of tournies. This is not a functional component.
  */
 function rootMenuItems(props: RightMenuProps) {
+  const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
+
   return [
     <RouteMenuItem key="1" text={UI.home} to="/" currentPath={props.path} />,
     <RouteMenuItem key="2" text={UI.archives} to="/archives" currentPath={props.path} />,
@@ -78,6 +78,7 @@ function rootMenuItems(props: RightMenuProps) {
 
 function tourneyMenuItems(props: RightMenuProps) {
   const prefix = window.location.pathname.split("/").slice(0, -1).join("/");
+  const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
 
   return [
     <RouteMenuItem key="1" text={UI.home} to={`${prefix}/home`} currentPath={props.path} />,
@@ -91,12 +92,7 @@ function tourneyMenuItems(props: RightMenuProps) {
 
 export function RightMenu(props: RightMenuProps) {
   return (
-    <Menu
-      theme="dark"
-      mode="horizontal"
-      className="NavbarRight-menu"
-      selectable={false}
-    >
+    <Menu theme="dark" mode="horizontal" className="NavbarRight-menu" selectable={false}>
       {props.tourney ? tourneyMenuItems(props) : rootMenuItems(props)}
       <LanguageMenuItem tourney={props.tourney} />
     </Menu>

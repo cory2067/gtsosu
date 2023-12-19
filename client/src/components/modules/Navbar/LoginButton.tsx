@@ -1,13 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { get, showAuthPopup } from "../../../utilities";
-import ContentManager from "../../../ContentManager";
+import { LanguageContext, contentManager } from "../../../ContentManager";
 import "./LoginButton.css";
 import { Avatar, Button, Image, Typography } from "antd";
 import { User } from "../../../models/user";
 
 import "./LoginButton.css";
-
-const UI = ContentManager.getUI();
 
 type UserDisplayProps = {
   user: User;
@@ -42,6 +40,8 @@ export default function LoginButton(props: LoginButtonProps) {
 
   // Not logged in
   if (!user?.username) {
+    const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
+
     return (
       <Button
         type="primary"
