@@ -92,7 +92,12 @@ function tourneyMenuItems(props: RightMenuProps) {
 
 export function RightMenu(props: RightMenuProps) {
   return (
-    <Menu theme="dark" mode="horizontal" className="NavbarRight-menu" selectable={false}>
+    <Menu
+      theme="dark"
+      mode="horizontal"
+      className="NavbarRight-menu"
+      selectable={false}
+    >
       {props.tourney ? tourneyMenuItems(props) : rootMenuItems(props)}
       <LanguageMenuItem tourney={props.tourney} />
     </Menu>

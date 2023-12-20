@@ -23,8 +23,6 @@ class ContentManager {
   }
 
   public setLanguage(lang?: string) {
-    console.log({ lang });
-
     lang ??= "en";
 
     localStorage.setItem("lang", lang);

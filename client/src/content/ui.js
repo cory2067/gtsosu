@@ -16,6 +16,7 @@ export default {
     logout: "Log Out",
     register: "Register",
     discord: "Discord",
+    settings: "Settings",
     userSettings: {
       note: "Don't forget the #number in your Discord username (e.g. Naru#1234)",
       discord: "Discord Username",

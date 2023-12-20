@@ -10,6 +10,7 @@ interface UserTourneyStats {
 }
 
 export interface User {
+  _id: any;
   username: string;
   userid: string;
   country: string;

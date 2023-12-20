@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-.NavbarRight-container .ant-menu.ant-menu-dark.NavbarRight-menu {
+.ant-menu.ant-menu-dark.NavbarRight-menu {
   display: flex;
   flex-direction: row;
   padding-right: var(--m);
@@ -20,7 +20,7 @@
 }
 
 /* Antd specificity getting ridiculous here */
-.ant-menu-submenu-popup > .ant-menu {
+.ant-menu-submenu-popup > .ant-menu, .NavbarRight-menuPopup {
   background-color: var(--darker-night) !important;
 }
 
