@@ -14,6 +14,10 @@ class ContentManager {
   private currentLang = localStorage.getItem("lang") ?? "en";
   private languageSetCallback?: (lang: string) => void;
 
+  /**
+   * Listen to language changes. Calling this multiple times will overwrite
+   * previous calls
+   */
   onLanguageSet(callback: (lang: string) => void) {
     this.languageSetCallback = callback;
   }
@@ -41,6 +45,34 @@ class ContentManager {
    */
   getLocalizedUI(lang: string) {
     return UI[lang] ?? UI["en"];
+  }
+
+  /**
+   * Get a value from object by key. Nested keys are separated by dots
+   */
+  private getByKey(object: any, key: string) {
+    const keyTokens = key.split(".");
+    let result = object;
+    for (const token of keyTokens) {
+      result = result[token];
+    }
+    return result;
+  }
+
+  /**
+   * Retrieves the localized string for a given language and key. Fallsback to
+   * English first and then the key itself if not found.
+   *
+   * @param {string} lang - The language code for the desired localization.
+   * @param {string} key - The key to lookup the localized string.
+   * @return {string} The localized string for the given language and key.
+   */
+  getLocalizedString(lang: string, key: string) {
+    return (
+      this.getByKey(this.getLocalizedUI(lang), key) ??
+      this.getByKey(this.getLocalizedUI("en"), key) ??
+      key
+    );
   }
 
   // returns a promise for the content

@@ -1,0 +1,67 @@
+/* Narrow viewport */
+
+.NavbarRight-compact-container {
+  display: flex;
+  align-items: stretch;
+}
+
+.NavbarRight-dropdown.ant-dropdown-open {
+  background-color: var(--gts-orange);
+  transition: all linear 0.1s;
+}
+
+.NavbarRight-dropdown-icon-container {
+  padding-left: var(--m);
+  padding-right: var(--m);
+  display: flex;
+  align-items: center;
+}
+
+.NavbarRight-dropdown-icon {
+  font-size: 18px;
+}
+
+.NavbarRight-compact-popup-container {
+  background-color: var(--darker-night);
+  border-top-left-radius: var(--s);
+  border-bottom-left-radius: var(--s);
+}
+
+.ant-menu.ant-menu-dark.NavbarRight-compact-popup {
+  background-color: var(--darker-night);
+  width: 240px;
+}
+
+.NavbarRight-compact-popup .NavbarRight-menuItem,
+.NavbarRight-compact-popup .ant-menu-item.NavbarRight-menuItem {
+  height: 40px;
+  padding-left: var(--s);
+  padding-right: 0;
+  line-height: 40px;
+  margin: var(--s);
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(41, 45, 50, 0.5) -1.26%, rgba(41, 45, 50, 0.25) 100%);
+}
+
+/* To override default antd margin/padding for submenu */
+.NavbarRight-compact-popup .NavbarRight-menuItem div.ant-menu-submenu-title {
+  margin: 0;
+  padding: 0;
+}
+
+.NavbarRight-compact-popup .NavbarRight-menuItem.active {
+  background: linear-gradient(90deg, rgba(247, 92, 3, 0.5) -1.26%, rgba(247, 92, 3, 0.25) 100%);
+}
+
+/* Medium viewport */
+@media (min-width: 720px) {
+  /* Add border radius for right side */
+  .ant-menu.ant-menu-dark.NavbarRight-compact-popup {
+    border-top-right-radius: var(--s);
+    border-bottom-right-radius: var(--s);
+  }
+
+  .NavbarRight-dropdown-icon {
+    font-size: 28px;
+  }
+}

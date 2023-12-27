@@ -4,6 +4,7 @@ import GTSLogo from "../../../public/gts-osu-navbar.svg";
 import { Typography } from "antd";
 
 import "./NavbarLeft.css";
+import Text from "antd/lib/typography/Text";
 
 export type NavbarTitleProps = {
   tourney?: string;
@@ -21,7 +22,7 @@ export function NavbarTitle(props: NavbarTitleProps) {
       </Typography>
       {props.tourney && (
         <>
-          <Typography className="NavbarLeft-title NavbarLeft-title-inactive">/</Typography>
+          <Typography className="NavbarLeft-title NavbarLeft-title-inactive"> / </Typography>
           <Typography className="NavbarLeft-title">{props.tourney.toUpperCase()}</Typography>
         </>
       )}
@@ -32,7 +33,7 @@ export function NavbarTitle(props: NavbarTitleProps) {
 export function NavbarLeft(props: NavbarLeftProps) {
   return (
     <div className="NavbarLeft-container">
-      <Link to="/" className="NavbarLeft-logo">
+      <Link to="/" className="NavbarLeft-logo-container">
         <img className="NavbarLeft-logo" src={GTSLogo} />
       </Link>
       <NavbarTitle tourney={props.tourney} />

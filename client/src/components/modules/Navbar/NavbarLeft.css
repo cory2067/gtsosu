@@ -3,12 +3,17 @@
   display: flex;
   flex-direction: row;
   padding-left: var(--m);
+  margin-right: var(--xl);
+  min-width: 0px;
+}
+
+.NavbarLeft-logo-container {
+  margin-right: var(--m);
 }
 
 .NavbarLeft-logo {
   /* width: 48px; */
   height: 91px;
-  margin-right: var(--s);
 }
 
 .ant-typography.NavbarLeft-title-inactive {
@@ -18,10 +23,42 @@
 .NavbarLeft-title-container {
   display: flex;
   flex-direction: row;
+  overflow: hidden;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .NavbarLeft-title {
+  text-wrap: nowrap;
+  white-space: nowrap;
   margin-left: var(--s);
   font-weight: 400;
   font-size: 21px;
+}
+
+@media (max-width: 1279px) {
+  .NavbarLeft-container {
+    padding-left: 0px;
+  }
+}
+
+@media (max-width: 719px) {
+  .NavbarLeft-container {
+    padding-left: 30px;
+  }
+
+  .NavbarLeft-logo-container {
+    display: flex;
+    align-items: flex-start;
+    margin-right: var(--m);
+  }
+
+  .NavbarLeft-logo {
+    height: 55px;
+  }
+
+  .NavbarLeft-title {
+    margin-left: 0;
+    font-size: 13px;
+  }
 }

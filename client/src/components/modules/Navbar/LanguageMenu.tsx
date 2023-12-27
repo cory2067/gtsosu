@@ -11,6 +11,7 @@ import { LanguageContext } from "../../../ContentManager";
 
 export type LanguageMenuProps = MenuItemProps & {
   tourney?: string;
+  popupOffset?: [number, number];
 };
 
 async function getAvailableLanguages(tourney?: string): Promise<string[]> {
@@ -22,6 +23,11 @@ async function getAvailableLanguages(tourney?: string): Promise<string[]> {
     tourney,
   });
   return apiResult.languages;
+}
+
+function getLangName(lang) {
+  const canonicalLang = Intl.getCanonicalLocales(lang.replace("_", "-"))[0];
+  return new Intl.DisplayNames(canonicalLang, { type: "language" }).of(canonicalLang);
 }
 
 /**
@@ -40,13 +46,15 @@ export function LanguageMenuItem(props: LanguageMenuProps) {
   return (
     <Menu.SubMenu
       {...props}
-      className="NavbarRight-menuItem"
+      className={`NavbarRight-menuItem ${props.className}`}
       popupClassName="NavbarRight-menuPopup"
-      popupOffset={[-22, 0]}
+      popupOffset={props.popupOffset ?? [-22, 0]}
       title={
         <div className="LanguageMenu-container">
-          <GlobalOutlined />
-          <Typography className="LanguageMenu-menuText">{currentLanguage}</Typography>
+          <GlobalOutlined className="NavbarRight-menuText" />
+          <Typography className="NavbarRight-menuText LanguageMenu-menuText">
+            {currentLanguage}
+          </Typography>
         </div>
       }
     >
@@ -59,7 +67,7 @@ export function LanguageMenuItem(props: LanguageMenuProps) {
               contentManager.setLanguage(item);
             }}
           >
-            {item.toUpperCase()}
+            {getLangName(item)}
           </Menu.Item>
         );
       })}

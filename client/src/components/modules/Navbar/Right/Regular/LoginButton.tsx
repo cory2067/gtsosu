@@ -1,15 +1,15 @@
 import React, { Component, useContext, useEffect, useState } from "react";
-import { get, post, showAuthPopup } from "../../../utilities";
-import { LanguageContext, contentManager } from "../../../ContentManager";
+import { get, post, showAuthPopup } from "../../../../../utilities";
+import { LanguageContext, contentManager } from "../../../../../ContentManager";
 import "./LoginButton.css";
 import { Avatar, Button, Dropdown, Image, Menu, Modal, Typography, message } from "antd";
-import { User } from "../../../models/user";
-import { SettingsDialog, SettingsDialogProps } from "./SettingsDialog";
+import { User } from "../../../../../models/user";
+import { SettingsDialog, SettingsDialogProps } from "../../SettingsDialog";
 
-import "./NavbarRight.css";
+import "../NavbarRight.css";
 import "./LoginButton.css";
 
-type UserDisplayProps = {
+export type UserProps = {
   user: User;
   setUser: (any) => void;
 };
@@ -19,32 +19,34 @@ type UserDropdownProps = {
   onSettingsClicked: () => void;
 };
 
-export type LoginButtonProps = UserDisplayProps & {
+export type LoginButtonProps = UserProps & {
   attention?: boolean;
 };
 
 function UserDropdown(props: UserDropdownProps) {
-  const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
+  const lang = useContext(LanguageContext);
 
   return (
     <Menu theme="dark" className="NavbarRight-menuPopup" selectable={false}>
       <Menu.Item onClick={props.onSettingsClicked}>
-        <Typography className={`NavbarRight-menuText`}>{UI.settings}</Typography>
+        <Typography className={`NavbarRight-menuText`}>
+          {contentManager.getLocalizedString(lang, "settings")}
+        </Typography>
       </Menu.Item>
       <Menu.Item
         onClick={async () => {
-          await fetch("/auth/logout");
-          props.setUser({});
-          return;
+          logout(props);
         }}
       >
-        <Typography className={`NavbarRight-menuText`}>{UI.logout}</Typography>
+        <Typography className={`NavbarRight-menuText`}>
+          {contentManager.getLocalizedString(lang, "logout")}
+        </Typography>
       </Menu.Item>
     </Menu>
   );
 }
 
-function UserDisplay(props: UserDisplayProps) {
+function UserDisplay(props: UserProps) {
   const [settingsVisible, setSettingsVisible] = useState(false);
 
   return (
@@ -76,33 +78,35 @@ function UserDisplay(props: UserDisplayProps) {
   );
 }
 
-export default function LoginButton(props: LoginButtonProps) {
+export async function logout(props: { setUser: UserProps["setUser"] }) {
+  await fetch("/auth/logout");
+  props.setUser({});
+  return;
+}
+
+export async function login(props: UserProps) {
+  if (props.user.username) {
+    await logout(props);
+  }
+
+  const loop = showAuthPopup("/auth/login", props.setUser);
+}
+
+export function LoginButton(props: LoginButtonProps) {
   const { user, setUser, attention } = props;
-
-  const handleSubmit = async () => {
-    if (user.username) {
-      await fetch("/auth/logout");
-      setUser({});
-      return;
-    }
-
-    const loop = showAuthPopup("/auth/login", setUser);
-  };
 
   // Not logged in
   if (!user?.username) {
     const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
 
     return (
-      <>
-        <Button
-          type="primary"
-          className={`login LoginButton-button ${attention ? "LoginButton-attention" : ""}`}
-          onClick={handleSubmit}
-        >
-          {UI.login}
-        </Button>
-      </>
+      <Button
+        type="primary"
+        className={`login LoginButton-button ${attention ? "LoginButton-attention" : ""}`}
+        onClick={() => login(props)}
+      >
+        {UI.login}
+      </Button>
     );
   }
 

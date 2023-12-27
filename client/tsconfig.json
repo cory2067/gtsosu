@@ -7,7 +7,7 @@
 {
   "compilerOptions": {
     "typeRoots": ["src/typedefs"],
-    "jsx": "react-jsx",
+    "jsx": "react",
     "esModuleInterop": true,
     "target": "ESNext",
     "module": "NodeNext"

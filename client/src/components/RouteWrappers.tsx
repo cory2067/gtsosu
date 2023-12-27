@@ -12,7 +12,8 @@ type RouteProps = {
 };
 
 type RouteWrapperProps = RouteProps &
-  NavbarProps & {
+  Omit<NavbarProps, "currentPath"> & {
+    path: string;
     PageComponent: ComponentType<any>;
     tourney?: string;
   };
@@ -22,7 +23,7 @@ export function RouteWrapper(props: RouteWrapperProps) {
 
   return (
     <Layout className="RouteWrapper">
-      <Navbar {...props} />
+      <Navbar {...props} currentPath={props.path} />
       <Suspense
         fallback={
           <div

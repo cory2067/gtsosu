@@ -1,6 +1,8 @@
-import { Router, navigate } from "@reach/router";
-import React, { useEffect, useState, lazy, Suspense } from "react";
+import { Router } from "@reach/router";
+import React, { PropsWithChildren, createContext, lazy, useEffect, useState } from "react";
 import { get } from "../utilities.js";
+import Home from "./pages/home/Home.js";
+import { useMatchMedia } from "../utilities";
 const AllStaff = lazy(() => import("./pages/AllStaff.js"));
 const Archives = lazy(() => import("./pages/Archives.js"));
 const Donate = lazy(() => import("./pages/Donate.js"));
@@ -15,25 +17,50 @@ const Songs = lazy(() => import("./pages/Songs.js"));
 const Stats = lazy(() => import("./pages/Stats.js"));
 const TourneyHome = lazy(() => import("./pages/TourneyHome.js"));
 const TourneyStaff = lazy(() => import("./pages/TourneyStaff.js"));
-import Home from "./pages/home/Home.js";
 
 import "../global.css";
 
-import { Layout, Spin } from "antd";
 import "antd/dist/antd.css";
+import { LanguageContext, contentManager } from "../ContentManager";
+import { User } from "../models/user";
 import "./App.less";
 import { RouteWrapper, TourneyRouteWrapper } from "./RouteWrappers";
-import { User } from "../models/user";
-import { LanguageContext, contentManager } from "../ContentManager";
 
-export default function App() {
-  const [user, setUser] = useState<User | undefined>();
-  const [loginAttention, setLoginAttention] = useState(false);
+export type LayoutType = "wide" | "medium" | "narrow";
+
+export const LayoutTypeContext = createContext<LayoutType>("narrow");
+
+function AppContextWrapper(props: PropsWithChildren<{}>) {
   const [lang, setLang] = useState(localStorage.getItem("lang") ?? "en");
+  const [layoutType, setLayoutType] = useState<LayoutType>("narrow");
 
   contentManager.onLanguageSet((lang) => {
     setLang(lang);
   });
+
+  const wide: MediaQueryList = useMatchMedia("(min-width:1280px)");
+  const medium: MediaQueryList = useMatchMedia("(min-width:720px)");
+
+  useEffect(() => {
+    if (wide.matches) {
+      setLayoutType("wide");
+    } else if (medium.matches) {
+      setLayoutType("medium");
+    } else {
+      setLayoutType("narrow");
+    }
+  }, [wide, medium]);
+
+  return (
+    <LanguageContext.Provider value={lang}>
+      <LayoutTypeContext.Provider value={layoutType}>{props.children}</LayoutTypeContext.Provider>
+    </LanguageContext.Provider>
+  );
+}
+
+export default function App() {
+  const [user, setUser] = useState<User | undefined>();
+  const [loginAttention, setLoginAttention] = useState(false);
 
   useEffect(() => {
     get("/api/whoami").then((res) => {
@@ -50,7 +77,7 @@ export default function App() {
     e.g. /2019/igts -> props.tourney === "igts_2019"
     */
   return (
-    <LanguageContext.Provider value={lang}>
+    <AppContextWrapper>
       <Router primary={false}>
         <RouteWrapper path="/" user={user} setUser={setUser} PageComponent={Home} />
         <RouteWrapper path="/archives" user={user} setUser={setUser} PageComponent={Archives} />
@@ -173,6 +200,6 @@ export default function App() {
 
         <NotFound default />
       </Router>
-    </LanguageContext.Provider>
+    </AppContextWrapper>
   );
 }

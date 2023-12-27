@@ -26,7 +26,8 @@
   align-items: center;
 }
 
-.UserDisplay-container:hover {
+.UserDisplay-container:hover,
+.UserDisplay-container.ant-dropdown-open {
   transition: all 0.2s;
   background-color: var(--onyx-dark);
 }

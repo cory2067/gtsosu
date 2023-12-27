@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { NavbarLeft, NavbarLeftProps } from "./NavbarLeft";
 
 import "./Navbar.css";
-import { NavbarRight, NavbarRightProps } from "./NavbarRight";
+import { NavbarRight, NavbarRightProps } from "./Right/NavbarRight";
 
 export type NavbarProps = NavbarRightProps & NavbarLeftProps;
 
@@ -15,7 +15,7 @@ export function Navbar(props: NavbarProps) {
       <NavbarRight
         user={props.user}
         setUser={props.setUser}
-        path={props.path}
+        currentPath={props.currentPath}
         tourney={props.tourney}
       />
     </Layout.Header>

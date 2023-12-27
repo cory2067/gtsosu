@@ -9,3 +9,10 @@ header.Navbar-container {
   background: var(--darker-night);
   z-index: 2;
 }
+
+@media (max-width: 719px) {
+  header.Navbar-container {
+    padding: 0 0;
+    height: 38px;
+  }
+}

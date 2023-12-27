@@ -3,10 +3,13 @@
   flex-direction: row;
   align-items: center;
   overflow: visible;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .LanguageMenu-menuText {
-  margin-left: var(--s);
   font-weight: 400;
   color: var(--greyts);
   text-transform: uppercase;
