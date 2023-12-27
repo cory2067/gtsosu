@@ -118,19 +118,44 @@ export function rootMenuItems(currentPath: string, popupOffset: [number, number]
  */
 export function tourneyMenuItems(currentPath: string) {
   const prefix = window.location.pathname.split("/").slice(0, -1).join("/");
-  const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
+  const lang = useContext(LanguageContext);
 
   return [
-    <RouteMenuItem key="1" text={UI.home} to={`${prefix}/home`} currentPath={currentPath} />,
-    <RouteMenuItem key="2" text={UI.mappools} to={`${prefix}/pools`} currentPath={currentPath} />,
+    <RouteMenuItem
+      key="1"
+      text={contentManager.getLocalizedString(lang, "home")}
+      to={`${prefix}/home`}
+      currentPath={currentPath}
+    />,
+    <RouteMenuItem
+      key="2"
+      text={contentManager.getLocalizedString(lang, "mappools")}
+      to={`${prefix}/pools`}
+      currentPath={currentPath}
+    />,
     <RouteMenuItem
       key="3"
-      text={UI.schedule}
+      text={contentManager.getLocalizedString(lang, "schedule")}
       to={`${prefix}/schedule`}
       currentPath={currentPath}
     />,
-    <RouteMenuItem key="4" text={UI.players} to={`${prefix}/players`} currentPath={currentPath} />,
-    <RouteMenuItem key="5" text={UI.staff} to={`${prefix}/staff`} currentPath={currentPath} />,
-    <RouteMenuItem key="6" text={UI.stats} to={`${prefix}/stats`} currentPath={currentPath} />,
+    <RouteMenuItem
+      key="4"
+      text={contentManager.getLocalizedString(lang, "players")}
+      to={`${prefix}/players`}
+      currentPath={currentPath}
+    />,
+    <RouteMenuItem
+      key="5"
+      text={contentManager.getLocalizedString(lang, "staff")}
+      to={`${prefix}/staff`}
+      currentPath={currentPath}
+    />,
+    <RouteMenuItem
+      key="6"
+      text={contentManager.getLocalizedString(lang, "stats")}
+      to={`${prefix}/stats`}
+      currentPath={currentPath}
+    />,
   ];
 }
