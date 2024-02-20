@@ -24,7 +24,7 @@ export function NavbarRightRegular(props: RightMenuProps) {
         tourney={props.tourney}
       />
       <div className="NavbarRight-separator" />
-      <LoginButton user={props.user} setUser={props.setUser} attention={props.attention ?? false} />
+      <LoginButton user={props.user} setUser={props.setUser} />
     </div>
   );
 }

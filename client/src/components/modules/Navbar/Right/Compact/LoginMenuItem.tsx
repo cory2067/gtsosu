@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { LanguageContext, contentManager } from "../../../../../ContentManager";
-import { UserProps, login, logout } from "../Regular/LoginButton";
+import { login, logout } from "../../../../../auth";
+import { UserProps } from "../Regular/LoginButton";
 import MenuItem, { MenuItemProps } from "antd/lib/menu/MenuItem";
 import { Menu, MenuProps, Typography } from "antd";
 
@@ -9,17 +10,11 @@ export function LoginMenuItem(props: UserProps & MenuItemProps) {
 
   const data = props.user?.userid
     ? {
-        onClick: () => {
-          console.log("logout");
-          logout(props);
-        },
+        onClick: () => logout(props.setUser),
         label: UI.logout,
       }
     : {
-        onClick: () => {
-          console.log("login");
-          login(props);
-        },
+        onClick: () => login(props.setUser),
         label: UI.login,
       };
 

@@ -5,7 +5,7 @@ import "./LoginButton.css";
 
 const UI = ContentManager.getUI();
 
-export default function LoginButton({ user, setUser, attention }) {
+export default function LoginButton({ user, setUser }) {
   const handleSubmit = async () => {
     if (user.username) {
       await fetch("/auth/logout");
@@ -17,10 +17,7 @@ export default function LoginButton({ user, setUser, attention }) {
   };
 
   return (
-    <div
-      className={`LoginButton-button ${attention ? "LoginButton-attention" : ""}`}
-      onClick={handleSubmit}
-    >
+    <div className={"LoginButton-button"} onClick={handleSubmit}>
       <span>{user.username ? UI.logout : UI.login}</span>
     </div>
   );
