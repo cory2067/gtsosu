@@ -7,7 +7,7 @@ const AllStaff = lazy(() => import("./pages/AllStaff.js"));
 const Archives = lazy(() => import("./pages/Archives.js"));
 const Donate = lazy(() => import("./pages/Donate.js"));
 const Mappools = lazy(() => import("./pages/Mappools.js"));
-const NewTourneyHome = lazy(() => import("./pages/NewTourneyHome.js"));
+const TourneyHome = lazy(() => import("./pages/TourneyHome.js"));
 const NotFound = lazy(() => import("./pages/NotFound.js"));
 const Players = lazy(() => import("./pages/Players.js"));
 const PoolHelper = lazy(() => import("./pages/PoolHelper.js"));
@@ -15,7 +15,6 @@ const Rules = lazy(() => import("./pages/Rules.js"));
 const Schedule = lazy(() => import("./pages/Schedule.js"));
 const Songs = lazy(() => import("./pages/Songs.js"));
 const Stats = lazy(() => import("./pages/Stats.js"));
-const TourneyHome = lazy(() => import("./pages/TourneyHome.js"));
 const TourneyStaff = lazy(() => import("./pages/TourneyStaff.js"));
 
 import "../global.css";
@@ -96,28 +95,13 @@ export default function App() {
           setUser={setUser}
           setLoginAttention={setLoginAttention}
           path="/:tourney/home"
-          PageComponent={NewTourneyHome}
-        />
-        <TourneyRouteWrapper
-          user={user}
-          setUser={setUser}
-          setLoginAttention={setLoginAttention}
-          path="/:year/:tourney/home"
-          PageComponent={NewTourneyHome}
-        />
-
-        <TourneyRouteWrapper
-          user={user}
-          setUser={setUser}
-          setLoginAttention={setLoginAttention}
-          path="/:tourney/home-old"
           PageComponent={TourneyHome}
         />
         <TourneyRouteWrapper
           user={user}
           setUser={setUser}
           setLoginAttention={setLoginAttention}
-          path="/:year/:tourney/home-old"
+          path="/:year/:tourney/home"
           PageComponent={TourneyHome}
         />
 
