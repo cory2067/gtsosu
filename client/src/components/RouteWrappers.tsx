@@ -47,7 +47,6 @@ export function RouteWrapper(props: RouteWrapperProps) {
 }
 
 type TourneyRouteWrapperProps = RouteWrapperProps & {
-  setLoginAttention?: any;
   year?: number;
 };
 

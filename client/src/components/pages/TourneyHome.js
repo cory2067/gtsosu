@@ -10,6 +10,7 @@ import EditTourneyModal from "../modules/EditTourneyModal";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
 import { get, post, prettifyTourney, tokenizeTourney } from "../../utilities";
+import { login } from "../../auth";
 import CreateTeamModal from "../modules/CreateTeamModal";
 
 import ChallongeLogo from "../../public/challonge-logo.svg";
@@ -19,7 +20,7 @@ import PickemsLogo from "../../public/pickems-logo.png";
 const { Content } = Layout;
 const { confirm } = Modal;
 
-function TourneyHome({ tourney, user, setUser, setLoginAttention }) {
+function TourneyHome({ tourney, user, setUser }) {
   const [content, setContent] = useState({ homepage: [] });
   const [registrationOpen, setRegistrationOpen] = useState(false);
   const [tourneyFlags, setTourneyFlags] = useState([]);
@@ -79,15 +80,8 @@ function TourneyHome({ tourney, user, setUser, setLoginAttention }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleRegHover = () => {
-    if (!user._id) {
-      setLoginAttention(!user._id);
-      setTimeout(() => setLoginAttention(false), 2000);
-    }
-  };
-
   const isAdmin = new UserAuth(user).forTourney(tourney).hasRole(UserRole.Admin);
-  const register = () => {
+  const register = (user) => {
     if (tourneyFlags.includes("registerAsTeam")) {
       setShowRegisterAsTeam(true);
       return;
@@ -183,9 +177,17 @@ function TourneyHome({ tourney, user, setUser, setLoginAttention }) {
   const isRegistered = () => user.tournies && user.tournies.includes(tourney);
 
   let regMessage = UI.register;
-  if (!user._id) regMessage = "Login to Register";
-  else if (isRegistered()) regMessage = "Registered";
-  else if (!registrationOpen) regMessage = "Registration Closed";
+  let onRegClick = () => register(user);
+  if (!user._id) {
+    regMessage = "Login and Register";
+    onRegClick = () => login(setUser).then((user) => register(user));
+  } else if (isRegistered()) {
+    regMessage = "Registered";
+    onRegClick = null;
+  } else if (!registrationOpen) {
+    regMessage = "Registration Closed";
+    onRegClick = null;
+  }
 
   const getMenuIcon = (label) => {
     if (label.includes("Discord")) {
@@ -259,14 +261,8 @@ function TourneyHome({ tourney, user, setUser, setLoginAttention }) {
                     </Dropdown>
                   </div>
                 )}
-                <div onMouseEnter={() => handleRegHover()}>
-                  <Button
-                    block
-                    type="primary"
-                    size="large"
-                    onClick={register}
-                    disabled={regMessage !== UI.register}
-                  >
+                <div>
+                  <Button block size="large" onClick={onRegClick} disabled={!onRegClick}>
                     {regMessage}
                   </Button>
                 </div>

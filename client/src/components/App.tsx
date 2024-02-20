@@ -59,7 +59,6 @@ function AppContextWrapper(props: PropsWithChildren<{}>) {
 
 export default function App() {
   const [user, setUser] = useState<User | undefined>();
-  const [loginAttention, setLoginAttention] = useState(false);
 
   useEffect(() => {
     get("/api/whoami").then((res) => {
@@ -93,14 +92,12 @@ export default function App() {
         <TourneyRouteWrapper
           user={user}
           setUser={setUser}
-          setLoginAttention={setLoginAttention}
           path="/:tourney/home"
           PageComponent={TourneyHome}
         />
         <TourneyRouteWrapper
           user={user}
           setUser={setUser}
-          setLoginAttention={setLoginAttention}
           path="/:year/:tourney/home"
           PageComponent={TourneyHome}
         />

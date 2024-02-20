@@ -5,22 +5,22 @@ import "./LoginButton.css";
 import { Avatar, Button, Dropdown, Image, Menu, Modal, Typography, message } from "antd";
 import { User } from "../../../../../models/user";
 import { SettingsDialog, SettingsDialogProps } from "../../SettingsDialog";
+import {login, logout} from "../../../../../auth"
 
 import "../NavbarRight.css";
 import "./LoginButton.css";
 
 export type UserProps = {
   user: User;
-  setUser: (any) => void;
+  setUser: (user: User | undefined) => void;
 };
 
 type UserDropdownProps = {
-  setUser: (any) => void;
+  setUser: (user: User | undefined) => void;
   onSettingsClicked: () => void;
 };
 
 export type LoginButtonProps = UserProps & {
-  attention?: boolean;
 };
 
 function UserDropdown(props: UserDropdownProps) {
@@ -34,9 +34,7 @@ function UserDropdown(props: UserDropdownProps) {
         </Typography>
       </Menu.Item>
       <Menu.Item
-        onClick={async () => {
-          logout(props);
-        }}
+        onClick={async () => logout(props.setUser) }
       >
         <Typography className={`NavbarRight-menuText`}>
           {contentManager.getLocalizedString(lang, "logout")}
@@ -78,22 +76,8 @@ function UserDisplay(props: UserProps) {
   );
 }
 
-export async function logout(props: { setUser: UserProps["setUser"] }) {
-  await fetch("/auth/logout");
-  props.setUser({});
-  return;
-}
-
-export async function login(props: UserProps) {
-  if (props.user.username) {
-    await logout(props);
-  }
-
-  const loop = showAuthPopup("/auth/login", props.setUser);
-}
-
 export function LoginButton(props: LoginButtonProps) {
-  const { user, setUser, attention } = props;
+  const { user, setUser } = props;
 
   // Not logged in
   if (!user?.username) {
@@ -102,8 +86,8 @@ export function LoginButton(props: LoginButtonProps) {
     return (
       <Button
         type="primary"
-        className={`login LoginButton-button ${attention ? "LoginButton-attention" : ""}`}
-        onClick={() => login(props)}
+        className={"login LoginButton-button"}
+        onClick={() => login(setUser)}
       >
         {UI.login}
       </Button>
