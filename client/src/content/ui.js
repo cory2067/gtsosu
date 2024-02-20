@@ -12,10 +12,11 @@ export default {
       mainStore: "Main Store",
       mousepads: "Mousepads",
     },
-    login: "Login",
-    logout: "Logout",
+    login: "Log In",
+    logout: "Log Out",
     register: "Register",
     discord: "Discord",
+    settings: "Settings",
     userSettings: {
       note: "Don't forget the #number in your Discord username (e.g. Naru#1234)",
       discord: "Discord Username",

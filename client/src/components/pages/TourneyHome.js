@@ -5,12 +5,10 @@ import "./TourneyHome.css";
 import { EditOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { navigate } from "@reach/router";
 import { Button, Card, Layout, Modal, message, notification } from "antd";
-import ContentManager from "../../ContentManager";
+import ContentManager, { LanguageContext, contentManager } from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
 import { get, hasAccess, post, prettifyTourney, tokenizeTourney } from "../../utilities";
 import CreateTeamModal from "../modules/CreateTeamModal";
-
-const UI = ContentManager.getUI();
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -25,7 +23,7 @@ class TourneyHome extends Component {
 
   async componentDidMount() {
     document.title = `${prettifyTourney(this.props.tourney)}: Home`;
-    const data = await ContentManager.get(this.props.tourney);
+    const data = await contentManager.getLocalizedTourney(this.props.tourney, lang);
     if (!data) return navigate("/404");
 
     if (data.divisions) {
@@ -136,6 +134,7 @@ class TourneyHome extends Component {
   };
 
   render() {
+    const UI = contentManager.getLocalizedUI(context);
     let regMessage = UI.register;
     if (!this.props.user._id) regMessage = "Login to Register";
     else if (this.isRegistered()) regMessage = "Registered";
@@ -208,5 +207,7 @@ class TourneyHome extends Component {
     );
   }
 }
+
+TourneyHome.contextType = LanguageContext;
 
 export default TourneyHome;

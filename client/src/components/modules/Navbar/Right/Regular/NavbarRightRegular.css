@@ -1,0 +1,36 @@
+.ant-menu.ant-menu-dark.NavbarRight-menu-regular {
+  display: flex;
+  flex-direction: row;
+  padding-right: var(--s);
+  background-color: var(--darker-night);
+}
+
+.NavbarRight-menu-regular .ant-typography.NavbarRight-menuText {
+  font-weight: 400;
+  color: var(--greyts);
+  text-transform: uppercase;
+}
+
+.NavbarRight-menu-regular .ant-typography.NavbarRight-menuText.active {
+  font-weight: 800;
+  color: var(--gts-orange);
+}
+
+.NavbarRight-menu-regular .NavbarRight-menuItem {
+  font-weight: 400;
+  padding-left: 16px;
+  padding-right: 16px;
+  background-color: var(--darker-night);
+}
+
+/* To change text color back to white on hover for current page */
+.NavbarRight-menu-regular .NavbarRight-menuItem:hover .NavbarRight-menuText {
+  color: var(--darker-night);
+}
+
+.NavbarRight-menu-regular .NavbarRight-menuItem:hover,
+.NavbarRight-menu-regular .NavbarRight-menuItem.ant-menu-submenu-active {
+  background: var(--gts-orange);
+  color: var(--white);
+  transition: background linear 0.1s;
+}

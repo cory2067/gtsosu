@@ -12,6 +12,8 @@ const { Panel } = Collapse;
 const DONATION_GOAL = 5800;
 
 function Donate({ user }) {
+  user ??= {};
+
   const [loading, setLoading] = useState(false);
   const [donors, setDonors] = useState([]);
   const auth = new UserAuth(user).forGlobal();
@@ -74,10 +76,9 @@ function Donate({ user }) {
         <div className="Donate-info">
           <h1>Support GTS!</h1>
           <p>
-            Hello!
-            This is the main page to send donations to the biggest osu!taiko tournament series, GTS. We do not have any specific financial goal for GTS as of now, only one in the very far off future.
-            Any donation, as small as it is will be hugely appreciated.
-
+            Hello! This is the main page to send donations to the biggest osu!taiko tournament
+            series, GTS. We do not have any specific financial goal for GTS as of now, only one in
+            the very far off future. Any donation, as small as it is will be hugely appreciated.
           </p>
           <p>
             Everyone on the GTS team has worked for free, through their own generosity and passion

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "./NewTourneyHome.css";
 
 import { EditOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { navigate } from "@reach/router";
 import { Button, Dropdown, Layout, Menu, Modal, message, notification } from "antd";
-import ContentManager from "../../ContentManager";
+import ContentManager, { LanguageContext, contentManager } from "../../ContentManager";
 import EditTourneyModal from "../../components/modules/EditTourneyModal";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
@@ -15,8 +15,6 @@ import CreateTeamModal from "../modules/CreateTeamModal";
 import ChallongeLogo from "../../public/challonge-logo.svg";
 import DiscordLogo from "../../public/discord-logo.svg";
 import PickemsLogo from "../../public/pickems-logo.png";
-
-const UI = ContentManager.getUI();
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -30,6 +28,8 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
   const [showScroll, setShowScroll] = useState(false);
   const [showRegisterAsTeam, setShowRegisterAsTeam] = useState(false);
   const [teamModalLoading, setTeamModalLoading] = useState(false);
+  const lang = useContext(LanguageContext);
+  const UI = contentManager.getLocalizedUI(lang);
 
   const infoRef = React.createRef();
   const rulesRef = React.createRef();
@@ -37,7 +37,8 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
   useEffect(() => {
     (async () => {
       document.title = `${prettifyTourney(tourney)}: Home`;
-      const content = await ContentManager.get(tourney);
+      const content = await contentManager.getLocalizedTourney(tourney, lang);
+
       if (!content) return navigate("/404");
 
       if (content.divisions) {
@@ -67,7 +68,7 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
         mode: data.mode || "taiko",
       });
     })();
-  }, []);
+  }, [lang]);
 
   const handleScroll = () => {
     const scrollThreshold = 200;
@@ -239,7 +240,8 @@ function NewTourneyHome({ tourney, user, setUser, setLoginAttention }) {
                       overlay={
                         <Menu>
                           {content.links.map((entry) => (
-                            <Menu.Item>
+                            // Adding a key here to avoid warnings
+                            <Menu.Item key={entry.link}>
                               <a target="_blank" href={entry.link}>
                                 <div class="NewTourneyHome-menu-item">
                                   {getMenuIcon(entry.label)}

@@ -1,5 +1,7 @@
 @import url("../../../styles/buttons.css");
 
+/* Narrow viewport */
+
 body .Home-content {
   padding: 0;
 }
@@ -71,9 +73,11 @@ body .Home-content {
   grid-template-columns: 1fr;
 }
 
+/* Medium viewport */
 @media (min-width: 720px) {
   .Home-container {
     padding: 50px;
+    padding-top: 60px;
   }
 
   .Home-tourney-grid-container {
@@ -82,7 +86,14 @@ body .Home-content {
   }
 }
 
+/* Wide viewport */
 @media (min-width: 1280px) {
+  /* For some reason wide viewport banner is offset. This is to fix that
+   * Might want to remove this once the root cause is found */
+  body .Home-content {
+    padding-top: var(--l);
+  }
+
   .Home-socials-container {
     flex-direction: row;
   }

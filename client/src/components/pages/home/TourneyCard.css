@@ -1,5 +1,7 @@
 .content .TourneyCard-card {
   margin: var(--m);
+  margin-left: 0;
+  margin-right: 0;
   overflow: hidden;
   padding: 0px;
   display: flex;
@@ -56,6 +58,11 @@
 
 /* Large screens */
 @media (min-width: 1280px) {
+  .content .TourneyCard-card {
+    margin-left: var(--m);
+    margin-right: var(--m);
+  }
+
   .TourneyCard-container.ongoing {
     flex-direction: row-reverse;
   }
@@ -82,9 +89,11 @@
 }
 
 /* Small screens */
-@media (max-width: 720px) {
-  .TourneyCard-card {
+@media (max-width: 719px) {
+  .content .TourneyCard-card {
     margin: 0px;
+    margin-left: var(--m);
+    margin-right: var(--m);
   }
 
   .TourneyCard-banner.ongoing {

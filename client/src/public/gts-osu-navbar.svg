@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 85.090347 91.363304"
+   version="1.1"
+   id="svg4"
+   width="85.090347"
+   height="91.363304"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs1">
+    <style
+       id="style1">.cls-1{fill:#f75c03;}.cls-2{fill:#2e3135;}</style>
+  </defs>
+  <title
+     id="title1">orange-gts</title>
+  <path
+     d="m 0,0 h 85.09035 v 61.649273 c 0,1.35476 -0.67707,2.61987 -1.80432,3.3714 l -38.49325,25.66214 c -1.36104,0.90732 -3.13416,0.90732 -4.4952,0 L 1.80432,65.020673 C 0.67708,64.269143 0,63.004033 0,61.649273 Z"
+     fill="#f75c03"
+     id="path1"
+     style="stroke:none;stroke-width:1.01298" />
+  <g
+     id="g4"
+     transform="matrix(0.52,0,0,0.52,70.681772,-61.51152)">
+    <polygon
+       class="cls-2"
+       points="30,43.39 30,32 77.02,32 77.02,132 65.26,125.35 65.26,43.39 "
+       id="polygon1"
+       transform="translate(-134.10884,116.44841)" />
+    <polygon
+       class="cls-2"
+       points="44.69,76.81 44.69,76.81 47.63,78.47 47.63,78.47 59.39,84.95 59.39,121.94 30,105.57 30,48.71 59.39,48.71 59.39,78.14 53.16,74.64 47.63,71.57 47.63,60.01 41.76,60.01 41.76,99.33 47.63,102.66 47.63,88.61 44.69,86.95 "
+       id="polygon2"
+       transform="translate(-134.10884,116.44841)" />
+    <polygon
+       class="cls-2"
+       points="82.89,132 82.89,32 130,32 130,43.39 94.74,43.39 94.74,125.35 "
+       id="polygon3"
+       transform="translate(-134.10884,116.44841)" />
+    <polygon
+       class="cls-2"
+       points="112.37,96.01 112.37,102.57 118.25,99.33 118.25,92.68 100.61,82.87 100.61,49.04 130,49.04 130,79.63 118.25,73.06 118.25,60.35 112.37,60.35 112.37,76.39 130,86.11 130,105.81 100.61,122.19 100.61,89.44 "
+       id="polygon4"
+       transform="translate(-134.10884,116.44841)" />
+  </g>
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>orange-gts</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

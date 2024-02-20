@@ -38,7 +38,7 @@ export default function Home({ user, setUser }) {
 
         <div className="Home-tourney-grid-container">
           {tournies.map((tourney) => (
-            <TourneyCard {...tourney} />
+            <TourneyCard key={tourney.fullCode} {...tourney} />
           ))}
         </div>
 

@@ -81,8 +81,8 @@
 .ant-typography.HomeBanner-description {
   margin-top: 12px;
   font-weight: 500px;
-  font-size: 18px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 18px;
 }
 
 .HomeBanner-media {
@@ -109,11 +109,18 @@
   flex-grow: 1;
 }
 
-@media screen and (min-width: 1000px) {
+@media screen and (min-width: 720px) {
   .HomeBannerBackground-container {
     border-radius: 8px;
   }
 
+  .ant-typography.HomeBanner-description {
+    font-size: 18px;
+    line-height: 20px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
   .HomeBannerBackground-stripes-left {
     top: auto;
     bottom: 0px;

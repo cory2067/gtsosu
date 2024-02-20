@@ -1,8 +1,8 @@
 import { Image, Typography } from "antd";
 import Text from "antd/lib/typography/Text";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
-import ContentManager from "../../../ContentManager";
+import ContentManager, { LanguageContext, contentManager } from "../../../ContentManager";
 
 import "./PastTourneyCard.css";
 import { Link } from "@reach/router";
@@ -21,9 +21,10 @@ import { Link } from "@reach/router";
  */
 export default function PastTourneyCard({ tourney }) {
   const [tourneyContent, setTourneyContent] = useState(null);
+  const lang = useContext(LanguageContext);
 
   useEffect(() => {
-    ContentManager.get(tourney.fullCode).then((content) => {
+    contentManager.getLocalizedTourney(tourney.fullCode, lang).then((content) => {
       setTourneyContent(content);
     });
   }, [tourney.fullCode]);

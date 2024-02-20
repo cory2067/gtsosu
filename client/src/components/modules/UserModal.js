@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { get, showAuthPopup } from "../../utilities";
 import { Form, Select, Input, Modal, Button } from "antd";
-import ContentManager from "../../ContentManager";
 import UserCard from "./UserCard";
-
-const UI = ContentManager.getUI().userSettings;
+import { LanguageContext, contentManager } from "../../ContentManager";
+import { useContext } from "react";
 
 const cardImages = [
   "eis.png",
@@ -54,6 +53,7 @@ function UserModal({
   onValuesChange,
 }) {
   const discordLoginFlow = () => showAuthPopup("/auth/login-discord", setUser);
+  const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
 
   return (
     <Modal
