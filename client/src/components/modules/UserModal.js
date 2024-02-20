@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { get, showAuthPopup } from "../../utilities";
+import { get } from "../../utilities";
+import { showAuthPopup } from "../../auth";
 import { Form, Select, Input, Modal, Button } from "antd";
 import UserCard from "./UserCard";
 import { LanguageContext, contentManager } from "../../ContentManager";

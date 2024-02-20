@@ -179,7 +179,6 @@ function TourneyHome({ tourney, user, setUser }) {
   let regMessage = UI.register;
   let onRegClick = () => register(user);
   if (!user._id) {
-    regMessage = "Login and Register";
     onRegClick = () => login(setUser).then((user) => register(user));
   } else if (isRegistered()) {
     regMessage = "Registered";
