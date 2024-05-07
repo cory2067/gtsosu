@@ -69,21 +69,21 @@ function UserModal({
       </div>
 
       <Form {...layout} onValuesChange={onValuesChange} initialValues={user}>
-        <Form.Item label={UI.discord}>
+        <Form.Item label={UI.userSettings.discord}>
           {user.discordId ? (
             <div>
               <span style={{ paddingRight: 8 }}>{user.discord}</span>
               <Button type="primary" onClick={discordLoginFlow}>
-                {UI.discordUpdate}
+                {UI.userSettings.discordUpdate}
               </Button>
             </div>
           ) : (
             <Button type="primary" onClick={discordLoginFlow}>
-              {UI.discordLink}
+              {UI.userSettings.discordLink}
             </Button>
           )}
         </Form.Item>
-        <Form.Item name="timezone" label={UI.timezone}>
+        <Form.Item name="timezone" label={UI.userSettings.timezone}>
           <Select placeholder="UTC+0">
             {timezones.map((num) => (
               <Select.Option key={num} value={num}>
@@ -110,7 +110,7 @@ function UserModal({
       </Form>
 
       <div>
-        <span className="u-bold">{UI.tournies}: </span>
+        <span className="u-bold">{UI.userSettings.tournies}: </span>
         {user.tournies && user.tournies.length ? user.tournies.join(", ") : "none"}
       </div>
     </Modal>
