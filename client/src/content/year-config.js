@@ -14,7 +14,7 @@ export default {
   zgts: 2021,
   ygts: 2024,
   btt: 2024,
-  tcl: 2022,
+  tcl: 2024,
   ftwc: 2022,
   gtms: 2023,
   mgts: 2023,
