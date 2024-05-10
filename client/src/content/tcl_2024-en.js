@@ -24,9 +24,9 @@ export default {
     {
       title: "Registration",
       body: `Please click on the Register button above after you've logged in with your osu! account, and **submit your school verification here:** https://forms.gle/8qbPPuRP2qz2U7eb7. 
-      
-      Then click on the Discord button to join the OCL Discord server and assign yourself a role for your school.
-      **Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**`,
+
+Then click on the Discord button to join the OCL Discord server and assign yourself a role for your school.
+**Joining the Discord is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**`,
     },
     {
       title: "Dates",
