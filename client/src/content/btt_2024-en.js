@@ -18,7 +18,7 @@ export default {
       body: `1. You must be below #10000 in osu!taiko and you must stay on or below this line during the rest of the signup phase. A slight accidental trespass can be overlooked as long as you remain below #9900 AND you stop trying to gain pp the moment you pass #10,000.
 2. You are not allowed to rank up further than #9000 during the tournament (After registrations are closed). If you pass this limit at any moment, you will be disqualified. 
 3. You must join the Discord server of the tournament. 
-4. Though there will be no official screening, if the tournament staff determines that you are too skilled for this tournament, we reserve the right to remove you during the tournament at any moment.`,
+4. Though there will be no official screening, if the tournament staff determines that you are too skilled for this tournament, we reserve the right to remove you during the tournament at any moment. For this reason, the players reaching the podium are not allowed to participate again.`,
     },
     {
       title: "Registration",
