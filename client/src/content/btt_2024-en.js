@@ -83,7 +83,7 @@ There are no other prizes being considered for BTTS9
 - There are no warmups.
 - Failed scores will count. NoFail will be enforced.
 - Seedings will be done with the average rank of each player on each map. 
-- Maps will be played once in a row during the lobby. 
+- Maps will be played two times in a row during the lobby. 
 - Only the 64 best players will continue on to the bracket stage.
 - Qualifier scores are to remain private as much as possible until the results are released by the staff. So don't post or stream your qualifiers!
 
