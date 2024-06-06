@@ -83,7 +83,10 @@ There are no other prizes being considered for BTTS9
 - There are no warmups.
 - Failed scores will count. NoFail will be enforced.
 - Seedings will be done with the average rank of each player on each map. 
-- Maps will be played two times in a row during the lobby. 
+- Maps will be played two times in a row during the lobby.
+- If a player disconnects during a map, they can replay that map after the two qualifier runs are done.
+ - Only the players who missed one of their two chances, either due to disconnect or being late, are allowed to be in the lobby during an extra rerun of a map.
+ - As an example, if player A missed nm1 and player B disconnected during hr2, then player B (and the rest) must be outside of the lobby during the nm1 rerun for player A. After that, hr2 can be replayed for player B and only player B.
 - Only the 64 best players will continue on to the bracket stage.
 - Qualifier scores are to remain private as much as possible until the results are released by the staff. So don't post or stream your qualifiers!
 
