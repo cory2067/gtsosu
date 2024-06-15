@@ -135,7 +135,7 @@ There are no other prizes being considered for BTTS9
 - If a player disconnects after 30 seconds, but can show a screenshot the local score with a **fitting time stamp**, and it's higher than the opponent's score, they still win the point. It is up to the referee to decide if its legit.
 - If someone tries to abuse the rule above and we see you're trying to pass a different score, you will instantly lose the match.
 - In case NoFail is forgotten by players during the tiebreaker, failed scores count.
-- If the beatmap ends in a draw, the result will be nullified and the map will be replayed. If it ends in another tie, both the result and the map will be voided and the player who picked it will have to pick another map. The 
+- If the beatmap ends in a draw, the result will be nullified and the map will be replayed. If it ends in another tie, both the result and the map will be voided and the player who picked it will have to pick another map.
 - If both players reach match point (1 more point needed to win), the TieBreaker will be played.
 - Results will be displayed on the website, on Challonge, and announced by the referee in the #match-feed channel of the Discord server.
 - If both players tie on the TieBreaker, the TieBreaker will be replayed until there is no longer a tied result. The TieBreaker cannot be voided.
