@@ -97,7 +97,7 @@ There are no other prizes being considered for BTTS9
 - The qualifiers pool will be different from all the other rounds, as it will have 3 NoMod maps, 2 Hidden maps, 2 HardRock maps, and 1 DoubleTime map.
 - The NoMod bracket will have 4 maps in Round of 64 till Quarterfinals, 5 maps in Semifinals, and 6 maps in Finals and Grand Finals
 - The Hidden and Hardrock brackets will have 2 maps each in Round of 64 and Round of 32, and 3 maps each in all following rounds.
-- The DoubleTime bracket will have 2 maps in Round of 64 till Round of 16, and 3 maps in all following rounds.
+- The DoubleTime bracket will have 2 maps in Round of 64 till Quarterfinals, and 3 maps in all following rounds.
 - The HiddenHardrock bracket will have 1 map in both the Finals and Grand Finals. There will be none in earlier rounds.
 - The TieBreaker is played with FreeMod, meaning it can be played with **NoMod, Hidden, HardRock, or Hidden + Hardrock**. You do not have to play with a mod, but it does give a significant score boost if you wish to try and practice it.
 - The mappool for each stage will be showcased a week beforehand, on sunday.
