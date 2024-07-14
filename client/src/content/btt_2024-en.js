@@ -143,10 +143,10 @@ There are no other prizes being considered for BTTS9
 # All-Star Rules
 - All-Star is a fun event taking place on the same weekend as the Grand Finals! 
 It'll showcase the best players of the tournament playing against each other in a special match. 
-- 16 people will participate in this event, 8 players and 8 staff members. They will be decided by vote. 
+- 16 people will participate in this event, 12 players and 4 staff members. They will be decided by vote. 
 - The top 16 will play in All-Star.
 - Teams are made with equal number of players and staff, meaning both sides will have 4 players and 4 staff members.
-- The top 2 people will be captains of each team. Their teammates will be decided by the ranking of the next 10 people. The topmost voted player will play with players with an odd number and the second most voted player with players with an even number. 
+- The top 2 people will be captains of each team. Their teammates will be decided by the ranking of the next 14 people. The topmost voted player will play with players with an odd number and the second most voted player with players with an even number. 
 - The event will be a 4 vs 4 match with the following rules: 
   - BO15. 
   - Mappool will be the Grand Finals mappool.
