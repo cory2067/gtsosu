@@ -20,5 +20,4 @@ export default {
   mgts: 2023,
   coegts: 2023,
   egcs: 2023,
-  prism: 2024,
 };
