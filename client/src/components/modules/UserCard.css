@@ -1,15 +1,16 @@
 .UserCard-outside {
-  border: 1px solid var(--darker-night);
+  background-color: var(--onyx-dark);
+  border-radius: 10px;
   display: grid;
-  grid-template-columns: 75px 350px;
-  grid-template-rows: 75px;
-  box-shadow: 2px 2px 8px var(--darker-night);
+  grid-template-columns: 64px 350px;
+  grid-template-rows: 64px;
   width: 427px;
   margin: var(--s);
+  padding: var(--s);
 }
 
 .UserCard-wide {
-  grid-template-columns: 75px 440px;
+  grid-template-columns: 64px 440px;
   width: 517px;
 }
 
@@ -17,19 +18,20 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  border-radius: 8px;
 }
 
 .UserCard-content {
-  padding: var(--xs);
-  flex-direction: column;
+  padding: var(--s) var(--m);
   display: flex;
   justify-content: center;
-  background-color: var(--night);
 }
 
-.UserCard-top {
+.UserCard-left {
   display: flex;
-  justify-content: space-between;
+  flex-grow: 1;
+  flex-direction: column;
+  align-self: center;
 }
 
 .UserCard-name {
@@ -48,7 +50,8 @@
 }
 
 .UserCard-rank {
-  font-size: 12pt;
+  font-size: 20pt;
+  font-weight: bold;
   display: flex;
   align-items: center;
 }
