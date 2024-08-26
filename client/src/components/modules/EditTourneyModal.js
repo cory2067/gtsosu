@@ -107,6 +107,12 @@ export default function EditTourneyModal({
         <div style={{ marginBottom: "24px" }}>
           (Specify this value to enforce Discord server membership when registering)
         </div>
+        <Form.Item name="category" label="Category">
+          <Select>
+            <Select.Option key={"gts"}>GTS</Select.Option>
+            <Select.Option key={"other"}>Other</Select.Option>
+          </Select>
+        </Form.Item>
       </Form>
     </Modal>
   );

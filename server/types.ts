@@ -29,4 +29,6 @@ export type DiscordAccount = {
 
 type GameMode = "osu" | "taiko" | "catch" | "fruits" | "mania"; // supported osu! gamemodes
 
-export { Request, UserDocument, Populate, BaseRequestArgs, GameMode };
+type TournamentCategory = "gts" | "other";
+
+export { Request, UserDocument, Populate, BaseRequestArgs, GameMode, TournamentCategory };

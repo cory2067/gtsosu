@@ -487,7 +487,10 @@ router.getAsync("/staff", async (req, res) => {
   }
 
   const allStaff = await User.find({ "roles.0": { $exists: true } });
-  res.send(allStaff);
+  const allGtsTournies = (await Tournament.find({ category: { $in: ["gts", undefined] } })).map(tourney => tourney.code);
+  allStaff.forEach(user => user.roles = user.roles.filter(role => allGtsTournies.includes(role.tourney)));
+  const allStaffFiltered = allStaff.filter(user => user.roles.length > 0);
+  res.send(allStaffFiltered);
 });
 
 /**
@@ -601,6 +604,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - blacklist: list of player ids that are banned from registering for this tourney
  *   - discordServerId: a Discord server ID to enforce membership of
  *   - mode: osu! gamemode (supports "taiko" or "catch")
+ *   - category: category of the tourney
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
@@ -624,6 +628,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.blacklist = req.body.blacklist;
   tourney.discordServerId = req.body.discordServerId;
   tourney.mode = req.body.mode;
+  tourney.category = req.body.category;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];
