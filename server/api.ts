@@ -487,7 +487,7 @@ router.getAsync("/staff", async (req, res) => {
   }
 
   const allStaff = await User.find({ "roles.0": { $exists: true } });
-  const allGtsTournies = (await Tournament.find({ category: { $in: ["gts", undefined] } })).map(tourney => tourney.code);
+  const allGtsTournies = (await Tournament.find({ category: { $in: ["gts", undefined] } }, "code")).map(tourney => tourney.code);
   allStaff.forEach(user => user.roles = user.roles.filter(role => allGtsTournies.includes(role.tourney)));
   const allStaffFiltered = allStaff.filter(user => user.roles.length > 0);
   res.send(allStaffFiltered);
