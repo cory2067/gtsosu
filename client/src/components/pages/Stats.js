@@ -35,6 +35,7 @@ export default function Stats({ tourney, user }) {
     refetchDataInProgress: false,
     refetchScoresInProgress: false,
     assignSeedsInProgress: false,
+    fillMissingScoresInProgress: false,
     freemodFilter: "none",
   });
 
@@ -64,7 +65,7 @@ export default function Stats({ tourney, user }) {
       const processedTeamScores = [];
 
       let currentRank = 1;
-      let currentScore;
+      let currentScore = undefined;
       let currentFilteredRank = 0;
       let ties = 0;
       let currentFilteredScore;
@@ -72,7 +73,7 @@ export default function Stats({ tourney, user }) {
         const playerScore = sortedPlayerScores[i];
         const filterActive = (mod === "FM" || mod === "TB") && state.freemodFilter !== "none";
         const matchesFreemodFilter = state.freemodFilter === playerScore.mod;
-        if (!currentScore || playerScore.score < currentScore) {
+        if (currentScore === undefined || playerScore.score < currentScore) {
           currentRank = i + 1;
           currentScore = playerScore.score;
         }
@@ -117,7 +118,7 @@ export default function Stats({ tourney, user }) {
       currentScore = undefined;
       for (let i = 0; i < sortedTeamScores.length; i++) {
         const teamScore = sortedTeamScores[i];
-        if (!currentScore || teamScore.score < currentScore) {
+        if (currentScore === undefined || teamScore.score < currentScore) {
           currentRank = i + 1;
           currentScore = teamScore.score;
         }
@@ -638,6 +639,53 @@ export default function Stats({ tourney, user }) {
     }
   };
 
+  const fillMissingScores = async () => {
+    const stageStatsCopy = JSON.parse(JSON.stringify(state.stageStats));
+    for (let stageMap of state.stageMaps) {
+      let mapStats = stageStatsCopy.maps.find((mapStats) => mapStats.mapId === stageMap.mapId);
+      if (mapStats === undefined) {
+        mapStats = {
+          mapId: stageMap.mapId,
+          playerScores: [],
+          teamScores: [],
+        };
+        stageStatsCopy.maps.push(mapStats);
+      }
+
+      const isTeamsTourney = !!state.tourneyModel?.teams;
+      if (isTeamsTourney) {
+        const existingTeamNames = mapStats.teamScores.map(teamScore => teamScore.teamName);
+        for (let teamName of state.teams.keys()) {
+          if (!existingTeamNames.includes(teamName)) {
+            mapStats.teamScores.push({ teamName, score: 0 });
+          }
+        }
+      } else {
+        const existingPlayerIds = mapStats.playerScores.map(playerScore => playerScore.userId);
+        for (let playerId of state.players.keys()) {
+          if (!existingPlayerIds.includes(Number(playerId))) {
+            mapStats.playerScores.push({ userId: Number(playerId), score: 0 });
+          }
+        }
+      }
+    }
+    const updatedStats = await post("/api/stage-stats", { tourney, stats: stageStatsCopy });
+    setState({
+      ...state,
+      stageStats: updatedStats,
+      recalculateStats: true,
+    });
+  }
+
+  const confirmFillMissingScores = async () => {
+    const isTeamsTourney = !!state.tourneyModel?.teams;
+    if (isTeamsTourney) {
+      if (confirm("Fill missing scores from all registered teams on all maps in this stage with 0s?")) fillMissingScores();
+    } else {
+      if (confirm("Fill missing scores from all registered players on all maps in this stage with 0s?")) fillMissingScores();
+    }
+  };
+
   const handleFreemodFilterChange = (event) => {
     const value = event.target.value;
     setState({
@@ -693,6 +741,12 @@ export default function Stats({ tourney, user }) {
                     </Button>
                   )}
                   {state.assignSeedsInProgress && <Spin />}
+                  {!state.fillMissingScoresInProgress && state.isQualifiers && (
+                    <Button className="settings-button" type="primary" onClick={confirmFillMissingScores}>
+                      Fill Missing Scores
+                    </Button>
+                  )}
+                  {state.fillMissingScoresInProgress && <Spin />}
                 </Form>
               )}
               {state.inEditMode && (
