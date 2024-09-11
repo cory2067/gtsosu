@@ -15,6 +15,7 @@ class Qualifiers extends Component {
 
     this.state = {
       lobbies: [],
+      rescheduleDeadline: props.currentStage.rescheduleDeadline,
     };
   }
 
@@ -86,6 +87,24 @@ class Qualifiers extends Component {
     }));
   };
 
+  applyStageChanges = async (lobbyData) => {
+    const rescheduleDeadline = new Date(this.props.stripTimezone(lobbyData.rescheduleDeadline));
+    rescheduleDeadline.setUTCSeconds(0);
+    try {
+      const tourneyModel = await post("/api/stage", {
+        tourney: this.props.tourney,
+        stage: { ...this.props.currentStage, rescheduleDeadline },
+        index: this.props.currentStage.index,
+      });
+      this.setState((state) => ({
+        rescheduleDeadline: tourneyModel.rescheduleDeadline,
+      }));
+      message.success("Successfully updated stage");
+    } catch (e) {
+      message.error(e.message || e);
+    }
+  }
+
   updateLobbyInState = (newLobby, key) => {
     this.setState((state) => ({
       lobbies: state.lobbies.map((m) => {
@@ -116,13 +135,25 @@ class Qualifiers extends Component {
 
   // user is optional (only used for commentator)
   remove = async (role, key, target) => {
-    const newLobby = await delet(`/api/lobby-${role}`, {
-      lobby: key,
-      target,
-      teams: this.props.teams,
-      tourney: this.props.tourney,
-    });
-    this.updateLobbyInState(newLobby, key);
+    // Make the update in case the request fails because the antd Tag is removed
+    // instantly and can't be added back unless the data itself is also updated
+    const theLobby = this.state.lobbies.find(lobby => lobby.key === key);
+    const updatedLobby = structuredClone(theLobby);
+    const updatedPlayers = updatedLobby.players.filter(player => player !== target);
+    updatedLobby.players = updatedPlayers;
+    this.updateLobbyInState(updatedLobby, key);
+    try {
+      const newLobby = await delet(`/api/lobby-${role}`, {
+        lobby: key,
+        target,
+        teams: this.props.teams,
+        tourney: this.props.tourney,
+      });
+      this.updateLobbyInState(newLobby, key);
+    } catch (e) {
+      message.error(e.message || e);
+      this.updateLobbyInState(theLobby, key);
+    }
   };
 
   addReferee = (key) => this.add("referee", key);
@@ -194,20 +225,36 @@ class Qualifiers extends Component {
     return (
       <>
         {this.props.isAdmin() && (
-          <Collapse>
-            <Panel header={`Add new Qualifiers lobby`} key="1">
-              <Form name="basic" onFinish={this.onFinish}>
-                <Form.Item label="Lobby Time" name="time">
-                  <DatePicker showTime format={"MM/DD HH:mm"} minuteStep={15} />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Add
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Panel>
-          </Collapse>
+          <div className="admin-panel">
+            <Form name="editStage"
+              initialValues={{["rescheduleDeadline"]:moment(this.state.rescheduleDeadline).utcOffset(0)}}
+              onFinish={this.applyStageChanges}
+              layout="inline"
+            >
+              <Form.Item label="Reschedule Deadline" name="rescheduleDeadline">
+                <DatePicker showTime format={"MM/DD HH:mm"} minuteStep={15} />
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Save
+                </Button>
+              </Form.Item>
+            </Form>
+            <Collapse>
+              <Panel header={`Add new Qualifiers lobby`} key="1">
+                <Form name="basic" onFinish={this.onFinish}>
+                  <Form.Item label="Lobby Time" name="time">
+                    <DatePicker showTime format={"MM/DD HH:mm"} minuteStep={15} />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                      Add
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </Panel>
+            </Collapse>
+          </div>
         )}
 
         <div className="Schedule-list">
