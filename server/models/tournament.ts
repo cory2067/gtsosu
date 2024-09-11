@@ -6,6 +6,7 @@ interface TourneyStage {
   poolVisible: boolean;
   mappack: string;
   statsVisible: boolean;
+  rescheduleDeadline: Date;
 }
 
 interface ITournament {
@@ -39,6 +40,7 @@ const Tournament = new Schema<ITournament>({
       poolVisible: Boolean,
       mappack: String,
       statsVisible: Boolean,
+      rescheduleDeadline: Date,
     },
   ],
   rankMin: Number,
