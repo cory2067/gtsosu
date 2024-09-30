@@ -14,7 +14,7 @@ export default [
     fontAwesomeIcon: faBandcamp,
     gradientColor1: "rgba(27, 159, 194, 0.5)",
     gradientColor2: "rgba(27, 159, 194, 0.25)",
-    link: "https://gtsosu.bandcamp.com/",
+    link: "https://gratiaproductions.bandcamp.com/",
   },
   {
     smallText: "Find us on",
