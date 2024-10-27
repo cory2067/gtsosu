@@ -10,7 +10,7 @@ export default {
     merch: {
       title: "Merch",
       mainStore: "Main Store",
-      mousepads: "Mousepads",
+      mousepads: "Mousepads (now down)",
     },
     login: "Log In",
     logout: "Log Out",
