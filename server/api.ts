@@ -649,7 +649,6 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
  *   - stage: the new info for this stage
  */
 router.postAsync("/stage", ensure.isPooler, async (req, res) => {
-  logger.info(`${req.user.username} updated stage ${req.body.index} of ${req.body.tourney}`);
   const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
   tourney.stages[req.body.index].mappack = req.body.stage.mappack;
   tourney.stages[req.body.index].poolVisible = req.body.stage.poolVisible;
@@ -660,13 +659,31 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
     req.body.stage.statsVisible !== undefined &&
     req.body.stage.statsVisible != (tourney.stages[req.body.index].statsVisible ?? false)
   ) {
-    if (!isAdmin(req.user, req.body.tourney))
+    if (!isAdmin(req.user, req.body.tourney)) {
+      logger.warn(`${req.user.username} attempted to toggle stage stats visibility`);
       return res
         .status(403)
         .send({ error: "You don't have permission to toggle stage stats visibility" });
+    }
     tourney.stages[req.body.index].statsVisible = req.body.stage.statsVisible;
   }
 
+  // Only admin is allowed to change reschedule deadline
+  // (Only make this check when rescheduleDeadline is set in the request)
+  if (
+    req.body.stage.rescheduleDeadline !== undefined &&
+    new Date(req.body.stage.rescheduleDeadline).getTime() !== (tourney.stages[req.body.index].rescheduleDeadline.getTime())
+  ) {
+    if (!isAdmin(req.user, req.body.tourney)) {
+      logger.warn(`${req.user.username} attempted to edit stage reschedule deadline`);
+      return res
+        .status(403)
+        .send({ error: "You don't have permission to edit stage reschedule deadline" });
+    }
+    tourney.stages[req.body.index].rescheduleDeadline = req.body.stage.rescheduleDeadline;
+  }
+
+  logger.info(`${req.user.username} updated stage ${req.body.index} of ${req.body.tourney}`);
   await tourney.save();
   res.send(tourney);
 });
@@ -1084,30 +1101,45 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  *  - tourney: identifier of the tournament
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
-      req.body.lobby
-    } in ${req.body.tourney}`
-  );
-
   // Prevent non-admin signing up another player
-  if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
-  // Prevent non-registered player signing up self
-  if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
+  if (req.body.user && !isAdmin(req.user, req.body.tourney)) {
+    logger.warn(`${req.user.username} attempted to sign another player up`);
     return res.status(403).send({});
+  }
+  // Prevent non-registered player signing up self
+  if (!req.body.user && !req.user.tournies.includes(req.body.tourney)) {
+    logger.warn(`${req.user.username} attempted to sign up without being registered`);
+    return res.status(403).send({});
+  }
 
   const tourney = await Tournament.findOne({ code: req.body.tourney });
   const lobby = await QualifiersLobby.findOne({
     _id: req.body.lobby,
     tourney: req.body.tourney,
   });
+
+  // Prevent non-admin signing up after the deadline
+  const qualifiersStage = tourney?.stages.find(stage => stage.name === "Qualifiers")
+  if (!isAdmin(req.user, req.body.tourney) && new Date() > (qualifiersStage!.rescheduleDeadline ?? new Date(0))) {
+    logger.warn(`${req.user.username} attempted to reschedule after the deadline`);
+    return res.status(403).send({ message: "The reschedule deadline has passed" });
+  }
+
   // Prevent registered player signing up self for a full lobby
   if (
     tourney!.lobbyMaxSignups &&
     !req.body.user &&
     lobby!.players.length >= tourney!.lobbyMaxSignups
-  )
+  ) {
+    logger.warn(`${req.user.username} attempted to sign up to a full lobby`);
     return res.status(403).send({ message: "Lobby is full", updatedLobby: lobby });
+  }
+
+  logger.info(
+    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
+      req.body.lobby
+    } in ${req.body.tourney}`
+  );
 
   const toAdd =
     req.body.user ??
@@ -1137,6 +1169,18 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
  */
 router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   if (!isAdmin(req.user, req.body.tourney)) {
+    // Prevent non-admin signing up after the deadline
+    const tourney = await Tournament.findOne({ code: req.body.tourney });
+    const lobby = await QualifiersLobby.findOne({
+      _id: req.body.lobby,
+      tourney: req.body.tourney,
+    });
+    const qualifiersStage = tourney?.stages.find(stage => stage.name === "Qualifiers")
+    if (new Date() > (qualifiersStage!.rescheduleDeadline ?? new Date(0))) {
+      logger.warn(`${req.user.username} attempted to reschedule after the deadline`);
+      return res.status(403).send({ message: "The reschedule deadline has passed" });
+    }
+
     // makes sure the player has permission to do this
 
     if (req.body.teams) {
