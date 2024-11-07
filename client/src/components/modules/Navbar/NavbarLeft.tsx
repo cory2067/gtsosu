@@ -18,7 +18,7 @@ export function NavbarTitle(props: NavbarTitleProps) {
       <Typography
         className={`NavbarLeft-title ${props.tourney ? "NavbarLeft-title-inactive" : ""}`}
       >
-        GLOBAL <b>TAIKO</b> SHOWDOWN
+        GLOBAL <b>TAIKO</b> SHOWDOWN / <b>GRATIA</b> PRODUCTIONS
       </Typography>
       {props.tourney && (
         <>

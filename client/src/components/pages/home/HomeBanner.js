@@ -29,7 +29,7 @@ export default function HomeBanner() {
         <div className="HomeBanner-section-1-inner">
           <div className="u-flexRow u-flex-alignCenter">
             <img src="public/gts-osu.svg" className="HomeBanner-logo" />
-            <Typography className="HomeBanner-title">GLOBAL TAIKO SHOWDOWN</Typography>
+            <Typography className="HomeBanner-title">GLOBAL TAIKO SHOWDOWN / GRATIA PRODUCTIONS</Typography>
           </div>
           <Typography className="HomeBanner-description">{Content.description}</Typography>
         </div>
