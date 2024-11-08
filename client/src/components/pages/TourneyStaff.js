@@ -10,10 +10,10 @@ const { Panel } = Collapse;
 const roles = [
   "Host",
   "Developer",
-  "Mapsetter",
+  "Mappooler",
   "Head Pooler",
   "Mapper",
-  "All-Star Mapsetter",
+  "All-Star Mappooler",
   "Players Moderation Team",
   "Designer",
   "Composer",
@@ -32,9 +32,9 @@ const roles = [
 
 // The managerial roles that osu! officially considers as "staff"
 const managementRoles = [
-  "Mapsetter",
+  "Mappooler",
   "Showcase",
-  "All-Star Mapsetter",
+  "All-Star Mappooler",
   "Head Pooler",
   "Mapper",
   "Developer",

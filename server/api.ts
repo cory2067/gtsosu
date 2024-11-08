@@ -57,9 +57,9 @@ const canViewHiddenPools = (user: IUser, tourney: string) =>
   new UserAuth(user)
     .forTourney(tourney)
     .hasAnyRole([
-      UserRole.Mapsetter,
+      UserRole.Mappooler,
       UserRole.Showcase,
-      UserRole.AllStarMapSetter,
+      UserRole.AllStarMappooler,
       UserRole.HeadPooler,
       UserRole.Mapper,
       UserRole.Playtester,

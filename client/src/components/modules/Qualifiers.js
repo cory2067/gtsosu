@@ -39,8 +39,8 @@ class Qualifiers extends Component {
   isStaff = () =>
     hasAccess(this.props.user, this.props.tourney, [
       "Referee",
-      "Mapsetter",
-      "All-Star Mapsetter",
+      "Mappooler",
+      "All-Star Mappooler",
       "Head Pooler",
       "Mapper",
     ]);

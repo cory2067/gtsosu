@@ -51,8 +51,8 @@ class Mappools extends Component {
       this.props.user,
       this.props.tourney,
       this.state.current.name === "All Stars"
-        ? ["Mapsetter", "All-Star Mapsetter", "Head Pooler", "Mapper"]
-        : ["Mapsetter", "Head Pooler", "Mapper"]
+        ? ["Mappooler", "All-Star Mappooler", "Head Pooler", "Mapper"]
+        : ["Mappooler", "Head Pooler", "Mapper"]
     );
 
   sortMaps = (maps) => {

@@ -34,9 +34,9 @@ const scaleDiff = (diff: number, mod: string) => {
 
 const canViewHiddenPools = (user: IUser | undefined, tourney: string) =>
   checkPermissions(user, tourney, [
-    "Mapsetter",
+    "Mappooler",
     "Showcase",
-    "All-Star Mapsetter",
+    "All-Star Mappooler",
     "Head Pooler",
     "Mapper",
   ]);

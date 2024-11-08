@@ -3,7 +3,7 @@ import { Link } from "@reach/router";
 import { Menu, MenuItemProps, Typography } from "antd";
 import { LanguageContext, contentManager } from "../../../../ContentManager";
 
-const MERCH_LINK = "https://teespring.com/stores/gtsosu-store";
+const MERCH_LINK = "https://merch.gtsosu.com";
 const MOUSEPAD_LINK = "https://merch.streamelements.com/gtsosu";
 
 type RightMenuItemProps = MenuItemProps & {
