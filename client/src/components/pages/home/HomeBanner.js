@@ -38,7 +38,7 @@ export default function HomeBanner() {
         <iframe
           className="HomeBanner-media"
           src={`https://www.youtube.com/embed/${Content.bannerVideoID}?autoplay=1&showinfo=0&controls=0&autohide=1&mute=1&loop=1&playlist=${Content.bannerVideoID}`}
-          title="COEGTS 2023"
+          title="RespokE : GTS 2024"
           controls="0"
           allow="autoplay;"
         ></iframe>
