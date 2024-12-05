@@ -79,3 +79,15 @@ div .UserCard-form {
 .UserCard-bad {
   color: #cc3300;
 }
+
+.supporter-icon {
+  margin-left: 8px;
+  padding: 6px;
+  width: 12px;
+  height: 12px;
+  color: rgb(255,223,237);
+  border: rgb(255,223,237) solid 1px;
+  border-radius: 50%;
+  -webkit-filter: drop-shadow(0px 0px 2px rgb(255, 0, 255));
+  filter: drop-shadow(0px 0px 2px rgb(255, 0, 255));
+}
