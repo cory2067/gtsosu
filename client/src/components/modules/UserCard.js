@@ -1,5 +1,7 @@
 import React from "react";
 import { DeleteOutlined, CrownOutlined, HeartFilled } from "@ant-design/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import FlagIcon from "./FlagIcon";
 
 import { Popconfirm, Tooltip } from "antd";
@@ -23,13 +25,14 @@ export default function UserCard({
   const badRank = rankRange && (user.rank < rankRange[0] || user.rank > rankRange[1]);
   const cardStyle = {};
   if (user.cardImage) {
-    cardStyle.backgroundImage = `linear-gradient(#13141577, #2e313577), url("/public/cards/${user.cardImage}")`;
+    cardStyle.backgroundImage = `linear-gradient(#13141599, #2e313599), url("/public/cards/${user.cardImage}")`;
+    cardStyle.backgroundSize = "contain";
   }
   const seedInfo = stats && stats.seedName ? `${stats.seedName} Seed (#${stats.seedNum})${stats.group ? `, Group ${stats.group}` : ""}` : "";
 
   return (
     <div>
-      <div className={`UserCard-outside ${canEdit && showGroups ? "UserCard-wide" : ""}`}>
+      <div className={`UserCard-outside ${canEdit && showGroups ? "UserCard-wide" : ""}`} style={cardStyle}>
         {user.discord ? (
           <Tooltip title={`${user.discord}, ${timezone}`}>
             <div
@@ -40,14 +43,14 @@ export default function UserCard({
         ) : (
           <div style={{ backgroundImage: `url(${user.avatar})` }} className="UserCard-avatar"></div>
         )}
-        <div className="UserCard-content" style={cardStyle}>
-          <div className="UserCard-top">
+        <div className="UserCard-content">
+          <div className="UserCard-left">
             <div className={`UserCard-name ${user.username.length > 14 ? "UserCard-long" : ""}`}>
               {user.country && <FlagIcon code={user.country} />}
               <a href={`https://osu.ppy.sh/users/${user.userid}`}>{user.username}</a>
               {user.donations >= 5 && (
                 <Tooltip title={`GTS Supporter - Donated $${user.donations.toFixed(2)}`}>
-                  <HeartFilled className="UserCard-supporter" />
+                  <FontAwesomeIcon icon={faHeart} className="supporter-icon" />
                 </Tooltip>
               )}
               {canDelete && (
@@ -62,14 +65,14 @@ export default function UserCard({
               )}
               {user.isCaptain && <CrownOutlined className="UserCard-captain" />}
             </div>
-            {!hideRank && (
-              <div className={`UserCard-rank ${badRank ? "UserCard-bad" : ""}`}>
-                <span>{user.rank ? `#${user.rank}` : "No rank"}</span>
-              </div>
-            )}
+            {extra && <div className="UserCard-bot">{extra}</div>}
+            {seedInfo && <div className="UserCard-bot">{seedInfo}</div>}
           </div>
-          {extra && <div className="UserCard-bot">{extra}</div>}
-          {seedInfo && <div className="UserCard-bot">{seedInfo}</div>}
+          {!hideRank && (
+            <div className={`UserCard-rank ${badRank ? "UserCard-bad" : ""}`}>
+              <span>{user.rank ? `#${user.rank}` : "No rank"}</span>
+            </div>
+          )}
         </div>
         {canEdit && (
           <div>

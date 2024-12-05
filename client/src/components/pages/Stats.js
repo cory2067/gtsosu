@@ -470,7 +470,7 @@ export default function Stats({ tourney, user }) {
 
       return (
         <div>
-          <Popover content={popoverContent} placement="right">
+          <Popover content={popoverContent} placement="right" color="var(--dark-night)">
             <FlagIcon size={16} customIcon={theTeam.icon} code={theTeam.country} /> {teamName}
           </Popover>
         </div>
@@ -487,7 +487,7 @@ export default function Stats({ tourney, user }) {
 
       return (
         <div>
-          <Popover content={popoverContent} placement="right">
+          <Popover content={popoverContent} placement="right" color="var(--dark-night)">
             <FlagIcon size={16} code={thePlayer.country} /> {thePlayer.username}
           </Popover>
         </div>
