@@ -12,18 +12,21 @@ export type SettingsDialogProps = {
   setVisible: (boolean) => void;
 };
 
-let suppressedTimezoneUpdate = localStorage.getItem("suppressedTimezoneUpdate");
 function TimezoneModal(props) {
   const { onOk, onCancel, visible, user, timezone, loading } = props;
   function displayTimezoneOffset(offset) {
     return offset < 0 ? `UTC${offset}` : `UTC+${offset}`;
   }
+  let suppressedTimezoneUpdate = localStorage.getItem("suppressedTimezoneUpdate");
 
   return (
     <Modal
       okText="Yes"
       cancelText="No"
-      onOk={onOk}
+      onOk={() => {
+        localStorage.setItem("suppressedTimezoneUpdate", timezone);
+        onOk();
+      }}
       onCancel={() => {
         localStorage.setItem("suppressedTimezoneUpdate", timezone);
         onCancel();
@@ -46,18 +49,11 @@ function TimezoneModal(props) {
 export function SettingsDialog(props: SettingsDialogProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<any>({});
-  const [timezoneDiffers, setTimezoneDiffers] = useState(false);
   const [showTimezoneModal, setShowTimezoneModal] = useState(true);
   const [timezoneModalLoading, setTimezoneModalLoading] = useState(false);
 
   const browserTimezone = -(new Date().getTimezoneOffset() / 60);
-  if (
-    props.user.timezone !== undefined &&
-    browserTimezone != props.user.timezone &&
-    !timezoneDiffers
-  ) {
-    setTimezoneDiffers(true);
-  }
+  const timezoneDiffers = props.user.timezone !== undefined && browserTimezone != props.user.timezone;
 
   const isIncomplete = () =>
     props.user._id && (!props.user.discord || props.user.timezone === undefined);
@@ -92,6 +88,7 @@ export function SettingsDialog(props: SettingsDialogProps) {
       await post("/api/settings", {
         timezone: browserTimezone,
       });
+      props.setUser({ ...props.user, timezone: browserTimezone });
     } catch (e) {
       message.error("Failed to update time zone");
     }
