@@ -49,18 +49,11 @@ function TimezoneModal(props) {
 export function SettingsDialog(props: SettingsDialogProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<any>({});
-  const [timezoneDiffers, setTimezoneDiffers] = useState(false);
   const [showTimezoneModal, setShowTimezoneModal] = useState(true);
   const [timezoneModalLoading, setTimezoneModalLoading] = useState(false);
 
   const browserTimezone = -(new Date().getTimezoneOffset() / 60);
-  if (
-    props.user.timezone !== undefined &&
-    browserTimezone != props.user.timezone &&
-    !timezoneDiffers
-  ) {
-    setTimezoneDiffers(true);
-  }
+  const timezoneDiffers = props.user.timezone !== undefined && browserTimezone != props.user.timezone;
 
   const isIncomplete = () =>
     props.user._id && (!props.user.discord || props.user.timezone === undefined);
