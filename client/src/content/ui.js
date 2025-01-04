@@ -210,9 +210,9 @@ export default {
     },
     archives: "Archives",
     information: "Information",
-    donate: "Donate",
+    donate: "Donations",
     submissions: "Entry Submissions",
-    links: "Links",
+    links: "Liens",
   },
 
   es: {

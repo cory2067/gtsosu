@@ -1,27 +1,18 @@
 export default {
   title: "Global Taiko Showdown / Gratia Productions",
   description: "Welcome to the website of the biggest osu!taiko tournament series and a France-based music label, with multiple releases under our belt! Here, you can look at everything related to GTS, with pages for all our current and past tournaments, as well as our past original songs!",
-  bannerVideoID: "LOqDUSBgMe4", // Youtube video ID for the video in home banner
+  bannerVideoID: "H7fyykWplDI", // Youtube video ID for the video in home banner
   tournies: [
     {
-      title: "EGCS 2023",
-      fullTitle: "EXPERT GLOBAL CATCH SHOWDOWN 2023",
-      code: "egcs",
-      fullCode: "egcs_2023",
-      banner: "/public/backgrounds/egcs_2023.png",
+      title: "EGTS 2025",
+      fullTitle: "EXPERT GLOBAL TAIKO SHOWDOWN 2025",
+      code: "egts",
+      fullCode: "egts_2025",
+      banner: "/public/backgrounds/egts_2025.png",
       ongoing: "true",
       description: `
-      The Expert Global Catch Showdown is our first osu!catch tournament, targeted towards osu!catch top players, with the goal to bring a more balanced playing experience mappools-wise, with difficulty being drastically upped from any other open rank tournament in osu!catch. Only the top 16 of this tournament after qualifiers will be able to face-off in a heated double-elimination bracket.`,
-    },
-    {
-      title: "EGTS 2022",
-      fullTitle: "EXPERT GLOBAL TAIKO SHOWDOWN 2022",
-      code: "egts",
-      fullCode: "egts_2022",
-      banner: "/public/backgrounds/egts_2022.png",
-      description: `
-The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
-The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
+The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, without any rank limit. 
+The top 64 of it after qualifiers will face-off in a heated double-elimination bracket.`,
     },
     {
       title: "IGTS 2023",
@@ -63,6 +54,15 @@ The top 32 teams after qualifiers will then face off in a Group Stage, where 16 
 The cavoe's osu! event's Global Taiko Showdown, our first ever offline 1v1 tournament, with entirely custom songs.
 The top 16 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,
       banner: "/public/backgrounds/coegts_2023.png"
+    },
+    {
+      title: "EGCS 2023",
+      fullTitle: "EXPERT GLOBAL CATCH SHOWDOWN 2023",
+      code: "egcs",
+      fullCode: "egcs_2023",
+      banner: "/public/backgrounds/egcs_2023.png",
+      description: `
+      The Expert Global Catch Showdown is our first osu!catch tournament, targeted towards osu!catch top players, with the goal to bring a more balanced playing experience mappools-wise, with difficulty being drastically upped from any other open rank tournament in osu!catch. Only the top 16 of this tournament after qualifiers will be able to face-off in a heated double-elimination bracket.`,
     },
   ],
 };
