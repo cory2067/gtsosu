@@ -81,15 +81,13 @@ export function LoginButton(props: LoginButtonProps) {
 
   // Not logged in
   if (!user?.username) {
-    const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
-
     return (
       <Button
         type="primary"
         className={"login LoginButton-button"}
         onClick={() => login(setUser)}
       >
-        {UI.login}
+        {contentManager.getLocalizedString(useContext(LanguageContext), "login")}
       </Button>
     );
   }

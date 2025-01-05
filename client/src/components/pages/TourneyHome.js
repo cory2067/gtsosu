@@ -30,7 +30,6 @@ function TourneyHome({ tourney, user, setUser }) {
   const [showRegisterAsTeam, setShowRegisterAsTeam] = useState(false);
   const [teamModalLoading, setTeamModalLoading] = useState(false);
   const lang = useContext(LanguageContext);
-  const UI = contentManager.getLocalizedUI(lang);
 
   const infoRef = React.createRef();
   const rulesRef = React.createRef();
@@ -177,7 +176,7 @@ function TourneyHome({ tourney, user, setUser }) {
 
   const isRegistered = () => user.tournies && user.tournies.includes(tourney);
 
-  let regMessage = UI.register;
+  let regMessage = contentManager.getLocalizedString(useContext(LanguageContext), "register");
   let onRegClick = () => register(user);
   if (!user._id) {
     onRegClick = () => login(setUser).then((user) => register(user));
@@ -228,12 +227,12 @@ function TourneyHome({ tourney, user, setUser }) {
               <div className="TourneyHome-button-box">
                 <div>
                   <Button block size="large" onClick={() => scrollToRef(infoRef)}>
-                    {UI.information}
+                    {contentManager.getLocalizedString(useContext(LanguageContext), "information")}
                   </Button>
                 </div>
                 <div>
                   <Button block size="large" onClick={() => scrollToRef(rulesRef)}>
-                    {UI.rules}
+                    {contentManager.getLocalizedString(useContext(LanguageContext), "rules")}
                   </Button>
                 </div>
                 {content.links && (
@@ -256,7 +255,7 @@ function TourneyHome({ tourney, user, setUser }) {
                       }
                     >
                       <Button block size="large">
-                        {UI.links}
+                        {contentManager.getLocalizedString(useContext(LanguageContext), "links")}
                       </Button>
                     </Dropdown>
                   </div>
@@ -269,7 +268,7 @@ function TourneyHome({ tourney, user, setUser }) {
                 {content.submissions && (
                   <div>
                     <Button block size="large" target="_blank" href={content.submissions}>
-                      {UI.submissions}
+                      {contentManager.getLocalizedString(useContext(LanguageContext), "submissions")}
                     </Button>
                   </div>
                 )}
