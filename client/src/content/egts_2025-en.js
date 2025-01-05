@@ -13,7 +13,7 @@ export default {
     },
     {
       label: "Pick'ems",
-      link: "https://pickem.hwc.hr/tournaments/94"
+      link: "https://pickem.hwc.hr/tournaments/159"
     },
   ],
   homepage: [
