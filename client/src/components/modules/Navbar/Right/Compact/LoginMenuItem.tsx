@@ -6,16 +6,14 @@ import MenuItem, { MenuItemProps } from "antd/lib/menu/MenuItem";
 import { Menu, MenuProps, Typography } from "antd";
 
 export function LoginMenuItem(props: UserProps & MenuItemProps) {
-  const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
-
   const data = props.user?.userid
     ? {
         onClick: () => logout(props.setUser),
-        label: UI.logout,
+        label: contentManager.getLocalizedString(useContext(LanguageContext), "logout"),
       }
     : {
         onClick: () => login(props.setUser),
-        label: UI.login,
+        label: contentManager.getLocalizedString(useContext(LanguageContext), "login"),
       };
 
   return (

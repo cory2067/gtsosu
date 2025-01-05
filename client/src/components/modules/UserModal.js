@@ -54,7 +54,6 @@ function UserModal({
   onValuesChange,
 }) {
   const discordLoginFlow = () => showAuthPopup("/auth/login-discord", setUser);
-  const UI = contentManager.getLocalizedUI(useContext(LanguageContext));
 
   return (
     <Modal
@@ -69,21 +68,21 @@ function UserModal({
       </div>
 
       <Form {...layout} onValuesChange={onValuesChange} initialValues={user}>
-        <Form.Item label={UI.userSettings.discord}>
+        <Form.Item label={contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.discord")}>
           {user.discordId ? (
             <div>
               <span style={{ paddingRight: 8 }}>{user.discord}</span>
               <Button type="primary" onClick={discordLoginFlow}>
-                {UI.userSettings.discordUpdate}
+                {contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.discordUpdate")}
               </Button>
             </div>
           ) : (
             <Button type="primary" onClick={discordLoginFlow}>
-              {UI.userSettings.discordLink}
+              {contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.discordLink")}
             </Button>
           )}
         </Form.Item>
-        <Form.Item name="timezone" label={UI.userSettings.timezone}>
+        <Form.Item name="timezone" label={contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.timezone")}>
           <Select placeholder="UTC+0">
             {timezones.map((num) => (
               <Select.Option key={num} value={num}>
@@ -110,7 +109,7 @@ function UserModal({
       </Form>
 
       <div>
-        <span className="u-bold">{UI.userSettings.tournies}: </span>
+        <span className="u-bold">{contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.tournies")}: </span>
         {user.tournies && user.tournies.length ? user.tournies.join(", ") : "none"}
       </div>
     </Modal>
