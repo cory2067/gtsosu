@@ -172,6 +172,11 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   const rank = userData.pp.rank;
   const country = userData.country;
 
+  if (!tourney.registrationOpen) {
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (registrations closed)`);
+    return res.status(400).send({ error: `Registrations are closed.` });
+  }
+
   if ((tourney.blacklist || []).includes(userid)) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (blacklisted)`);
     return res.status(400).send({ error: `You are banned from participating in this tourney.` });
