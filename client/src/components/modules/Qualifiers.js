@@ -49,6 +49,9 @@ class Qualifiers extends Component {
     if (!this.props.user._id) return false;
     if (this.isStaff()) return false;
 
+    // Check if reschedule deadline has passed
+    if (new Date().getTime() > new Date(this.state.rescheduleDeadline ?? 0)) return false;
+
     // Check if lobby is full
     if (this.props.tournament.lobbyMaxSignups) {
       if (lobby.length >= this.props.tournament.lobbyMaxSignups) return false;
@@ -56,6 +59,9 @@ class Qualifiers extends Component {
       if (!this.props.teams && lobby.length >= 8) return false; // individual limit
       else if (this.props.teams && lobby.length >= 4) return false; // team limit
     }
+
+    // Check if player is registered
+    if (this.state.lookup?.[this.props.user.username] === undefined) return false;
 
     // Check if player is signed up to another lobby
     if (!this.props.teams) {

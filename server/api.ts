@@ -672,7 +672,7 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
   // (Only make this check when rescheduleDeadline is set in the request)
   if (
     req.body.stage.rescheduleDeadline !== undefined &&
-    new Date(req.body.stage.rescheduleDeadline).getTime() !== (tourney.stages[req.body.index].rescheduleDeadline.getTime())
+    new Date(req.body.stage.rescheduleDeadline).getTime() !== (tourney.stages[req.body.index].rescheduleDeadline?.getTime() || 0)
   ) {
     if (!isAdmin(req.user, req.body.tourney)) {
       logger.warn(`${req.user.username} attempted to edit stage reschedule deadline`);
@@ -680,7 +680,7 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
         .status(403)
         .send({ error: "You don't have permission to edit stage reschedule deadline" });
     }
-    tourney.stages[req.body.index].rescheduleDeadline = req.body.stage.rescheduleDeadline;
+    tourney.stages[req.body.index].rescheduleDeadline = new Date(req.body.stage.rescheduleDeadline);
   }
 
   logger.info(`${req.user.username} updated stage ${req.body.index} of ${req.body.tourney}`);
