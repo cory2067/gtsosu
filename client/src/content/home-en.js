@@ -55,15 +55,6 @@ The cavoe's osu! event's Global Taiko Showdown, our first ever offline 1v1 tourn
 The top 16 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,
       banner: "/public/backgrounds/coegts_2023.png"
     },
-    {
-      title: "EGCS 2023",
-      fullTitle: "EXPERT GLOBAL CATCH SHOWDOWN 2023",
-      code: "egcs",
-      fullCode: "egcs_2023",
-      banner: "/public/backgrounds/egcs_2023.png",
-      description: `
-      The Expert Global Catch Showdown is our first osu!catch tournament, targeted towards osu!catch top players, with the goal to bring a more balanced playing experience mappools-wise, with difficulty being drastically upped from any other open rank tournament in osu!catch. Only the top 16 of this tournament after qualifiers will be able to face-off in a heated double-elimination bracket.`,
-    },
   ],
 };
 
