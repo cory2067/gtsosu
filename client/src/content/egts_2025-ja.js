@@ -15,6 +15,10 @@ export default {
       label: "Pick'ems",
       link: "https://pickem.hwc.hr/tournaments/159"
     },
+    {
+      label: "Twitch",
+      link: "https://twitch.tv/gtsosu"
+    },
   ],
   homepage: [
     {
