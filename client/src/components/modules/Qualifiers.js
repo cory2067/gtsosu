@@ -43,6 +43,7 @@ class Qualifiers extends Component {
       "All-Star Mappooler",
       "Head Pooler",
       "Mapper",
+      "Playtester",
     ]);
 
   canRegister(lobby) {
