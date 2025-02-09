@@ -173,8 +173,8 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
   const country = userData.country;
 
   if (!tourney.registrationOpen) {
-    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (registrations closed)`);
-    return res.status(400).send({ error: `Registrations are closed.` });
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (closed)`);
+    return res.status(400).send({ error: `Registration for this tournament has closed` });
   }
 
   if ((tourney.blacklist || []).includes(userid)) {
