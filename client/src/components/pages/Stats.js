@@ -254,6 +254,9 @@ export default function Stats({ tourney, user }) {
   }, [state]);
 
   const isAdmin = () => hasAccess(user, tourney, []);
+  const canViewHiddenStats = () => hasAccess(
+    user, tourney, ["Referee", "Mappooler", "All-Star Mappooler", "Head Pooler", "Mapper", "Playtester", "Showcase"]
+  );
 
   const toggleStatsVisibility = async (visible) => {
     const index = state.currentSelectedStage.index;
@@ -843,7 +846,7 @@ export default function Stats({ tourney, user }) {
                 {state.currentSelectedTable === "team" && (
                   <Table
                     dataSource={
-                      (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                      (canViewHiddenStats() || state.currentSelectedStage.statsVisible) &&
                       state.overallTeamStats
                     }
                     pagination={false}
@@ -893,7 +896,7 @@ export default function Stats({ tourney, user }) {
                 {state.currentSelectedTable === "player" && (
                   <Table
                     dataSource={
-                      (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                      (canViewHiddenStats() || state.currentSelectedStage.statsVisible) &&
                       state.overallPlayerStats
                     }
                     pagination={false}
@@ -950,7 +953,7 @@ export default function Stats({ tourney, user }) {
                   {state.currentSelectedTable === "team" && (
                     <Table
                       dataSource={
-                        (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                        (canViewHiddenStats() || state.currentSelectedStage.statsVisible) &&
                         (getMapStats()?.teamScores || [])
                       }
                       pagination={false}
@@ -1007,7 +1010,7 @@ export default function Stats({ tourney, user }) {
                   {state.currentSelectedTable === "player" && (
                     <Table
                       dataSource={
-                        (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                        (canViewHiddenStats() || state.currentSelectedStage.statsVisible) &&
                         (getMapStats()?.playerScores || [])
                       }
                       pagination={false}
