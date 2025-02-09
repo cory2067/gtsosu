@@ -1356,7 +1356,7 @@ router.getAsync("/stage-stats", async (req, res) => {
     return;
   }
 
-  if (!isAdmin(req.user, req.query.tourney) && !theStage.statsVisible)
+  if (!canViewHiddenPools(req.user, req.query.tourney) && !theStage.statsVisible)
     return res.status(403).send({ error: "This stage's stats aren't released yet!" });
   const stageStats = await StageStats.findOne({
     tourney: req.query.tourney,
