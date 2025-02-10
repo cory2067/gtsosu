@@ -26,6 +26,7 @@ interface ITournament {
   discordServerId: string;
   mode: GameMode;
   category: TournamentCategory;
+  disableWarmups: boolean;
 }
 
 const Tournament = new Schema<ITournament>({
@@ -53,6 +54,7 @@ const Tournament = new Schema<ITournament>({
   discordServerId: String,
   mode: String,
   category: String,
+  disableWarmups: Boolean,
 });
 
 export { TourneyStage, ITournament };

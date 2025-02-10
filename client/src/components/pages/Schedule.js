@@ -719,15 +719,17 @@ class Schedule extends Component {
                         )
                       }
                     />
-                    <Column
-                      title="Warmup 1"
-                      dataIndex="warmup1"
-                      key="warmup1"
-                      className="u-textCenter"
-                      render={(url, match) => {
-                        return this.renderWarmup(url, match, 1);
-                      }}
-                    />
+                    {!this.state.tournament?.disableWarmups && (
+                      <Column
+                        title="Warmup 1"
+                        dataIndex="warmup1"
+                        key="warmup1"
+                        className="u-textCenter"
+                        render={(url, match) => {
+                          return this.renderWarmup(url, match, 1);
+                        }}
+                      />
+                    )}
                     <Column
                       title={this.state.teams ? "Team 2" : "Player 2"}
                       dataIndex="player2"
@@ -749,15 +751,17 @@ class Schedule extends Component {
                         )
                       }
                     />
-                    <Column
-                      title="Warmup 2"
-                      dataIndex="warmup2"
-                      key="warmup2"
-                      className="u-textCenter"
-                      render={(url, match) => {
-                        return this.renderWarmup(url, match, 2);
-                      }}
-                    />
+                    {!this.state.tournament?.disableWarmups && (
+                      <Column
+                        title="Warmup 2"
+                        dataIndex="warmup2"
+                        key="warmup2"
+                        className="u-textCenter"
+                        render={(url, match) => {
+                          return this.renderWarmup(url, match, 2);
+                        }}
+                      />
+                    )}
                     <Column
                       title="Score"
                       dataIndex="score2"
