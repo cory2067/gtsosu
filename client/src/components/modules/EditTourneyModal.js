@@ -113,6 +113,9 @@ export default function EditTourneyModal({
             <Select.Option key={"other"}>Other</Select.Option>
           </Select>
         </Form.Item>
+        <Form.Item name="disableWarmups" label="Disable Warmups" valuePropName="checked">
+          <Switch />
+        </Form.Item>
       </Form>
     </Modal>
   );

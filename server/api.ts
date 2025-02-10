@@ -610,6 +610,7 @@ router.getAsync("/tournament", async (req, res) => {
  *   - discordServerId: a Discord server ID to enforce membership of
  *   - mode: osu! gamemode (supports "taiko" or "catch")
  *   - category: category of the tourney
+ *   - disableWarmups: whether to disable warmups or not
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
@@ -634,6 +635,7 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.discordServerId = req.body.discordServerId;
   tourney.mode = req.body.mode;
   tourney.category = req.body.category;
+  tourney.disableWarmups = req.body.disableWarmups;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];

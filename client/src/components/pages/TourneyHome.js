@@ -67,6 +67,7 @@ function TourneyHome({ tourney, user, setUser }) {
         discordServerId: data.discordServerId || "",
         mode: data.mode || "taiko",
         category: data.category || "gts",
+        disableWarmups: data.disableWarmups || false,
       });
     })();
   }, [lang]);
