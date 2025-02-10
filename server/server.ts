@@ -21,7 +21,7 @@ const clientPromise = db.init();
 
 app.set("trust proxy", true);
 app.use(sslRedirect());
-app.use(express.json());
+app.use(express.json({ limit: '200kb' }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
