@@ -20,6 +20,7 @@ import {
   assertUser,
   getGamemodeId,
   getApiCompliantGamemode,
+  corsAsync,
 } from "./util";
 import { Request, BaseRequestArgs } from "./types";
 import { discordClient } from "./server";
@@ -492,9 +493,13 @@ router.getAsync("/staff", async (req, res) => {
   }
 
   const allStaff = await User.find({ "roles.0": { $exists: true } });
-  const allGtsTournies = (await Tournament.find({ category: { $in: ["gts", undefined] } }, "code")).map(tourney => tourney.code);
-  allStaff.forEach(user => user.roles = user.roles.filter(role => allGtsTournies.includes(role.tourney)));
-  const allStaffFiltered = allStaff.filter(user => user.roles.length > 0);
+  const allGtsTournies = (
+    await Tournament.find({ category: { $in: ["gts", undefined] } }, "code")
+  ).map((tourney) => tourney.code);
+  allStaff.forEach(
+    (user) => (user.roles = user.roles.filter((role) => allGtsTournies.includes(role.tourney)))
+  );
+  const allStaffFiltered = allStaff.filter((user) => user.roles.length > 0);
   res.send(allStaffFiltered);
 });
 
@@ -679,7 +684,8 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
   // (Only make this check when rescheduleDeadline is set in the request)
   if (
     req.body.stage.rescheduleDeadline !== undefined &&
-    new Date(req.body.stage.rescheduleDeadline).getTime() !== (tourney.stages[req.body.index].rescheduleDeadline?.getTime() || 0)
+    new Date(req.body.stage.rescheduleDeadline).getTime() !==
+      (tourney.stages[req.body.index].rescheduleDeadline?.getTime() || 0)
   ) {
     if (!isAdmin(req.user, req.body.tourney)) {
       logger.warn(`${req.user.username} attempted to edit stage reschedule deadline`);
@@ -827,7 +833,7 @@ router.postAsync("/edit-match", ensure.isAdmin, async (req, res) => {
  *   - tourney: identifier for the tournament
  *   - stage: the new info for this stage
  */
-router.getAsync("/matches", async (req, res) => {
+router.getAsync("/matches", corsAsync, async (req, res) => {
   const matches = await Match.find({ tourney: req.query.tourney, stage: req.query.stage }).sort({
     time: 1,
   });
@@ -1126,8 +1132,11 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   });
 
   // Prevent non-admin signing up after the deadline
-  const qualifiersStage = tourney?.stages.find(stage => stage.name === "Qualifiers")
-  if (!isAdmin(req.user, req.body.tourney) && new Date() > (qualifiersStage!.rescheduleDeadline ?? new Date(0))) {
+  const qualifiersStage = tourney?.stages.find((stage) => stage.name === "Qualifiers");
+  if (
+    !isAdmin(req.user, req.body.tourney) &&
+    new Date() > (qualifiersStage!.rescheduleDeadline ?? new Date(0))
+  ) {
     logger.warn(`${req.user.username} attempted to reschedule after the deadline`);
     return res.status(403).send({ message: "The reschedule deadline has passed" });
   }
@@ -1182,7 +1191,7 @@ router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
       _id: req.body.lobby,
       tourney: req.body.tourney,
     });
-    const qualifiersStage = tourney?.stages.find(stage => stage.name === "Qualifiers")
+    const qualifiersStage = tourney?.stages.find((stage) => stage.name === "Qualifiers");
     if (new Date() > (qualifiersStage!.rescheduleDeadline ?? new Date(0))) {
       logger.warn(`${req.user.username} attempted to reschedule after the deadline`);
       return res.status(403).send({ message: "The reschedule deadline has passed" });

@@ -8,6 +8,8 @@ import Team, { PopulatedTeam } from "./models/team";
 import Tournament from "./models/tournament";
 import assert from "assert";
 import { IMatch } from "./models/match";
+import { NextFunction, Response } from "express";
+import cors from "cors";
 
 // Shared utilities used across the backend
 
@@ -63,3 +65,11 @@ const MODE_TO_ID: Record<GameMode, 0 | 1 | 2 | 3> = {
 };
 export const getGamemodeId = (mode?: GameMode) => (mode ? MODE_TO_ID[mode] : 1); // default to taiko
 export const getApiCompliantGamemode = (mode?: GameMode) => (mode === "catch" ? "fruits" : mode);
+
+export const corsAsync = async (
+  req: Request<any, any>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  return cors()(req, res, next);
+};
