@@ -46,7 +46,7 @@
     "node-fetch": "^2.6.7",
     "node-osu": "^2.2.0",
     "nodemon": "^2.0.15",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "passport-oauth2": "^1.6.1",
     "patch-package": "^6.4.7",
