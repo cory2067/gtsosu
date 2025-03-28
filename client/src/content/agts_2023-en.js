@@ -1,7 +1,7 @@
 export default {
     name: "Advanced Global Taiko Showdown",
     description:
-      "The Advanced Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for advanced level players being restricted for ranks #500 to #1,500. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
+      "The Advanced Global Taiko Showdown. It is our 2v2 tournament for advanced level players being restricted for ranks #500 to #1,500. The teams will first play in a qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.",
     links: [
       {
         label: "Discord",
