@@ -77,8 +77,14 @@ It is recommended to find an agreement as fast as possible to then decide on the
  - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches.
 
 # Stage Regulations
- - There are seven stages in this tournament: the Qualifiers, the Group Stage, the RO16, the Quarterfinals, the Semifinals, the Finals and the Grand Finals.
- - The team will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds : Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part)
+  ![](https://motheroftaiko.s-ul.eu/oIDm9ntV)
+  - There are 4 main stages in this tournament: the Qualifiers, the Group Stage, the Runoff Bracket, the Main Bracket.
+  - Teams will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part)
+  - Teams seeded 1-16 skip the first week.
+  - **Group Stage**
+    - Teams seeded 17-32 will be drawn in **4 groups of 4 teams** during a drawing show which will happen on Sunday April 13th.
+    - In the Group Stage all the teams from each group will face each other. The **best 2 teams** get out of their group.
+    - Rankings of each group are determined by sorting the results of each team's performance in the following priority:
  - Teams will be drawn in **8 groups of 4 teams** during a drawing show which will happen on Sunday June 7th.
  - In the Group Stage all the teams from each group will face each other. The **best 2 teams** get out of groups.
  - Rankings of each group are determined by sorting the results of each team's performance in the following priority: 
