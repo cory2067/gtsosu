@@ -21,7 +21,7 @@ export default {
       },
       {
         label: "Pick'ems",
-        link: ""
+        link: "https://pickem.hwc.hr/tournaments/168"
       },
     ],
     homepage: [
