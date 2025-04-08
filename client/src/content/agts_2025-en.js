@@ -184,7 +184,7 @@ export default {
   - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages.
   - The size of the NoMod bracket will be 4 in Week 1; 5 in  Week 2 and Week 3; 6 for Week 4, Week 5 and Week 6.
   - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least one player of each team must have at least one mod activated**.
-  - Players must select **different mod combinations** per team. **Both players using Hidden, HardRock or Hidden+HardRock is disallowed**.
+  - Players can select **any mod combination** per team. Any of the following are allowed: Hidden + Hidden, HardRock + HardRock, Hidden + HardRock, Hidden & HardRock + Hidden, Hidden & HardRock + HardRock, Hidden & HardRock + Hidden & HardRock, Hidden + NoMod, HardRock + NoMod, and Hidden & HardRock + NoMod. The only disallowed option is NoMod + NoMod.
   - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated.
   - The mappool for each stage will be showcased a week beforehand.
   
