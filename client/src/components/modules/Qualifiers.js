@@ -22,11 +22,11 @@ class Qualifiers extends Component {
   async componentDidMount() {
     this.getLobbies();
 
-    const participants = await (this.props.teams
-      ? get("/api/teams", { tourney: this.props.tourney })
-      : get("/api/players", { tourney: this.props.tourney }));
-    const lookup = Object.fromEntries(participants.map((p) => [p.name || p.username, p]));
-    this.setState({ lookup });
+    const teams = await get("/api/teams", { tourney: this.props.tourney });
+    const players = await get("/api/players", { tourney: this.props.tourney });
+    const teamLookup = Object.fromEntries(teams.map((p) => [p.name, p]));
+    const playerLookup = Object.fromEntries(players.map((p) => [p.username, p]));
+    this.setState({ teamLookup, playerLookup });
   }
 
   async getLobbies() {
@@ -61,7 +61,7 @@ class Qualifiers extends Component {
     }
 
     // Check if player is registered
-    if (this.state.lookup?.[this.props.user.username] === undefined) return false;
+    if (this.state.playerLookup?.[this.props.user.username] === undefined) return false;
 
     // Check if player is signed up to another lobby
     if (!this.props.teams) {
@@ -398,7 +398,7 @@ class Qualifiers extends Component {
           handleOk={this.handleAddPlayer}
           handleCancel={() => this.setState({ addPlayerModalVisible: false })}
           onValuesChange={(changed, data) => this.setState({ addPlayerData: data.username })}
-          options={this.state.lookup}
+          options={this.props.teams ? this.state.teamLookup : this.state.playerLookup}
         />
         <SubmitLobbyModal
           visible={this.state.submitLobbyModalVisible}
