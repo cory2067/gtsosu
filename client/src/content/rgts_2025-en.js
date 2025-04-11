@@ -181,9 +181,9 @@ export default {
   - The Qualifiers pool will be different from all the other rounds as it will have a format of 3 NoMod maps, 1 Hidden map, 1 HardRock map, 1 DoubleTime map and 1 FreeMod map.
   - The Loser's Bracket will play on the same pool as the Winner's bracket of the same weekend.
   - Each mappool consists of 6 brackets: NoMod, Hidden, HardRock, DoubleTime, FreeMod and Tiebreaker.
-  - The Week 1 mappool will consist of 13 maps. Week 2 and Week 3 mappool will consist of 14 maps. Week 4, Week 5 and Week 6 mappool will consist of 15 maps.
+  - The Week 1 mappool will consist of 13 maps. Week 2 and Week 3 mappool will consist of 15 maps. Week 4, Week 5 and Week 6 mappool will consist of 16 maps.
   - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages.
-  - The size of the NoMod bracket will be 4 in Week 1, Week 2 and Week 3; 5 in Week 4, Week 5 and Week 6.
+  - The size of the NoMod bracket will be 4 in Week 1; 5 in Week 2 and Week 3; 6 in Week 4, Week 5 and Week 6.
   - The size of the FreeMod bracked will be 2 in Week 1; 3 for the rest of the tournament.
   - The FreeMod pool is played with FreeMod activated. Every individual player can pick **Hidden, HardRock or both**. **At least one player of each team must have at least one mod activated**.
   - Players can select **any mod combination** per team. Any of the following are allowed: Hidden + Hidden, HardRock + HardRock, Hidden + HardRock, Hidden & HardRock + Hidden, Hidden & HardRock + HardRock, Hidden & HardRock + Hidden & HardRock, Hidden + NoMod, HardRock + NoMod, and Hidden & HardRock + NoMod. The only disallowed option is NoMod + NoMod.
