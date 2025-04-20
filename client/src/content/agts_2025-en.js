@@ -9,7 +9,7 @@ export default {
       },
       {
         label: "Challonge Week 1: Group Stage",
-        link: ""
+        link: "https://challonge.com/agts25w1"
       },
       {
         label: "Challonge Week 2: Runoff Bracket",
