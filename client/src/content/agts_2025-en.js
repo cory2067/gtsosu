@@ -12,8 +12,8 @@ export default {
         link: "https://challonge.com/agts25w1"
       },
       {
-        label: "Challonge Week 2: Runoff Bracket",
-        link: ""
+        label: "Sheet Week 2: Runoff Bracket",
+        link: "https://docs.google.com/spreadsheets/d/1IWc63jUpfiROGi3Smg3U80AM-1yIE4Es2EplQ3gduJQ/edit?gid=0#gid=0"
       },
       {
         label: "Challonge Week 3-6: Main Bracket",
