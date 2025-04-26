@@ -576,6 +576,27 @@ export default function Stats({ tourney, user }) {
     }
   };
 
+  const clearAllScores = async () => {
+    if (confirm("Clear all the scores for this stage?")) {
+      setState({
+        ...state,
+        refetchScoresInProgress: true,
+      });
+      const emptyStats = {
+        ...state.stageStats,
+        maps: [],
+      };
+      const updatedStats = await post("/api/stage-stats", { tourney, stats: emptyStats });
+      setState({
+        ...state,
+        stageStats: updatedStats,
+        inEditMode: false,
+        stageStatsEdit: undefined,
+        recalculateStats: true,
+      });
+    }
+  }
+
   const assignSeeds = async () => {
     const isTeamsTourney = !!state.tourneyModel?.teams;
     if (isTeamsTourney) {
@@ -735,6 +756,11 @@ export default function Stats({ tourney, user }) {
                   {!state.refetchScoresInProgress && (
                     <Button className="settings-button" type="primary" onClick={refetchAllScores}>
                       Refetch all scores
+                    </Button>
+                  )}
+                  {!state.refetchScoresInProgress && (
+                    <Button className="settings-button" type="primary" onClick={clearAllScores}>
+                      Clear all scores
                     </Button>
                   )}
                   {state.refetchScoresInProgress && <Spin />}
