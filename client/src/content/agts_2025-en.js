@@ -17,7 +17,7 @@ export default {
       },
       {
         label: "Challonge Week 3-6: Main Bracket",
-        link: ""
+        link: "https://challonge.com/agts25"
       },
       {
         label: "Pick'ems",
@@ -104,7 +104,7 @@ export default {
     - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches.
   
   # Stage Regulations
-  ![](https://motheroftaiko.s-ul.eu/oIDm9ntV)
+  ![](https://motheroftaiko.s-ul.eu/l91wADBm)
   - There are 4 main stages in this tournament: the Qualifiers, the Group Stage, the Runoff Bracket, the Main Bracket.
   - Teams will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part)
   - Teams seeded 1-16 skip the first week.
