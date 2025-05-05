@@ -67,9 +67,9 @@ July 19th untl July 20th.`,
  - One member of the team will need to be the captain. This should be decided before you sign up.
  - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches.
  - To sign up, the captain will need to register your entire team via the 'register' button on the home page. 
-    - The person in the first slot is the captain. This will be filled in automatically with the player who is registering, hence why the captain needs to be the one registering.
-	- You must add a custom team name.
-	- You can add a custom flag, a link to an image of size 70x47. This isn't mandatory, but leaving this blank means the country flag of the team captain is taken as your team's flag. When uploading this flag, please do not use Discord links. These links do not work reliably outside of Discord. Please upload using direct image links (Has the file extension at the end of the URL), with sites such as Imgur, s-ul, etc...
+ - The person in the first slot is the captain. This will be filled in automatically with the player who is registering, hence why the captain needs to be the one registering.
+ - You must add a custom team name.
+ - You can add a custom flag, a link to an image of size 70x47. This isn't mandatory, but leaving this blank means the country flag of the team captain is taken as your team's flag. When uploading this flag, please do not use Discord links. These links do not work reliably outside of Discord. Please upload using direct image links (Has the file extension at the end of the URL), with sites such as Imgur, s-ul, etc...
 - One of the hosts will give you your team and player roles in the discord, as well as access to a team chat. It might take some time before this is done as this needs to be done manually.
 - Teams will be numbered in order of signup. This number will be used for your team chat, as well as your teamname if you do not submit a custom teamname.
 
