@@ -4,15 +4,15 @@ export default {
   bannerVideoID: "o4k6xKedSJg", // Youtube video ID for the video in home banner
   tournies: [
     {
-      title: "IGTS 2023",
-      fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2023",
+      title: "IGTS 2025",
+      fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2025",
       code: "igts",
-      fullCode: "igts_2023",
-      banner: "/public/backgrounds/igts_2023.png",
+      fullCode: "igts_2025",
+      banner: "/public/backgrounds/igts_2025.png",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
 It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. 
-The teams will first go through Qualifiers. Then they will play in a Group Stage, a Runoff Bracket and finally in a Double-elimination Bracket.`,
+The teams will first go through Qualifiers. Then they will play in a special double elimination bracket.`,
     },
     {
       title: "SGTS 2025",
