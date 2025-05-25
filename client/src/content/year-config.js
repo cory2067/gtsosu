@@ -5,7 +5,7 @@ export default {
   bgts: 2020,
   cgts: 2021,
   egts: 2025,
-  igts: 2023,
+  igts: 2025,
   lgts: 2021,
   rgts: 2025,
   sgts: 2025,
