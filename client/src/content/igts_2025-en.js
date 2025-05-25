@@ -3,6 +3,17 @@ export default {
     description:
       "The Intermediate Global Taiko Showdown, the founding tournament of this series. It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. The teams will first play in a qualifiers. Then they will play in a slightly modified Double-elimination Bracket (more in the rules).",
     discord: "https://discord.gg/a6PzzFz",
+        links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Forum post",
+        link: ""
+      },
+
+    ],
     homepage: [
       {
         title: "Restrictions",
@@ -166,4 +177,3 @@ export default {
     - Same rules as a normal match for disconnections.
     `,
   };
-  
