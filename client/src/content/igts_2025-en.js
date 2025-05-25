@@ -39,7 +39,7 @@ export default {
   June 1st until June 7th.
   ### Qualifiers
   June 7th until June 8th.
-  ### Special round 1
+  ### Week 1/Special Round 1
   June 14th until June 15th.
   ### Round Of 16 + Loser's Bracket Round 1
   June 21st until June 22nd.
@@ -63,7 +63,7 @@ export default {
     rules: `
   # General Rules
   - This tournament is a **2v2 team tournament** with teams of **5 players maximum**.
-  - The teams will first go through **Qualifiers**. Then they will play in a ** Modified Double-elimination Bracket**.
+  - The teams will first go through **Qualifiers**. Then they will play in a **Special Double-elimination Bracket**.
   - The Score System used will be **Score V2**.
   - Any player who meets the requirements stated in the rank restrictions part is allowed to sign up. Since this tournament will not be badged, some players may be declined by GTS staff if they are deemed too skilled for the tournament despite being in the rank range.
   - Any member of **staff** (**Organizers, Mappoolers, Playtesters/Replayers, Custom Mappers and Referees**) is not allowed to play. Other positions considered as **helpers** (**Commentators**, **Streamers**, ...) are allowed to play.
@@ -75,7 +75,7 @@ export default {
   # Tournament Registration and Teams Creation
   - In order to participate you need to meet the criteria stated in the **rank restrictions** part.
   - You are not allowed to rank up further than #4500 during the registration period and then further than #4000 during the actual tournament. If you pass this limit you'll be disqualified.
-  - GTS staff can refuse a player from participating in the tournament if they deem his skill is much higher than the targeted rank range.
+  - GTS staff can refuse a player from participating in the tournament if they deem their skill is much higher than the targeted rank range.
   - Players sign up individually. When their registration is accepted, they will get a country role.
   - A country needs **at least 2 players** to participate.
   - Players from countries or territories (as seen on their profile flag) that are under a protectorate, sovereign state, or otherwise closely related to another country may choose to play for that country if the country listed on their profile is unable to field enough players to form a valid team.
@@ -95,16 +95,16 @@ export default {
     - The captain is going to be the one to reschedule a match if needed and will ensure that his teammates are here for the matches.
   
   # Stage Regulations
-![](https://mega.nz/file/rOhiXCZI#TSTeo1sd9SxDN9DxF_4iQ70lj6FK5N1Nkh_BM_6UDWI)
-  - There are 2 main stages in this tournament: the Special Round 1 and the Main Bracket. Most information can be found on the visual in this part.
+![](https://briesmas.s-ul.eu/0G5clM3K)
+  - There are 2 main stages in this tournament: the Special Round 1 and the Main Bracket. Most information can be found on the graphic in this part.
   - Teams will be seeded with the average of their ranks on each map during the Qualifiers round in 4 seeds: Top seed, High seed, Low seed and Unseeded. (The seeding process is explained more precisely in the Qualifers Instructions part)
-  - Teams seeded 1-8 will skip the first week and join the Main Bracket according to the visual.
+  - Teams seeded 1-8 will skip the first week and join the Main Bracket according to the above graphic.
   - **Special Round 1**
-    - The High, Low and Unseeded teams will be playing in a small bracket according to the visual. This will put them at difference spots in the Main Bracket joining the Top seeded teams.
+    - The High, Low and Unseeded teams will be playing in a small bracket according to the above graphic. This will put them at difference spots in the Main Bracket joining the Top seeded teams.
   - **Main Bracket**
-    - From this stage, the tournament will follow a classic double-elimination bracket format with teams slotted in Winner and Loser Bracket according to the visual.
+    - From this stage, the tournament will follow a classic double-elimination bracket format with teams slotted in Winner and Loser Bracket according to the above graphic.
   - The winning condition for each stage is:
-    - **Special Round 1: BO9 (win 5 maps)**
+    - **Week 1/Special Round 1: BO9 (win 5 maps)**
     - **Round Of 16 + Quarterfinals + Semifinals + Loser's Bracket Round 1, 2, 3 and 4: BO11 (win 6 maps)**
     - **Finals, Grand Finals + Loser's Bracket Round 5 and Finals: BO13 (win 7 maps)**
   
