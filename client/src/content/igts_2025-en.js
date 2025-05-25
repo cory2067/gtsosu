@@ -11,7 +11,6 @@ export default {
         label: "Forum post",
         link: "https://osu.ppy.sh/community/forums/topics/2083865?n=1"
       },
-
     ],
     homepage: [
       {
