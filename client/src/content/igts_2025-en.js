@@ -125,7 +125,6 @@ export default {
   - If neither of both teams have the minimum required players after 10 minutes it will count as a loss for both teams in Group Stage. In the Runoff Bracket or the Main Bracket the highest seeded team will advance.
   - The match will be played as TeamVs and ScoreV2 and the name of the room must be: "IGTS 2025: (Team Red) vs (Team Blue)".
   - There will be no warmups and timeouts.
-  - If a team does not respect the time said in the rule above, they will not have any warm-up for their match.
   - Each captain has to ban **one beatmap** from the pool (apart from Tiebreaker). These beatmaps are not allowed to be picked by any team in the entire match.
   - The captain of each team will roll with the command "!roll" in the chat.
   - The team with the highest roll **bans second and picks first**. The team with the lowest roll **bans first and picks second**.
@@ -164,8 +163,8 @@ export default {
   # All-Star Rules
   - All-Star is a fun event taking place on the same weekend as the Grand Finals!
   It'll showcase the best players of the tournament playing against each other in a special match.
-  - 12 players will participate in this event. They will be decided by vote.
-  - The top 8 players will play in All-Star. If there are more than 2 players from a country in the top 8 most voted players only the 2 best will partake in All-Star.
+  - 10 players will participate in this event. They will be decided by vote.
+  - The top 10 players will play in All-Star. If there are more than 2 players from a country in the top 10 most voted players only the 2 best will partake in All-Star.
   - The top 2 players will be captains of each team. The rest of the teams will be decided by the hosts.
   - The Grand Finals mappool will be used.
   - The event will be a 4 vs 4 match with the following rules:
