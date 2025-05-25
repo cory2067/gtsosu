@@ -9,6 +9,7 @@ export default {
       code: "igts",
       fullCode: "igts_2025",
       banner: "/public/backgrounds/igts_2025.png",
+      ongoing: "true",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
 It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. 
@@ -30,7 +31,6 @@ The teams will first go through Qualifiers. Then they will play in a special dou
       code: "agts",
       fullCode: "agts_2025",
       banner: "public/backgrounds/agts_2025.png",
-      ongoing: "true",
       description: `
 The Advanced Global Taiko Showdown, our 2v2 tournament for advanced-level players, being restricted for ranks #500 to #1,500. 
 The top 32 teams, after Qualifiers, will face off in a Group Stage, then a Runoff Bracket, and finally play in a Double-Elimination Bracket.`,
@@ -41,7 +41,6 @@ The top 32 teams, after Qualifiers, will face off in a Group Stage, then a Runof
       code: "rgts",
       fullCode: "rgts_2025",
       banner: "public/backgrounds/rgts_2025.png",
-      ongoing: "true",
       description: `
 The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, being restricted for ranks #1,500 to #4,500.
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
