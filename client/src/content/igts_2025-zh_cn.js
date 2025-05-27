@@ -2,7 +2,16 @@ export default {
     name: "全球中级太鼓锦标赛",
     description:
       "全球中级太鼓锦标赛，是本系列锦标赛的初创赛事。这是一个排名限制在4500到10000名，面向中级玩家的二对二锦标赛。所有队伍需要首先参加资格赛，然后进入一个特殊的双败淘汰赛（详细见规则）。",
-    discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Forum post",
+        link: "https://osu.ppy.sh/community/forums/topics/2083865?n=1"
+      },
+    ],
     homepage: [
       {
         title: "注册限制",
@@ -84,13 +93,12 @@ export default {
     - 队长是比赛改期的负责人。他也必须确保他的队友在场比赛。
   
   # 阶段规则
-![](https://mega.nz/file/rOhiXCZI#TSTeo1sd9SxDN9DxF_4iQ70lj6FK5N1Nkh_BM_6UDWI)
+![](https://briesmas.s-ul.eu/0G5clM3K)
   - 本赛事共有2个主要阶段：特殊第一轮和正赛。更多信息参考本节附图。
   - 我们将根据每支队伍在资格赛中的结果，把队伍分为4个级别：顶级，高级，低级和无级别。（更多关于分级的信息请参考资格赛介绍）
   - 资格赛排名1-8的队伍将会跳过第一周的比赛直接晋级正赛。（见图）
   - **特殊第一轮**
-    - The High, Low and Unseeded teams will be playing in a small bracket according to the visual. This will put them at difference spots in the Main Bracket joining the Top seeded teams.
-高级，低级和无级别队伍会
+    - 高级，低级和无级别队伍会分配到一个小型的对阵表中。（见图）最后根据结果与顶级队伍再分配到正赛的对阵表中。
   - **正赛**
     - 在这一阶段，将以经典的双败淘汰赛制进行比赛。各支队伍会被分配到胜者组和败者组。（见图）
   - 每个阶段的胜利条件是：
