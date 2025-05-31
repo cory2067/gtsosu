@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import "./Stats.css";
-import { get, post, prettifyTourney, hasAccess, getStageWithVisibleStats } from "../../utilities";
-import { Layout, Table, Menu, Form, Switch, message, Button, InputNumber, Spin, Tooltip, Radio, Popover } from "antd";
-import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
-const { Content } = Layout;
-const { Column, ColumnGroup } = Table;
+import { MinusOutlined } from "@ant-design/icons";
+import { Button, Form, InputNumber, Layout, Menu, Popover, Radio, Spin, Switch, Table, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { get, getStageWithVisibleStats, hasAccess, post, prettifyTourney } from "../../utilities";
 import AddPlayerModal from "../modules/AddPlayerModal";
 import FlagIcon from "../modules/FlagIcon";
 import StageSelector from "../modules/StageSelector";
-import UserCard from "../modules/UserCard";
 import TeamCard from "../modules/TeamCard";
+import UserCard from "../modules/UserCard";
+import "./Stats.css";
+const { Content } = Layout;
+const { Column, ColumnGroup } = Table;
 
 export default function Stats({ tourney, user }) {
   const [state, setState] = useState({
@@ -35,6 +35,7 @@ export default function Stats({ tourney, user }) {
     refetchDataInProgress: false,
     refetchScoresInProgress: false,
     assignSeedsInProgress: false,
+    fillMissingScoresInProgress: false,
     freemodFilter: "none",
   });
 
@@ -57,14 +58,14 @@ export default function Stats({ tourney, user }) {
 
     // process, sort, and rank the stats for each map, while tracking overall stats
     for (const mapStats of state.stageStats.maps || []) {
-      const mod = state.stageMaps.find((stageMap) => stageMap.mapId === mapStats.mapId).mod;
+      const mod = state.stageMaps.find((stageMap) => stageMap.mapId === mapStats.mapId)?.mod;
       const sortedPlayerScores = [...mapStats.playerScores].sort((a, b) => b.score - a.score);
       const sortedTeamScores = [...mapStats.teamScores].sort((a, b) => b.score - a.score);
       const processedPlayerScores = [];
       const processedTeamScores = [];
 
       let currentRank = 1;
-      let currentScore;
+      let currentScore = undefined;
       let currentFilteredRank = 0;
       let ties = 0;
       let currentFilteredScore;
@@ -72,7 +73,7 @@ export default function Stats({ tourney, user }) {
         const playerScore = sortedPlayerScores[i];
         const filterActive = (mod === "FM" || mod === "TB") && state.freemodFilter !== "none";
         const matchesFreemodFilter = state.freemodFilter === playerScore.mod;
-        if (!currentScore || playerScore.score < currentScore) {
+        if (currentScore === undefined || playerScore.score < currentScore) {
           currentRank = i + 1;
           currentScore = playerScore.score;
         }
@@ -117,7 +118,7 @@ export default function Stats({ tourney, user }) {
       currentScore = undefined;
       for (let i = 0; i < sortedTeamScores.length; i++) {
         const teamScore = sortedTeamScores[i];
-        if (!currentScore || teamScore.score < currentScore) {
+        if (currentScore === undefined || teamScore.score < currentScore) {
           currentRank = i + 1;
           currentScore = teamScore.score;
         }
@@ -253,6 +254,9 @@ export default function Stats({ tourney, user }) {
   }, [state]);
 
   const isAdmin = () => hasAccess(user, tourney, []);
+  const canViewHiddenStats = () => hasAccess(
+    user, tourney, ["Referee", "Mappooler", "All-Star Mappooler", "Head Pooler", "Mapper", "Playtester", "Showcase"]
+  );
 
   const toggleStatsVisibility = async (visible) => {
     const index = state.currentSelectedStage.index;
@@ -469,7 +473,7 @@ export default function Stats({ tourney, user }) {
 
       return (
         <div>
-          <Popover content={popoverContent} placement="right">
+          <Popover content={popoverContent} placement="right" color="var(--dark-night)">
             <FlagIcon size={16} customIcon={theTeam.icon} code={theTeam.country} /> {teamName}
           </Popover>
         </div>
@@ -486,7 +490,7 @@ export default function Stats({ tourney, user }) {
 
       return (
         <div>
-          <Popover content={popoverContent} placement="right">
+          <Popover content={popoverContent} placement="right" color="var(--dark-night)">
             <FlagIcon size={16} code={thePlayer.country} /> {thePlayer.username}
           </Popover>
         </div>
@@ -572,6 +576,27 @@ export default function Stats({ tourney, user }) {
     }
   };
 
+  const clearAllScores = async () => {
+    if (confirm("Clear all the scores for this stage?")) {
+      setState({
+        ...state,
+        refetchScoresInProgress: true,
+      });
+      const emptyStats = {
+        ...state.stageStats,
+        maps: [],
+      };
+      const updatedStats = await post("/api/stage-stats", { tourney, stats: emptyStats });
+      setState({
+        ...state,
+        stageStats: updatedStats,
+        inEditMode: false,
+        stageStatsEdit: undefined,
+        recalculateStats: true,
+      });
+    }
+  }
+
   const assignSeeds = async () => {
     const isTeamsTourney = !!state.tourneyModel?.teams;
     if (isTeamsTourney) {
@@ -638,6 +663,53 @@ export default function Stats({ tourney, user }) {
     }
   };
 
+  const fillMissingScores = async () => {
+    const stageStatsCopy = JSON.parse(JSON.stringify(state.stageStats));
+    for (let stageMap of state.stageMaps) {
+      let mapStats = stageStatsCopy.maps.find((mapStats) => mapStats.mapId === stageMap.mapId);
+      if (mapStats === undefined) {
+        mapStats = {
+          mapId: stageMap.mapId,
+          playerScores: [],
+          teamScores: [],
+        };
+        stageStatsCopy.maps.push(mapStats);
+      }
+
+      const isTeamsTourney = !!state.tourneyModel?.teams;
+      if (isTeamsTourney) {
+        const existingTeamNames = mapStats.teamScores.map(teamScore => teamScore.teamName);
+        for (let teamName of state.teams.keys()) {
+          if (!existingTeamNames.includes(teamName)) {
+            mapStats.teamScores.push({ teamName, score: 0 });
+          }
+        }
+      } else {
+        const existingPlayerIds = mapStats.playerScores.map(playerScore => playerScore.userId);
+        for (let playerId of state.players.keys()) {
+          if (!existingPlayerIds.includes(Number(playerId))) {
+            mapStats.playerScores.push({ userId: Number(playerId), score: 0 });
+          }
+        }
+      }
+    }
+    const updatedStats = await post("/api/stage-stats", { tourney, stats: stageStatsCopy });
+    setState({
+      ...state,
+      stageStats: updatedStats,
+      recalculateStats: true,
+    });
+  }
+
+  const confirmFillMissingScores = async () => {
+    const isTeamsTourney = !!state.tourneyModel?.teams;
+    if (isTeamsTourney) {
+      if (confirm("Fill missing scores from all registered teams on all maps in this stage with 0s?")) fillMissingScores();
+    } else {
+      if (confirm("Fill missing scores from all registered players on all maps in this stage with 0s?")) fillMissingScores();
+    }
+  };
+
   const handleFreemodFilterChange = (event) => {
     const value = event.target.value;
     setState({
@@ -686,6 +758,11 @@ export default function Stats({ tourney, user }) {
                       Refetch all scores
                     </Button>
                   )}
+                  {!state.refetchScoresInProgress && (
+                    <Button className="settings-button" type="primary" onClick={clearAllScores}>
+                      Clear all scores
+                    </Button>
+                  )}
                   {state.refetchScoresInProgress && <Spin />}
                   {!state.assignSeedsInProgress && state.isQualifiers && (
                     <Button className="settings-button" type="primary" onClick={assignSeeds}>
@@ -693,6 +770,12 @@ export default function Stats({ tourney, user }) {
                     </Button>
                   )}
                   {state.assignSeedsInProgress && <Spin />}
+                  {!state.fillMissingScoresInProgress && state.isQualifiers && (
+                    <Button className="settings-button" type="primary" onClick={confirmFillMissingScores}>
+                      Fill Missing Scores
+                    </Button>
+                  )}
+                  {state.fillMissingScoresInProgress && <Spin />}
                 </Form>
               )}
               {state.inEditMode && (
@@ -789,7 +872,7 @@ export default function Stats({ tourney, user }) {
                 {state.currentSelectedTable === "team" && (
                   <Table
                     dataSource={
-                      (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                      (canViewHiddenStats() || state.currentSelectedStage.statsVisible) &&
                       state.overallTeamStats
                     }
                     pagination={false}
@@ -839,7 +922,7 @@ export default function Stats({ tourney, user }) {
                 {state.currentSelectedTable === "player" && (
                   <Table
                     dataSource={
-                      (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                      (canViewHiddenStats() || state.currentSelectedStage.statsVisible) &&
                       state.overallPlayerStats
                     }
                     pagination={false}
@@ -896,7 +979,7 @@ export default function Stats({ tourney, user }) {
                   {state.currentSelectedTable === "team" && (
                     <Table
                       dataSource={
-                        (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                        (canViewHiddenStats() || state.currentSelectedStage.statsVisible) &&
                         (getMapStats()?.teamScores || [])
                       }
                       pagination={false}
@@ -953,7 +1036,7 @@ export default function Stats({ tourney, user }) {
                   {state.currentSelectedTable === "player" && (
                     <Table
                       dataSource={
-                        (isAdmin() || state.currentSelectedStage.statsVisible) &&
+                        (canViewHiddenStats() || state.currentSelectedStage.statsVisible) &&
                         (getMapStats()?.playerScores || [])
                       }
                       pagination={false}

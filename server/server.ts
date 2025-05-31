@@ -7,6 +7,7 @@ import passport from "passport";
 import sslRedirect from "heroku-ssl-redirect";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { Client, Events, GatewayIntentBits } from 'discord.js';
 
 import api from "./api";
 import auth from "./auth";
@@ -20,13 +21,13 @@ const clientPromise = db.init();
 
 app.set("trust proxy", true);
 app.use(sslRedirect());
-app.use(express.json());
+app.use(express.json({ limit: '200kb' }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
     secret: process.env.SESSION_SECRET!,
-    store: MongoStore.create({ clientPromise }),
+    store: MongoStore.create({ clientPromise, touchAfter: 24 * 3600 }),
     resave: false,
     saveUninitialized: true,
   })
@@ -90,4 +91,14 @@ if (process.env.NODE_ENV !== "test") {
   });
 }
 
-export { app };
+const discordClient = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+discordClient.on("ready", async () => {
+  logger.info(`Discord client logged in as ${discordClient?.user?.username}`);
+});
+
+if (process.env.NODE_ENV !== "test") {
+  discordClient.login(process.env.DISCORD_BOT_TOKEN);
+}
+
+export { app, discordClient };

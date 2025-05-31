@@ -24,16 +24,16 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: ["@babel/polyfill", entryFile],
+  mode: "production",
   output: {
     path: outputDir,
     publicPath: "/",
     filename: "bundle.js",
   },
-  devtool: "source-map",
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         loader: "babel-loader",
         exclude: /node_modules/,
       },
@@ -80,7 +80,7 @@ module.exports = {
     noParse: [require.resolve("typescript/lib/typescript.js")],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"],
+    extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
     fallback: {
       path: false,
     },

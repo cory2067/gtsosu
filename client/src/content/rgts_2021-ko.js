@@ -2,7 +2,20 @@ export default {
   name: "Rising Global Taiko Showdown",
   description:
     "The Rising Global Taiko Showdown(RGTS)는 1000~4500위를 대상으로 하는 2대2 osu!taiko 대회입니다. 퀄리파이어 후 상위 32팀이 조별 예선에 진출한 후, 그중 상위 16팀이 더블 엘리미네이션 토너먼트 방식으로 본선 경기를 치릅니다.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "디스코드",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2021"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/64"
+    },
+  ],
   homepage: [
     {
       title: "참가 제한",

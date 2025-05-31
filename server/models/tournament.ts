@@ -1,10 +1,12 @@
 import { Schema, model } from "mongoose";
+import { GameMode, TournamentCategory } from "../types";
 
 interface TourneyStage {
   name: string;
   poolVisible: boolean;
   mappack: string;
   statsVisible: boolean;
+  rescheduleDeadline: Date;
 }
 
 interface ITournament {
@@ -21,6 +23,10 @@ interface ITournament {
   flags: string[];
   lobbyMaxSignups: number;
   blacklist: number[];
+  discordServerId: string;
+  mode: GameMode;
+  category: TournamentCategory;
+  disableWarmups: boolean;
 }
 
 const Tournament = new Schema<ITournament>({
@@ -35,6 +41,7 @@ const Tournament = new Schema<ITournament>({
       poolVisible: Boolean,
       mappack: String,
       statsVisible: Boolean,
+      rescheduleDeadline: Date,
     },
   ],
   rankMin: Number,
@@ -44,6 +51,10 @@ const Tournament = new Schema<ITournament>({
   flags: [String],
   lobbyMaxSignups: Number,
   blacklist: [Number],
+  discordServerId: String,
+  mode: String,
+  category: String,
+  disableWarmups: Boolean,
 });
 
 export { TourneyStage, ITournament };

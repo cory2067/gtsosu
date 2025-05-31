@@ -43,7 +43,7 @@ function ensure(userRoles: UserRole[], title?: string) {
 export default {
   isAdmin: ensure([], "admin"),
   isPooler: ensure(
-    [UserRole.Mapsetter, UserRole.AllStarMapSetter, UserRole.HeadPooler, UserRole.Mapper],
+    [UserRole.Mappooler, UserRole.AllStarMappooler, UserRole.HeadPooler, UserRole.Mapper],
     "pooler"
   ),
   isRef: ensure([UserRole.Referee], "ref"),

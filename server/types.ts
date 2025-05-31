@@ -13,7 +13,22 @@ interface Request<Q extends Query, B> extends express.Request {
   body: B;
   user?: UserDocument;
   auth: UserAuthWithContext;
+  account?: DiscordAccount;
 }
 type Populate<T, R> = Omit<T, keyof R> & R;
 
-export { Request, UserDocument, Populate };
+type BaseRequestArgs = {
+  tourney?: string;
+};
+
+export type DiscordAccount = {
+  id: string;
+  username: string;
+  discriminator: string;
+};
+
+type GameMode = "osu" | "taiko" | "catch" | "fruits" | "mania"; // supported osu! gamemodes
+
+type TournamentCategory = "gts" | "other";
+
+export { Request, UserDocument, Populate, BaseRequestArgs, GameMode, TournamentCategory };

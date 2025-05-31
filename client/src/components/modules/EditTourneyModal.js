@@ -15,6 +15,14 @@ const stages = [
   "Finals",
   "Grand Finals",
   "All Stars",
+  "Week 1",
+  "Week 2",
+  "Week 3",
+  "Week 4",
+  "Week 5",
+  "Week 6",
+  "Day 1",
+  "Day 2",
 ];
 
 export default function EditTourneyModal({
@@ -79,14 +87,35 @@ export default function EditTourneyModal({
         <Form.Item name="rankMax" label="Maximum rank">
           <InputNumber min={-1} />
         </Form.Item>
-        <span>(Use -1 for no rank limit)</span>
+        <div style={{ marginBottom: "24px" }}>(Use -1 for no rank limit)</div>
         <Form.Item name="lobbyMaxSignups" label="Maximum number of lobby signups">
           <InputNumber min={0} />
         </Form.Item>
         <Form.Item name="blacklist" label="Blacklist">
           <Input />
         </Form.Item>
-        <span>(Specify players by IDs separated by commas)</span>
+        <Form.Item name="mode" label="Game mode">
+          <Select>
+            <Select.Option key={"taiko"}>Taiko</Select.Option>
+            <Select.Option key={"catch"}>Catch</Select.Option>
+          </Select>
+        </Form.Item>
+        <div style={{ marginBottom: "24px" }}>(Specify players by IDs separated by commas)</div>
+        <Form.Item name="discordServerId" label="Discord Server ID">
+          <Input />
+        </Form.Item>
+        <div style={{ marginBottom: "24px" }}>
+          (Specify this value to enforce Discord server membership when registering)
+        </div>
+        <Form.Item name="category" label="Category">
+          <Select>
+            <Select.Option key={"gts"}>GTS</Select.Option>
+            <Select.Option key={"other"}>Other</Select.Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name="disableWarmups" label="Disable Warmups" valuePropName="checked">
+          <Switch />
+        </Form.Item>
       </Form>
     </Modal>
   );

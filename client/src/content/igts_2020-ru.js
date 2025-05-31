@@ -2,7 +2,20 @@ export default {
     name: "Intermediate Global Taiko Showdown",
     description:
       "Intermediate Global Taiko Showdown, основополагающий турнир этой серии. Он проходит в формате 2v2 для игроков среднего уровня, и открыт для рангов от #3500 до #10000.",
-    discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge",
+        link: "https://challonge.com/IGTS2020"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/34"
+      },
+    ],
     homepage: [
       {
         title: "Ограничения",

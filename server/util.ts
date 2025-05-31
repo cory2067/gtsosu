@@ -3,11 +3,13 @@ import osu from "node-osu";
 import { IUser } from "./models/user";
 import { UserAuth } from "./permissions/UserAuth";
 import { UserRole } from "./permissions/UserRole";
-import { Request, UserDocument } from "./types";
+import { Request, UserDocument, GameMode } from "./types";
 import Team, { PopulatedTeam } from "./models/team";
 import Tournament from "./models/tournament";
 import assert from "assert";
 import { IMatch } from "./models/match";
+import { NextFunction, Response } from "express";
+import cors from "cors";
 
 // Shared utilities used across the backend
 
@@ -52,4 +54,22 @@ export const getTeamMapForMatch = async (match: IMatch, playerNo?: 1 | 2) => {
     [getPlayerName(match, 1)]: teams[0],
     [getPlayerName(match, 2)]: teams[1],
   };
+};
+
+const MODE_TO_ID: Record<GameMode, 0 | 1 | 2 | 3> = {
+  osu: 0,
+  taiko: 1,
+  catch: 2,
+  fruits: 2,
+  mania: 3,
+};
+export const getGamemodeId = (mode?: GameMode) => (mode ? MODE_TO_ID[mode] : 1); // default to taiko
+export const getApiCompliantGamemode = (mode?: GameMode) => (mode === "catch" ? "fruits" : mode);
+
+export const corsAsync = async (
+  req: Request<any, any>,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  return cors()(req, res, next);
 };

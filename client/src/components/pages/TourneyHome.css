@@ -1,33 +1,199 @@
-.TourneyHome-cardbox {
-  margin-top: var(--l);
-}
-
-.TourneyHome-cardbox .ant-card {
-  margin-bottom: var(--l);
-}
-
-.TourneyHome-info {
-  max-width: 600px;
-}
-
 .TourneyHome-button-box {
+  margin-top: var(--l);
   display: flex;
   width: 100%;
-  justify-content: space-evenly;
 }
 
-.TourneyHome-description {
-  font-size: 12pt;
-  margin-bottom: var(--m);
+.TourneyHome-button-box div {
+  flex: 1 1 0;
+  padding-left: var(--m);
+  padding-right: var(--m);
 }
 
-.TourneyHome-title-container {
+.TourneyHome-button-box .ant-btn-block {
+ font-size: 13pt;
+ background: var(--white);
+ color: #4d358f;
+ text-transform: uppercase;
+}
+
+.TourneyHome-button-box .ant-btn-block[disabled] {
+ background: var(--white);
+ color: #4d358f;
+}
+
+.TourneyHome-menu-item {
+  display: flex;
+  align-items: center;
+}
+
+.TourneyHome-link-icon {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+}
+
+.TourneyHome-content {
+  padding: 0;
+}
+
+.TourneyHome-bg {
+  height: calc(100vh - 64px);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.TourneyHome-title {
+  font-size: 42pt;
+  text-align: center;
+  line-height: 1;
+  margin-bottom: var(--s);
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.TourneyHome-header {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.TourneyHome-header-flex {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 32pt;
+  background: #00000000;
+  padding-bottom: 80px;
+}
+
+.TourneyHome-header-inner {
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.TourneyHome-description {
+  max-width: 727px;
+  font-size: 12pt;
+  color: #fff;
+  margin-bottom: var(--xl);
+}
+
+.TourneyHome-container {
+  background-color: var(--onyx);
+  padding:  var(--l); /* reduce if adding sidebar */
+  display: flex;
+  justify-content: center;
+}
+
+.TourneyHome-information {
+  background-color: var(--night);
+  max-width: 1200px;
+  padding-left: var(--l);
+  padding-right: var(--l);
+  border: 2px solid #222;
+}
+
+.TourneyHome-sidebar {
+  background-color: var(--onyx);
+  margin-right: var(--l);
+  flex: 0 0 300px;
+}
+
+.TourneyHome-sidebar-content {
+  position: sticky;
+  padding: var(--m);
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  font-size: 13pt;
+}
+
+.TourneyHome-sidebar-header {
+  font-weight: 700;
+  font-size: 14pt;
+  margin-bottom: var(--s);
+}
+
+.TourneyHome-sidebar-content span {
+  line-height: 1.7;
+}
+
+.TourneyHome-section {
+  color: var(--white);
+  font-size: 12pt;
+}
+
+.TourneyHome-section h3 {
+  color: var(--gold);
+  font-size: 14pt;
+  margin-bottom: var(--xs);
+}
+
+.TourneyHome-section h1 {
+  color: var(--gts-orange);
+  text-transform: uppercase;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: var(--xl);
+  margin-bottom: var(--m);
+}
+
+.TourneyHome-sidebar-container {
+  width: 400px;
+}
+
+.TourneyHome-sidebar {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.TourneyHome-section strong {
+  color: var(--gold);
 }
 
 .TourneyHome-edit {
-  margin-left: var(--s);
+  margin: var(--s);
+}
+
+.TourneyHome-back {
+  position: fixed;
+  right: 2rem;
+  bottom: 2rem;
+  opacity: 100%;
+  transition: linear 0.25s;
+  border-radius: 100%;
+  background: var(--gts-orange);
+  padding: 0.5rem;
+  border: none;
+  cursor: pointer;
+  height: 64px;
+  width: 64px;
+}
+
+.TourneyHome-back:hover {
+  opacity: 90%;
+}
+
+.TourneyHome-back-hidden, .TourneyHome-back-hidden:hover {
+  cursor: default;
+  opacity: 0%;
+}
+
+.TourneyHome-back-icon {
+  height: 48px;
+  width: 48px;
+  color: var(--onyx);
+}
+
+@media (max-width: 1500px) {
+  .TourneyHome-back {
+    opacity: 0;
+  }
 }

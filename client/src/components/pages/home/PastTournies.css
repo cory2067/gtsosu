@@ -1,0 +1,22 @@
+.PastTournies-title {
+  font-size: 28px;
+  text-align: center;
+}
+
+.PastTournies-container {
+  padding: 34px;
+  background-color: var(--onyx);
+}
+
+@media (min-width: 1280px) {
+  .PastTournies-title {
+    font-size: 35px;
+    text-align: left;
+  }
+
+  .PastTournies-container {
+    margin: var(--m);
+    padding: 34px;
+    background-color: var(--onyx);
+  }
+}

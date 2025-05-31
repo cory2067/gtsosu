@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { get, post, hasAccess, delet, prettifyTourney, exportCSVFile } from "../../utilities";
+import { delet, exportCSVFile, get, hasAccess, post, prettifyTourney } from "../../utilities";
 import UserCard from "../modules/UserCard";
 import "./TourneyStaff.css";
 
-import { Layout, Collapse, Form, Input, Select, Button, message } from "antd";
+import { Button, Collapse, Form, Input, Layout, Select, message } from "antd";
 const { Content } = Layout;
 const { Panel } = Collapse;
 
 const roles = [
   "Host",
   "Developer",
-  "Mapsetter",
+  "Mappooler",
   "Head Pooler",
   "Mapper",
-  "All-Star Mapsetter",
+  "All-Star Mappooler",
   "Players Moderation Team",
   "Designer",
   "Composer",
@@ -25,13 +25,16 @@ const roles = [
   "Statistician",
   "Recruiter",
   "Showcase",
+  "Judge",
+  "Playtester",
+  "Artist",
 ];
 
 // The managerial roles that osu! officially considers as "staff"
 const managementRoles = [
-  "Mapsetter",
+  "Mappooler",
   "Showcase",
-  "All-Star Mapsetter",
+  "All-Star Mappooler",
   "Head Pooler",
   "Mapper",
   "Developer",

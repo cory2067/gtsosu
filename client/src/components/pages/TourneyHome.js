@@ -1,107 +1,109 @@
-import React, { Component } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "./TourneyHome.css";
 
-import { Layout, Card, Button, Modal, notification, message } from "antd";
-import { ExclamationCircleOutlined, EditOutlined } from "@ant-design/icons";
-import { get, post, hasAccess, prettifyTourney, tokenizeTourney } from "../../utilities";
+import { EditOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { navigate } from "@reach/router";
-import ContentManager from "../../ContentManager";
-import EditTourneyModal from "../../components/modules/EditTourneyModal";
+import { Button, Dropdown, Layout, Menu, Modal, message, notification } from "antd";
+import ContentManager, { LanguageContext, contentManager } from "../../ContentManager";
+import EditTourneyModal from "../modules/EditTourneyModal";
+import { UserAuth } from "../../permissions/UserAuth";
+import { UserRole } from "../../permissions/UserRole";
+import { get, post, prettifyTourney, tokenizeTourney } from "../../utilities";
+import { login } from "../../auth";
 import CreateTeamModal from "../modules/CreateTeamModal";
 
-const UI = ContentManager.getUI();
+import ChallongeLogo from "../../public/challonge-logo.svg";
+import DiscordLogo from "../../public/discord-logo.svg";
+import PickemsLogo from "../../public/pickems-logo.png";
 
 const { Content } = Layout;
 const { confirm } = Modal;
 
-class TourneyHome extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: { homepage: [] },
-    };
-  }
+function TourneyHome({ tourney, user, setUser }) {
+  const [content, setContent] = useState({ homepage: [] });
+  const [registrationOpen, setRegistrationOpen] = useState(false);
+  const [tourneyFlags, setTourneyFlags] = useState([]);
+  const [settingsData, setSettingsData] = useState({});
+  const [showSettings, setShowSettings] = useState(false);
+  const [showScroll, setShowScroll] = useState(false);
+  const [showRegisterAsTeam, setShowRegisterAsTeam] = useState(false);
+  const [teamModalLoading, setTeamModalLoading] = useState(false);
+  const lang = useContext(LanguageContext);
 
-  async componentDidMount() {
-    document.title = `${prettifyTourney(this.props.tourney)}: Home`;
-    const data = await ContentManager.get(this.props.tourney);
-    if (!data) return navigate("/404");
+  const infoRef = React.createRef();
+  const rulesRef = React.createRef();
 
-    if (data.divisions) {
-      const { division } = tokenizeTourney(this.props.tourney);
-      if (!data.divisions.includes(division)) return navigate("/404");
-    }
+  useEffect(() => {
+    (async () => {
+      document.title = `${prettifyTourney(tourney)}: Home`;
+      const content = await contentManager.getLocalizedTourney(tourney, lang);
 
-    this.setState({ data });
+      if (!content) return navigate("/404");
 
-    const tourney = await get("/api/tournament", { tourney: this.props.tourney });
-    this.setState({
-      registrationOpen: tourney.registrationOpen || false,
-      tourneyFlags: tourney.flags || [],
-      formData: {
-        registrationOpen: tourney.registrationOpen || false,
-        teams: tourney.teams || false,
-        stages: (tourney.stages || []).map((s) => s.name),
-        rankMin: tourney.rankMin || -1,
-        rankMax: tourney.rankMax || -1,
-        countries: tourney.countries || [],
-        flags: tourney.flags || [],
-      },
-    });
-  }
+      if (content.divisions) {
+        const { division } = tokenizeTourney(tourney);
+        if (!content.divisions.includes(division)) return navigate("/404");
+      }
 
-  isAdmin = () => hasAccess(this.props.user, this.props.tourney, []);
+      setContent(content);
 
-  isRegistered = () => {
-    return this.props.user.tournies && this.props.user.tournies.includes(this.props.tourney);
+      const data = await get("/api/tournament", { tourney });
+      setRegistrationOpen(data.registrationOpen || false);
+      setTourneyFlags(data.flags || []);
+      setSettingsData({
+        registrationOpen: data.registrationOpen || false,
+        teams: data.teams || false,
+        minTeamSize: data.minTeamSize || 1,
+        maxTeamSize: data.maxTeamSize || 1,
+        stages: (data.stages || []).map((s) => s.name),
+        rankMin: data.rankMin || -1,
+        rankMax: data.rankMax || -1,
+        countries: data.countries || [],
+        flags: data.flags || [],
+        lobbyMaxSignups: data.lobbyMaxSignups || 8,
+        blacklist: (data.blacklist || []).toString(),
+        requiredCountries: data.requiredCountries || [],
+        discordServerId: data.discordServerId || "",
+        mode: data.mode || "taiko",
+        category: data.category || "gts",
+        disableWarmups: data.disableWarmups || false,
+      });
+    })();
+  }, [lang]);
+
+  const handleScroll = () => {
+    const scrollThreshold = 200;
+    setShowScroll(window.scrollY > scrollThreshold);
   };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  submitTeamRegistration = async (formData) => {
-    this.setState({ loading: true });
-    try {
-      await post("/api/register-team", { ...formData, tourney: this.props.tourney });
-      this.setState({ showRegisterAsTeam: false, loading: false });
-      const tourney = prettifyTourney(this.props.tourney);
-      const success = {
-        message: `Success`,
-        description: `Your team is now registered for ${tourney}`,
-        duration: 3,
-      };
-      notification.open(success);
-    } catch (e) {
-      this.setState({ loading: false });
-      const fail = {
-        message: `Failed`,
-        description: `Registration failed: ${e.error}`,
-        duration: 6,
-      };
-      notification.open(fail);
-    }
-  };
-
-  register = () => {
-    if (this.state.tourneyFlags.includes("registerAsTeam")) {
-      this.setState({ showRegisterAsTeam: true });
+  const isAdmin = new UserAuth(user).forTourney(tourney).hasRole(UserRole.Admin);
+  const register = (user) => {
+    if (tourneyFlags.includes("registerAsTeam")) {
+      setShowRegisterAsTeam(true);
       return;
     }
 
-    const tourney = prettifyTourney(this.props.tourney);
+    const tourneyDisplay = prettifyTourney(tourney);
     const success = {
       message: `Success`,
-      description: `You are now registered for ${tourney}`,
+      description: `You are now registered for ${tourneyDisplay}`,
       duration: 3,
     };
 
     confirm({
-      title: `Register as ${this.props.user.username}`,
+      title: `Register as ${user.username}`,
       icon: <ExclamationCircleOutlined />,
-      content: `Are you sure you want to register for ${tourney}?`,
+      content: `Are you sure you want to register for ${tourneyDisplay}?`,
       onOk: async () => {
         try {
-          const user = await post("/api/register", { tourney: this.props.tourney });
+          const user = await post("/api/register", { tourney });
           notification.open(success);
-          this.props.setUser(user);
+          setUser(user);
         } catch (e) {
           const fail = {
             message: `Failed`,
@@ -114,99 +116,229 @@ class TourneyHome extends Component {
     });
   };
 
-  handleValuesChange = (changed, allData) => {
-    this.setState({ formData: allData });
+  const submitTeamRegistration = (formData) => {
+    setTeamModalLoading(true);
+    post("/api/register-team", { ...formData, tourney })
+      .then(() => {
+        setShowRegisterAsTeam(false);
+        setTeamModalLoading(false);
+        const prettyTourney = prettifyTourney(tourney);
+        const success = {
+          message: `Success`,
+          description: `Your team is now registered for ${prettyTourney}`,
+          duration: 3,
+        };
+        notification.open(success);
+        setUser({ ...user, tournies: [...(user.tournies || []), tourney] });
+      })
+      .catch((e) => {
+        setTeamModalLoading(false);
+        const fail = {
+          message: `Failed`,
+          description: `Registration failed: ${e.error ?? e}`,
+          duration: 6,
+        };
+        notification.open(fail);
+      });
   };
 
-  handleOk = async () => {
-    console.log(this.state.formData);
-    const tourney = await post("/api/tournament", {
-      ...this.state.formData,
-      tourney: this.props.tourney,
+  const scrollToTop = () =>
+    window.scrollTo({
+      left: 0,
+      top: 0,
+      behavior: "smooth",
     });
-    this.setState({ showSettings: false, registrationOpen: tourney.registrationOpen });
+
+  const scrollToRef = (ref) =>
+    window.scrollTo({
+      left: 0,
+      top: ref.current.offsetTop,
+      behavior: "smooth",
+    });
+
+  const handleSettingsChange = (changed, allData) => {
+    setSettingsData(allData);
+  };
+
+  const handleSettingsOk = async () => {
+    console.log(settingsData);
+    const res = await post("/api/tournament", {
+      ...settingsData,
+      blacklist: settingsData.blacklist
+        .split(",")
+        .map((x) => Number.parseInt(x))
+        .filter((x) => x),
+      tourney,
+    });
+    setShowSettings(false);
+    setRegistrationOpen(res.registrationOpen);
     message.success("Updated tournament settings");
   };
 
-  handleRegHover = () => {
-    if (!this.props.user._id) {
-      this.props.setLoginAttention(!this.props.user._id);
-      setTimeout(() => this.props.setLoginAttention(false), 2000);
+  const isRegistered = () => user.tournies && user.tournies.includes(tourney);
+
+  let regMessage = contentManager.getLocalizedString(useContext(LanguageContext), "register");
+  let onRegClick = () => register(user);
+  if (!user._id) {
+    onRegClick = () => login(setUser).then((user) => register(user));
+  } else if (isRegistered()) {
+    regMessage = "Registered";
+    onRegClick = null;
+  } else if (!registrationOpen) {
+    regMessage = "Registration Closed";
+    onRegClick = null;
+  }
+
+  const getMenuIcon = (label) => {
+    if (label.includes("Discord")) {
+      return <img className="TourneyHome-link-icon" src={DiscordLogo} />;
     }
+    if (label.includes("Challonge")) {
+      return <img className="TourneyHome-link-icon" src={ChallongeLogo} />;
+    }
+    if (label.includes("Pick'ems")) {
+      return <img className="TourneyHome-link-icon" src={PickemsLogo} />;
+    }
+    return <span class="TourneyHome-link-icon"></span>;
   };
 
-  render() {
-    let regMessage = UI.register;
-    if (!this.props.user._id) regMessage = "Login to Register";
-    else if (this.isRegistered()) regMessage = "Registered";
-    else if (!this.state.registrationOpen) regMessage = "Registration Closed";
-
-    return (
-      <Content className="content">
-        <div className="TourneyHome-title-container">
-          <div>{this.state.data.name}</div>
-          {this.isAdmin() && this.state.formData && (
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<EditOutlined />}
-              size="large"
-              className="TourneyHome-edit"
-              onClick={() => this.setState({ showSettings: true })}
-            />
-          )}
-        </div>
-        <div className="u-flex-justifyCenter">
-          <div className="TourneyHome-info">
-            <div className="TourneyHome-description">
-              <ReactMarkdown source={this.state.data.description} />
-            </div>
-            <div className="TourneyHome-button-box">
-              <div onMouseEnter={() => this.handleRegHover()}>
-                <Button
-                  type="primary"
-                  size="large"
-                  disabled={regMessage !== UI.register}
-                  onClick={this.register}
-                >
-                  {regMessage}
-                </Button>
+  return (
+    <Content className="TourneyHome-content">
+      <div
+        className="TourneyHome-bg"
+        style={{
+          backgroundImage: `linear-gradient(#dcdcdc33, #0c0c0c), url("/public/backgrounds/${tourney}.png")`,
+        }}
+      >
+        {isAdmin && settingsData && (
+          <Button
+            type="primary"
+            shape="circle"
+            icon={<EditOutlined />}
+            size="large"
+            className="TourneyHome-edit"
+            onClick={() => setShowSettings(true)}
+          />
+        )}
+        <div className="TourneyHome-header">
+          <div className="TourneyHome-header-flex">
+            <div className="TourneyHome-header-inner">
+              <h1 className="TourneyHome-title u-xbold">{content.name}</h1>
+              <div className="TourneyHome-description">{content.description}</div>
+              <div className="TourneyHome-button-box">
+                <div>
+                  <Button block size="large" onClick={() => scrollToRef(infoRef)}>
+                    {contentManager.getLocalizedString(useContext(LanguageContext), "information")}
+                  </Button>
+                </div>
+                <div>
+                  <Button block size="large" onClick={() => scrollToRef(rulesRef)}>
+                    {contentManager.getLocalizedString(useContext(LanguageContext), "rules")}
+                  </Button>
+                </div>
+                {content.links && (
+                  <div>
+                    <Dropdown
+                      overlay={
+                        <Menu>
+                          {content.links.map((entry) => (
+                            // Adding a key here to avoid warnings
+                            <Menu.Item key={entry.link}>
+                              <a target="_blank" href={entry.link}>
+                                <div class="TourneyHome-menu-item">
+                                  {getMenuIcon(entry.label)}
+                                  {entry.label}
+                                </div>
+                              </a>
+                            </Menu.Item>
+                          ))}
+                        </Menu>
+                      }
+                    >
+                      <Button block size="large">
+                        {contentManager.getLocalizedString(useContext(LanguageContext), "links")}
+                      </Button>
+                    </Dropdown>
+                  </div>
+                )}
+                <div>
+                  <Button block size="large" onClick={onRegClick} disabled={!onRegClick}>
+                    {regMessage}
+                  </Button>
+                </div>
+                {content.submissions && (
+                  <div>
+                    <Button block size="large" target="_blank" href={content.submissions}>
+                      {contentManager.getLocalizedString(useContext(LanguageContext), "submissions")}
+                    </Button>
+                  </div>
+                )}
               </div>
-              <Button type="primary" size="large" href={this.state.data.discord}>
-                {UI.discord}
-              </Button>
             </div>
           </div>
         </div>
-        <div className="TourneyHome-cardbox">
-          {this.state.data.homepage.map((section) => {
+      </div>
+      <div className="TourneyHome-container">
+        {/*<div className="TourneyHome-sidebar">
+          <div className="TourneyHome-sidebar-content">
+            <span className="TourneyHome-sidebar-header">CONTENTS</span>
+            <span>a</span>
+          </div>
+        </div>*/}
+        <div className="TourneyHome-information" ref={infoRef}>
+          {content.homepage.map((section) => {
             return (
-              <Card key={section.title} title={section.title} bordered={true}>
+              <div className="TourneyHome-section" key={section.title}>
+                <h1 className="TourneyHome-section-title">{section.title}</h1>
                 <ReactMarkdown source={section.body} />
-              </Card>
+              </div>
             );
           })}
+          <hr />
+          <div ref={rulesRef}></div>
+          <div className="TourneyHome-section">
+            <ReactMarkdown source={content.rules} />
+          </div>
         </div>
-        <EditTourneyModal
-          visible={this.state.showSettings}
-          tourney={this.state.tourney}
-          handleCancel={() => this.setState({ showSettings: false })}
-          handleOk={this.handleOk}
-          onValuesChange={this.handleValuesChange}
-          initialValues={this.state.formData}
+      </div>
+      {user._id && (
+        <CreateTeamModal
+          user={user}
+          visible={showRegisterAsTeam}
+          loading={teamModalLoading}
+          handleSubmit={submitTeamRegistration}
+          handleCancel={() => setShowRegisterAsTeam(false)}
+          maxTeamSize={settingsData.maxTeamSize}
         />
-        {this.props.user._id && (
-          <CreateTeamModal
-            user={this.props.user}
-            visible={this.state.showRegisterAsTeam}
-            loading={this.state.loading}
-            handleSubmit={this.submitTeamRegistration}
-            handleCancel={() => this.setState({ showRegisterAsTeam: false })}
+      )}
+      <EditTourneyModal
+        visible={showSettings}
+        tourney={tourney}
+        handleCancel={() => setShowSettings(false)}
+        handleOk={handleSettingsOk}
+        onValuesChange={handleSettingsChange}
+        initialValues={settingsData}
+      />
+      <button
+        className={`TourneyHome-back ${showScroll ? "" : "TourneyHome-back-hidden"}`}
+        onClick={scrollToTop}
+      >
+        <svg
+          className="TourneyHome-back-icon"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M7 11l5-5m0 0l5 5m-5-5v12"
           />
-        )}
-      </Content>
-    );
-  }
+        </svg>
+      </button>
+    </Content>
+  );
 }
 
 export default TourneyHome;

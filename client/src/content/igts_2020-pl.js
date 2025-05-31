@@ -2,7 +2,20 @@ export default {
     name: "Intermediate Global Taiko Showdown",
     description:
     "Intermediate Global Taiko Showdown, to nasz założycielski turniej serii GTS. Jest on rozgrywany w meczach 2v2, przeznaczonych dla średniozaawansowanych graczy w przedziale rankingowym od #3500 do #10 000.",
-    discord: "https://discord.gg/a6PzzFz",
+    links: [
+      {
+        label: "Discord",
+        link: "https://discord.gg/a6PzzFz"
+      },
+      {
+        label: "Challonge",
+        link: "https://challonge.com/IGTS2020"
+      },
+      {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/34"
+      },
+    ],
     homepage: [
     {
         title: "Ograniczenia",

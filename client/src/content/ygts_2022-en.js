@@ -2,7 +2,16 @@ export default {
   name: "Random Global Taiko Showdown",
   description:
     "why are you signing up to this",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/gfxpl2s1"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",

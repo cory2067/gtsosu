@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "El Expert Global Taiko Showdown es un torneo 1 vs 1 dirigido principalmente a los top players de taiko, aunque no exista ninguna restricción de rank. El top 128 después de la fase de cualificación se enfrentarán en un emocionante formato de doble eliminación.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2020"
+    },
+  ],
   homepage: [
     {
       title: "Restricciones",

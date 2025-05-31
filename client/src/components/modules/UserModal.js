@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-
-import { Form, Select, Input, Modal } from "antd";
-import ContentManager from "../../ContentManager";
+import { get } from "../../utilities";
+import { showAuthPopup } from "../../auth";
+import { Form, Select, Input, Modal, Button } from "antd";
 import UserCard from "./UserCard";
-
-const UI = ContentManager.getUI().userSettings;
+import { LanguageContext, contentManager } from "../../ContentManager";
+import { useContext } from "react";
 
 const cardImages = [
   "eis.png",
@@ -14,10 +14,13 @@ const cardImages = [
   "keios.png",
   "kyou.png",
   "lucia.png",
+  "nothing.png",
   "naru-agts.png",
   "naru-bgts.png",
   "naru-egts1.png",
-  "nothing.png",
+  "naru-grem.png",
+  "naru-gtms.png",
+  "naru-igts.png",
   "reese.png",
   "sachnus1.png",
   "sachnus2.png",
@@ -40,7 +43,18 @@ for (let i = -12; i <= 14; i += 0.5) {
   timezones.push(i);
 }
 
-function UserModal({ user, formData, visible, loading, handleOk, handleCancel, onValuesChange }) {
+function UserModal({
+  user,
+  setUser,
+  formData,
+  visible,
+  loading,
+  handleOk,
+  handleCancel,
+  onValuesChange,
+}) {
+  const discordLoginFlow = () => showAuthPopup("/auth/login-discord", setUser);
+
   return (
     <Modal
       title={`Settings for ${user.username}`}
@@ -54,11 +68,21 @@ function UserModal({ user, formData, visible, loading, handleOk, handleCancel, o
       </div>
 
       <Form {...layout} onValuesChange={onValuesChange} initialValues={user}>
-        <div style={{ marginBottom: 12 }}>{UI.note}</div>
-        <Form.Item name="discord" label={UI.discord}>
-          <Input />
+        <Form.Item label={contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.discord")}>
+          {user.discordId ? (
+            <div>
+              <span style={{ paddingRight: 8 }}>{user.discord}</span>
+              <Button type="primary" onClick={discordLoginFlow}>
+                {contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.discordUpdate")}
+              </Button>
+            </div>
+          ) : (
+            <Button type="primary" onClick={discordLoginFlow}>
+              {contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.discordLink")}
+            </Button>
+          )}
         </Form.Item>
-        <Form.Item name="timezone" label={UI.timezone}>
+        <Form.Item name="timezone" label={contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.timezone")}>
           <Select placeholder="UTC+0">
             {timezones.map((num) => (
               <Select.Option key={num} value={num}>
@@ -67,7 +91,8 @@ function UserModal({ user, formData, visible, loading, handleOk, handleCancel, o
             ))}
           </Select>
         </Form.Item>
-        {user.donations >= 10 && (
+        {(user.donations >= 10 ||
+          user.roles.some((role) => ["Designer", "Artist"].includes(role.role))) && (
           <Form.Item name="cardImage" label="Custom BG">
             <Select placeholder="No image">
               <Select.Option key="none" value={""}>
@@ -84,7 +109,7 @@ function UserModal({ user, formData, visible, loading, handleOk, handleCancel, o
       </Form>
 
       <div>
-        <span className="u-bold">{UI.tournies}: </span>
+        <span className="u-bold">{contentManager.getLocalizedString(useContext(LanguageContext), "userSettings.tournies")}: </span>
         {user.tournies && user.tournies.length ? user.tournies.join(", ") : "none"}
       </div>
     </Modal>

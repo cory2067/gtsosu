@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { UserAuth } from "./permissions/UserAuth";
+import { message } from "antd";
 
 function formatParams(params) {
   return Object.keys(params)
@@ -7,6 +9,11 @@ function formatParams(params) {
 }
 
 async function processResponse(res, type) {
+  if (res === "TIMEOUT") {
+    message.error("The server took too long to respond. Try again later");
+    throw Error("request timeout");
+  }
+
   const text = await res.text();
   let output = text;
   try {
@@ -24,9 +31,16 @@ async function processResponse(res, type) {
   return output;
 }
 
+function fetchWithTimeout(endpoint, args, timeout = 10) {
+  return Promise.race([
+    fetch(endpoint, args),
+    new Promise((resolve) => setTimeout(() => resolve("TIMEOUT"), timeout * 1000)),
+  ]);
+}
+
 export function get(endpoint, params = {}) {
   const fullPath = endpoint + "?" + formatParams(params);
-  return fetch(fullPath, {
+  return fetchWithTimeout(fullPath, {
     credentials: "include",
   }).then(processResponse);
 }
@@ -115,4 +129,27 @@ export function exportTextFile({ content, contentType = "text/csv", fileName, ch
   dl.target = "_blank";
   dl.download = fileName;
   dl.click();
+}
+
+/**
+ * A wrapper for window.matchMedia with updates
+ *
+ * @param {string} query
+ * @returns {?MediaQueryList}
+ */
+export function useMatchMedia(query) {
+  const [result, setResult] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    setResult(media);
+    const onChange = (e) => setResult(e);
+    media.addEventListener("change", onChange);
+
+    return () => {
+      media.removeEventListener("change", onChange);
+    };
+  }, [query]);
+
+  return result;
 }

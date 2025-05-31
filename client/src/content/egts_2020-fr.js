@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2020"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",
@@ -48,7 +57,7 @@ Du 25 au 26 juillet.`,
 - Ce tournoi est un **1v1 en double élimination.** 
 - Tous les joueurs vont d'abord jouer la phase de Qualifications, et les 128 qualifiés joueront dans un **arbre à double élimination.**
 - Le système de score utilisé sera **Score V2.**
-- N'importe quel membre du staff, à l'exception des **Hosts**, **Mapsetters**, et **Arbitres**, est autorisé à jouer.
+- N'importe quel membre du staff, à l'exception des **Hosts**, **Mapoolers**, et **Arbitres**, est autorisé à jouer.
 - Les joueurs et les membres du staff doivent avoir lu ces règles dans leur intégralité (et nous partirons du principe que vous l'avez fait au cours du tournoi).
 - Les joueurs étant [sur cette liste](https://docs.google.com/spreadsheets/d/e/2PACX-1vR_ZTkA7f3Z_ApxUPtHKkdXncl_RVLA3pwFFsx-Me1RmJ4QpqsoUii-veVw00XJDYtV1XfJEgy7wfw0/pubhtml) ne seront pas acceptés dans le tournoi jusqu'à la date désignée sur le spreadsheet.  
 - Tous les participants doivent se montrer respectueux et avoir une attitude correcte. Ne pas suivre cettre règle peut résulter en un bannissement ou mise sur liste noire du tournoi. Cette règle concerne également l'intégralité du staff.

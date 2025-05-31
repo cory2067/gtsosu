@@ -3,24 +3,34 @@ import express, { Response } from "express";
 import pino from "pino";
 import osu from "node-osu";
 import fs from "fs";
+import { Guild, GuildMember } from "discord.js";
 
 import ensure from "./ensure";
 import Match, { IMatch, ModLengthMultiplier, WarmupMod } from "./models/match";
 import QualifiersLobby from "./models/qualifiers-lobby";
 import StageStats, { IStageStats } from "./models/stage-stats";
 import Team, { PopulatedTeam, ITeam } from "./models/team";
-import Tournament, { ITournament } from "./models/tournament";
-import TourneyMap from "./models/tourney-map";
+import Tournament, { ITournament, TourneyStage } from "./models/tournament";
+import TourneyMap, { ITourneyMap } from "./models/tourney-map";
 import User, { UserTourneyStats, IUser } from "./models/user";
-import { getOsuApi, checkPermissions, getTeamMapForMatch, assertUser } from "./util";
-import { Request } from "./types";
+import {
+  getOsuApi,
+  checkPermissions,
+  getTeamMapForMatch,
+  assertUser,
+  getGamemodeId,
+  getApiCompliantGamemode,
+  corsAsync,
+} from "./util";
+import { Request, BaseRequestArgs } from "./types";
+import { discordClient } from "./server";
 
 import mapRouter from "./api/map";
 import donationRouter from "./api/donation";
 
 import { addAsync } from "@awaitjs/express";
 import { UserAuth } from "./permissions/UserAuth";
-import { UserRole } from "./permissions/UserRole";
+import { UserRole, managementRoles } from "./permissions/UserRole";
 const router = addAsync(express.Router());
 
 const logger = pino();
@@ -30,9 +40,6 @@ const mpRegex1 = new RegExp(`^https:\/\/osu\.ppy.sh\/community\/matches\/([0-9]+
 const mpRegex2 = new RegExp(`^https:\/\/osu\.ppy.sh\/mp\/([0-9]+)$`);
 
 // Populate each request with tourney-level user auth
-type BaseRequestArgs = {
-  tourney?: string;
-};
 router.use((req: Request<BaseRequestArgs, BaseRequestArgs>, res, next) => {
   const auth = new UserAuth(req.user);
   const tourney = req.body.tourney ?? req.query.tourney;
@@ -48,22 +55,19 @@ router.use(donationRouter);
 
 const isAdmin = (user: IUser | undefined, tourney: string) => checkPermissions(user, tourney, []);
 const canViewHiddenPools = (user: IUser, tourney: string) =>
-  checkPermissions(user, tourney, [
-    "Mapsetter",
-    "Showcase",
-    "All-Star Mapsetter",
-    "Head Pooler",
-    "Mapper",
-  ]);
+  new UserAuth(user)
+    .forTourney(tourney)
+    .hasAnyRole([
+      UserRole.Mappooler,
+      UserRole.Showcase,
+      UserRole.AllStarMappooler,
+      UserRole.HeadPooler,
+      UserRole.Mapper,
+      UserRole.Playtester,
+    ]);
 
 const cantPlay = (user: IUser, tourney: string) =>
-  checkPermissions(user, tourney, [
-    "Mapsetter",
-    "Referee",
-    "All-Star Mapsetter",
-    "Head Pooler",
-    "Mapper",
-  ]);
+  user.admin || new UserAuth(user).forTourney(tourney).hasAnyRole(managementRoles);
 
 const parseMatchId = (mpLink: string | undefined) => {
   if (!mpLink) return undefined;
@@ -107,9 +111,17 @@ const parseWarmup = async (warmup: string, mod: WarmupMod, tourney: string) => {
     throw new Error("This beatmap is part of the map pool");
   }
 
+  // Fetch tourney object to get the correct game mode
+  const tourneyData = await Tournament.findOne({ code: tourney }).orFail();
+
+  // Make taiko the default mode (old tourney data doesn't seem to have mode defined)
+  tourneyData.mode ??= "taiko";
+
   let mapData: osu.Beatmap;
   try {
-    mapData = (await osuApi.getBeatmaps({ b: warmupMapId, m: 1, a: 1 }))[0];
+    mapData = (
+      await osuApi.getBeatmaps({ b: warmupMapId, m: getGamemodeId(tourneyData.mode), a: 1 })
+    )[0];
   } catch (e) {
     if (e.message == "Not found") {
       throw new Error("Beatmap not found");
@@ -128,7 +140,8 @@ const parseWarmup = async (warmup: string, mod: WarmupMod, tourney: string) => {
     throw new Error("Warmup map too long (max 3 minutes)");
   }
 
-  return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#taiko/${warmupMapId}`;
+  const apiCompliantGamemode = getApiCompliantGamemode(tourneyData.mode);
+  return `https://osu.ppy.sh/beatmapsets/${mapData.beatmapSetId}#${apiCompliantGamemode}/${warmupMapId}`;
 };
 
 /**
@@ -151,21 +164,23 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
     return res.status(400).send({ error: "You're a staff member." });
   }
 
-  const [userData, tourney] = await Promise.all([
-    osuApi.getUser({ u: req.user.userid, m: 1, type: "id" }),
-    Tournament.findOne({ code: req.body.tourney }).orFail(),
-  ]);
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+  const mode = getGamemodeId(tourney.mode);
+  const userData = await osuApi.getUser({ u: req.user.userid, m: mode, type: "id" });
 
   const username = userData.name;
   const userid = userData.id;
   const rank = userData.pp.rank;
   const country = userData.country;
 
+  if (!tourney.registrationOpen) {
+    logger.info(`${req.user.username} failed to register for ${req.body.tourney} (closed)`);
+    return res.status(400).send({ error: `Registration for this tournament has closed` });
+  }
+
   if ((tourney.blacklist || []).includes(userid)) {
     logger.info(`${req.user.username} failed to register for ${req.body.tourney} (blacklisted)`);
-    return res
-      .status(400)
-      .send({ error: `You are banned from participating in this tourney.` });
+    return res.status(400).send({ error: `You are banned from participating in this tourney.` });
   }
 
   if (tourney.rankMin !== -1 && rank < tourney.rankMin) {
@@ -187,6 +202,51 @@ router.postAsync("/register", ensure.loggedIn, async (req, res) => {
       `${req.user.username} failed to register for ${req.body.tourney} (country not allowed)`
     );
     return res.status(400).send({ error: `Your country can't participate in this division` });
+  }
+
+  if (tourney.discordServerId) {
+    if (!req.user.discordId) {
+      logger.info(
+        `${req.user.username} failed to register for ${req.body.tourney} (discord account not linked)`
+      );
+      return res.status(400).send({
+        error: "Please link your Discord account in your user settings and then try again.",
+      });
+    }
+
+    let theDiscordServer: Guild | undefined = undefined;
+    try {
+      theDiscordServer = await discordClient.guilds.fetch(tourney.discordServerId);
+    } catch (e) {
+      if (e.code === 10004) {
+        logger.info(
+          `${req.user.username} failed to register for ${req.body.tourney} (discord server not found)`
+        );
+        return res.status(400).send({ error: "Discord server not found - contact staff" });
+      } else {
+        logger.info(e);
+        return res.status(400).send({ error: "Unknown error - contact staff" });
+      }
+    }
+
+    let theDiscordMember: GuildMember | undefined = undefined;
+    try {
+      theDiscordMember = await theDiscordServer.members.fetch(req.user.discordId);
+    } catch (e) {
+      if (e.code === 10007) {
+        logger.info(
+          `${req.user.username} failed to register for ${req.body.tourney} (discord server not joined)`
+        );
+        return res.status(400).send({ error: "You have not joined the Discord server." });
+      } else {
+        logger.info(e);
+        return res.status(400).send({ error: "Unknown error - contact staff" });
+      }
+    }
+
+    logger.info(
+      `Successfully confirmed that ${theDiscordMember.user.username} is a member of ${theDiscordServer.name}`
+    );
   }
 
   logger.info(`${req.user.username} registered for ${req.body.tourney}`);
@@ -228,7 +288,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
   }
 
   const teams = await Team.find({ tourney: req.body.tourney });
-  const teamNames = teams.map(team => team.name);
+  const teamNames = teams.map((team) => team.name);
   if (teamNames.includes(req.body.name)) {
     return res.status(400).send({ error: "There is a registered team with this name already." });
   }
@@ -267,9 +327,7 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
 
     if (user && user.tournies.includes(req.body.tourney)) {
       logger.info(`${username} failed to register for ${req.body.tourney} (already registered)`);
-      return res
-        .status(400)
-        .send({ error: `${username} is already registered for this tourney.` });
+      return res.status(400).send({ error: `${username} is already registered for this tourney.` });
     }
 
     const userid = userData.id;
@@ -314,9 +372,11 @@ router.postAsync("/register-team", ensure.loggedIn, async (req, res) => {
     representedCountries.add(userData.country);
   }
 
-  for (const country of (tourney.requiredCountries || [])) {
+  for (const country of tourney.requiredCountries || []) {
     if (!representedCountries.has(country)) {
-      logger.info(`${req.body.players} failed to register for ${req.body.tourney} (country requirement not met)`);
+      logger.info(
+        `${req.body.players} failed to register for ${req.body.tourney} (country requirement not met)`
+      );
       return res
         .status(400)
         .send({ error: `Team is missing required represented country: ${country}` });
@@ -361,7 +421,9 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
     `${req.body.username} registered for ${req.body.tourney} (forced by ${req.user.username})`
   );
 
-  const userData = await osuApi.getUser({ u: req.body.username, m: 1 });
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+  const mode = getGamemodeId(tourney.mode);
+  const userData = await osuApi.getUser({ u: req.body.username, m: mode });
   const user = await User.findOneAndUpdate(
     { userid: userData.id },
     {
@@ -385,14 +447,13 @@ router.postAsync("/force-register", ensure.isAdmin, async (req, res) => {
  * POST /api/settings
  * Submit settings for a user
  * Params:
- *   - discord: discord username
  *   - timezone: player's timezone
  *   - cardImage: custom background image for user card
  */
 router.postAsync("/settings", ensure.loggedIn, async (req, res) => {
   logger.info(`${req.user.username} updated user settings`);
   await User.findByIdAndUpdate(req.user._id, {
-    $set: { discord: req.body.discord, timezone: req.body.timezone, cardImage: req.body.cardImage },
+    $set: { timezone: req.body.timezone, cardImage: req.body.cardImage },
   });
   res.send({});
 });
@@ -420,13 +481,26 @@ router.getAsync("/tourneys", async (req, res) => {
 
 /**
  * GET /api/staff
- * Get staff list for a tourney
+ * Get staff list for a tourney, or all GTS Team members if tourney isn't specified
  * Params:
  *   - tourney: identifier for the tournament
  */
 router.getAsync("/staff", async (req, res) => {
-  const staff = await User.find({ "roles.tourney": req.query.tourney });
-  res.send(staff);
+  if (req.query.tourney) {
+    const staff = await User.find({ "roles.tourney": req.query.tourney });
+    res.send(staff);
+    return;
+  }
+
+  const allStaff = await User.find({ "roles.0": { $exists: true } });
+  const allGtsTournies = (
+    await Tournament.find({ category: { $in: ["gts", undefined] } }, "code")
+  ).map((tourney) => tourney.code);
+  allStaff.forEach(
+    (user) => (user.roles = user.roles.filter((role) => allGtsTournies.includes(role.tourney)))
+  );
+  const allStaffFiltered = allStaff.filter((user) => user.roles.length > 0);
+  res.send(allStaffFiltered);
 });
 
 /**
@@ -538,9 +612,14 @@ router.getAsync("/tournament", async (req, res) => {
  *   - flags: list of special options for the tourney
  *   - lobbyMaxSignups: number of players/teams that can sign up for a given qualifier lobby
  *   - blacklist: list of player ids that are banned from registering for this tourney
+ *   - discordServerId: a Discord server ID to enforce membership of
+ *   - mode: osu! gamemode (supports "taiko" or "catch")
+ *   - category: category of the tourney
+ *   - disableWarmups: whether to disable warmups or not
  */
 router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   logger.info(`${req.user.username} updated settings for ${req.body.tourney}`);
+
   let tourney =
     (await Tournament.findOne({ code: req.body.tourney })) ??
     new Tournament({
@@ -558,6 +637,10 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
   tourney.flags = req.body.flags;
   tourney.lobbyMaxSignups = req.body.lobbyMaxSignups;
   tourney.blacklist = req.body.blacklist;
+  tourney.discordServerId = req.body.discordServerId;
+  tourney.mode = req.body.mode;
+  tourney.category = req.body.category;
+  tourney.disableWarmups = req.body.disableWarmups;
   tourney.stages = req.body.stages.map((stage) => {
     // careful not to overwrite existing stage data
     const existing = tourney.stages.filter((s) => s.name === stage)[0];
@@ -578,7 +661,6 @@ router.postAsync("/tournament", ensure.isAdmin, async (req, res) => {
  *   - stage: the new info for this stage
  */
 router.postAsync("/stage", ensure.isPooler, async (req, res) => {
-  logger.info(`${req.user.username} updated stage ${req.body.index} of ${req.body.tourney}`);
   const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
   tourney.stages[req.body.index].mappack = req.body.stage.mappack;
   tourney.stages[req.body.index].poolVisible = req.body.stage.poolVisible;
@@ -589,13 +671,32 @@ router.postAsync("/stage", ensure.isPooler, async (req, res) => {
     req.body.stage.statsVisible !== undefined &&
     req.body.stage.statsVisible != (tourney.stages[req.body.index].statsVisible ?? false)
   ) {
-    if (!isAdmin(req.user, req.body.tourney))
+    if (!isAdmin(req.user, req.body.tourney)) {
+      logger.warn(`${req.user.username} attempted to toggle stage stats visibility`);
       return res
         .status(403)
         .send({ error: "You don't have permission to toggle stage stats visibility" });
+    }
     tourney.stages[req.body.index].statsVisible = req.body.stage.statsVisible;
   }
 
+  // Only admin is allowed to change reschedule deadline
+  // (Only make this check when rescheduleDeadline is set in the request)
+  if (
+    req.body.stage.rescheduleDeadline !== undefined &&
+    new Date(req.body.stage.rescheduleDeadline).getTime() !==
+      (tourney.stages[req.body.index].rescheduleDeadline?.getTime() || 0)
+  ) {
+    if (!isAdmin(req.user, req.body.tourney)) {
+      logger.warn(`${req.user.username} attempted to edit stage reschedule deadline`);
+      return res
+        .status(403)
+        .send({ error: "You don't have permission to edit stage reschedule deadline" });
+    }
+    tourney.stages[req.body.index].rescheduleDeadline = new Date(req.body.stage.rescheduleDeadline);
+  }
+
+  logger.info(`${req.user.username} updated stage ${req.body.index} of ${req.body.tourney}`);
   await tourney.save();
   res.send(tourney);
 });
@@ -698,23 +799,30 @@ router.deleteAsync("/match", ensure.isAdmin, async (req, res) => {
 });
 
 /**
- * POST /api/reschedule
- * Reschedule a tourney match
+ * POST /api/edit-match
+ * Edit a tourney match
  * Params:
  *   - match: the _id of the match
  *   - tourney: identifier for the tournament
  *   - time: the new match time (in UTC)
+ *   - code: the new match id
+ *   - player1, player2: the player usernames
  */
-router.postAsync("/reschedule", ensure.isAdmin, async (req, res) => {
+router.postAsync("/edit-match", ensure.isAdmin, async (req, res) => {
   const newMatch = await Match.findOneAndUpdate(
     { _id: req.body.match },
-    { $set: { time: new Date(req.body.time) } },
-    { new: true }
+    {
+      $set: {
+        time: req.body.time ? new Date(req.body.time) : undefined,
+        code: req.body.code,
+        player1: req.body.player1,
+        player2: req.body.player2,
+      },
+    },
+    { new: true, omitUndefined: true }
   ).orFail();
 
-  logger.info(
-    `${req.user.username} rescheduled ${req.body.tourney} match ${newMatch.code} to ${req.body.time}`
-  );
+  logger.info(`${req.user.username} edited ${req.body.tourney} match ${newMatch.code}`);
   res.send(newMatch);
 });
 
@@ -725,7 +833,7 @@ router.postAsync("/reschedule", ensure.isAdmin, async (req, res) => {
  *   - tourney: identifier for the tournament
  *   - stage: the new info for this stage
  */
-router.getAsync("/matches", async (req, res) => {
+router.getAsync("/matches", corsAsync, async (req, res) => {
   const matches = await Match.find({ tourney: req.query.tourney, stage: req.query.stage }).sort({
     time: 1,
   });
@@ -1006,30 +1114,48 @@ router.deleteAsync("/lobby-referee", ensure.isRef, async (req, res) => {
  *  - tourney: identifier of the tournament
  */
 router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
-  logger.info(
-    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
-      req.body.lobby
-    } in ${req.body.tourney}`
-  );
-
   // Prevent non-admin signing up another player
-  if (req.body.user && !isAdmin(req.user, req.body.tourney)) return res.status(403).send({});
-  // Prevent non-registered player signing up self
-  if (!req.body.user && !req.user.tournies.includes(req.body.tourney))
+  if (req.body.user && !isAdmin(req.user, req.body.tourney)) {
+    logger.warn(`${req.user.username} attempted to sign another player up`);
     return res.status(403).send({});
+  }
+  // Prevent non-registered player signing up self
+  if (!req.body.user && !req.user.tournies.includes(req.body.tourney)) {
+    logger.warn(`${req.user.username} attempted to sign up without being registered`);
+    return res.status(403).send({});
+  }
 
   const tourney = await Tournament.findOne({ code: req.body.tourney });
   const lobby = await QualifiersLobby.findOne({
     _id: req.body.lobby,
     tourney: req.body.tourney,
   });
+
+  // Prevent non-admin signing up after the deadline
+  const qualifiersStage = tourney?.stages.find((stage) => stage.name === "Qualifiers");
+  if (
+    !isAdmin(req.user, req.body.tourney) &&
+    new Date() > (qualifiersStage!.rescheduleDeadline ?? new Date(0))
+  ) {
+    logger.warn(`${req.user.username} attempted to reschedule after the deadline`);
+    return res.status(403).send({ message: "The reschedule deadline has passed" });
+  }
+
   // Prevent registered player signing up self for a full lobby
   if (
     tourney!.lobbyMaxSignups &&
     !req.body.user &&
     lobby!.players.length >= tourney!.lobbyMaxSignups
-  )
+  ) {
+    logger.warn(`${req.user.username} attempted to sign up to a full lobby`);
     return res.status(403).send({ message: "Lobby is full", updatedLobby: lobby });
+  }
+
+  logger.info(
+    `${req.user.username} signed ${req.body.user ?? "self"} up for quals lobby ${
+      req.body.lobby
+    } in ${req.body.tourney}`
+  );
 
   const toAdd =
     req.body.user ??
@@ -1059,6 +1185,18 @@ router.postAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
  */
 router.deleteAsync("/lobby-player", ensure.loggedIn, async (req, res) => {
   if (!isAdmin(req.user, req.body.tourney)) {
+    // Prevent non-admin signing up after the deadline
+    const tourney = await Tournament.findOne({ code: req.body.tourney });
+    const lobby = await QualifiersLobby.findOne({
+      _id: req.body.lobby,
+      tourney: req.body.tourney,
+    });
+    const qualifiersStage = tourney?.stages.find((stage) => stage.name === "Qualifiers");
+    if (new Date() > (qualifiersStage!.rescheduleDeadline ?? new Date(0))) {
+      logger.warn(`${req.user.username} attempted to reschedule after the deadline`);
+      return res.status(403).send({ message: "The reschedule deadline has passed" });
+    }
+
     // makes sure the player has permission to do this
 
     if (req.body.teams) {
@@ -1229,7 +1367,7 @@ router.getAsync("/stage-stats", async (req, res) => {
     return;
   }
 
-  if (!isAdmin(req.user, req.query.tourney) && !theStage.statsVisible)
+  if (!canViewHiddenPools(req.user, req.query.tourney) && !theStage.statsVisible)
     return res.status(403).send({ error: "This stage's stats aren't released yet!" });
   const stageStats = await StageStats.findOne({
     tourney: req.query.tourney,
@@ -1521,6 +1659,9 @@ router.postAsync("/refresh", ensure.isAdmin, async (req, res) => {
     logger.info(`${req.user.username} initiated a refresh of ${req.body.tourney} player list`);
   }
 
+  const tourney = await Tournament.findOne({ code: req.body.tourney }).orFail();
+  const mode = getGamemodeId(tourney.mode);
+  console.log(mode);
   const players = await User.find({ tournies: req.body.tourney })
     .skip(req.body.offset)
     .limit(BATCH_SIZE);
@@ -1528,7 +1669,7 @@ router.postAsync("/refresh", ensure.isAdmin, async (req, res) => {
   await Promise.all(
     players.map(async (p) => {
       try {
-        const userData = await osuApi.getUser({ u: p.userid, m: 1, type: "id" });
+        const userData = await osuApi.getUser({ u: p.userid, m: mode, type: "id" });
         p.rank = userData.pp.rank;
         p.username = userData.name;
         await p.save();
@@ -1562,6 +1703,62 @@ router.getAsync("/map-history", async (req, res) => {
   ]);
 
   res.send({ sameDiff, sameSet, sameSong, mapData });
+});
+
+/**
+ * GET /api/custom-songs
+ * Gets all the GTS tourney maps that are marked as custom songs
+ */
+router.getAsync("/custom-songs", async (req, res) => {
+  const maps = await TourneyMap.find({ customSong: true });
+  const output: ITourneyMap[] = [];
+
+  // To avoid repeated db calls
+  const tournamentCache: { [key: string]: ITournament } = {};
+
+  // To avoid repeated stage search
+  const stageCache: { [key: string]: TourneyStage } = {};
+
+  // Pre-fetch all tournies to avoid repeated db calls to find individual tournies
+  const tourniesFromDb = await Tournament.find();
+  tourniesFromDb.forEach((tourney) => {
+    tournamentCache[tourney.code] = tourney;
+  });
+
+  for (const map of maps) {
+    let tourney = tournamentCache[map.tourney];
+
+    // Keeping this here in case the pre-fetch above doesn't fetch all tournies for some reason
+    if (!tourney) {
+      let fetchedTourney = await Tournament.findOne({ code: map.tourney });
+      if (fetchedTourney) {
+        tourney = fetchedTourney;
+        tournamentCache[map.tourney] = tourney;
+      } else {
+        // If tournament is not found, skip this map
+        continue;
+      }
+    }
+
+    const stageKey = `${tourney.code}-${map.stage}`;
+    let stage = stageCache[stageKey];
+    if (!stage) {
+      let foundStage = tourney.stages.find((stage) => stage.name === map.stage);
+      if (!foundStage) {
+        // If stage is not found, skip this map
+        continue;
+      }
+      stage = foundStage;
+      stageCache[stageKey] = stage;
+    }
+
+    // Show map only if the pool is visible
+    if (stage.poolVisible) {
+      output.push(map);
+    }
+  }
+
+  res.send(output);
 });
 
 /**

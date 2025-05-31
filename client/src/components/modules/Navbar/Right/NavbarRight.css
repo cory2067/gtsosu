@@ -1,0 +1,25 @@
+.NavbarRight-container {
+  display: flex;
+  flex-direction: row;
+  margin-right: var(--m);
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Antd specificity getting ridiculous here */
+.ant-menu-submenu-popup > .ant-menu,
+.NavbarRight-menuPopup {
+  background-color: var(--darker-night) !important;
+}
+
+/* .NavbarRight-menuPopup .NavbarRight-menuItem {
+  font-weight: 400;
+  height: 40px;
+} */
+
+.NavbarRight-separator {
+  width: 2px;
+  height: 48px;
+  background-color: var(--onyx-dark);
+  margin-right: var(--m);
+}

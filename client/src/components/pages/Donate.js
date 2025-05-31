@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useMemo } from "react";
-import ReactMarkdown from "react-markdown";
+import React, { useEffect, useMemo, useState } from "react";
+import { get, post } from "../../utilities";
 import UserCard from "../modules/UserCard";
-import { get, hasAccess, delet, post } from "../../utilities";
 import "./Donate.css";
 
-import { Layout, Form, Button, Collapse, Input, Progress } from "antd";
+import { Button, Collapse, Form, Input, Layout, Progress } from "antd";
 import { UserAuth } from "../../permissions/UserAuth";
 import { UserRole } from "../../permissions/UserRole";
 const { Content } = Layout;
@@ -13,6 +12,8 @@ const { Panel } = Collapse;
 const DONATION_GOAL = 5800;
 
 function Donate({ user }) {
+  user ??= {};
+
   const [loading, setLoading] = useState(false);
   const [donors, setDonors] = useState([]);
   const auth = new UserAuth(user).forGlobal();
@@ -75,15 +76,9 @@ function Donate({ user }) {
         <div className="Donate-info">
           <h1>Support GTS!</h1>
           <p>
-            Hello!
-            As you are likely aware, OsuMe65 is the main designer for the GTS series, having designed for AGTS in 2020 and 2021, CGTS in 2019, RGTS in 2021, and, of course, being the main designer for EGTS since 2021.
-            As you may know, he is running on quite the, not so good laptop, having to deal with 50+ hours renders for nearly anything intensive like his EGTS trailer or reveal videos, forcing him to put it all on us.
-            And well, it's not getting better by the day, and it's probably getting to the point where his current laptop would die soon LOL.
-            Considering his creativity and speed at working, we believe it's for the best to do this for him, especially as he is the only designer currently with such struggles.
-            To try and give him a PC that would have no issues though, we're aiming for a total donation of $2,275, being a bit over what he would need for an optimal setup.
-            So, if you've enjoyed any design of EGTS, and, or his numerous custom songs, and want to see it get better and better, please donate if you can!
-            Any donation, as small as it is will be hugely appreciated.
-
+            Hello! This is the main page to send donations to the biggest osu!taiko tournament
+            series, GTS. We do not have any specific financial goal for GTS as of now, only one in
+            the very far off future. Any donation, as small as it is will be hugely appreciated.
           </p>
           <p>
             Everyone on the GTS team has worked for free, through their own generosity and passion

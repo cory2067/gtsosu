@@ -3,7 +3,7 @@ import { get, post, hasAccess, delet, getStage, prettifyTourney } from "../../ut
 import StageSelector from "../modules/StageSelector";
 import SubmitResultsModal from "../modules/SubmitResultsModal";
 import FlagIcon from "../modules/FlagIcon";
-import { PlusOutlined, LinkOutlined, DeleteOutlined } from "@ant-design/icons";
+import { PlusOutlined, LinkOutlined, DeleteOutlined, EditOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import moment from "moment";
 import AddTag from "../modules/AddTag";
 import Qualifiers from "../modules/Qualifiers";
@@ -45,7 +45,10 @@ class Schedule extends Component {
       matches: [],
       timezone: 0,
       show: "all",
-      editing: -1,
+      editingTime: -1,
+      editingCode: -1,
+      editingPlayer1: -1,
+      editingPlayer2: -1,
       formData: {
         score1: 0,
         score2: 0,
@@ -293,16 +296,18 @@ class Schedule extends Component {
     return stats || {};
   };
 
-  renderName = (p) => {
-    if (p.startsWith("Winner of ")) {
-      const code = p.split("Winner of ")[1];
+  renderName = (playerName) => {
+    if (!playerName) return "";
+    
+    if (playerName.startsWith("Winner of ")) {
+      const code = playerName.split("Winner of ")[1];
       const match = this.state.matches.filter((match) => match.code === code)[0];
       if (!match || match.score1 === match.score2) {
         // no winner of the match yet, just display "Winner of X"
         return (
-          <span className="Players-name">
+          <span className="Schedule-player">
             <FlagIcon size={14} />
-            {p}
+            {playerName}
           </span>
         );
       }
@@ -314,8 +319,28 @@ class Schedule extends Component {
       return this.renderName(match.player2);
     }
 
-    const stats = this.getStats(p);
-    const thePlayerOrTeam = this.getInfo(p);
+    if (playerName.startsWith("Loser of ")) {
+      const code = playerName.split("Loser of ")[1];
+      const match = this.state.matches.filter((match) => match.code === code)[0];
+      if (!match || match.score1 === match.score2) {
+        // no loser of the match yet, just display "Loser of X"
+        return (
+          <span className="Schedule-player">
+            <FlagIcon size={14} />
+            {playerName}
+          </span>
+        );
+      }
+
+      // may recurse through several match references
+      if (match.score1 < match.score2) {
+        return this.renderName(match.player2);
+      }
+      return this.renderName(match.player1);
+    }
+
+    const stats = this.getStats(playerName);
+    const thePlayerOrTeam = this.getInfo(playerName);
     
     const popoverContent = thePlayerOrTeam._id ?
                              (thePlayerOrTeam.players ?
@@ -326,9 +351,9 @@ class Schedule extends Component {
 
     return (
       <Popover content={popoverContent} placement="right">
-        <span className="Players-name">
-          <FlagIcon size={14} code={this.getInfo(p).country} customIcon={this.getInfo(p).icon} />
-          {p}
+        <span className="Schedule-player">
+          <FlagIcon size={14} code={this.getInfo(playerName).country} customIcon={this.getInfo(playerName).icon} />
+          {playerName}
         </span>
       </Popover>
     );
@@ -406,7 +431,7 @@ class Schedule extends Component {
   };
 
   handleTimezone = (e) => {
-    if (this.state.editing > -1) return;
+    if (this.state.editingTime > -1) return;
     this.setState({ timezone: e.target.value });
   };
 
@@ -427,17 +452,17 @@ class Schedule extends Component {
     )[0];
   };
 
-  startEdit = (i) => {
+  startTimeEdit = (i) => {
     if (!this.isAdmin()) return;
     this.setState({
       timezone: 0,
-      editing: i,
+      editingTime: i,
     });
   };
 
-  onEdit = async (val, i) => {
+  onTimeEdit = async (val, i) => {
     const time = this.stripTimezone(val.seconds(0).toString());
-    const newMatch = await post("/api/reschedule", {
+    const newMatch = await post("/api/edit-match", {
       match: this.state.matches[i]._id,
       tourney: this.props.tourney,
       time,
@@ -445,9 +470,80 @@ class Schedule extends Component {
     newMatch.key = newMatch._id;
 
     this.setState((state) => ({
-      editing: -1,
+      editingTime: -1,
       matches: state.matches.map((m, index) => (index === i ? newMatch : m)),
     }));
+  };
+  
+  onCodeEdit = async (formData) => {
+    const i = this.state.editingCode;
+    const newMatch = await post("/api/edit-match", {
+      match: this.state.matches[i]._id,
+      tourney: this.props.tourney,
+      code: formData.code,
+    });
+    newMatch.key = newMatch._id;
+    
+    this.setState((state) => ({
+      editingCode: -1,
+      matches: state.matches.map((m, index) => (index === i ? newMatch : m)),
+    }));
+  };
+  
+  onPlayer1Edit = async (formData) => {
+    const i = this.state.editingPlayer1;
+    const newMatch = await post("/api/edit-match", {
+      match: this.state.matches[i]._id,
+      tourney: this.props.tourney,
+      player1: formData.player1,
+    });
+    newMatch.key = newMatch._id;
+    
+    this.setState((state) => ({
+      editingPlayer1: -1,
+      matches: state.matches.map((m, index) => (index === i ? newMatch : m)),
+    }));
+  };
+  
+  onPlayer2Edit = async (formData) => {
+    const i = this.state.editingPlayer2;
+    const newMatch = await post("/api/edit-match", {
+      match: this.state.matches[i]._id,
+      tourney: this.props.tourney,
+      player2: formData.player2,
+    });
+    newMatch.key = newMatch._id;
+    
+    this.setState((state) => ({
+      editingPlayer2: -1,
+      matches: state.matches.map((m, index) => (index === i ? newMatch : m)),
+    }));
+  };
+  
+  playerSelector = () => {
+    return (
+      <Select showSearch>
+        {Object.keys(this.state.lookup).map((name) => (
+          <Select.Option key={name} value={name}>
+            {name}
+          </Select.Option>
+        ))}
+        {this.state.matches
+          .map((match) => `Winner of ${match.code}`)
+          .map((name) => (
+            <Select.Option key={name} value={name}>
+              {name}
+            </Select.Option>
+        ))}
+        {this.state.matches
+          .map((match) => `Loser of ${match.code}`)
+          .map((name) => (
+            <Select.Option key={name} value={name}>
+              {name}
+            </Select.Option>
+        ))}
+      </Select>
+    );
   };
 
   render() {
@@ -524,20 +620,7 @@ class Schedule extends Component {
                     <Panel header={`Add new ${this.state.current.name} match`} key="1">
                       <Form name="basic" onFinish={this.onFinish}>
                         <Form.Item label={this.state.teams ? "Team 1" : "Player 1"} name="player1">
-                          <Select showSearch>
-                            {Object.keys(this.state.lookup).map((name) => (
-                              <Select.Option key={name} value={name}>
-                                {name}
-                              </Select.Option>
-                            ))}
-                            {this.state.matches
-                              .map((match) => `Winner of ${match.code}`)
-                              .map((name) => (
-                                <Select.Option key={name} value={name}>
-                                  {name}
-                                </Select.Option>
-                              ))}
-                          </Select>
+                          {this.playerSelector()}
                         </Form.Item>
                         <Form.Item label={this.state.teams ? "Team 2" : "Player 2"} name="player2">
                           <Select showSearch>
@@ -552,7 +635,14 @@ class Schedule extends Component {
                                 <Select.Option key={name} value={name}>
                                   {name}
                                 </Select.Option>
-                              ))}
+                            ))}
+                            {this.state.matches
+                              .map((match) => `Loser of ${match.code}`)
+                              .map((name) => (
+                                <Select.Option key={name} value={name}>
+                                  {name}
+                                </Select.Option>
+                            ))}
                           </Select>
                         </Form.Item>
                         <Form.Item label="Match ID" name="code">
@@ -581,7 +671,27 @@ class Schedule extends Component {
                       />
                     )}
 
-                    <Column title="Match ID" dataIndex="code" key="code" />
+                    <Column
+                      title="Match ID"
+                      dataIndex="code"
+                      key="code"
+                      render={(matchId, _, i) =>
+                        this.state.editingCode === i ? (
+                          <Form name="basic" onFinish={this.onCodeEdit}>
+                            <Form.Item initialValue={matchId} name="code">
+                              <Input />
+                            </Form.Item>
+                            <Button icon={<CheckOutlined />} size="small" htmlType="submit" />
+                            <Button icon={<CloseOutlined />} size="small" onClick={() => this.setState({ editingCode: -1 })} />
+                          </Form>
+                        ) : (
+                          <span>
+                            {matchId}
+                            {this.isAdmin() && (<EditOutlined onClick={() => this.setState({ editingCode: i })} />)}
+                          </span>
+                        )
+                      }
+                    />
                     <Column
                       title="Score"
                       dataIndex="score1"
@@ -592,32 +702,66 @@ class Schedule extends Component {
                       title={this.state.teams ? "Team 1" : "Player 1"}
                       dataIndex="player1"
                       key="player1"
-                      render={this.renderName}
+                      render={(playerName, _, i) =>
+                        this.state.editingPlayer1 === i ? (
+                          <Form name="basic" onFinish={this.onPlayer1Edit}>
+                            <Form.Item initialValue={playerName} name="player1">
+                              {this.playerSelector()}
+                            </Form.Item>
+                            <Button icon={<CheckOutlined />} size="small" htmlType="submit" />
+                            <Button icon={<CloseOutlined />} size="small" onClick={() => this.setState({ editingPlayer1: -1 })} />
+                          </Form>
+                        ) : (
+                          <span>
+                            {this.renderName(playerName)}
+                            {this.isAdmin() && (<EditOutlined onClick={() => this.setState({ editingPlayer1: i })} />)}
+                          </span>
+                        )
+                      }
                     />
-                    <Column
-                      title="Warmup 1"
-                      dataIndex="warmup1"
-                      key="warmup1"
-                      className="u-textCenter"
-                      render={(url, match) => {
-                        return this.renderWarmup(url, match, 1);
-                      }}
-                    />
+                    {!this.state.tournament?.disableWarmups && (
+                      <Column
+                        title="Warmup 1"
+                        dataIndex="warmup1"
+                        key="warmup1"
+                        className="u-textCenter"
+                        render={(url, match) => {
+                          return this.renderWarmup(url, match, 1);
+                        }}
+                      />
+                    )}
                     <Column
                       title={this.state.teams ? "Team 2" : "Player 2"}
                       dataIndex="player2"
                       key="player2"
-                      render={this.renderName}
+                      render={(playerName, _, i) =>
+                        this.state.editingPlayer2 === i ? (
+                          <Form name="basic" onFinish={this.onPlayer2Edit}>
+                            <Form.Item initialValue={playerName} name="player2">
+                              {this.playerSelector()}
+                            </Form.Item>
+                            <Button icon={<CheckOutlined />} size="small" htmlType="submit" />
+                            <Button icon={<CloseOutlined />} size="small" onClick={() => this.setState({ editingPlayer2: -1 })} />
+                          </Form>
+                        ) : (
+                          <span>
+                            {this.renderName(playerName)}
+                            {this.isAdmin() && (<EditOutlined onClick={() => this.setState({ editingPlayer2: i })} />)}
+                          </span>
+                        )
+                      }
                     />
-                    <Column
-                      title="Warmup 2"
-                      dataIndex="warmup2"
-                      key="warmup2"
-                      className="u-textCenter"
-                      render={(url, match) => {
-                        return this.renderWarmup(url, match, 2);
-                      }}
-                    />
+                    {!this.state.tournament?.disableWarmups && (
+                      <Column
+                        title="Warmup 2"
+                        dataIndex="warmup2"
+                        key="warmup2"
+                        className="u-textCenter"
+                        render={(url, match) => {
+                          return this.renderWarmup(url, match, 2);
+                        }}
+                      />
+                    )}
                     <Column
                       title="Score"
                       dataIndex="score2"
@@ -634,20 +778,21 @@ class Schedule extends Component {
                       dataIndex="time"
                       key="time"
                       render={(t, _, i) =>
-                        this.state.editing === i ? (
-                          <DatePicker
-                            defaultValue={moment(t).utcOffset(0)}
-                            onChange={(val) => this.onEdit(val, i)}
-                            showTime
-                            format={"MM/DD HH:mm"}
-                            minuteStep={15}
-                          />
+                        this.state.editingTime === i ? (
+                          <span>
+                            <DatePicker
+                              defaultValue={moment(t).utcOffset(0)}
+                              onChange={(val) => this.onTimeEdit(val, i)}
+                              showTime
+                              format={"MM/DD HH:mm"}
+                              minuteStep={15}
+                            />
+                            <Button icon={<CloseOutlined />} size="small" onClick={() => this.setState({ editingTime: -1 })} />
+                          </span>
                         ) : (
-                          <span
-                            className={this.isAdmin() ? "u-pointer" : ""}
-                            onClick={() => this.startEdit(i)}
-                          >
+                          <span>
                             {moment(t).utcOffset(this.state.timezone).format("ddd MM/DD HH:mm")}
+                            {this.isAdmin() && (<EditOutlined onClick={() => this.startTimeEdit(i)} />)}
                           </span>
                         )
                       }

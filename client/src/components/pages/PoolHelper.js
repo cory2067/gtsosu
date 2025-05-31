@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "@reach/router";
-import ReactMarkdown from "react-markdown";
-import TourneyCard from "../modules/TourneyCard";
-import { get, hasAccess, delet, post, prettifyTourney, tokenizeTourney } from "../../utilities";
+import React, { useState } from "react";
+import { get, tokenizeTourney } from "../../utilities";
 import "./PoolHelper.css";
 
-import { Layout, Card, List, Form, Select, Input, InputNumber, Button } from "antd";
-import StageSelector from "../modules/StageSelector";
+import { Button, Form, Input, Layout, List } from "antd";
 const { Content } = Layout;
 
 function PoolHelper(props) {

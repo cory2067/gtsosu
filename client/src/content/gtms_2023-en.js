@@ -1,8 +1,21 @@
 export default {
   name: "Global Taiko Malaysian Showdown",
   description:
-    "The Global Taiko Malaysian Showdown is a special 2v2 tournament collaboration event between the osu!taiko Malaysian Tournament (OTMT) and Global Taiko Showdown (GTS). Each team must consist of one Malaysian and one Global player and the top 32 teams after qualifiers will face-off in a high stakes single-elimination bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+    "The Global Taiko Malaysian Showdown is a special 2v2 tournament collaboration event between the osu!taiko Malaysian Tournament (OTMT) and Global Taiko Showdown (GTS). Each team must consist of one Malaysian and one Global player and the top teams after qualifiers will face-off in a double-elimination bracket.",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/GTMS2023"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/113"
+    },
+  ],
   homepage: [
     {
       title: "Restrictions",
@@ -14,19 +27,23 @@ export default {
 ### Registration Phase
 February 25th - March 12th.
 ### Screening phase
-March 12th - March 19th.
+March 12th - March 25th.
+### Qualifiers Showcase
+March 25th, 12:00UTC.
 ### Qualifiers
-March 25th - March 26th.
-### Round of 32
 April 1st - April 2nd.
-### Round of 16
+### Round of 24
 April 8th - April 9th.
-### Quarterfinals
+### Round of 16
 April 15th - April 16th.
-### Semifinals
+### Quarterfinals + Loser’s Bracket Round 1 and 2
 April 22nd - April 23rd.
-### Grand Finals + 3rd place match
-April 29th - April 30th.`,
+### Semifinals + Loser’s Bracket Round 3 and 4
+April 29th - April 30th.
+### Finals + Loser’s Bracket Round 5 and 6
+May 6th - May 7th.
+### Grand Finals + Loser’s Bracket Grand Finals
+May 13th - May 14th`,
 
     },
     { title: "Registration", body: "Please click on the Register button above after you've logged in with your osu! account to fill in your team, then click on the Discord button to join the server of our tournament. **Joining the GTS and osu!taiko Malaysia Discord servers is mandatory to play in this tournament, and you will be removed from the tournament if you don't do so.**" }, 
@@ -55,9 +72,16 @@ April 29th - April 30th.`,
   
 
   # Tournament Details
- - This is a single-elimination, 2v2 osu!taiko tournament.
+ - This is a double-elimination, 2v2 osu!taiko tournament.
  - **This tournament introduces a special “Player Assist” system, which is further elaborated in the next subsection below. Please read through it carefully.**
  - ScoreV2 will be used with the Team VS option.
+ - The tournament starts off with the Qualifiers stage to sort the teams into their respective seedings in the Top 24.
+ - The Top 8 teams will get to skip the RO24 week and jump straight to RO16.
+ - The bottom 16 teams will face each other in the RO24 week, with the losers falling down to the Loser’s bracket.
+  It is important to note that the RO24 and RO16 stages will not have any Loser Bracket matches, hence:
+   - The 8 teams that fall down to the Loser’s Bracket after the RO24 week will not have any matches in the RO16 week.
+   - They will face the Losers of the RO16 winner’s bracket matches in the Quarterfinals week.
+   - For better clarification, please look at the sample bracket layout [here](https://challonge.com/tournaments/bracket_generator?form_type=bracket_generator&ref=LgOMZhAWcS)
  - The tournament starts off with the Qualifiers stage to sort the teams into their respective seedings in the Top 32.
  - The Top 32 teams will then advance onto the Round of 32 where the knockout stages will begin.
  - The tournament hosts will release the mappool and schedule one week before each round.
@@ -69,7 +93,7 @@ April 29th - April 30th.`,
  - **In the scenario where less than 32 teams register for the tournament, the tournament format will be switched to double-elimination instead along with several other major format changes. Further details to this possible change will be communicated via the Discord servers if it happens.**
 
 # Player Assist
- - Starting from the Round of 16, the winning teams from the previous RO32 will absorb their losing opponents into their team’s “bench roster”.
+ - Starting from the Round of 16, the winning teams from the previous RO24 matches will absorb their losing opponents into their team’s “bench roster”.
  - The winning team can then call upon **ANY ONE PLAYER** from this bench roster to assist with **ONE (1) MAP PER MATCH.** 
  - This assist player can replace the position of any player from the team for that one map.
  - Once the map is finished, the assist player must leave the room and the match will continue with the usual core team players.
@@ -82,13 +106,12 @@ April 29th - April 30th.`,
 
 
 # Stage Regulations
- - There are six stages in this tournament: Qualifiers, RO32, RO16, Quarterfinals, Semifinals and Grand Finals.
- - As this is a single-elimination bracket tournament, there are no lower brackets to fall  down into and hence, no Finals stage.
+ - There are seven stages in this tournament: Qualifiers, RO24, RO16, Quarterfinals, Semifinals, Finals and Grand Finals.
  - Teams will be seeded with the average of their ranks on each map during the Qualifiers round.
  - The winning condition for each stage are:
-   - RO32 and RO16: BO11 (win 6 maps)
-   - Quarterfinals & Semifinals: BO13 (win 7 maps)
-   -  Grand Finals: BO15 (win 8 maps)
+   - RO24 and RO16: BO9 (win 5 maps)
+   - Quarterfinals & Semifinals: BO11 (win 6 maps)
+   -  Grand Finals: BO13 (win 7 maps)
 
 
 # Qualifiers Regulations
@@ -101,7 +124,7 @@ April 29th - April 30th.`,
  - Failed scores will be counted.
  - Both players from a team will be required to play the map.
  - Seedings will be done with the average rank of each team on each map.
- - Only the 32 best teams will continue on to the bracket stages.
+ - Only the 24 best teams will continue on to the bracket stages.
 
 
 # Match Regulations
@@ -132,9 +155,9 @@ April 29th - April 30th.`,
 # Mappool Instructions
  - The mappool will consist of the following brackets: **NoMod, Hidden, HardRock, DoubleTime, FreeMod, Flashlight and Tiebreaker.**
  - The Hidden, HardRock and DoubleTime brackets will consist of 2 maps each across all stages.
- - The NoMod bracket will consist of 3 maps in RO32/RO16, 4 maps in Quarterfinals, and 5 maps in Semifinals and Grand Finals.
+ - The NoMod bracket will consist of 3 maps in RO24/RO16, 4 maps in Quarterfinals, and 5 maps in Semifinals until Grand Finals.
  - The Flashlight bracket will only consist of 1 map across all rounds. **This map cannot be banned.**
- - The FreeMod bracket will consist of 2 maps in RO32/RO16 and 3 maps across the remaining stages.
+ - The FreeMod bracket will consist of 2 maps in RO24/RO16 and 3 maps across the remaining stages.
  - Players may choose to play with NoMod, Hidden, HardRock or a combination of Hidden and HardRock for the FreeMod picks. There are **no team limitations** for mod combinations.
  - The Tiebreaker will be played under FreeMod conditions.
  - The skillsets tested across the pool are as listed below, this will be consistent across all stages. Do note that some of these picks are only available at the later stages.

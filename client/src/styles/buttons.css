@@ -1,0 +1,94 @@
+button.ant-btn.ant-btn {
+  font-weight: 600;
+}
+
+button.ant-btn.ant-btn > span {
+  vertical-align: text-bottom;
+}
+
+button.ant-btn.default {
+  border-width: 2px;
+  border-color: transparent;
+  border-radius: 4px;
+  color: white;
+}
+
+button.ant-btn.default:hover {
+  background-color: var(--gts-orange);
+  color: black;
+}
+
+button.ant-btn.default:active {
+  background-color: var(--gts-orange-dark);
+  color: white;
+}
+
+button.ant-btn.light {
+  border-width: 2px;
+  border-color: transparent;
+  border-radius: 4px;
+  color: var(--onyx-dark);
+  background-color: var(--greyts-lighter);
+}
+
+button.ant-btn.light:hover {
+  color: var(--dark-night);
+  background-color: white;
+}
+
+button.ant-btn.light:active {
+  color: black;
+  background-color: var(--greyts);
+}
+
+button.ant-btn.cta {
+  border-width: 2px;
+  border-color: transparent;
+  border-radius: 4px;
+  color: var(--onyx-dark);
+  background-color: var(--gts-orange);
+}
+
+button.ant-btn.cta:hover {
+  color: var(--dark-night);
+  background-color: var(--gts-orange-light);
+}
+
+button.ant-btn.cta:active {
+  color: var(--greyts);
+  background-color: var(--gts-orange-dark);
+}
+
+button.ant-btn.outlined {
+  border-width: 2px;
+  border-color: transparent;
+  border-radius: 4px;
+  color: var(--greyts);
+  background-color: transparent;
+}
+
+button.ant-btn.outlined:hover {
+  border-color: var(--gts-orange);
+}
+
+button.ant-btn.outlined:active {
+  border-color: var(--gts-orange);
+  background-color: var(--dark-night);
+}
+
+button.ant-btn.outlined-light {
+  color: white;
+  border-width: 2px;
+  border-color: var(--greyts);
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+button.ant-btn.outlined-light:hover {
+  border-color: var(--gts-orange);
+}
+
+button.ant-btn.outlined-light:active {
+  border-color: var(--gts-orange);
+  background-color: var(--gts-orange-dark);
+}

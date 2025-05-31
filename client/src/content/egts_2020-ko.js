@@ -2,7 +2,16 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "Expert Global Taiko Showdown은 최상위권 osu!taiko 플레이어를 겨냥한 토너먼트입니다. 랭킹 제한은 없으며, 예선을 통해 128명의 선수가 출전권을 얻어 더블 엘리미네이션 방식으로 경기를 치르게 됩니다.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "디스코드",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2020"
+    },
+  ],
   homepage: [
     {
       title: "참가 자격 제한",

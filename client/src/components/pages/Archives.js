@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from "react";
 import { Link } from "@reach/router";
-import ReactMarkdown from "react-markdown";
-import TourneyCard from "../modules/TourneyCard";
-import { get, hasAccess, delet, post, prettifyTourney, tokenizeTourney } from "../../utilities";
+import React, { useEffect, useState } from "react";
+import { get, prettifyTourney, tokenizeTourney } from "../../utilities";
 import "./Archives.css";
 
-import data from "../../content/home-en";
-import { Layout, Card, List } from "antd";
+import { Layout, List } from "antd";
 const { Content } = Layout;
 
 function Archives(props) {

@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { GameMode } from "../types";
 
 interface ITourneyMap {
   mapId: number;
@@ -13,17 +14,23 @@ interface ITourneyMap {
   sr: number;
   od: number;
   hp: number;
+  ar?: number; // Not used for taiko
+  cs?: number; // Not used for taiko
   length: string;
   image: string;
   tourney: string;
   stage: string;
   customMap: boolean;
   customSong: boolean;
+  mode?: GameMode;
 }
 
 const TourneyMapSchema = new Schema<ITourneyMap>({
   mapId: Number,
-  mod: { type: String, enum: ["NM", "HD", "HR", "DT", "FM", "HT", "HDHR", "EZ", "FL", "CV", "EX", "TB"] },
+  mod: {
+    type: String,
+    enum: ["NM", "HD", "HR", "DT", "FM", "HT", "HDHR", "EZ", "FL", "CV", "EX", "TB"],
+  },
   index: Number,
   title: String,
   artist: String,
@@ -34,12 +41,15 @@ const TourneyMapSchema = new Schema<ITourneyMap>({
   sr: Number,
   od: Number,
   hp: Number,
+  ar: Number,
+  cs: Number,
   length: String,
   image: String,
   tourney: String,
   stage: String,
   customMap: Boolean,
   customSong: Boolean,
+  mode: String,
 });
 
 export { ITourneyMap };

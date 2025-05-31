@@ -1,13 +1,12 @@
-import React, { Component } from "react";
-import AddMapModal from "../modules/AddMapModal";
-import StageSelector from "../modules/StageSelector";
-import MapCard from "../modules/MapCard";
 import { PlusOutlined } from "@ant-design/icons";
-import { get, post, delet, hasAccess, getStage, prettifyTourney } from "../../utilities";
-import { navigate } from "@reach/router";
+import React, { Component } from "react";
+import { delet, get, getStage, hasAccess, post, prettifyTourney } from "../../utilities";
+import AddMapModal from "../modules/AddMapModal";
+import MapCard from "../modules/MapCard";
+import StageSelector from "../modules/StageSelector";
 import "./Mappools.css";
 
-import { Layout, Menu, Button, Form, Switch, Input, message, Empty } from "antd";
+import { Button, Empty, Form, Input, Layout, Switch, message } from "antd";
 const { Content } = Layout;
 
 class Mappools extends Component {
@@ -28,7 +27,7 @@ class Mappools extends Component {
     document.title = `${prettifyTourney(this.props.tourney)}: Mappools`;
 
     const [tourney, current] = await getStage(this.props.tourney);
-    this.setState({ stages: tourney.stages, current });
+    this.setState({ stages: tourney.stages, current, mode: tourney.mode });
     await this.getMappool(current.name);
     if (this.isPooler()) this.formRef.current.setFieldsValue(current);
   }
@@ -52,8 +51,8 @@ class Mappools extends Component {
       this.props.user,
       this.props.tourney,
       this.state.current.name === "All Stars"
-        ? ["Mapsetter", "All-Star Mapsetter", "Head Pooler", "Mapper"]
-        : ["Mapsetter", "Head Pooler", "Mapper"]
+        ? ["Mappooler", "All-Star Mappooler", "Head Pooler", "Mapper"]
+        : ["Mappooler", "Head Pooler", "Mapper"]
     );
 
   sortMaps = (maps) => {
@@ -101,6 +100,7 @@ class Mappools extends Component {
       ...this.state.formData,
       tourney: this.props.tourney,
       stage: this.state.current.name,
+      mode: this.state.mode,
     })
       .then((res) => {
         this.setState((state) => ({

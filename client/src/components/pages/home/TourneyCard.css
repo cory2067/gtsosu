@@ -1,0 +1,130 @@
+.content .TourneyCard-card {
+  margin: var(--m);
+  margin-left: 0;
+  margin-right: 0;
+  overflow: hidden;
+  padding: 0px;
+  display: flex;
+}
+
+.TourneyCard-container {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  backdrop-filter: blur(100px);
+  display: flex;
+  flex-direction: column;
+}
+
+.TourneyCard-content {
+  margin: 48px;
+  width: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: flex-start;
+}
+
+.TourneyCard-banner {
+  width: 100%;
+  height: 290px;
+  flex-grow: 0;
+}
+
+.TourneyCard-title {
+  font-size: 33px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 0.9;
+  margin-bottom: var(--s);
+}
+
+.TourneyCard-description {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0px;
+  line-height: 1.1;
+  flex-grow: 1;
+}
+
+.TourneyCard-container .ant-btn {
+  background-color: transparent;
+  justify-self: end;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* Large screens */
+@media (min-width: 1280px) {
+  .content .TourneyCard-card {
+    margin-left: var(--m);
+    margin-right: var(--m);
+  }
+
+  .TourneyCard-container.ongoing {
+    flex-direction: row-reverse;
+  }
+
+  .TourneyCard-banner.ongoing {
+    /* 100px here is just to allow flexgrow to work, perhaps there's a better way? */
+    width: 100px;
+    height: auto;
+    flex-grow: 0.7;
+  }
+
+  .TourneyCard-content.ongoing {
+    width: 100px;
+    flex-grow: 0.3;
+  }
+
+  .TourneyCard-title.ongoing {
+    font-size: 40px;
+  }
+
+  .TourneyCard-description.ongoing {
+    font-size: 24px;
+  }
+}
+
+/* Small screens */
+@media (max-width: 719px) {
+  .content .TourneyCard-card {
+    margin: 0px;
+    margin-left: var(--m);
+    margin-right: var(--m);
+  }
+
+  .TourneyCard-banner.ongoing {
+    height: 211px;
+  }
+
+  .TourneyCard-banner {
+    height: 113px;
+  }
+
+  .TourneyCard-content {
+    margin: 30px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .TourneyCard-title {
+    font-size: 21px;
+    text-align: center;
+  }
+
+  .TourneyCard-title.ongoing {
+    font-size: 25px;
+  }
+
+  .TourneyCard-description {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .TourneyCard-description.ongoing {
+    font-size: 16px;
+  }
+}

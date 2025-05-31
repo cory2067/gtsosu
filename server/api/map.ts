@@ -5,8 +5,9 @@ import ensure from "../ensure";
 import Tournament from "../models/tournament";
 import TourneyMap, { ITourneyMap } from "../models/tourney-map";
 import { IUser } from "../models/user";
-import { Request, UserDocument } from "../types";
-import { getOsuApi, checkPermissions, assertUser } from "../util";
+import { Request } from "../types";
+import { getOsuApi, checkPermissions, assertUser, getGamemodeId } from "../util";
+import { GameMode } from "../types";
 
 import { addAsync } from "@awaitjs/express";
 const mapRouter = addAsync(express.Router());
@@ -33,9 +34,9 @@ const scaleDiff = (diff: number, mod: string) => {
 
 const canViewHiddenPools = (user: IUser | undefined, tourney: string) =>
   checkPermissions(user, tourney, [
-    "Mapsetter",
+    "Mappooler",
     "Showcase",
-    "All-Star Mapsetter",
+    "All-Star Mappooler",
     "Head Pooler",
     "Mapper",
   ]);
@@ -52,6 +53,7 @@ type PostMapBody = {
   tourney: string; // identifier for the tourney
   stage: string; // which pool, e.g. qf, sf, f, gf
   pooler?: string; // who selected this map (default current user)
+  mode?: GameMode; // osu! gamemode to use (default taiko)
 };
 type PostMapResponse = ITourneyMap;
 
@@ -63,8 +65,9 @@ mapRouter.postAsync(
     logger.info(`${user.username} added ${req.body.id} to ${req.body.stage} mappool`);
 
     const mod = req.body.mod;
+    const mode = getGamemodeId(req.body.mode);
     const modId = { EZ: 2, HR: 16, HDHR: 16, DT: 64, HT: 256 }[mod] || 0; // mod enum used by osu api
-    const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId, m: 1, a: 1 }))[0];
+    const mapData = (await osuApi.getBeatmaps({ b: req.body.id, mods: modId, m: mode, a: 1 }))[0];
 
     // all map metadata cached in our db, so we don't need to spam calls to the osu api
     const newMap = new TourneyMap({
@@ -75,12 +78,15 @@ mapRouter.postAsync(
       creator: mapData.creator,
       diff: mapData.version,
       bpm: round(scaleBPM(mapData.bpm, mod)),
+      ar: mapData.difficulty.approach,
+      cs: mapData.difficulty.size,
       sr: round(mapData.difficulty.rating),
       od: scaleDiff(mapData.difficulty.overall, mod),
       hp: scaleDiff(mapData.difficulty.drain, mod),
       length: formatTime(scaleTime(mapData.length.total, mod)),
       image: `https://assets.ppy.sh/beatmaps/${mapData.beatmapSetId}/covers/cover.jpg`,
       pooler: req.body.pooler ?? user.username,
+      mode: req.body.mode ?? "taiko",
     });
     await newMap.save();
     res.send(newMap);

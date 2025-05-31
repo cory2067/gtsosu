@@ -1,8 +1,10 @@
 .TeamCard-container {
-  border: 1px solid var(--darker-night);
+  padding: var(--s);
   margin: var(--m);
-  box-shadow: 2px 2px 8px var(--darker-night);
   display: flex;
+  border-radius: 10px;
+  background-color: var(--onyx-light);
+  width: 460px;
 }
 
 .TeamCard-seed {

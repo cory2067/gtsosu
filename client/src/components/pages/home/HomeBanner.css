@@ -1,0 +1,203 @@
+/* TODO: Might need some cleanups */
+
+.HomeBannerBackground-container {
+  position: absolute;
+  overflow: hidden;
+  background-color: #38414f;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.HomeBannerBackground-stripes-left {
+  position: absolute;
+  top: 0px;
+  transform: scaleY(-1);
+  opacity: 0.1;
+}
+
+.HomeBannerBackground-stripes-right {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  /* transform: scaleX(0.7) scaleY(-0.7) translate(30%, -30%); */
+  transform: scaleY(-1);
+}
+
+.HomeBannerBackground-striped-circle-white {
+  position: absolute;
+  top: 0px;
+  right: -64px;
+  scale: 0.5;
+}
+
+.HomeBannerBackground-striped-circle-orange {
+  position: absolute;
+  bottom: -96px;
+  left: -128px;
+  scale: 0.7;
+}
+
+.HomeBanner-container {
+  position: relative;
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  margin-bottom: var(--l);
+  flex-direction: column;
+  padding-bottom: 48px;
+}
+
+.HomeBanner-container > * {
+  z-index: 1;
+}
+
+.HomeBanner-section-1 {
+  display: flex;
+  padding: 30px;
+}
+
+.HomeBanner-section-2 {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.HomeBanner-logo {
+  width: 103px;
+  height: 103px;
+}
+
+.ant-typography.HomeBanner-title {
+  color: var(--gts-orange);
+  font-size: 30px;
+  font-weight: 900;
+  margin-left: 30px;
+  line-height: 25px;
+}
+
+.ant-typography.HomeBanner-description {
+  margin-top: 12px;
+  font-weight: 500px;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.HomeBanner-media {
+  transform: perspective(100vw) rotateX(25deg);
+  border-radius: 4px;
+  width: 90%;
+  aspect-ratio: 16 / 9;
+}
+
+.HomeBanner-login-buttons-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: center;
+  margin-top: 48px;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.HomeBanner-login-buttons-container > button {
+  margin-left: 8px;
+  margin-right: 8px;
+  flex-grow: 1;
+}
+
+@media screen and (min-width: 720px) {
+  .HomeBannerBackground-container {
+    border-radius: 8px;
+  }
+
+  .ant-typography.HomeBanner-description {
+    font-size: 18px;
+    line-height: 20px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .HomeBannerBackground-stripes-left {
+    top: auto;
+    bottom: 0px;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+
+  .HomeBannerBackground-stripes-right {
+    top: 0px;
+    right: 0px;
+    transform: scaleY(1);
+  }
+
+  .HomeBannerBackground-striped-circle-white {
+    top: auto;
+    bottom: -64px;
+    right: -64px;
+    scale: 1;
+  }
+
+  .HomeBannerBackground-striped-circle-orange {
+    top: -96px;
+    left: calc(50% - 128px);
+    scale: 1;
+  }
+
+  .HomeBanner-container {
+    flex-direction: row;
+    align-items: center;
+    margin-left: var(--m);
+    margin-right: var(--m);
+    /* height: 644px; */
+  }
+
+  .HomeBanner-section-1 {
+    width: 50%;
+    left: 0px;
+    padding: 96px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .HomeBanner-section-1-inner {
+    width: fit-content;
+  }
+
+  .HomeBanner-section-2 {
+    position: relative;
+    width: 50%;
+    right: 0px;
+    overflow: visible;
+  }
+
+  .HomeBanner-media {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    left: 0px;
+    flex-grow: 0;
+    transform: perspective(75vw) rotateY(-25deg) translateX(-5vw);
+    border: 4px solid #474a4f;
+    border-radius: 8px;
+    box-shadow: 0px 0px 150px -50px rgba(255, 255, 255, 1);
+  }
+
+  .ant-typography.HomeBanner-description {
+    font-size: 22px;
+    line-height: 25px;
+  }
+
+  .HomeBanner-login-buttons-container {
+    justify-content: flex-start;
+    padding-left: 0px;
+  }
+
+  .HomeBanner-login-buttons-container > button {
+    flex-grow: 0;
+    margin-left: 0px;
+  }
+}

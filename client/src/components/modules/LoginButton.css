@@ -3,66 +3,6 @@
   font-weight: bold;
 }
 
-.LoginButton-attention {
-  animation: shake 0.4s;
-  animation-iteration-count: infinite;
-}
-
-.LoginButton-attention span {
-  border: 2px solid red;
-  padding: 12px;
-  border-radius: 40%;
-  animation: circle 0.6s;
-  animation-iteration-count: infinite;
-}
-
-@keyframes shake {
-  0% {
-    transform: translate(1px, 1px) rotate(0deg);
-    color: rgb(255, 0, 0);
-  }
-  10% {
-    transform: translate(-1px, -2px) rotate(-1deg);
-    color: rgb(255, 127, 0);
-  }
-  20% {
-    transform: translate(-3px, 0px) rotate(1deg);
-    color: rgb(255, 255, 0);
-  }
-  30% {
-    transform: translate(3px, 2px) rotate(0deg);
-    color: rgb(127, 255, 0);
-  }
-  40% {
-    transform: translate(1px, -1px) rotate(1deg);
-    color: rgb(0, 255, 0);
-  }
-  50% {
-    transform: translate(-1px, 2px) rotate(-1deg);
-    color: rgb(0, 255, 127);
-  }
-  60% {
-    transform: translate(-3px, 1px) rotate(0deg);
-    color: rgb(0, 255, 255);
-  }
-  70% {
-    transform: translate(3px, 1px) rotate(-1deg);
-    color: rgb(0, 127, 255);
-  }
-  80% {
-    transform: translate(-1px, -1px) rotate(1deg);
-    color: rgb(0, 0, 255);
-  }
-  90% {
-    transform: translate(1px, 2px) rotate(0deg);
-    color: rgb(127, 0, 255);
-  }
-  100% {
-    transform: translate(1px, -2px) rotate(-1deg);
-    color: rgb(255, 0, 255);
-  }
-}
-
 @keyframes circle {
   0% {
     border: 2px solid #f75c03;

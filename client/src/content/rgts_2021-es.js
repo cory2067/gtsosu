@@ -2,7 +2,20 @@ export default {
   name: "Rising Global Taiko Showdown",
   description:
     "El Rising Global Taiko Showdown es nuestro torneo 2v2 para jugadores de rango medio, restringido para jugadores de rank entre #1.000 y #4.500. El top 32 luego de las clasificatorias pasará a una fase de grupos, de la cual pasarán 16 equipos y jugarán un bracket de doble eliminación.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/RGTS2021"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/64"
+    },
+  ],
   homepage: [
     {
       title: "Restricciones",

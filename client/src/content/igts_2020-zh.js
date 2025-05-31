@@ -2,7 +2,20 @@ export default {
   name: "Intermediate Global Taiko Showdown",
   description:
     "Intermediate Global Taiko Showdown是这个比赛系列的创始赛。这是一个给中级玩家的2比赛，所以参赛者排名必须在#3500到#10000之间。",
-  discord: "https://discord.gg/a6PzzFz",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/a6PzzFz"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/IGTS2020"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/34"
+    },
+  ],
   homepage: [
     {
       title: "參賽條件",

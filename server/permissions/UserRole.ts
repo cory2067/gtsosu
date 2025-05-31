@@ -8,7 +8,23 @@ export enum UserRole {
   Commentator = "Commentator",
   Mapper = "Mapper",
   Developer = "Developer",
-  Mapsetter = "Mapsetter",
-  AllStarMapSetter = "All-Star Mapsetter",
+  Mappooler = "Mappooler",
+  AllStarMappooler = "All-Star Mappooler",
   HeadPooler = "Head Pooler",
+  Showcase = "Showcase",
+  Playtester = "Playtester",
 }
+
+// The managerial roles that osu! officially considers as "staff"
+export const managementRoles = [
+  UserRole.Admin,
+  UserRole.Host,
+  UserRole.Referee,
+  UserRole.Mappooler,
+  UserRole.AllStarMappooler,
+  UserRole.HeadPooler,
+  UserRole.Mapper,
+  UserRole.Developer,
+  UserRole.Showcase,
+  UserRole.Playtester,
+];

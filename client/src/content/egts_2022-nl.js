@@ -2,7 +2,20 @@ export default {
   name: "Expert Global Taiko Showdown",
   description:
     "De Expert Global Taiko Showdown is ons 1v1 toernooi bedoeld voor top spelers, ook al is er geen rank limiet. De top 128 spelers na de kwalificatieronde zullen strijden in een pittige dubbele eliminatie bracket.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+    {
+      label: "Challonge",
+      link: "https://challonge.com/EGTS2022"
+    },
+    {
+      label: "Pick'ems",
+      link: "https://pickem.hwc.hr/tournaments/94"
+    },
+  ],
   homepage: [
     {
       title: "Restricties",

@@ -2,16 +2,19 @@ export default {
   name: "Mapping Global Taiko Showdown",
   description:
     "The Mapping Global Taiko Showdown (MGTS) is our mapping contest series for the osu!taiko game mode. It is a single-round, team-based contest where each team is composed of 4 to 6 mappers, with each team collaborating on a total of 3 songs.",
-  discord: "https://discord.gg/3mGC3HB",
+  links: [
+    {
+      label: "Discord",
+      link: "https://discord.gg/3mGC3HB"
+    },
+  ],
   submissions: "https://mappersguild.com/contests/listing?contest=640260c3517b1f1d40ca88e1",
   homepage: [
     {
       title: "Dates",
       body: `
-### Registration Phase
-March 4th until March 18th.
-### Submission Phase
-March 19th until April 1st.
+### Registration + Submission Phase
+March 4th until April 1st 23:59 UTC+0.
 ### Screening Phase
 Tentative*
 ### Judging Phase
@@ -66,7 +69,7 @@ TBD, will be announced in the Discord server.
 - **Submissions will not be accepted after the deadlines.** No exceptions.
 - Participants must have read this ruleset **entirely** (and we will assume you did so throughout the contest).
 - Any team that hasn't followed the **team creation process** and the **entry submission process** properly **will** be disqualified.
-- **At least two (2) mappers must collaborate per song.** This is a team-based competition. Collaboration is necessary to determine the strengths of each participating country as a whole. We want to avoid pure carry situations amongst teams. Collaboration does not include anything other than mapping.
+- **At least two (2) mappers must collaborate per song.** This is a team-based competition. Collaboration is necessary to determine the strengths of each participating team as a whole. We want to avoid pure carry situations amongst teams. Collaboration does not include anything other than mapping.
 - **If a mapper on the winning team does not participate in at least 2 out of the 3 songs given, they will not receive their badge reward for the contest.** This is to avoid the case of someone joining the team just to get a free carry, so this should incentivize participation from ALL members on a team.
 - Any rule changes or unexpected occurrences will be announced in the Discord server.
 

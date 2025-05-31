@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { prettifyTourney } from "../../utilities";
 import {
   DeleteOutlined,
   StarOutlined,
@@ -15,9 +16,11 @@ import DefaultBG from "../../public/default-bg.png";
 
 export default function MapCard({
   _id,
+  ar,
   artist,
   bpm,
   creator,
+  cs,
   customMap,
   customSong,
   diff,
@@ -29,16 +32,28 @@ export default function MapCard({
   length,
   mapId,
   mod,
+  mode,
   od,
   pooler,
   sr,
   title,
+  showTourney,
+  tourney,
+  stage,
 }) {
   return (
     <Card
       title={
         <div className="MapCard-title">
           <div className={`MapCard-icon mod-${mod}`}></div>
+          {showTourney && (
+            <span>
+              {prettifyTourney(tourney)}
+              &nbsp;-&nbsp;
+              {stage}
+              &nbsp;-&nbsp;
+            </span>
+          )}
           {`${mod}${index}`}
           <div style={{ marginRight: 12 }} />
           {customMap && (
@@ -103,6 +118,16 @@ export default function MapCard({
         <div className="MapCard-attr">
           <span className="u-bold">HP:</span> {hp}
         </div>
+        {mode == "catch" && (
+          <>
+            <div className="MapCard-attr">
+              <span className="u-bold">AR:</span> {ar}
+            </div>
+            <div className="MapCard-attr">
+              <span className="u-bold">CS:</span> {cs}
+            </div>
+          </>
+        )}
       </div>
     </Card>
   );

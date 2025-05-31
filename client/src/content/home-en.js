@@ -1,69 +1,60 @@
 export default {
-  title: "Global Taiko Showdown",
-  description: "The biggest osu!taiko tournament series!",
+  title: "Global Taiko Showdown / Gratia Productions",
+  description: "Welcome to the website of the biggest osu!taiko tournament series and a France-based music label, with multiple releases under our belt! Here, you can look at everything related to GTS, with pages for all our current and past tournaments, as well as our past original songs!",
+  bannerVideoID: "o4k6xKedSJg", // Youtube video ID for the video in home banner
   tournies: [
     {
-      title: "EGTS 2022",
-      fullTitle: "EXPERT GLOBAL TAIKO SHOWDOWN 2022",
-      code: "egts",
-      description: `
-The Expert Global Taiko Showdown, which is our 1v1 tournament targeted towards top players, even though it has no rank limit. 
-The top 128 of it after qualifiers will face-off in a heated double-elimination bracket.`,
-      banner: "/public/backgrounds/egts_2022.png"
-    },
-    {
-      title: "IGTS 2022",
-      fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2022",
+      title: "IGTS 2025",
+      fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2025",
       code: "igts",
-      banner: "/public/backgrounds/igts_2022.png",
+      fullCode: "igts_2025",
+      banner: "/public/backgrounds/igts_2025.png",
+      ongoing: "true",
       description: `
 The Intermediate Global Taiko Showdown, the founding tournament of this series.
 It's our 2v2 tournament for intermediate level players being restricted for ranks #4,500 to #10,000. 
-The teams will first play in a qualifiers. The top 32 teams will then play in a Group Stage where 16 teams will go through and play in a double-elimination bracket.`,
+The teams will first go through Qualifiers. Then they will play in a special double elimination bracket.`,
     },
     {
-      title: "AGTS 2022",
-      fullTitle: "ADVANCED GLOBAL TAIKO SHOWDOWN 2022",
+      title: "SGTS 2025",
+      fullTitle: "SQUAD GLOBAL TAIKO SHOWDOWN 2025",
+      code: "sgts",
+      fullCode: "sgts_2025",
+      banner: "public/backgrounds/sgts_2025.png",
+      ongoing: "true",
+      description: `
+  The Squad Global Taiko Showdown is our 3v3 tournament where players can decide on their own teams up to 6 players. The top 32 teams after qualifiers will face-off in a heated double-elimination bracket.`,
+    },
+    {
+      title: "AGTS 2025",
+      fullTitle: "ADVANCED GLOBAL TAIKO SHOWDOWN 2025",
       code: "agts",
+      fullCode: "agts_2025",
+      banner: "public/backgrounds/agts_2025.png",
       description: `
 The Advanced Global Taiko Showdown, our 2v2 tournament for advanced-level players, being restricted for ranks #500 to #1,500. 
-The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
-      banner: "/public/backgrounds/agts_2022.png"
+The top 32 teams, after Qualifiers, will face off in a Group Stage, then a Runoff Bracket, and finally play in a Double-Elimination Bracket.`,
     },
     {
-      title: "RGTS 2022",
-      fullTitle: "RISING GLOBAL TAIKO SHOWDOWN 2022",
+      title: "RGTS 2025",
+      fullTitle: "RISING GLOBAL TAIKO SHOWDOWN 2025",
       code: "rgts",
+      fullCode: "rgts_2025",
+      banner: "public/backgrounds/rgts_2025.png",
       description: `
 The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, being restricted for ranks #1,500 to #4,500.
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
-      banner: "/public/backgrounds/rgts_2022.png"
     },
     {
-      title: "SGTS 2023",
-      fullTitle: "SQUAD GLOBAL TAIKO SHOWDOWN 2023",
-      code: "sgts",
+      title: "COEGTS 2023",
+      fullTitle: "CAVOE'S OSU! EVENT'S GLOBAL TAIKO SHOWDOWN 2023",
+      code: "coegts",
+      fullCode: "coegts_2023",
       description: `
-The Squad Global Taiko Showdown, our open-rank 3v3 tournament, where you can make your own team with 3-6 players.
-The top 32 teams after qualifiers will then face off in a double-elimination bracket.`,
-      banner: "/public/backgrounds/sgts_2023.png"
+The cavoe's osu! event's Global Taiko Showdown, our first ever offline 1v1 tournament, with entirely custom songs.
+The top 16 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,
+      banner: "/public/backgrounds/coegts_2023.png"
     },
-    {
-      title: "GTMS 2023",
-      fullTitle: "GLOBAL TAIKO MALAYSIAN SHOWDOWN 2023",
-      code: "gtms",
-      description: `
-      The Global Taiko Malaysian Showdown is a special 2v2 tournament collaboration event between the osu!taiko Malaysian Tournament (OTMT) and Global Taiko Showdown (GTS). Each team must consist of one Malaysian and one Global player and the top 32 teams after qualifiers will face-off in a high stakes single-elimination bracket.`,
-      banner: "/public/backgrounds/gtms_2023.png"
-    },
-    {
-        title: "MGTS 2023",
-        fullTitle: "MAPPING GLOBAL TAIKO SHOWDOWN 2023",
-        code: "mgts",
-        description: `
-        The Mapping Global Taiko Showdown (MGTS) is our mapping contest series for the osu!taiko game mode. It is a single-round, team-based contest where each team is composed of 4 to 6 mappers, with each team collaborating on a total of 3 songs.`,
-        banner: "/public/backgrounds/mgts_2023.png"
-        },
   ],
 };
 
