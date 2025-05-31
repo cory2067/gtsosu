@@ -16,6 +16,15 @@ It's our 2v2 tournament for intermediate level players being restricted for rank
 The teams will first go through Qualifiers. Then they will play in a special double elimination bracket.`,
     },
     {
+        title: "MGTS 2025",
+        fullTitle: "MAPPING GLOBAL TAIKO SHOWDOWN 2025",
+        code: "mgts",
+        description: `
+        The Mapping Global Taiko Showdown (MGTS) is our mapping contest series for the osu!taiko game mode. It is a single-round, team-based contest where each team is composed of 2 to 3 mappers, with each team collaborating on a total of 2 out of 3 songs.`,
+        banner: "/public/backgrounds/mgts_2025.png",
+        ongoing: "true"
+        },
+    {
       title: "SGTS 2025",
       fullTitle: "SQUAD GLOBAL TAIKO SHOWDOWN 2025",
       code: "sgts",
