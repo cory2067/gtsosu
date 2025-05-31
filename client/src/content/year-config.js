@@ -17,7 +17,7 @@ export default {
   tcl: 2024,
   ftwc: 2022,
   gtms: 2023,
-  mgts: 2023,
+  mgts: 2025,
   coegts: 2023,
   egcs: 2023,
 };
