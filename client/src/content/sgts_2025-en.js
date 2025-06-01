@@ -124,7 +124,7 @@ July 19th untl July 20th.`,
  - The size of the NoMod bracket will be 4 in Round of 32, 5 in Round of 16 and Quarterfinals and 6 in Semifinals, Finals and Grand Finals.
  - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages as well. 
  - The FreeMod pool is played with FreeMod activated. **Each team** needs to have **a minimum of 2 mods selected** for FreeMod picks. This can be Hidden or Hard Rock and **both mods can be selected by one player** to satisfy the 2-mod requirement. 
- - Players cannot choose the same mods. The only exception to this being the combination of **HDHR, NM and NM** as stated in the rule above.
+ - Any combinations of mods is allowed on FreeMod, as long as its between **2 and 5 mods total per team**. As example, anything between NM/NM/HDHR and HDHR/HDHR/HD is allowed.
  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated. 
  - The mappool for each stage will be showcased a week beforehand. 
 
