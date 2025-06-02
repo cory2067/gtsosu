@@ -43,17 +43,17 @@ export default {
       },
       {
           title: "Submission",
-          body: "The captain of your team needs to submit your entry through the [osu! contest listing](https://osu.ppy.sh/community/contests/248). The submission needs to be based on one of the two provided \`.osz\` templates."
+          body: "The captain of your team needs to submit your entry through the [osu! contest listing](https://osu.ppy.sh/community/contests/248).  Each team must map ILLUSORYPROGRAM97, along with any of the two remaining songs between Hatching and axis::BREAK. The submission needs to be based on one of the two provided \`.osz\` templates."
       },
       {
           title: "Song Selection",
           body: `The songs made for this contest are:
   - **Kyotsugyon & Sh0wtime - ILLUSORYPROGRAM97**
-    - [Song link](https://soundcloud.com/kyotsugyon/illusoryprogram97)
+    - [Song link](https://soundcloud.com/kyotsugyon/illusoryprogram97)  
   - **X/Y/Z - axis::BREAK**
-    - Song link (TBD) 
+    - [Song link](https://soundcloud.com/foodbot/axisbreak) 
   - **Faxyne vs. blobdash - Hatching**
-    - [Song link](https://blobdash.bandcamp.com/track/hatching)`,
+    - [Song link](https://soundcloud.com/faxyne/hatching)`,
       },
       {
         title: "Beatmap Templates",
