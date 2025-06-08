@@ -9,7 +9,11 @@ export default {
       },
       {
         label: "Forum post",
-        link: "https://osu.ppy.sh/community/forums/topics/2083865?n=1"
+        link: "https://osu.ppy.sh/community/forums/topics/2083865"
+      },
+            {
+        label: "Pick'ems",
+        link: "https://pickem.hwc.hr/tournaments/176"
       },
     ],
     homepage: [
