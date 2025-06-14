@@ -9,7 +9,7 @@ export default {
     },
     {
       label: "Challonge",
-      link: "https://challonge.com/SGTS2025"
+      link: "https://challonge.com/sgts25"
     },
     {
       label: "Pick'ems",
