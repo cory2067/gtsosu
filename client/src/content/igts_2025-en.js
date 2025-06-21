@@ -8,6 +8,10 @@ export default {
         link: "https://discord.gg/a6PzzFz"
       },
       {
+        label: "Challonge",
+        link: "https://challonge.com/igts25"
+      },
+      {
         label: "Forum post",
         link: "https://osu.ppy.sh/community/forums/topics/2083865"
       },
