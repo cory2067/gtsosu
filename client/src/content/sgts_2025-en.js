@@ -125,7 +125,7 @@ July 19th untl July 20th.`,
  - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages as well. 
  - The Freemod pool is played with Freemod active. Players can freely select between **HD, HR, or both (HDHR)**. **Each team** must select **at least 2 mods, but cannot pick more than 5.** Any combination of mods is allowed, as long as at least 2 are selected.
    - One player selecting both HD and HR satisfies this requirement.
-   - All three players selecting HD (or all HR) is therefore allowed, but all three players selecting HDHR is not.
+   - All three players selecting HD (or all HR) is therefore allowed, but all three players selecting HDHR is not as that would be 6 mods total.
    - NF will still be enforced, but does not count towards the mod count.
  - Any combinations of mods is allowed on FreeMod, as long as its between **2 and 5 mods total per team**. As example, anything between NM/NM/HDHR and HDHR/HDHR/HD is allowed.
  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated. 
