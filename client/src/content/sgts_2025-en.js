@@ -123,7 +123,10 @@ July 19th untl July 20th.`,
  - The Round of 32 mappool will consist of 14 maps, the Round of 16 and Quarterfinals mappools will consist of 15 maps, the Semifinals, Finals and Grand Finals mappool will consist of 16 maps.
  - The size of the NoMod bracket will be 4 in Round of 32, 5 in Round of 16 and Quarterfinals and 6 in Semifinals, Finals and Grand Finals.
  - The size of the Hidden, HardRock and DoubleTime brackets will be 2 in all stages and 3 for the FreeMod bracket in all stages as well. 
- - The FreeMod pool is played with FreeMod activated. **Each team** needs to have **Hidden and Hard Rock selected** for FreeMod picks. **Both mods can be selected by one player** to satisfy the 2-mod requirement. 
+ - The Freemod pool is played with Freemod active. Players can freely select between **HD, HR, or both (HDHR)**. **Each team** must select **at least 2 mods, but cannot pick more than 5.** Any combination of mods is allowed, as long as at least 2 are selected.
+   - One player selecting both HD and HR satisfies this requirement.
+   - All three players selecting HD (or all HR) is therefore allowed, but all three players selecting HDHR is not.
+   - NF will still be enforced, but does not count towards the mod count.
  - Any combinations of mods is allowed on FreeMod, as long as its between **2 and 5 mods total per team**. As example, anything between NM/NM/HDHR and HDHR/HDHR/HD is allowed.
  - The Tiebreaker is played under FreeMod conditions but it is not necessary that at least one player has at least one mode activated. 
  - The mappool for each stage will be showcased a week beforehand. 
