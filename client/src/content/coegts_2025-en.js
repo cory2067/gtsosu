@@ -23,7 +23,7 @@ July 13th.
 ### Online Qualifiers
 July 14th - July 20th.
 ### Qualifier Results + Main Tournament Mappool Showcase (On COE's stage, streamed on Twitch as well.)
-July 31st, 18:00 (UTC+2).
+July 28th, 19:00 (UTC+2).
 ### Main Tournament Day 1 (Quarterfinals)
 July 31st, 17:00 to 22:00 (UTC+2, 22:00 being the end of the last match.)
 ### Main Tournament Day 2 (Semifinals)
