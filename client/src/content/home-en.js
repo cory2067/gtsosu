@@ -1,7 +1,7 @@
 export default {
   title: "Global Taiko Showdown / Gratia Productions",
   description: "Welcome to the website of the biggest osu!taiko tournament series and a France-based music label, with multiple releases under our belt! Here, you can look at everything related to GTS, with pages for all our current and past tournaments, as well as our past original songs!",
-  bannerVideoID: "o4k6xKedSJg", // Youtube video ID for the video in home banner
+  bannerVideoID: "FJi9H-mcGAg", // Youtube video ID for the video in home banner
   tournies: [
     {
       title: "COEGTS 2025",
