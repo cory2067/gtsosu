@@ -4,6 +4,18 @@ export default {
   bannerVideoID: "o4k6xKedSJg", // Youtube video ID for the video in home banner
   tournies: [
     {
+      title: "COEGTS 2025",
+      fullTitle: "CAVOE'S OSU! EVENT'S GLOBAL TAIKO SHOWDOWN 2025",
+      code: "coegts",
+      fullCode: "coegts_2025",
+      ongoing: "true",
+      description: `
+The cavoe's osu! event's Global Taiko Showdown, back for its second edition, with entirely custom songs. This is also our final tournament on this game.
+The top 8 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,
+      banner: "/public/backgrounds/coegts_2025.png"
+    },
+
+    {
       title: "IGTS 2025",
       fullTitle: "INTERMEDIATE GLOBAL TAIKO SHOWDOWN 2025",
       code: "igts",
@@ -53,16 +65,6 @@ The top 32 teams, after Qualifiers, will face off in a Group Stage, then a Runof
       description: `
 The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, being restricted for ranks #1,500 to #4,500.
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
-    },
-    {
-      title: "COEGTS 2023",
-      fullTitle: "CAVOE'S OSU! EVENT'S GLOBAL TAIKO SHOWDOWN 2023",
-      code: "coegts",
-      fullCode: "coegts_2023",
-      description: `
-The cavoe's osu! event's Global Taiko Showdown, our first ever offline 1v1 tournament, with entirely custom songs.
-The top 16 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,
-      banner: "/public/backgrounds/coegts_2023.png"
     },
   ],
 };
