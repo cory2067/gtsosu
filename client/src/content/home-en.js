@@ -11,7 +11,7 @@ export default {
       ongoing: "true",
       description: `
 The cavoe's osu! event's Global Taiko Showdown, back for its second edition, with entirely custom songs. This is also our final tournament on this game.
-The top 8 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,
+The top 16 players after online qualifiers will then face off in a single-elimination bracket, live at COE's stage.`,
       banner: "/public/backgrounds/coegts_2025.png"
     },
 
