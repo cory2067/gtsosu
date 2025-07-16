@@ -38,9 +38,11 @@ August 2nd, 10:30 to 12:00 for the Match for 3rd place, & 15:30-17:30 for Grand 
     {
       title: "Prizes",
       body: `
-- **1st place:**  osu! Profile Badge (Pending) + Custom Profile Banner + Undefined Grand Physical Prize.
+- **1st place:**  osu! Profile Badge (Pending) + Custom Profile Banner + Wooting 80HE (ANSI, PCR Plastic, Black) + Undefined GTS Grand Physical Prize.
 - **2nd place:** Custom Profile Banner + Undefined Physical Prize.
 - **3rd place:** Custom Profile Banner + Undefined Physical Prize.
+
+The Wooting 80HE is graciously sponsored by [Wooting](https://wooting.io/).
       `,
     },
   ],
