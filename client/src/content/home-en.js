@@ -67,6 +67,16 @@ The top 32 teams, after Qualifiers, will face off in a Group Stage, then a Runof
 The Rising Global Taiko Showdown, our 2v2 tournament for mid-range players, being restricted for ranks #1,500 to #4,500.
 The top 32 teams after qualifiers will then face off in a Group Stage, where 16 teams will go through, and play in a double-elimination bracket.`,
     },
+        {
+      title: "YGTS 2025",
+      fullTitle: "RANDOM GLOBAL TAIKO SHOWDOWN 2025",
+      code: "ygts",
+      fullCode: "ygts_2025",
+      banner: "public/backgrounds/ygts_2025.png",
+      ongoing: "true",
+      description: `
+  yea`,
+    },
   ],
 };
 
