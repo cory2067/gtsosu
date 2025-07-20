@@ -11,7 +11,7 @@ export default {
   homepage: [
     {
       title: "Restrictions",
-      body: `There are no rank restrictions for this tournament. However, every player participating in this tournament, even the online qualifiers, must have bought access (BYOC or Event ticket) to [cavoe's osu! event](https://cavoe.events) for the duration of July 31st to August 2nd.`,
+      body: `There are no rank restrictions for this tournament. However, every player participating in this tournament, even the online qualifiers, must have bought access (BYOC or Event ticket) to [cavoe's osu! event](https://cavoe.events) for the duration of July 30th to August 2nd.`,
     },
     {
       title: "Dates",
