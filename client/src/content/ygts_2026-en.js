@@ -9,7 +9,7 @@ export default {
     },
     {
       label: "Challonge",
-      link: ""
+      link: "https://challonge.com/ygts25_2"
     },
   ],
   homepage: [
