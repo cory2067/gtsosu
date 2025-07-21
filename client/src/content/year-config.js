@@ -12,7 +12,7 @@ export default {
   test: 2019,
   tsc: 2023,
   zgts: 2021,
-  ygts: 2025,
+  ygts: 2026,
   btt: 2024,
   tcl: 2024,
   ftwc: 2022,
