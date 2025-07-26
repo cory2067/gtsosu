@@ -1712,6 +1712,7 @@ router.getAsync("/map-history", async (req, res) => {
 router.getAsync("/custom-songs", async (req, res) => {
   const maps = await TourneyMap.find({ customSong: true });
   const output: ITourneyMap[] = [];
+  const seenMapIds = new Set();
 
   // To avoid repeated db calls
   const tournamentCache: { [key: string]: ITournament } = {};
@@ -1753,8 +1754,9 @@ router.getAsync("/custom-songs", async (req, res) => {
     }
 
     // Show map only if the pool is visible
-    if (stage.poolVisible) {
+    if (stage.poolVisible && !seenMapIds.has(map.mapId)) {
       output.push(map);
+      seenMapIds.add(map.mapId); // Prevent any duplicates
     }
   }
 
