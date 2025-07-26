@@ -156,4 +156,45 @@ mapRouter.deleteAsync(
   }
 );
 
+/**
+ * POST /api/copy-pool
+ * Copies all the maps from a different pool
+ * Avoids duplicates if the maps already exists in the toStage
+ * Returns the newly-added maps
+ */
+type PostCopyPoolBody = {
+  tourney: string;
+  fromStage: string; // which pool to copy all maps from
+  toStage: string; // which pool to copy to
+};
+type PostCopyPoolResponse = {
+  maps: ITourneyMap[];
+};
+
+mapRouter.postAsync(
+  "/copy-pool",
+  ensure.isPooler,
+  async (req: Request<{}, PostCopyPoolBody>, res: Response<PostCopyPoolResponse>) => {
+    const user = assertUser(req);
+    logger.info(`${user.username} copied maps from ${req.body.fromStage} to ${req.body.toStage}`);
+
+    const tourneyMaps = await TourneyMap.find({
+      tourney: req.body.tourney,
+      stage: req.body.fromStage,
+    }, {_id: false});
+
+    const mapsToWrite = tourneyMaps.map((m) => ({ ...m.toObject(), stage: req.body.toStage, }));
+    await TourneyMap.bulkWrite(
+      mapsToWrite.map((m) => ({
+        updateOne: {
+          filter: { tourney: m.tourney, stage: m.stage, mapId: m.mapId },
+          update: { $set: m },
+          upsert: true,
+        },
+      }))
+    );
+    res.send({ maps: mapsToWrite });
+  }
+);
+
 export default mapRouter;

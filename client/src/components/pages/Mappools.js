@@ -7,6 +7,7 @@ import StageSelector from "../modules/StageSelector";
 import "./Mappools.css";
 
 import { Button, Empty, Form, Input, Layout, Switch, message } from "antd";
+import CopyPoolModal from "../modules/CopyPoolModal";
 const { Content } = Layout;
 
 class Mappools extends Component {
@@ -18,6 +19,7 @@ class Mappools extends Component {
       maps: [],
       stages: [],
       current: {},
+      showCopyPoolModal: false,
     };
   }
 
@@ -147,6 +149,18 @@ class Mappools extends Component {
     message.success("Updated pool settings");
   };
 
+  handleStartCopyPool = () => this.setState({ showCopyPoolModal: true });
+  handleSubmitCopyPool = async (toStage) => {
+    await post("/api/copy-pool", {
+      tourney: this.props.tourney,
+      fromStage: this.state.current.name,
+      toStage: toStage,
+    });
+    this.setState({
+      showCopyPoolModal: false,
+    });
+  };
+
   render() {
     return (
       <Content className="content">
@@ -186,6 +200,15 @@ class Mappools extends Component {
             onValuesChange={this.handleFormChange}
           />
 
+          <CopyPoolModal
+            visible={this.state.showCopyPoolModal}
+            loading={this.state.loading}
+            handleOk={this.handleSubmitCopyPool}
+            handleCancel={() => this.setState({ showCopyPoolModal: false })}
+            stages={this.state.stages}
+            fromStage={this.state.current}
+          />
+
           <div>
             {this.isPooler() && (
               <div className="Mappools-settings">
@@ -205,6 +228,9 @@ class Mappools extends Component {
                     <a target="_blank" href="/pool-helper">
                       <Button>Pool Helper</Button>
                     </a>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button onClick={this.handleStartCopyPool}>Copy Pool</Button>
                   </Form.Item>
                 </Form>
               </div>
