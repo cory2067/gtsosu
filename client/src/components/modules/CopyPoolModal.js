@@ -12,7 +12,6 @@ export default function CopyPoolModal({
 }) {
   const [toStage, setToStage] = React.useState();
   const handleValuesChange = (changed, data) => setToStage(data.stage);
-  console.log(fromStage)
   const stageOptions = stages.filter((s) => s?.name !== fromStage?.name);
 
   return (
