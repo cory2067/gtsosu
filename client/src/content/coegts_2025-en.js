@@ -7,6 +7,11 @@ export default {
       label: "Discord",
       link: "https://discord.gg/3mGC3HB"
     },
+
+    {
+      label: "Challonge",
+      link: "https://challonge.com/COEGTS2025"
+    },
   ],
   homepage: [
     {
