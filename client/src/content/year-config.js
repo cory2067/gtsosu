@@ -9,7 +9,7 @@ export default {
   lgts: 2021,
   rgts: 2025,
   sgts: 2025,
-  test: 2019,
+  test: 1925,
   tsc: 2023,
   zgts: 2021,
   ygts: 2026,
@@ -21,3 +21,4 @@ export default {
   coegts: 2025,
   egcs: 2023,
 };
+
