@@ -5,7 +5,7 @@ export default {
   links: [
     {
       label: "Discord",
-      link: "https://discord.gg/9FKYDe74un"
+      link: "https://discord.gg/JEER3PfNSe"
     },
     {
       label: "Challonge",
