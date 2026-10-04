@@ -1,7 +1,7 @@
 export default {
   name: "Beginner's Taiko Tournament 10",
   description:
-    "Beginner's Taiko Tournament is a rank-restricted tournament for newcomers to the taiko scene from infinity up to #12,000 rank. The players will first play in a qualifiers. The top 64 players will then play in a double-elimination bracket.",
+    "Beginner's Taiko Tournament is a rank-restricted tournament for newcomers to the taiko scene from infinity up to #12,000 rank. The players will first play in a qualifiers. The top 32 players will then play in a double-elimination bracket.",
   links: [
     {
       label: "Discord",
